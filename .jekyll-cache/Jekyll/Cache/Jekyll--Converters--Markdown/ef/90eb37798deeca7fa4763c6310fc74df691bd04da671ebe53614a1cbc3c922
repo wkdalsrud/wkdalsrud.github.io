@@ -1,0 +1,37 @@
+I"E
+<div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/frontend/firstPost/">첫번째 게시물</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#frontend" class="page__taxonomy-item-category" rel="tag">frontend</a>
+                    
+                    
+                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">java</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+:ET

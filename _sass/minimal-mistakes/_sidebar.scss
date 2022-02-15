@@ -174,8 +174,8 @@
 }
 .sidebar .author__name {
   font-family: $cute;
-  font-size: $type-size-4;
-  color:#FFF;
+  font-size: $type-size-3;
+  color:#000;
 }
 
 .author__bio {
@@ -317,6 +317,7 @@
 
   li {
     white-space: nowrap;
+
   }
 
   a {

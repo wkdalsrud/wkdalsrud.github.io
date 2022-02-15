@@ -112,29 +112,35 @@
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
-<meta name="msapplication-TileColor" content="#da532c">
+<link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/assets/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
 <!-- end custom head snippets -->
 
     <!-- 스크롤바 커스터마이징 -->
-    <style> 
+    <!-- <style> 
       ::-webkit-scrollbar{width: 16px;}
-      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
-      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-track {background-color:#D8D8D8; border-radius: 13px;}
+      ::-webkit-scrollbar-thumb {background-color:#D8D8D8; border-radius: 13px;}
       ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
       ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
-      {
-          width:12px;height:12px;background:transparent;}
-      }  
-
-      
-    </style>
+      {width:12px;height:12px;background:transparent;}
+    </style> -->
   </head>
 
   <body class="layout--archive wide">
@@ -165,9 +171,11 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/index.html">Home</a>
-            </li><li class="masthead__menu-item">
               <a href="/categories/">Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tag</a>
+            </li><li class="masthead__menu-item">
+              <a href="/search/">Search</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
@@ -330,430 +338,39 @@
     
 
 <nav class="nav__list">
-  <input id="ac-toc" name="accordion-toc" type="checkbox" />
-  <label for="ac-toc">카테고리 Click</label>
-  <ul class="nav__items" id="category_tag_menu">
-      <li>
-            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">4</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
-      </li>
-      <li>
-        <span class="nav__sub-title">C/C++/C#</span>
+    <input id="ac-toc" name="accordion-toc" type="checkbox" />
+    <label for="ac-toc">카테고리 Click</label>
+    <ul class="nav__items" id="category_tag_menu">
+        <li style="margin-top:  20px;">
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span
+                    style="font-family:'Coming Soon';">4</style> <span
+                        style="font-family:'Cafe24Oneprettynight';">개</style>
+        </li>
+        <li>
+            <span class="nav__sub-title" style="margin-top: 20px;">Coding</span>
             <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
                 
             </ul>
             <ul>
                 
-                    
-                
-                    
-                
-                    
-                
-                    
-                
             </ul>
             <ul>
                 
-                    
-                
-                    
-                
-                    
-                
-                    
-                
             </ul>
+            <br>
+
+            <span class="nav__sub-title" style="margin-top: 20px;">TIL</span>
             <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
                 
             </ul>
 
-        <span class="nav__sub-title">Coding Test</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-
-        <span class="nav__sub-title">Unity</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-
-        <span class="nav__sub-title">UE4</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-        
-        <span class="nav__sub-title">CS</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-        <span class="nav__sub-title">Server</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-        <span class="nav__sub-title">DB</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-        <span class="nav__sub-title">etc</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-      </li>
-      <li>	
+            <!-- 방문자 조회 -->
+            <!-- <li>	
             <br>      
             <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
-      </li>
-  </ul>
+      </li> -->
+    </ul>
 </nav>
-
-
   
 
   </div>
@@ -766,41 +383,6 @@
       <h1 id="page-title" class="page__title">Frontend</h1>
     
     
-<div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/frontend/firstPost/">첫번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2020.07.17
-              <!--Archive page 용-: (post -> page)-->
-<!--page__taxonomy.html에서 가져 옴-->
-        
-        <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#frontend" class="page__taxonomy-item-category" rel="tag">frontend</a>
-                    
-                    
-                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">java</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
-                
-            </span>
-        </span>
-            </small>
-        </div>
-      </article>
-</div>
 
   </div>
 </div>
@@ -841,7 +423,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2022 민경</div>
 
       </footer>
     </div>
