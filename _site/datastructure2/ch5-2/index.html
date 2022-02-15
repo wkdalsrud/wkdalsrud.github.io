@@ -1,0 +1,2162 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Chater 5-2 연결리스트로 큐 구현하기 | 기억저장소</title>
+<meta name="description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀 ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다. ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="Chater 5-2 연결리스트로 큐 구현하기">
+<meta property="og:url" content="http://localhost:4000/datastructure2/ch5-2/">
+
+
+  <meta property="og:description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀 ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다. ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-03-03T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-03-03T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/datastructure2/ch5-2/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#datastructure2" itemprop="item"><span itemprop="name">Datastructure2</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Chater 5-2 연결리스트로 큐 구현하기</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Chater 5-2 연결리스트로 큐 구현하기">
+    <meta itemprop="description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다.">
+    <meta itemprop="datePublished" content="2021-03-03T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-03-03T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Chater 5-2 연결리스트로 큐 구현하기
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2021-03-03T00:00:00+09:00">2021.03.03</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-03-03">2021.03.03</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#datastructure2" class="page__taxonomy-item-category" rel="tag">DataStructure2</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#c" class="page__taxonomy-item-tag" rel="tag">C</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#data-structure" class="page__taxonomy-item-tag" rel="tag">Data Structure</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#chapter-5-큐">Chapter 5. 큐</a>
+    <ul>
+      <li><a href="#-연결리스트로-큐-구현하기">🚀 연결리스트로 큐 구현하기</a>
+        <ul>
+          <li><a href="#-linkedqueueh">📜 LinkedQueue.h</a></li>
+          <li><a href="#-linkedqueuec">📜 LinkedQueue.c</a></li>
+          <li><a href="#-mainc">📜 main.c</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p class="notice--warning">홍정모 교수님의 강의 <strong>홍정모의 따라하며 배우는 C언어(부록)</strong> 를 듣고 정리한 필기입니다. 😀<br />
+<u>ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다.</u></p>
+
+<h1 id="chapter-5-큐">Chapter 5. 큐</h1>
+
+<h2 id="-연결리스트로-큐-구현하기">🚀 연결리스트로 큐 구현하기</h2>
+
+<p>연결리스트는 삭제 연산시 뒤의 모든 원소들을 앞으로 땡겨올 필요가 없다. 그저 체인만 끊으면 되기 때문에 O(1)의 시작 복잡도를 가진다. 따라서 배열과 달리 연결리스트로 큐를 구현할 땐 원형 큐로, 순환 구조로 구현할 필요가 없다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109732751-1ee3f700-7c01-11eb-8ef3-f1a8a2445854.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h3 id="-linkedqueueh">📜 LinkedQueue.h</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma once
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define TSIZE 45
+#define MAXITEMS 3 // 연결리스트이기 때문에 Optional (OS가 허락하는 한 연결리스트 크기는 무제한적)
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">element</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">Item</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">node</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">node</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>	<span class="c1">// Single LinkedList</span>
+<span class="p">}</span><span class="n">Node</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">queue</span>
+<span class="p">{</span>
+	<span class="n">Node</span><span class="o">*</span> <span class="n">front</span><span class="p">;</span> <span class="c1">// 큐의 첫번째 원소 위치</span>
+	<span class="n">Node</span><span class="o">*</span> <span class="n">rear</span><span class="p">;</span>  <span class="c1">// 큐의 마지막 원소 위치</span>
+	<span class="kt">int</span> <span class="n">n_items</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Queue</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">InitializeQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">QueueIsFull</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">QueueIsEmpty</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">QueueItemCount</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">EnQueue</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">DeQueue</span><span class="p">(</span><span class="n">Item</span><span class="o">*</span> <span class="n">pitem</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">EmptyTheQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">TraverseQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">Item</span> <span class="n">item</span><span class="p">));</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-linkedqueuec">📜 LinkedQueue.c</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 📜LinkedQueue.c 안에서만 사용할 수 있는 static 전역 함수</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">CopyToNode</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">pn</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pn</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 📜LinkedQueue.c 안에서만 사용할 수 있는 static 전역 함수</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">CopyToItem</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">pn</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">pi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="o">*</span><span class="n">pi</span> <span class="o">=</span> <span class="n">pn</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">InitializeQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">QueueIsFull</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="n">MAXITEMS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">QueueIsEmpty</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">QueueItemCount</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">;</span> <span class="c1">// 순회하며 카운트하기엔 연결리스트는 너무 느리다. O(N)이다. 그래서 n_items 를 저장해두고 이를 리턴하는 것이 효율적</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">EnQueue</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsFull</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Queue is full. Cannot enqueue.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">Node</span><span class="o">*</span> <span class="n">pnew</span><span class="p">;</span>
+	<span class="n">pnew</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnew</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc() failed.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">CopyToNode</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">pnew</span><span class="p">);</span>
+	<span class="n">pnew</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+		<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">=</span> <span class="n">pnew</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pnew</span><span class="p">;</span> <span class="c1">// 뒤에 추가</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">=</span> <span class="n">pnew</span><span class="p">;</span>
+
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">DeQueue</span><span class="p">(</span><span class="n">Item</span><span class="o">*</span> <span class="n">pitem</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Queue is empty. Cannot enqueue.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">Node</span><span class="o">*</span> <span class="n">pn</span><span class="p">;</span>
+	<span class="n">CopyToItem</span><span class="p">(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">,</span> <span class="n">pitem</span><span class="p">);</span>
+
+	<span class="n">pn</span> <span class="o">=</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">;</span> <span class="c1">// pq 큐의 맨 앞 노드</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">=</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+
+	<span class="n">free</span><span class="p">(</span><span class="n">pn</span><span class="p">);</span> <span class="c1">// 큐는 맨 앞 원소를 삭제 (FIFO)</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">--</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">EmptyTheQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">temp</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+		<span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="n">pq</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">TraverseQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">Item</span> <span class="n">item</span><span class="p">))</span>
+<span class="p">{</span>
+	<span class="n">Node</span><span class="o">*</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">temp</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">temp</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">);</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-mainc">📜 main.c</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"LinkedQueue.h"</span><span class="cp">
+</span>
+<span class="n">Item</span> <span class="nf">get_item</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">new_item</span><span class="p">;</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_item</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">new_item</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_item</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s "</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_queue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Front: %s at %p, Rear: %s at %p, Size %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> 
+			<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">?</span> <span class="s">"NULL"</span> <span class="o">:</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">,</span> 
+			<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">?</span> <span class="s">"NULL"</span> <span class="o">:</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">);</span>
+	
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Queue : "</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Empty"</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">TraverseQueue</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">print_item</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">Queue</span> <span class="n">queue</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="n">temp</span><span class="p">;</span>
+
+	<span class="n">InitializeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Jack"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Henry"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Stan"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Butters"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"....... Test........</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">InitializeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+		<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+		<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+Front: Jack at 009B6528, Rear: Jack at 009B6528, Size 1
+Queue : Jack
+
+Front: Jack at 009B6528, Rear: Henry at 009B8B18, Size 2
+Queue : Jack Henry
+
+Front: Jack at 009B6528, Rear: Stan at 009BC548, Size 3
+Queue : Jack Henry Stan
+
+Queue is full. Cannot enqueue.
+Front: Jack at 009B6528, Rear: Stan at 009BC548, Size 3
+Queue : Jack Henry Stan
+
+Item from queue: Jack
+Front: Henry at 009B8B18, Rear: Stan at 009BC548, Size 2
+Queue : Henry Stan
+
+Item from queue: Henry
+Front: Stan at 009BC548, Rear: Stan at 009BC548, Size 1
+Queue : Stan
+
+Item from queue: Stan
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Queue is empty. Cannot enqueue.
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+.......Circulation Test........
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+
+Front: Hello at 009B6528, Rear: Hello at 009B6528, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: NULL at 00000000, Rear: NULL at 00000000, Size 0
+Queue : Empty
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">DataStructure2</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/datastructure2/ch5-1/" class="pagination--pager" title="Chater 5-1 배열로 원형 큐 구현하기
+">이전</a>
+    
+    
+      <a href="/datastructure2/ch5-3/" class="pagination--pager" title="Chater 5-3 큐를 이용한 시뮬레이션
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/datastructure2/ch5-1/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>Chater 5-1 배열로 원형 큐 구현하기</a>
+    
+    
+      <a href="/datastructure2/ch5-3/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>Chater 5-3 큐를 이용한 시뮬레이션</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Chater+5-2+%EC%97%B0%EA%B2%B0%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%A1%9C+%ED%81%90+%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch5-2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch5-2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch5-2%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/datastructure2/ch5-2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/datastructure2/ch5-2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

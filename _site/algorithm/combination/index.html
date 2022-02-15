@@ -1,0 +1,2655 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>(C++) 조합(Combination) 구현하기 | 기억저장소</title>
+<meta name="description" content="조합이란 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="(C++) 조합(Combination) 구현하기">
+<meta property="og:url" content="http://localhost:4000/algorithm/combination/">
+
+
+  <meta property="og:description" content="조합이란 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-08-22T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-08-22T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/algorithm/combination/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#algorithm" itemprop="item"><span itemprop="name">Algorithm</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">(C++) 조합(Combination) 구현하기</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="(C++) 조합(Combination) 구현하기">
+    <meta itemprop="description" content="조합이란">
+    <meta itemprop="datePublished" content="2020-08-22T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-08-22T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">(C++) 조합(Combination) 구현하기
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2020-08-22T00:00:00+09:00">2020.08.22</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-08-22">2020.08.22</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#algorithm" class="page__taxonomy-item-category" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#recursion" class="page__taxonomy-item-tag" rel="tag">Recursion</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#stl" class="page__taxonomy-item-tag" rel="tag">STL</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#조합이란">조합이란</a>
+    <ul>
+      <li><a href="#조합-경우의-수-구하기-ncr">조합 경우의 수 구하기 nCr</a></li>
+    </ul>
+  </li>
+  <li><a href="#재귀로-구현한-코드-1">재귀로 구현한 코드 1</a>
+    <ul>
+      <li><a href="#이-풀이의-원리">이 풀이의 원리</a></li>
+    </ul>
+  </li>
+  <li><a href="#재귀로-구현한-코드-2">재귀로 구현한 코드 2</a>
+    <ul>
+      <li><a href="#이-풀이의-원리-1">이 풀이의 원리</a></li>
+      <li><a href="#재귀로-구현한-코드-3---2-응용">재귀로 구현한 코드 3  👉 2 응용</a></li>
+    </ul>
+  </li>
+  <li><a href="#stl-prev_permutation으로-조합-구현하기">STL: prev_permutation으로 조합 구현하기</a></li>
+  <li><a href="#stl-next_permutation으로-조합-구현하기">STL: next_permutation으로 조합 구현하기</a>
+    <ul>
+      <li><a href="#변형-순서대로-조합">변형 (순서대로 조합)</a></li>
+    </ul>
+  </li>
+  <li><a href="#모든-조합의-수-구하기-nc0--nc1--nc2----ncn">모든 조합의 수 구하기 (nC0 + nC1 + nC2 + .. + nCn)</a>
+    <ul>
+      <li><a href="#prev_permutation-혹은-next_permutation">prev_permutation (혹은 next_permutation)</a></li>
+      <li><a href="#비트-마스크로-구하기">비트 마스크로 구하기</a></li>
+    </ul>
+  </li>
+  <li><a href="#참고한-블로그">참고한 블로그</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="조합이란">조합이란</h2>
+
+<blockquote>
+  <p>선택 순서가 결과에 영향을 주지 않는 경우! (1,2)이나 (2,1)이나 결과가 같을 때</p>
+</blockquote>
+
+<ul>
+  <li>순서를 따지지 않는다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">abc</code>와 <code class="language-plaintext highlighter-rouge">acb</code>는 같은 존재다.</li>
+    </ul>
+  </li>
+  <li>중복을 허용하지 않는다.</li>
+  <li><code class="language-plaintext highlighter-rouge">nCr</code>
+    <ul>
+      <li>5C3 = 5P3 / 3! = (5 X 4 X 3) / (3 X 2 X 1)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>순열과 다르게 방문 체크, 복원이 필요 없다. 어떤 원소로 시작한 조합들이 있다면 그 해당 원소는 다음 반복문으로 넘어가면 다신 등장하지 않아야 하기 때문이다. 순열은 다음 반복문에서도 재방문을 할 수 있도록 하기 위하여 방문체크를 따로 해주어 체크하고 해제하고를 해주는 것인데 조합은 아예 재방문할 일도 없게끔 하기 때문에 방문 체크 해제 자체가 필요가 없는 것이다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">abc</code> 순열
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">b</code>로 시작하는 순열에서도 <code class="language-plaintext highlighter-rouge">a</code>는 다시 등장할 수 있어야 한다. <code class="language-plaintext highlighter-rouge">bac</code>와 <code class="language-plaintext highlighter-rouge">abc</code>는 다르니까!</li>
+      <li>따라서 <code class="language-plaintext highlighter-rouge">a</code>로 시작하는 모든 순열을 구할 때만! <code class="language-plaintext highlighter-rouge">a</code>가 등장하지 않도록 방문 체크를 해주고, 모든 순열을 구하고 돌아온 이후 이제 <code class="language-plaintext highlighter-rouge">b</code>로 시작하는 모든 순열을 구할 떈 다시 <code class="language-plaintext highlighter-rouge">a</code>가 등장할 수 있어야 하므로 방문 체크 해제 과정이 필요하다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">abc</code> 조합
+    <ul>
+      <li>조합은 이와 다르게 <code class="language-plaintext highlighter-rouge">abc</code> 와 <code class="language-plaintext highlighter-rouge">bac</code>는 같다.</li>
+      <li><code class="language-plaintext highlighter-rouge">b</code>로 시작 하는 모든 조합에는 <code class="language-plaintext highlighter-rouge">a</code>가 포함되지 않는다. 따라서 다음 반복문을 통하여 이제 <code class="language-plaintext highlighter-rouge">a</code>가 들어가는 모든 조합을 구한 후 이제 <code class="language-plaintext highlighter-rouge">b</code>가 들어가는 조합을 구할 떄 굳이 방문 체크, 해제 해줄 필요가 없다. 그냥 <code class="language-plaintext highlighter-rouge">b</code> 이후의 원소들에서만 조합 포함 여부를 따지게 되기 때문에 <code class="language-plaintext highlighter-rouge">a</code>는 애초에 이제부턴 조합에 포함될 수가 없기 떄문이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="조합-경우의-수-구하기-ncr">조합 경우의 수 구하기 nCr</h3>
+
+<p><code class="language-plaintext highlighter-rouge">nCr = n-1Cr-1 + n-1Cr</code> 공식을 사용하여 재귀적으로 구하면 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">combination</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="n">r</span> <span class="o">||</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> 
+    <span class="k">else</span> 
+        <span class="k">return</span> <span class="n">combination</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">combination</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="재귀로-구현한-코드-1">재귀로 구현한 코드 1</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">Combination</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">comb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1">// depth == n // 계속 안뽑다가 r 개를 채우지 못한 경우는 이 곳에 걸려야 한다.</span>
+    <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="c1">// arr[depth] 를 뽑은 경우</span>
+        <span class="n">comb</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">depth</span><span class="p">];</span>
+        <span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        
+        <span class="c1">// arr[depth] 를 뽑지 않은 경우</span>
+        <span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">vec</span> <span class="o">=</span> <span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">};</span>  <span class="c1">// n = 5</span>
+    
+    <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+    
+    <span class="n">Combination</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// {'a', 'b', 'c', 'd', 'e'}의 '5C3' 구하기 </span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+a b c
+a b d
+a b e
+a c d
+a c e
+a d e
+b c d
+b c e
+b d e
+c d e
+</code></pre></div></div>
+
+<blockquote>
+  <p>예시) <code class="language-plaintext highlighter-rouge">{'a', 'b', 'c', 'd', 'e'}</code> 벡터에서 <code class="language-plaintext highlighter-rouge">r = 3</code> 자릿수의 <strong>조합</strong>들 출력하기 👉 경우의 수 5C3 =10</p>
+</blockquote>
+
+<p>{1,2,3,4} 의 4C2 조합</p>
+
+<ul>
+  <li>1 뽑기
+    <ul>
+      <li>2 뽑기 👉 {1, 2} 조합 완성! 종료</li>
+      <li>2 안뽑기
+        <ul>
+          <li>3 뽑기 👉 {1, 3} 조합 완성! 종료</li>
+          <li>3 안뽑기
+            <ul>
+              <li>4 뽑기 👉 {1, 4} 조합 완성! 종료</li>
+              <li>4 안뽑기 👉 <code class="language-plaintext highlighter-rouge">r = 2</code>개를 뽑지 못했다. 1만 뽑고 2,3,4 는 안뽑아서.. 이 경로는 종료되고 되돌아 가야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1 안뽑기
+    <ul>
+      <li>2 뽑기
+        <ul>
+          <li>3 뽑기 👉 {2, 3} 조합 완성! 종료</li>
+          <li>3 안뽑기
+            <ul>
+              <li>4 뽑기 👉 {2, 4} 조합 완성! 종료</li>
+              <li>4 안뽑기 👉 <code class="language-plaintext highlighter-rouge">r = 2</code>개를 뽑지 못했다. 2만 뽑고 1,3,4 는 안뽑아서.. 이 경로는 종료되고 되돌아 가야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>2 안뽑기
+        <ul>
+          <li>3 뽑기
+            <ul>
+              <li>4 뽑기 👉 {3, 4} 조합 완성! 종료</li>
+              <li>4 안뽑기 👉 <code class="language-plaintext highlighter-rouge">r = 2</code>개를 뽑지 못했다. 3만 뽑고 1,2,4 는 안뽑아서.. 이 경로는 종료되고 되돌아 가야 한다.</li>
+            </ul>
+          </li>
+          <li>3 안뽑기
+            <ul>
+              <li>4 뽑기 👉 <code class="language-plaintext highlighter-rouge">r = 2</code>개를 뽑지 못했다. 4만 뽑고 1,2,3 는 안뽑아서.. 이 경로는 종료되고 되돌아 가야 한다.</li>
+              <li>4 안뽑기 👉 <code class="language-plaintext highlighter-rouge">r = 2</code>개를 뽑지 못했다. 아무것도 안뽑아서.. 이 경로는 종료되고 되돌아 가야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="이-풀이의-원리">이 풀이의 원리</h3>
+
+<blockquote>
+  <p><strong>nCr = n-1Cr-1 + n-1Cr</strong></p>
+</blockquote>
+
+<blockquote>
+  <p><u>뽑은 경우</u>와 <u>뽑지 않은 경우로 나뉜다.</u></p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">arr</code>에서 어떤 원소를 뽑은 경우
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// comb[index]에 arr[depth] 을 대입하고 이제 comb[index + 1] 대입하러 간다.</span>
+<span class="n">comb</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">depth</span><span class="p">];</span>
+<span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">arr</code>에서 어떤 원소를 뽑지 않기로 결정한 경우
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 위에서 comb[index]에 arr[depth]에 대입했었지만 comb[index]에 다시 덮어쓰러 가듯, comb[index] 대입하러 간다. (즉 arr[depth]를 뽑지 않은 것으로 간주)</span>
+<span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>매개 변수 소개
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">arr</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">r</code>개를 뽑을 대상이 될 원소들이 모인 <code class="language-plaintext highlighter-rouge">n</code>크기의 벡터</li>
+          <li><code class="language-plaintext highlighter-rouge">n</code>은 <code class="language-plaintext highlighter-rouge">arr.size()</code>로 구할 수 있고 재귀 할 때마다 변화를 겪는건 아니기 때문에 굳이 인수로 넘기지 않았다.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">comb</code>
+        <ul>
+          <li>하나의 조합이 완성되면 <code class="language-plaintext highlighter-rouge">r</code>크기를 가지는 벡터가 될 것이다. 처음엔 빈 벡터로 시작한다.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">r</code>
+        <ul>
+          <li>재귀의 매 단계마다 그 단계 시점에서 <code class="language-plaintext highlighter-rouge">arr</code>중에서 <u>몇 개를 더 뽑아야 하는지</u>를 나타낼 수.
+            <ul>
+              <li>5C3 의 경우들을 구하는데 이미 원소 2개가 뽑여있는 상태라면 현재의 r 값은 1이 된다. 하나만 더 뽑으면 되니까.</li>
+            </ul>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code> 원소를 뽑는 경우에는 뽑아야 하는 수는 1 줄어드므로 <code class="language-plaintext highlighter-rouge">r - 1</code>을 다음 재귀에 인수로 넘긴다.</li>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code> 원소를 뽑지 않은 경우에는 뽑아야 하는 수는 그대로 이므로 <code class="language-plaintext highlighter-rouge">r</code>을 그대로 다음 재귀에 인수로 넘긴다.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">index</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">arr</code>로부터 원소를 뽑을 때 뽑은 원소를 <code class="language-plaintext highlighter-rouge">comb</code>에 넣을 위치가 된다.
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">comb</code>의 인덱스가 됨.</li>
+            </ul>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code> 원소를 뽑은 경우에는 <code class="language-plaintext highlighter-rouge">comb</code>의 <code class="language-plaintext highlighter-rouge">[index]</code> 인덱스에 이미 <code class="language-plaintext highlighter-rouge">arr[depth]</code>원소를 뽑아 넣었으므로 이젠 <code class="language-plaintext highlighter-rouge">comb</code>의 <code class="language-plaintext highlighter-rouge">[index + 1]</code> 인덱스에 뽑아 넣어야 한다. 따라서 다음 재귀에 <code class="language-plaintext highlighter-rouge">index + 1</code>을 넘긴다.</li>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code> 원소를 뽑지 않은 경우에는 <code class="language-plaintext highlighter-rouge">comb</code>의 <code class="language-plaintext highlighter-rouge">[index]</code> 인덱스에 넣을 원소를 다음 재귀에서 결정해야 한다. 따라서 다음 재귀에 그대로 <code class="language-plaintext highlighter-rouge">index</code>을 넘긴다.</li>
+          <li>중복을 허용하지 않으므로 순열과 달리 <u>이미 지나간 원소는 다시 쳐다도 보면 안된다.</u> ✨✨
+            <ul>
+              <li><u>따라서 순열과 달리 매 재귀 단계마다 arr의 첫번째 원소(인덱스 0)부터 따지는 것이 아닌 매 단계마다 1씩 증가시키는 depth 자리를 검사한다.</u></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">depth</code>
+        <ul>
+          <li>뽑을 원소를 결정하기 위해 <code class="language-plaintext highlighter-rouge">arr</code>을 순회하는 인덱스.</li>
+          <li>✨재귀의 깊이는 <code class="language-plaintext highlighter-rouge">arr</code>을 끝까지 순회하는 곳 까지이기 때문에 <code class="language-plaintext highlighter-rouge">arr</code>을 순회할 인덱스를 <code class="language-plaintext highlighter-rouge">depth</code>라고 명명했다.✨
+            <ul>
+              <li>✨<code class="language-plaintext highlighter-rouge">arr</code>의 원소들을 하나하나씩 차례대로 살펴볼 때 재귀를 사용하여 살펴봄 ✨</li>
+            </ul>
+          </li>
+          <li>뽑는 경우든 뽑지 않는 경우든 어쨋든 <code class="language-plaintext highlighter-rouge">comb</code>에 결정해서 넣을 <code class="language-plaintext highlighter-rouge">arr</code>의 다음 원소를 살펴보아야 하기 때문에 언제나 <code class="language-plaintext highlighter-rouge">depth + 1</code>을 다음 재귀에 인수로 넘긴다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>if(r == 0)</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">depth</code>가 <code class="language-plaintext highlighter-rouge">arr.size()</code>(= n)에 도달하기 전에 <code class="language-plaintext highlighter-rouge">r</code>개만큼 다 뽑은 경우다. 즉, <code class="language-plaintext highlighter-rouge">comb</code>가 결정되어 조합의 한 경우가 결정되어 이제 출력해야 할 때.</li>
+      <li>이때의 <code class="language-plaintext highlighter-rouge">index</code>는 <code class="language-plaintext highlighter-rouge">comb.size()</code>(원래의 시작 r값)과 같은 값을 가진다. <code class="language-plaintext highlighter-rouge">comb</code>를 다 채웠기 때문에!</li>
+    </ul>
+  </li>
+  <li><strong>else if(depth == arr.size())</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">depth</code>가 <code class="language-plaintext highlighter-rouge">arr.size()</code>(= n)에 도달한 경우다.
+        <ul>
+          <li>즉, <code class="language-plaintext highlighter-rouge">arr</code>의 모든 원소를 순회했는데도 <code class="language-plaintext highlighter-rouge">r</code>이 0 이 되지 않은 경우이므로 조합의 경우들 중 하나가 될 수 없는 케이스라는 것을 뜻한다.
+            <ul>
+              <li>예를 들어 {a, b, c, d, e} 중에서 5C3을 구해야 하는데 a 는 뽑고 b c d e 는 뽑지 않기로 했다면, 즉 r = 2 두개를 더 뽑아야함에도 불구하고 이미 순회를 다 해버렸으니 a 는 뽑고 b c d e 는 뽑지 않는 경우는 철회해야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>정답 중 하나가 될 수 없으므로 되돌아가기 위해 <u>return 한다.</u>
+        <ul>
+          <li>base case</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>else</strong>
+    <ul>
+      <li>아직 더 뽑아야 하고 (r != 0), <code class="language-plaintext highlighter-rouge">arr</code> 中 아직 뽑을 후보들도 남아 있다면 (depth != arr.size())</li>
+      <li>현재 단계 (depth)에서 아래와 같이 두 케이스로 나눈다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code> 원소를 ✨뽑는 경우
+            <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">comb</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">depth</span><span class="p">];</span>  <span class="c1">// 뽑음.</span>
+<span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// arr의 다음 원소를 comb[index + 1]자리에 따져보기 위해 출발</span>
+</code></pre></div>            </div>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">arr[depth]</code>를 ✨뽑지 않는 경우
+            <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">//  arr의 다음 원소를 뽑지 않았으니 그대로 comb[index]자리에 따져보기 위해 출발</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="재귀로-구현한-코드-2">재귀로 구현한 코드 2</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">Combination</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">comb</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">comb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">comb</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">vec</span> <span class="o">=</span> <span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">};</span>  <span class="c1">// n = 5</span>
+    
+    <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+    
+    <span class="n">Combination</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// {'a', 'b', 'c', 'd', 'e'}의 '5C3' 구하기 </span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+a b c
+a b d
+a b e
+a c d
+a c e
+a d e
+b c d
+b c e
+b d e
+c d e
+</code></pre></div></div>
+
+<blockquote>
+  <p>예시) <code class="language-plaintext highlighter-rouge">{'a', 'b', 'c', 'd', 'e'}</code> 벡터에서 <code class="language-plaintext highlighter-rouge">r = 3</code> 자릿수의 <strong>조합</strong>들 출력하기 👉 경우의 수 5C3 =10</p>
+</blockquote>
+
+<h3 id="이-풀이의-원리-1">이 풀이의 원리</h3>
+
+<blockquote>
+  <p>이 코드는 <a href="https://ansohxxn.github.io/algorithm/repeated-permutation/">중복 순열</a> 구현 코드와 비슷하다!</p>
+</blockquote>
+
+<ul>
+  <li>중복 순열
+    <ul>
+      <li>매개변수
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">repeatPermutation</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">perm</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+      <li>재귀 부분
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">perm</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">repeatPermutation</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>조합
+    <ul>
+      <li>매개변수
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Combination</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+      <li>재귀 부분
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">comb</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>1 번 코드에서 <code class="language-plaintext highlighter-rouge">arr</code>을 순회하는 포인터를 <code class="language-plaintext highlighter-rouge">depth</code>로 명명했던 반면에 이 2번 코드에서의 <code class="language-plaintext highlighter-rouge">depth</code>는 <code class="language-plaintext highlighter-rouge">comb</code>의 자릿수만큼 재귀한다는 점에서 <code class="language-plaintext highlighter-rouge">comb</code>를 순회하는 포인터를 <code class="language-plaintext highlighter-rouge">depth</code>라고 명명했다.
+    <ul>
+      <li>1 번 코드는 <code class="language-plaintext highlighter-rouge">arr</code> 순회를 재귀 기준으로 삼았었고</li>
+      <li>2 번 코드는 <code class="language-plaintext highlighter-rouge">comb</code> 순회를 재귀 기준으로 삼는다.
+        <ul>
+          <li>그리고 <code class="language-plaintext highlighter-rouge">comb</code>의 매 자리마다(매 재귀마다) for문으로 <code class="language-plaintext highlighter-rouge">arr</code> 원소들을 순회한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>각 재귀 단계 (<code class="language-plaintext highlighter-rouge">arr</code> 원소가 <code class="language-plaintext highlighter-rouge">r</code>개 뽑혀 들어갈 <code class="language-plaintext highlighter-rouge">comb</code>의 각 자리. 인덱스)마다 <u>for문을 돌며 arr의 원소들을 대입해본다</u>
+    <ul>
+      <li>for문은 <code class="language-plaintext highlighter-rouge">arr</code>의 원소들 중 <code class="language-plaintext highlighter-rouge">comb</code>에 들어갈 수 있는 원소들을 순회한다.
+        <ul>
+          <li><strong>중복 순열</strong>에서는 중복이 가능하므로 <code class="language-plaintext highlighter-rouge">comb</code>의 매 자리를 결정할 때마다(매 재귀마다) <code class="language-plaintext highlighter-rouge">arr</code>의 모든 원소가 후보가 될 수 있었다. 따라서 <em>for(<u>int i = 0</u>; i &lt; arr.size(); i++)</em> 이렇게 0 인덱스부터 순회</li>
+          <li><strong>조합</strong>에서는 중복이 가능하지 않고 순서도 따지지 않으므로 <code class="language-plaintext highlighter-rouge">arr</code> 원소들 중에서 <u>이미 한번 뽑았었거나 뽑지 않기로 결정하고 지나갔었던 원소라면 다시 comb에 넣는 경우와 넣지 않는 경우를 따질 필요가 없다.</u> 따라서 조합을 구하는 경우에는 <code class="language-plaintext highlighter-rouge">comb</code>의 매 자리를 결정할 때마다(매 재귀마다) <code class="language-plaintext highlighter-rouge">arr</code>에서 <code class="language-plaintext highlighter-rouge">comb</code>에 넣고 안 넣고를 <u>따졌었던 가장 최근의 원소의 그 다음 원소부터가 후보가 된다.</u> 따라서 <em>for(<u>int i = index</u>; i &lt; arr.size(); i++)</em> 후보는 <code class="language-plaintext highlighter-rouge">index</code>부터이며 재귀할 때 <code class="language-plaintext highlighter-rouge">index + 1</code>을 인수로 넘겨주어야 한다. <em>Combination(arr, comb, <u>i + 1</u>, depth + 1);</em> 이 때문에 중복순열과 달리 <code class="language-plaintext highlighter-rouge">arr</code> 중에서 아직 안지나간 원소들 중 첫 번째 원소의 위치를 나타내는 <code class="language-plaintext highlighter-rouge">index</code>라는 매개 변수가 추가로 필요하다. 후보가 될 수 있는 원소의 범위가 매 재귀마다 바뀌므로 <code class="language-plaintext highlighter-rouge">index</code>로 범위의 시작 위치를 매번 갱신해 표시해주어야 하기 때문이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="재귀로-구현한-코드-3---2-응용">재귀로 구현한 코드 3  👉 2 응용</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">Combination</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">comb</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">)</span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="n">comb</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+                <span class="n">Combination</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">vec</span> <span class="o">=</span> <span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'e'</span><span class="p">};</span>  <span class="c1">// n = 5</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">check</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">check</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>  <span class="c1">// check는 vec의 원소들이 이미 comb 원소로 결정된 적이 있는지를 함께 나타내주는 컨테이너가 될 것이다.</span>
+        <span class="n">check</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_pair</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">false</span><span class="p">);</span>  <span class="c1">// false로 초기화</span>
+    
+    <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+    
+    <span class="n">Combination</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">comb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// {'a', 'b', 'c', 'd', 'e'}의 '5C3' 구하기 </span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+a b c
+a b d
+a b e
+a c d
+a c e
+a d e
+b c d
+b c e
+b d e
+c d e
+</code></pre></div></div>
+
+<blockquote>
+  <p>예시) <code class="language-plaintext highlighter-rouge">{'a', 'b', 'c', 'd', 'e'}</code> 벡터에서 <code class="language-plaintext highlighter-rouge">r = 3</code> 자릿수의 <strong>조합</strong>들 출력하기 👉 경우의 수 5C3 =10</p>
+</blockquote>
+
+<ul>
+  <li>2 번 코드와 사실 비슷하다. <code class="language-plaintext highlighter-rouge">comb</code>의 각 자리를 결정 하는 것을 재귀의 한 단계로 삼으며 매 단계마다 <code class="language-plaintext highlighter-rouge">comb</code>의 각 자리에 들어갈 후보는 중복 순열처럼 <code class="language-plaintext highlighter-rouge">arr</code>의 0 인덱스부터 시작한 모든 원소가 아닌<code class="language-plaintext highlighter-rouge">arr</code>중 이전에 <code class="language-plaintext highlighter-rouge">comb</code>에 넣을지 안넣을지 결정 한번 했었던 원소부터 끝까지를 후보로 삼는 것 또한 똑같다. (<em>for(<u>int i = index</u>; i &lt; arr.size(); i++)</em>)</li>
+  <li><a href="https://ansohxxn.github.io/algorithm/permutation/#%EC%9E%AC%EA%B7%80%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%9C-%EC%BD%94%EB%93%9C-2">순열 구현 2 번 코드</a>처럼 <code class="language-plaintext highlighter-rouge">comb</code>에 넣을지 안넣을지 결정 한번 했었던 <code class="language-plaintext highlighter-rouge">arr</code>원소인지를 bool 타입으로 저장할 수도 있지만 <u>사실 for문을 `comb`에 넣을지 안넣을지 결정 한적이 없었던 원소들 중 첫번째 위치를 나타내는 `index`부터를 후보로 정한다면 그 자체로 결정 안했었던 원소들만이 후보가 된다는 것을 의미하니 bool타입으로 체크하는 것은 사실 필요없는 과정이기는 하다.</u></li>
+  <li>그래도 한번 구현해 보았다. 출력할 때 <code class="language-plaintext highlighter-rouge">arr</code>을 순회하며 출력하되 <code class="language-plaintext highlighter-rouge">comb</code>에 넣기로 결정했었다는 것을 의미하는 bool타입의 second 값이 true 값을 가지는 <code class="language-plaintext highlighter-rouge">arr</code> 원소만 출력하는데에 써먹었다.</li>
+  <li>재밌는 점은 <em>for(<u>int i = 0</u>; i &lt; arr.size(); i++)</em> <code class="language-plaintext highlighter-rouge">comb</code>의 각 자리를 매번 결정할때마다 <code class="language-plaintext highlighter-rouge">arr</code>의 모든 원소로 한다는 것을 의미하므로 이렇게 <code class="language-plaintext highlighter-rouge">i = 0</code>으로만 바꿔주어도 순열을 구하는 것과 같아진다!
+    <ul>
+      <li>매번 모든 원소가 후보가 된다는 것은 순서를 고려한다는 말과도 같다. 순열은 <code class="language-plaintext highlighter-rouge">arr</code>원소가 <code class="language-plaintext highlighter-rouge">comb</code>의 원소로 결정만 안됐었으면 될 뿐, 안뽑힌 것이라도 다음 후보가 될 수 있기 때문이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="stl-prev_permutation으로-조합-구현하기">STL: prev_permutation으로 조합 구현하기</h2>
+
+<blockquote>
+  <p>bool 배열의 중복 순열을 구하고 이에 대응시키기</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+ 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">};</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">temp</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="c1">// 앞부터 r개의 true가 채워진다. 나머지 뒤는 false.</span>
+        <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+ 
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">prev_permutation</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">temp</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+a b
+a c
+a d
+b c
+b d
+c d
+</code></pre></div></div>
+
+<ul>
+  <li>모든 순열을 구하려면 <u>bool 배열 초기 상태가 내림 차순 정렬이 되어 있어야 한다.</u> (그래야 모든 수열을 다 구할 수 있으니까)
+    <ul>
+      <li>👉 즉, <code class="language-plaintext highlighter-rouge">true</code>가 <code class="language-plaintext highlighter-rouge">false</code>보다 앞에 와야 한다. (<code class="language-plaintext highlighter-rouge">true</code>는 <code class="language-plaintext highlighter-rouge">r</code>개 존재)
+        <ul>
+          <li>ex) 6C<u>2</u> 라면 {<u>true, true</u>, false, false, false, false} 모양이 초기값이어야 함. (내림 차순 되어 있는 형태. false &lt; true 니까)
+            <ul>
+              <li>이건 내림 차순 정렬이 되어 있는 상태다. (<code class="language-plaintext highlighter-rouge">ture &gt; false</code>니까!) 따라서 <code class="language-plaintext highlighter-rouge">true (=1)</code>와 <code class="language-plaintext highlighter-rouge">false (=0)</code> 끼리의 <em>“크기를 비교하여 이전 순열을 결정한다.”</em></li>
+              <li>따라서 4C2의 경우 bool배열은 아래와 같은 모양으로 while문이 진행될 것이다. 이 <code class="language-plaintext highlighter-rouge">ture</code> 값과 같은 인덱스에 대응하는 배열의 원소들끼리를 조합하면 된다.
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{true, true, false, false} 👉 'a' 'b' 에 대응시킴
+{true, false, true, false} 👉 'a' 'c' 에 대응시킴
+{true, false, false, true} 👉 'a' 'd' 에 대응시킴
+{false, true, true, false} 👉 'b' 'c' 에 대응시킴
+{false, true, false, true} 👉 'b' 'd' 에 대응시킴
+{false, false, true, true} 👉 'c' 'd' 에 대응시킴
+</code></pre></div>                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>그리고 <strong>이 bool 배열을 바탕으로 prev_permutation 연산을 수행하며 이 때 True 가 되는 것에 대응시켜서 조합을 구하면 된다.</strong></li>
+      <li><u>중복이 있는 원소들은 제외하고 순열을 만들어준다.</u></li>
+      <li>자세한 설명은 <a href="https://ansohxxn.github.io/algorithm/permutation/#prev_permutation">순열 포스트</a> 참고</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">do-while</code>문을 사용하는 이유는, 저 prev_permutation 연산을 수행하자마자 이전 순열로 모양이 바뀌어 버리기 때문이다. 초기 모양, 출발 모양 그대로 한번 연산 가야하므로 <code class="language-plaintext highlighter-rouge">do-while</code>문을 사용한 것이다.</li>
+</ul>
+
+<p>예를 들어 {‘a’, ‘b’, ‘c’, ‘d’}의 <code class="language-plaintext highlighter-rouge">4C2</code> 조합들을 출력하려면 <code class="language-plaintext highlighter-rouge">r = 2</code> 개수 만큼의 <code class="language-plaintext highlighter-rouge">true</code> 값 원소를 가지고 ✨{‘a’, ‘b’, ‘c’, ‘d’}와 사이즈가 같은 bool타입의 <code class="language-plaintext highlighter-rouge">temp</code> 벡터를 선언한다.✨<code class="language-plaintext highlighter-rouge">temp</code>의 초기 값은 <code class="language-plaintext highlighter-rouge">r = 2</code>개의 💜<u>`true` 원소를 맨 앞</u> 으로 보낸 것에서 시작한다.💜 이렇게 {true, true, false, false} 가 되는데 이는 <code class="language-plaintext highlighter-rouge">temp</code>를 내림 차순 정렬할 때 가장 처음으로 올 값이다. 즉 반대로 말하면 오름 차순 정렬시 가장 큰 값. 여기서 시작하여 <u>temp 를 대상으로 prev_permutation 실행한다.</u></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{true, true, false, false} 👉 이 상태가 바로 내림 차순 정렬이 되어 있는 상태 (true가 false보다 앞섬)
+{true, false, true, false}
+{true, false, false, true}
+{false, true, true, false}
+{false, true, false, true}
+{false, false, true, true} 👉 true 2개 , false 2개 조합에서 더 이상 이 것보다 더 작은 수를 만들 수 없음. 종료.
+</code></pre></div></div>
+
+<p>위와 같이 중복을 제외하고 내림 차순으로 정렬이 된다. 매번 <code class="language-plaintext highlighter-rouge">temp</code>의 이전 순열을 구한 후 <code class="language-plaintext highlighter-rouge">temp</code>의 <code class="language-plaintext highlighter-rouge">true</code>인 자리에 일치하는 인덱스를 가진 <code class="language-plaintext highlighter-rouge">arr</code>의 원소만을 뽑는다! 현재 순열이 <code class="language-plaintext highlighter-rouge">{true, false, false, true}</code> 이라면 <code class="language-plaintext highlighter-rouge">arr[0]</code>, <code class="language-plaintext highlighter-rouge">arr[3]</code>인 ‘b’와 ‘c’를 출력한다.</p>
+
+<p><br /></p>
+
+<h2 id="stl-next_permutation으로-조합-구현하기">STL: next_permutation으로 조합 구현하기</h2>
+
+<blockquote>
+  <p>bool 배열의 중복 순열을 구하고 이에 대응시키기</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+ 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">};</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">temp</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="n">r</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="c1">// 뒤에 false가 n-r개 채워지고 뒤에 true 가 r개 채워진다.</span>
+        <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+ 
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> 
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">next_permutation</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">temp</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+c d
+b d
+b c
+a d
+a c
+a b
+</code></pre></div></div>
+
+<ul>
+  <li>모든 순열을 구하려면 <u>bool 배열 초기 상태가 오름 차순 정렬이 되어 있어야 한다.</u> (그래야 모든 수열을 다 구할 수 있으니까)
+    <ul>
+      <li>👉 즉, <code class="language-plaintext highlighter-rouge">false</code>가 <code class="language-plaintext highlighter-rouge">true</code>보다 앞에 와야 한다. (<code class="language-plaintext highlighter-rouge">true</code>는 <code class="language-plaintext highlighter-rouge">r</code>개 존재)
+        <ul>
+          <li>ex) 6C<u>2</u> 라면 {false, false, false, false, <u>true, true</u>} 모양이 초기값이어야 함. (오름 차순 되어 있는 형태. false &lt; true 니까)
+            <ul>
+              <li>이건 오름 차순 정렬이 되어 있는 상태다. 따라서 <code class="language-plaintext highlighter-rouge">true (=1)</code>와 <code class="language-plaintext highlighter-rouge">false (=0)</code> 끼리의 <em>“크기를 비교하여 다음 순열을 결정한다.”</em></li>
+              <li>따라서 4C2의 경우 bool배열은 아래와 같은 모양으로 while문이 진행될 것이다. 이 <code class="language-plaintext highlighter-rouge">ture</code> 값과 같은 인덱스에 대응하는 배열의 원소들끼리를 조합하면 된다.
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{false, false, true, true} 👉 'c' 'd' 에 대응시킴
+{false, true, false, true} 👉 'b' 'd' 에 대응시킴
+{false, true, true, false} 👉 'b' 'c' 에 대응시킴
+{true, false, false, true} 👉 'a' 'd' 에 대응시킴
+{true, false, true, false} 👉 'a' 'c' 에 대응시킴
+{true, true, false, false} 👉 'a' 'b' 에 대응시킴
+</code></pre></div>                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>그리고 <strong>이 bool 배열을 바탕으로 next_permutation 연산을 수행하며 이 때 True 가 되는 것에 대응시켜서 조합을 구하면 된다.</strong></li>
+      <li><u>중복이 있는 원소들은 제외하고 순열을 만들어준다.</u></li>
+      <li>자세한 설명은 <a href="https://ansohxxn.github.io/algorithm/permutation/#prev_permutation">순열 포스트</a> 참고</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">do-while</code>문을 사용하는 이유는, 저 next_permutation 연산을 수행하자마자 이전 순열로 모양이 바뀌어 버리기 때문이다. 초기 모양, 출발 모양 그대로 한번 연산 가야하므로 <code class="language-plaintext highlighter-rouge">do-while</code>문을 사용한 것이다.</li>
+</ul>
+
+<p>예를 들어 {‘a’, ‘b’, ‘c’, ‘d’}의 <code class="language-plaintext highlighter-rouge">4C2</code> 조합들을 출력하려면 <code class="language-plaintext highlighter-rouge">r = 2</code> 개수 만큼의 <code class="language-plaintext highlighter-rouge">true</code> 값 원소를 가지고 ✨{‘a’, ‘b’, ‘c’, ‘d’}와 사이즈가 같은 bool타입의 <code class="language-plaintext highlighter-rouge">temp</code> 벡터를 선언한다.✨<code class="language-plaintext highlighter-rouge">temp</code>의 초기 값은 <code class="language-plaintext highlighter-rouge">r = 2</code>개의 💜<u>`true` 원소를 맨 뒤</u>로 보낸 것에서 시작한다.💜 이렇게 {false, false, true, true} 가 되는데 이는 <code class="language-plaintext highlighter-rouge">temp</code>를 오름 차순 정렬할 때 가장 처음으로 올 값이다. 여기서 시작하여 <u>temp 를 대상으로 next_permutation 실행한다.</u></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{false, false, true, true} 👉 이 상태가 바로 오름 차순 정렬이 되어 있는 상태 (true가 false보다 뒤에)
+{false, true, false, true}
+{false, true, true, false}
+{true, false, false, true}
+{true, false, true, false}
+{true, true, false, false} 👉 true 2개 , false 2개 조합에서 더 이상 이 것보다 더 큰 수를 만들 수 없음. 종료.
+</code></pre></div></div>
+
+<p>위와 같이 중복을 제외하고 오름 차순으로 정렬이 된다. 매번 <code class="language-plaintext highlighter-rouge">temp</code>의 다음 순열을 구한 후 <code class="language-plaintext highlighter-rouge">temp</code>의 <code class="language-plaintext highlighter-rouge">true</code>인 자리에 일치하는 인덱스를 가진 <code class="language-plaintext highlighter-rouge">arr</code>의 원소만을 뽑는다! 현재 순열이 <code class="language-plaintext highlighter-rouge">{true, false, false, true}</code> 이라면 <code class="language-plaintext highlighter-rouge">arr[0]</code>, <code class="language-plaintext highlighter-rouge">arr[3]</code>인 ‘b’와 ‘c’를 출력한다.</p>
+
+<p><br /></p>
+
+<h3 id="변형-순서대로-조합">변형 (순서대로 조합)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">{</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'c'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">};</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">temp</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+        <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+ 
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">next_permutation</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">temp</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+a b
+a c
+a d
+b c
+b d
+c d
+</code></pre></div></div>
+
+<p><em>next_permutation</em>는 “다음 순열”로 정렬시키는 것을, 이 순열로 더 큰 수를 만들 수 있을 때까지 수행하기 때문에 해당 범위의 조합을 구하려면 해당 범위로 만들 수 있는 가장 작은 수열 형태가 초기값이 되야 하는 것이 불가피하다. 그래서 bool 배열에 대응시키려면 반드시 ⭐<strong><code class="language-plaintext highlighter-rouge">false</code>가 <code class="language-plaintext highlighter-rouge">ture</code>보다 앞선 오름 차순 정렬이 된 수열 최소값</strong>⭐형태에서 시작해야한다는 것이다. (그래야 모든 수열을 다 구할 수 있으니까)</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">temp</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+        <span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">//...</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>따라서 “a b” 부터, 즉 <u>원소의 순서들을 지키면서 조합을 구하고 싶다면</u> <code class="language-plaintext highlighter-rouge">true</code>를 <code class="language-plaintext highlighter-rouge">r</code>개로 하는 것이 아닌 앞에 있는 <code class="language-plaintext highlighter-rouge">false</code>를 <code class="language-plaintext highlighter-rouge">r</code>개로 하고, <code class="language-plaintext highlighter-rouge">false</code> 값에 대응 시키면 범위의 순서 ‘a’, ‘b’, ‘c’, ‘d’} 대로 조합을 구할 수 있겠다! (앞 문항에선, 뒤에 있는 <code class="language-plaintext highlighter-rouge">true</code>를 <code class="language-plaintext highlighter-rouge">r</code>개로 하고 이 <code class="language-plaintext highlighter-rouge">true</code>에 대응시켰었기 때문에 순서가 다르게 나왔었다. 그래서 앞에선 “c d”부터 출력됐었음)</p>
+
+<p><em>next_permutation으로 조합을 구하려 할 때, 조합 순서 딱히 상관 없으면 true 를 r 개로 하자! 그냥 그게 가독성이 더 좋으니까..☆</em></p>
+
+<p><br /></p>
+
+<h2 id="모든-조합의-수-구하기-nc0--nc1--nc2----ncn">모든 조합의 수 구하기 (nC0 + nC1 + nC2 + .. + nCn)</h2>
+
+<blockquote>
+  <p><a href="https://ansohxxn.github.io/programmers/95/">코드의 문제 출처 포스트</a></p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">nCr</code> 에서 <code class="language-plaintext highlighter-rouge">r = 0,1,..,n</code> 일 때의 모든 조합의 수 구하기</p>
+
+<h3 id="prev_permutation-혹은-next_permutation">prev_permutation (혹은 next_permutation)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">comb</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="n">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">comb</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="n">temp</span> <span class="o">+=</span> <span class="sc">'-'</span><span class="p">;</span>
+                    <span class="k">else</span> <span class="n">temp</span> <span class="o">+=</span> <span class="n">applicant</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+                <span class="p">}</span>
+                <span class="n">db</span><span class="p">[</span><span class="n">temp</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">stoi</span><span class="p">(</span><span class="n">applicant</span><span class="p">[</span><span class="mi">4</span><span class="p">]));</span>
+            <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">prev_permutation</span><span class="p">(</span><span class="n">comb</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<p><em>for (int r = 1; r &lt;= 4; ++r)</em> 안에서 조합 구하기. <code class="language-plaintext highlighter-rouge">r</code> 값에 따라 <code class="language-plaintext highlighter-rouge">comb</code> 배열의 <code class="language-plaintext highlighter-rouge">true</code> 개수가 결정됨.</p>
+
+<p><br /></p>
+
+<h3 id="비트-마스크로-구하기">비트 마스크로 구하기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">info</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+    <span class="c1">//...</span>
+    <span class="n">string</span> <span class="n">str</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">mask</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">mask</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">str</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">k</span><span class="p">))</span> <span class="o">?</span> <span class="sc">'-'</span> <span class="o">:</span> <span class="n">applicant</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+            <span class="n">db</span><span class="p">[</span><span class="n">str</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">score</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>4 자리에서 <code class="language-plaintext highlighter-rouge">-</code> 이 들어갈 수 있는 경우는 <em>4C0 + 4C1 + 4C2 + 4C3 + 4C4 = 16</em> 가지가 된다. 이는 사실</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0000 
+👉 0 
+👉 {F,F,F,F} 로 만들 수 있는 모든 순열과도 같음
+
+1000 0100 0010 0001
+👉 1 2 4 8
+👉 {T,F,F,F} 로 만들 수 있는 모든 순열과도 같음
+
+1100 1010 1001 0110 0101 0011 
+👉 12 10 9 6 5 3
+👉 {T,T,F,F} 로 만들 수 있는 모든 순열과도 같음
+
+1110 1101 1011 0111
+👉 14 13 11 7
+👉 {T,T,T,F} 로 만들 수 있는 모든 순열과도 같음
+
+1111
+👉 15
+👉 {T,T,T,T} 로 만들 수 있는 모든 순열과도 같음
+</code></pre></div></div>
+
+<p>이 <code class="language-plaintext highlighter-rouge">0000</code> ~ <code class="language-plaintext highlighter-rouge">1111</code> 즉, <code class="language-plaintext highlighter-rouge">0</code> ~ <code class="language-plaintext highlighter-rouge">15</code> 인 16 가지의 4 자리 비트는는 <code class="language-plaintext highlighter-rouge">-</code>가 들어갈 수 있는 모든 케이스들이 되는 것이나 마찬가지이다.</p>
+
+<ul>
+  <li>예를 들어 위 코드에서 현재 <code class="language-plaintext highlighter-rouge">mask</code>가 13 일 땐
+    <ul>
+      <li><em>(mask &amp; (1 « k)</em>
+        <ul>
+          <li>1101 &amp; 0001 👉 True 이므로 <code class="language-plaintext highlighter-rouge">-</code> 추가 👉 str = “-“</li>
+          <li>1101 &amp; 0010 👉 False 이므로 <code class="language-plaintext highlighter-rouge">applicant[1]</code> 추가 👉 str = “-backend”</li>
+          <li>1101 &amp; 0100 👉 True 이므로 <code class="language-plaintext highlighter-rouge">-</code> 추가 👉 str = “-backend-“</li>
+          <li>1101 &amp; 1000 👉 True 이므로 <code class="language-plaintext highlighter-rouge">-</code> 추가 👉 str = “-backend–”
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">1</code> 자리에 <code class="language-plaintext highlighter-rouge">-</code>가 들어가는 식은 아니지만 16가지 비트들은 서로 다 데칼코마니처럼 대응이되므로 이렇게 해도 될듯 하다. (최하위 비트인 오른쪽부터 덧붙여나가니까 마치 1011 자리에 <code class="language-plaintext highlighter-rouge">-</code>을 붙이는 것과도 같아진다.)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="참고한-블로그">참고한 블로그</h2>
+
+<ul>
+  <li><a href="https://mjmjmj98.tistory.com/38">https://mjmjmj98.tistory.com/38</a></li>
+  <li><a href="https://gorakgarak.tistory.com/523">https://gorakgarak.tistory.com/523</a></li>
+  <li><a href="https://codemcd.github.io/algorithm/Algorithm-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9/#%EA%B5%AC%ED%98%84-%EC%BD%94%EB%93%9C">https://codemcd.github.io/algorithm/Algorithm-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9/#%EA%B5%AC%ED%98%84-%EC%BD%94%EB%93%9C</a></li>
+  <li><a href="https://yabmoons.tistory.com/99?category=838490">https://yabmoons.tistory.com/99?category=838490</a></li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Algorithm</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/algorithm/repeated-permutation/" class="pagination--pager" title="(C++) 중복 순열(Repeated Permutation) 구현하기
+">이전</a>
+    
+    
+      <a href="/algorithm/repeated-combination/" class="pagination--pager" title="(C++) 중복 조합(Repeated Combination) 구현하기
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/algorithm/repeated-permutation/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>(C++) 중복 순열(Repeated Permutation) 구현하기</a>
+    
+    
+      <a href="/algorithm/repeated-combination/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>(C++) 중복 조합(Repeated Combination) 구현하기</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%28C%2B%2B%29+%EC%A1%B0%ED%95%A9%28Combination%29+%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcombination%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcombination%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcombination%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/algorithm/combination/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/algorithm/combination"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

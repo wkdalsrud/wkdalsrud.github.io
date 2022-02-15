@@ -1,0 +1,2315 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[C++로 풀이] 블록 이동하기 (BFS, 해시 함수)⭐⭐⭐ | 기억저장소</title>
+<meta name="description" content="📌 블록 이동하기 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="[C++로 풀이] 블록 이동하기 (BFS, 해시 함수)⭐⭐⭐">
+<meta property="og:url" content="http://localhost:4000/programmers/128/">
+
+
+  <meta property="og:description" content="📌 블록 이동하기 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-03-30T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-03-30T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/programmers/128/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#programmers" itemprop="item"><span itemprop="name">Programmers</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[C++로 풀이] 블록 이동하기 (BFS, 해시 함수)⭐⭐⭐</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[C++로 풀이] 블록 이동하기 (BFS, 해시 함수)⭐⭐⭐">
+    <meta itemprop="description" content="📌 블록 이동하기">
+    <meta itemprop="datePublished" content="2021-03-30T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-03-30T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[C++로 풀이] 블록 이동하기 (BFS, 해시 함수)⭐⭐⭐
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2021-03-30T00:00:00+09:00">2021.03.30</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-03-30">2021.03.30</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#programmers" class="page__taxonomy-item-category" rel="tag">Programmers</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#-블록-이동하기">📌 블록 이동하기</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이">🚀 내 풀이</a>
+        <ul>
+          <li><a href="#-3-차원-배열로-방문-체크한-풀이-">🔥 3 차원 배열로 방문 체크한 풀이 ⭕</a></li>
+          <li><a href="#-해시를-사용하여-방문-체크한-풀이-커스텀-해시함수-">🔥 해시를 사용하여 방문 체크한 풀이(+ 커스텀 해시함수) ⭕</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="-블록-이동하기">📌 블록 이동하기</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/112856838-2ce74380-90eb-11eb-9a7b-b57bdf174ad9.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/112856878-383a6f00-90eb-11eb-96e4-fcfb3170eafe.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/112856910-412b4080-90eb-11eb-8d10-7108c41d284c.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<p>문제는 일반적인 BFS 문제 풀듯이 풀면 된다. 그러나 주의 깊게 생각해야 할 부분은 다음과 같다.</p>
+
+<ul>
+  <li>1️⃣ 로봇은 <strong>회전</strong>이 가능하다는 점! 현재 위치에서 로봇이 회전된 위치들 또한 큐에 삽입하여야 한다.</li>
+  <li>2️⃣ 로봇은 두 파트로 이루어져 있기 때문에 2 개의 좌표를 차지한다. 따라서 <strong>방문 체크</strong>를 어떻게 할 것인지 신경 써야 한다. 로봇이 “두 파트 동시에 있었던 두 좌표”는 재방문하면 최단경로를 구할 수 없기 떄문에 재방문 하지 않도록 해야 한다.
+    <ul>
+      <li>2 가지 방법으로 풀었다. 2 개의 코드 모두 다 살펴볼 것이다.
+        <ol>
+          <li>방향까지 고려한 <u>3 차원 배열</u>로 방문 체크하는 방법. 로봇의 두 파트는 왼쪽, 오른쪽 혹은 위쪽 아래쪽으로 ‘구분’할 수 가 있다. 따라서 방향까지 고려하여 두 파트 각각 좌표 방문 체크를 해주는 것.</li>
+          <li>두 파트(위치)를 로봇 구조체로 묶어 로봇 그 자체를 <u>해시 테이블</u>에 보관하여 방문 체크 하는 방법. 즉, 로봇 구조체 그 자체가 이미 해시테이블에 저장이 되어있는지 아닌지로 방문 체크를 한다.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>특히 이.. ‘회전’을 구현하는 부분이 좀 까다로웠다.😥</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113553513-dc17a380-9632-11eb-87ae-cd74af61cf83.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113553535-e3d74800-9632-11eb-9670-641b4c74e20e.png" alt="image" /></p>
+
+<ul>
+  <li>로봇이 1 초로 움직여 갈 수 있는 위치들
+    <ul>
+      <li>4 가지 종류의 “이동” : 상, 하, 좌, 우
+        <ul>
+          <li>로봇의 두 파트 모두가 갈 수 있는 곳이어야 한다.</li>
+        </ul>
+      </li>
+      <li>4 가지 종류의 “90도 회전” : 상, 하, 좌, 우
+        <ul>
+          <li>가로 방향인 로봇의 경우 (90도 회전이므로 상하 회전만 가능)
+            <ul>
+              <li>위로 회전하는 2 가지 경우 모두 위 두칸, 아래로 회전하는 2 가지 경우 모두 아래 두칸이 막혀있지 않아야 한다.</li>
+              <li>회전하여 옮겨질 일부 한 파트가 회전하여 갈 예정인 곳도 갈 수 있는 곳이어야 한다.</li>
+            </ul>
+          </li>
+          <li>세로 방향인 로봇의 경우 (90도 회전이므로 좌우 회전만 가능)
+            <ul>
+              <li>오른쪽으로 회전하는 2 가지 경우 모두 오른쪽 두 칸, 왼쪽으로 회전하는 2 가지 경우 모두 왼쪽 두 칸이 막혀있지 않아야 한다.</li>
+              <li>회전하여 옮겨질 일부 한 파트가 회전하여 갈 예정인 곳도 갈 수 있는 곳이어야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>최대 8 개의 로봇 위치를 큐에 삽입할 수 있다. 이 8 가지 후보를 로봇이 추후 갈 수 있는지 검사를 모두 진행해야 한다.</p>
+
+<p><br /></p>
+
+<h3 id="-3-차원-배열로-방문-체크한-풀이-">🔥 3 차원 배열로 방문 체크한 풀이 ⭕</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+</span>
+<span class="c1">// 상하좌우</span>
+<span class="kt">int</span> <span class="n">dy</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">N</span><span class="p">;</span>
+
+<span class="c1">// 하나의 위치 좌표</span>
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// 행</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 열</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span> <span class="c1">// 로봇의 중심에서 어느쪽에 있는지 그 방향 ⭐</span>
+<span class="p">};</span>
+
+<span class="c1">// 로봇</span>
+<span class="k">struct</span> <span class="nc">Robot</span> <span class="p">{</span>
+    <span class="n">Pos</span> <span class="n">part1</span><span class="p">;</span> <span class="c1">// 로봇의 일부 1 의 위치와 방향</span>
+    <span class="n">Pos</span> <span class="n">part2</span><span class="p">;</span> <span class="c1">// 로봇의 일부 2 의 위치와 방향</span>
+    <span class="kt">int</span> <span class="n">time</span><span class="p">;</span>  <span class="c1">// 현재까지 걸린 시간 (배열 안쓰고 구조체에 저장했다.)</span>
+<span class="p">};</span>
+
+<span class="c1">// 두 part1, part2 위치가 board 에서 벗어난 곳은 아닌지, 벽은 아닌지 검사</span>
+<span class="c1">// 즉 기본적으로 갈 수 있는 곳인지 검사</span>
+<span class="kt">bool</span> <span class="nf">possible</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">,</span> <span class="n">Pos</span> <span class="n">part1</span><span class="p">,</span> <span class="n">Pos</span> <span class="n">part2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 두 위치 다 범위에서 벗어난 곳인지</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span>
+        <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="c1">// 두 위치 다 벽은 아닌지</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// 두 위치 모두 다 범위 내 + 벽이 아니면 true</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+   
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Robot</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="c1">// 큐 삽입(예약) 체크 배열.</span>
+    <span class="c1">// 로봇은 위치 좌표를 2 개를 쓰고, 또한 회전을 하기 때문에 방문 체크를 방향까지 더한 3차원 배열로 한다.  </span>
+    <span class="c1">// 로봇을 이루는 두 위치 모두 따로따로 방문 체크를 진행할 것이다.</span>
+    <span class="kt">bool</span> <span class="n">checked</span><span class="p">[</span><span class="mi">100</span><span class="p">][</span><span class="mi">100</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">false</span> <span class="p">};</span> 
+
+    <span class="c1">// 로봇의 시작 상태</span>
+    <span class="c1">// 일부1 : (0, 0) 로봇의 왼쪽 파트</span>
+    <span class="c1">// 일부2 : (0, 1) 로봇의 오른쪽 파트</span>
+    <span class="n">Robot</span> <span class="n">start</span><span class="p">{</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">},</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">},</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="n">checked</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> 
+    <span class="n">checked</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 방문</span>
+        <span class="n">Robot</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// 로봇이 목적지에 도착했다면(로봇의 두 파트 중 하나라도 도착했다면)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="cm">/* 예약 : 이동 */</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 다음 방문 위치 후보 (로봇의 두 파트 각각의 위치)</span>
+            <span class="n">Pos</span> <span class="n">next_part_1</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">next_part_2</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">dir</span> <span class="p">};</span>
+            
+            <span class="c1">// 후보 검사</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">next_part_1</span><span class="p">,</span> <span class="n">next_part_2</span><span class="p">))</span> <span class="c1">// 두 위치 모두 다 범위 내 &amp; 벽이 아니어야 한다.</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">[</span><span class="n">next_part_1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next_part_1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">next_part_1</span><span class="p">.</span><span class="n">dir</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">checked</span><span class="p">[</span><span class="n">next_part_2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next_part_2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">next_part_2</span><span class="p">.</span><span class="n">dir</span><span class="p">])</span> <span class="c1">// 두 위치와 방향 모두 다 큐에 들어간적이 없어야 한다.</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="n">Robot</span> <span class="n">next</span><span class="p">{</span> <span class="n">next_part_1</span><span class="p">,</span> <span class="n">next_part_2</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+            <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+            <span class="n">checked</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 파트1 예약 체크</span>
+            <span class="n">checked</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">dir</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 파트2 예약 체크</span>
+        <span class="p">}</span>
+
+        <span class="cm">/* 예약 : 회전 */</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 현재 로봇이 가로로 놓여있다면</span>
+            <span class="c1">// 1. 위로 회전 </span>
+            <span class="n">Pos</span> <span class="n">up_left</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">up_right</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">up_left</span><span class="p">,</span> <span class="n">up_right</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// up_left, up_right 위쪽 두칸이 모두 위치 모두 다 범위 내 &amp; 벽이 아니어야 한다. (회전할 때 가로막히면 안된다.)</span>
+                <span class="c1">// 1-1. 왼쪽을 축으로 위로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">up_left</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">up_left</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">])</span> <span class="p">{</span> <span class="c1">// 왼쪽 파트를 축으로 회전했을 때 다음 위치 up_left, now.part1(기존)</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">up_left</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span><span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">up_left</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">up_left</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">// 1-2. 오른쪽을 축으로 위로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">up_right</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">up_right</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">])</span> <span class="p">{</span> <span class="c1">// 오른쪽 파트를 축으로 회전했을 때 다음 위치 up_right, now.part2(기존)</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">up_right</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">up_right</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">up_right</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="c1">// 2. 아래로 회전</span>
+            <span class="n">Pos</span> <span class="n">down_left</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">down_right</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">down_left</span><span class="p">,</span> <span class="n">down_right</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">// 2-1. 왼쪽을 축으로 아래로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">down_left</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">down_left</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">}</span> <span class="p">,</span> <span class="n">down_left</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">down_left</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">down_left</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">// 2-2. 오른쪽을 축으로 아래로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">down_right</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">down_right</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">}</span> <span class="p">,</span> <span class="n">down_right</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">down_right</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">down_right</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">DOWN</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">UP</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 현재 로봇이 세로로 놓여있다면</span>
+            <span class="c1">// 1. 왼쪽으로 회전</span>
+            <span class="n">Pos</span> <span class="n">left_up</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">left_down</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">left_up</span><span class="p">,</span> <span class="n">left_down</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">// 1-1. 위쪽을 축으로 왼쪽으로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">left_up</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">left_up</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">left_up</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">left_up</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">left_up</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">// 1-2. 아래쪽을 축으로 왼쪽으로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">left_down</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">left_down</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">left_down</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">left_down</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">left_down</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="c1">// 2. 오른쪽으로 회전</span>
+            <span class="n">Pos</span> <span class="n">right_up</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">right_down</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">right_up</span><span class="p">,</span> <span class="n">right_down</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">// 2-1. 위쪽을 축으로 오른쪽으로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">right_up</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">right_up</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">right_up</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">right_up</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">right_up</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="c1">// 2-1. 아래쪽을 축으로 오른쪽으로 회전</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">right_down</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">right_down</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">right_down</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">});</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">right_down</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">right_down</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">RIGHT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">checked</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">LEFT</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/112876467-8443de80-9100-11eb-91e7-1d1a15ba3f12.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113552309-f486be80-9630-11eb-88c2-3e2adec32966.png" alt="image" /></p>
+
+<p>3 차원 배열을 쓰지 않고 2 차원 배열, 즉 위치 좌표로만 방문 체크를 했다면 로봇이 위 그림에서처럼 1번, 2번 이렇게 움직였다면 3 번은 이미 방문했던 곳으로 판단되어 로봇이 3 번 위치로 이동하지 못한다. 실제로 가능해야하는데도 말이다. 3 번의 두 일부분이 각각 1번, 2번에 의해 방문 처리가 되었기 때문이다. 따라서 배열로 방문 체크를 하기 위해선 “방향” 같이 체크해야할 정보가 더 필요하다. 3 차원 배열을 썼다면 1 번에서는 UP, 2 번에서도 UP 이었을테니 3 번에서 동일한 좌표가 각각 LEFT, RIGHT 방향일 떄는 방문된적이 없는 것이므로 로봇이 3 번 위치로 이동하는 것이 가능해진다.</p>
+
+<p><br /></p>
+
+<h3 id="-해시를-사용하여-방문-체크한-풀이-커스텀-해시함수-">🔥 해시를 사용하여 방문 체크한 풀이(+ 커스텀 해시함수) ⭕</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_set&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+</span>
+<span class="c1">// 상하좌우</span>
+<span class="kt">int</span> <span class="n">dy</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">N</span><span class="p">;</span>
+
+<span class="c1">// 하나의 위치 좌표</span>
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// 행</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 열</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span> <span class="c1">// 로봇의 중심에서 어느쪽에 있는지 그 방향 ⭐</span>
+<span class="p">};</span>
+
+<span class="c1">// 로봇</span>
+<span class="k">struct</span> <span class="nc">Robot</span> <span class="p">{</span>
+    <span class="n">Pos</span> <span class="n">part1</span><span class="p">;</span> <span class="c1">// 로봇의 일부 1 의 위치와 방향</span>
+    <span class="n">Pos</span> <span class="n">part2</span><span class="p">;</span> <span class="c1">// 로봇의 일부 2 의 위치와 방향</span>
+    <span class="kt">int</span> <span class="n">time</span><span class="p">;</span>  <span class="c1">// 현재까지 걸린 시간</span>
+
+    <span class="c1">// 해시에 필요한 == 연산자 오버로딩</span>
+    <span class="kt">bool</span> <span class="k">operator</span> <span class="o">==</span> <span class="p">(</span><span class="k">const</span> <span class="n">Robot</span><span class="o">&amp;</span> <span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">condition1</span> <span class="o">=</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition2</span> <span class="o">=</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition3</span> <span class="o">=</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition4</span> <span class="o">=</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">condition1</span> <span class="o">&amp;&amp;</span> <span class="n">condition2</span> <span class="o">||</span> <span class="n">condition3</span> <span class="o">&amp;&amp;</span> <span class="n">condition4</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 커스텀 해시 함수</span>
+<span class="k">struct</span> <span class="nc">MyHash</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Robot</span><span class="o">&amp;</span> <span class="n">robot</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="n">hash</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash_func</span><span class="p">;</span> <span class="c1">// C++ 에서 제공하는 기본 자료형 데이터에 대해 사용할 수 있는 해시함수</span>
+        <span class="k">return</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">robot</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">^</span> <span class="n">robot</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">^</span> <span class="n">robot</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">robot</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">);</span> <span class="c1">// XOR과 C++ 제공 해시 함수 짬뽕.. 일단 이런 수준으로 해시 함수를 대충 만들어봤는데 다행히 통과는 하였다..</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 두 part1, part2 위치가 board 에서 벗어난 곳은 아닌지, 벽은 아닌지 검사</span>
+<span class="c1">// 즉 기본적으로 갈 수 있는 곳인지 검사</span>
+<span class="kt">bool</span> <span class="nf">possible</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">,</span> <span class="n">Pos</span> <span class="n">part1</span><span class="p">,</span> <span class="n">Pos</span> <span class="n">part2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 두 위치 다 범위에서 벗어난 곳인지</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span>
+        <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="c1">// 두 위치 다 벽은 아닌지</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// 두 위치 모두 다 범위 내 + 벽이 아니면 true</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Robot</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">Robot</span><span class="p">,</span> <span class="n">MyHash</span><span class="o">&gt;</span> <span class="n">checked</span><span class="p">;</span> <span class="c1">// ⭐방문 체크를 해시테이블로⭐</span>
+
+    <span class="c1">// 로봇의 시작 상태</span>
+    <span class="c1">// 일부1 : (0, 0) 로봇 중심의 왼쪽</span>
+    <span class="c1">// 일부2 : (0, 1) 로봇 중심의 오른쪽</span>
+    <span class="n">Robot</span> <span class="n">start</span><span class="p">{</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">},</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">},</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">start</span><span class="p">);</span> <span class="c1">// ⭐ 방문 체크</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 방문</span>
+        <span class="n">Robot</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// 로봇이 목적지에 도착했다면(로봇의 두 파트 중 하나라도 도착했다면)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="cm">/* 예약 : 이동 */</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Pos</span> <span class="n">next_part_1</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">next_part_2</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">dir</span> <span class="p">};</span>
+            <span class="n">Robot</span> <span class="n">next</span><span class="p">{</span> <span class="n">next_part_1</span><span class="p">,</span> <span class="n">next_part_2</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">next_part_1</span><span class="p">,</span> <span class="n">next_part_2</span><span class="p">))</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next</span><span class="p">)</span> <span class="o">!=</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="c1">// ⭐ 방문한적이 없다면 (즉, 해시테이블에 없다면)</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+            <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next</span><span class="p">);</span> <span class="c1">// ⭐ 방문 체크</span>
+        <span class="p">}</span>
+
+        <span class="cm">/* 예약 : 회전 */</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Pos</span> <span class="n">up_left</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">up_right</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">up_left</span><span class="p">,</span> <span class="n">up_right</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">Robot</span> <span class="n">next1</span><span class="p">{</span> <span class="n">up_left</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next1</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">Robot</span> <span class="n">next2</span><span class="p">{</span> <span class="n">up_right</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next2</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">Pos</span> <span class="n">down_left</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">down_right</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">DOWN</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">down_left</span><span class="p">,</span> <span class="n">down_right</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">Robot</span> <span class="n">next1</span><span class="p">{</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">},</span> <span class="n">down_left</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next1</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">Robot</span> <span class="n">next2</span><span class="p">{</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">UP</span> <span class="p">}</span> <span class="p">,</span> <span class="n">down_right</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next2</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Pos</span> <span class="n">left_up</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">left_down</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">left_up</span><span class="p">,</span> <span class="n">left_down</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">Robot</span> <span class="n">next1</span><span class="p">{</span> <span class="n">left_up</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next1</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">Robot</span> <span class="n">next2</span><span class="p">{</span> <span class="n">left_down</span><span class="p">,</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next2</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">Pos</span> <span class="n">right_up</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">};</span>
+            <span class="n">Pos</span> <span class="n">right_down</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">RIGHT</span> <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">possible</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">right_up</span><span class="p">,</span> <span class="n">right_down</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">Robot</span> <span class="n">next1</span><span class="p">{</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">right_up</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next1</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next1</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">Robot</span> <span class="n">next2</span><span class="p">{</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">LEFT</span> <span class="p">}</span> <span class="p">,</span> <span class="n">right_down</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">checked</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">next2</span><span class="p">)</span> <span class="o">==</span> <span class="n">checked</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                    <span class="n">checked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">next2</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113573512-3d506e80-9655-11eb-8e3b-d72a1a33c6ac.png" alt="image" /></p>
+
+<p>첫 번째 풀이처럼 로봇의 파트1, 파트2를 따로 따로 방문 체크하지 않고 <code class="language-plaintext highlighter-rouge">Robot</code> 구조체를 통째로 <code class="language-plaintext highlighter-rouge">unordered_set</code> 해시 테이블에 넣고 해시값을 통하여 방문 체크를 한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 로봇</span>
+<span class="k">struct</span> <span class="nc">Robot</span> <span class="p">{</span>
+    <span class="n">Pos</span> <span class="n">part1</span><span class="p">;</span> <span class="c1">// 로봇의 일부 1 의 위치와 방향</span>
+    <span class="n">Pos</span> <span class="n">part2</span><span class="p">;</span> <span class="c1">// 로봇의 일부 2 의 위치와 방향</span>
+    <span class="kt">int</span> <span class="n">time</span><span class="p">;</span>  <span class="c1">// 현재까지 걸린 시간</span>
+
+    <span class="c1">// 해시에 필요한 == 연산자 오버로딩</span>
+    <span class="kt">bool</span> <span class="k">operator</span> <span class="o">==</span> <span class="p">(</span><span class="k">const</span> <span class="n">Robot</span><span class="o">&amp;</span> <span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">condition1</span> <span class="o">=</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition2</span> <span class="o">=</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition3</span> <span class="o">=</span> <span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">condition4</span> <span class="o">=</span> <span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">part2</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">condition1</span> <span class="o">&amp;&amp;</span> <span class="n">condition2</span> <span class="o">||</span> <span class="n">condition3</span> <span class="o">&amp;&amp;</span> <span class="n">condition4</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 커스텀 해시 함수</span>
+<span class="k">struct</span> <span class="nc">MyHash</span> <span class="p">{</span>
+    <span class="kt">size_t</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Robot</span><span class="o">&amp;</span> <span class="n">robot</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="n">hash</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash_func</span><span class="p">;</span> <span class="c1">// C++ 에서 제공하는 기본 자료형 데이터에 대해 사용할 수 있는 해시함수</span>
+        <span class="k">return</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">robot</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">^</span> <span class="n">robot</span><span class="p">.</span><span class="n">part1</span><span class="p">.</span><span class="n">x</span> <span class="o">^</span> <span class="n">robot</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">robot</span><span class="p">.</span><span class="n">part2</span><span class="p">.</span><span class="n">x</span><span class="p">);</span> <span class="c1">// XOR과 C++ 제공 해시 함수 짬뽕.. 일단 이런 수준으로 해시 함수를 대충 만들어봤는데 다행히 통과는 하였다..</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>두 위치의 x, y 총 4 개의 파라미터가 전부 일치해야 같은 로봇으로 인식될 수 있도록(동일한 해시값을 도출하도록) 하였다. 이렇게 해시 함수와 <code class="language-plaintext highlighter-rouge">==</code> 연산자 오버로딩을 만들어두고 방문 체크를 하면 된다! 고유한 해시값을 도출할 수 있게끔 해시 함수를 잘 만드는 방법에 대해선 나중에 공부를 한번 해봐야할 것 같다.</p>
+
+<p><a href="https://ansohxxn.github.io/stl/mapsetcustom/">[STL 컨테이너] set, unordered_set (+ map)에 사용자 정의 구조체 혹은 객체 담기</a></p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Programmers</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/programmers/127/" class="pagination--pager" title="[C++로 풀이] 외벽 점검 (완전 탐색, DFS, 비트 연산으로 방문 체크)⭐⭐⭐
+">이전</a>
+    
+    
+      <a href="/programmers/129/" class="pagination--pager" title="[C++로 풀이] 리틀 프렌즈 사천성 (BFS, 다익스트라)⭐⭐⭐
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/programmers/127/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>[C++로 풀이] 외벽 점검 (완전 탐색, DFS, 비트 연산으로 방문 체크)⭐⭐⭐</a>
+    
+    
+      <a href="/programmers/129/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>[C++로 풀이] 리틀 프렌즈 사천성 (BFS, 다익스트라)⭐⭐⭐</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BC%2B%2B%EB%A1%9C+%ED%92%80%EC%9D%B4%5D+%EB%B8%94%EB%A1%9D+%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0+%28BFS%2C+%ED%95%B4%EC%8B%9C+%ED%95%A8%EC%88%98%29%E2%AD%90%E2%AD%90%E2%AD%90%20http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F128%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F128%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F128%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/programmers/128/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/programmers/128"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

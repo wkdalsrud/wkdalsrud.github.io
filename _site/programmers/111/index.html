@@ -1,0 +1,2412 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐ | 기억저장소</title>
+<meta name="description" content="📌 배달 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐">
+<meta property="og:url" content="http://localhost:4000/programmers/111/">
+
+
+  <meta property="og:description" content="📌 배달 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-02-23T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-02-23T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/programmers/111/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#programmers" itemprop="item"><span itemprop="name">Programmers</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐">
+    <meta itemprop="description" content="📌 배달">
+    <meta itemprop="datePublished" content="2021-02-23T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-02-23T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2021-02-23T00:00:00+09:00">2021.02.23</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-02-23">2021.02.23</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#programmers" class="page__taxonomy-item-category" rel="tag">Programmers</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#-배달">📌 배달</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이-">🚀 내 풀이 ⭕</a>
+        <ul>
+          <li><a href="#1️⃣-준비">1️⃣ 준비</a></li>
+          <li><a href="#2️⃣-출발지">2️⃣ 출발지</a></li>
+          <li><a href="#3️⃣-다익스트라--1-방문한다--2-방문한-마을에-연결된-마을들의-최단-경로를-업뎃한다">3️⃣ 다익스트라 : 1) 방문한다  2) 방문한 마을에 연결된 마을들의 최단 경로를 업뎃한다.</a></li>
+          <li><a href="#-방문-체크-해주는-이유-사실-다익스트라는-방문체크-안해도-문제-없다">🔥 방문 체크 해주는 이유 (사실 다익스트라는 방문체크 안해도 문제 없다!)</a>
+            <ul>
+              <li><a href="#그럼에도-불구하고-방문-체크-해주는-이유">그럼에도 불구하고 방문 체크 해주는 이유</a></li>
+            </ul>
+          </li>
+          <li><a href="#4️⃣-최소-배달-시간이-k-이하인-마을들-카운팅">4️⃣ 최소 배달 시간이 K 이하인 마을들 카운팅</a></li>
+          <li><a href="#-예시">🔥 예시</a></li>
+        </ul>
+      </li>
+      <li><a href="#-최단-경로-알고리즘-참고">🚀 최단 경로 알고리즘 참고</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="-배달">📌 배달</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/108692101-8e8e1e00-753f-11eb-94a3-5f2bcce014c6.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/108692157-9c43a380-753f-11eb-8e0b-8dc72d1344fe.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<blockquote>
+  <p>최단 경로 알고리즘 👉 다익스트라 알고리즘 사용함</p>
+</blockquote>
+
+<ul>
+  <li><u>최단 경로</u> 알고리즘
+    <ul>
+      <li><strong>정해놓은 특정 정점 1개에서 출발하여 모든 정점들의 순회하며, 특정 정점에서 해당 정점들까지의 최단 경로를 업데이트한다.</strong> 👉 다익스트라가 적합
+        <ul>
+          <li>출발지는 1 번 마을 고정이며 1 번 마을에서 그 외 마을들까지의 최단 경로(문제에선 시간)를 재고 이 최단 경로가 <code class="language-plaintext highlighter-rouge">K</code> 이하가 되는 마을을 카운팅하면 되는 문제이다.</li>
+          <li>마을(정점V)의 개수는 최대 50개이고, 도로(간선E)의 개수는 최대 2000개이다. 정점 당 모든 도로들을 검사하는 것만 해도 O(VE) = O(100,000) 이 되기 때문에 백트래킹으로 <code class="language-plaintext highlighter-rouge">K</code>이하가 되는 시간을 일일이 구해보다가 되돌아오기를 반복하는 것은 시간 복잡도 상 부담스러운 일이 될 것이라고 생각했다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>처음엔 문제를 대충 스윽 보고 최소 신장 트리 MST 문제인가 생각했었다. 근데 MST 는 무조건 그리디하게 작은 가중치를 가진 간선부터 선택해나가기 때문에 “최단 경로”와는 거리가 좀 있다. 무조건 가중치가 작은 간선을 선택한다고 그 경로가 최단 경로가 되는 것은 아니기 때문이다. 예를 들어 1-2-2 간선을 타는 것은 최소 신장 트리에는 만족하겠지만 사실 최단 경로는 1-3 간선을 타는 것이 될 수도 있기 때문이다.</li>
+  <li><strong>다음에 방문할 후보들이 되는 정점들의 최단 경로는 언제든지 새롭게 업데이트 될 수 잇다.</strong>
+    <ul>
+      <li><u>우선순위 큐</u>를 사용하면 최단 경로를 가진 정점부터 방문할 수 있도록 할 수 있다.
+        <ul>
+          <li>우선순위 큐의 정렬 기준을 정점의 최단 경로를 기준으로 정렬되게끔 설정하면 언제나 최단 경로가 가장 짧은 정점부터 pop 되기 때문이다.</li>
+          <li>그리고 그 당시 상황에서의 최단 경로 값을 새롭게 매번 업데이트 할 때마다 계속 힙정렬이 되기 때문에 우선순위 큐는 언제나 최단 경로가 가장 짧은 정점부터 pop 되는게 보장된다.
+            <ul>
+              <li>여담으로 C++에서 제공하는 <em>priority_queue</em> 는 큐에 들어가있는 원소를 수정할 수 없다. (L-value 로서 그 원소를 참조중이라면 모를까.. R-value로 넣은 원소라면..불가능..!) vector나 배열같이 임의 접근이 불가능하기 때문이다. 그래서 해당 정점로 가는 경로를 더 짧은걸 발견했다면 큐 안에 있는 객체의 최단경로 값을 수정할 수는 없으니 그냥 별개의 정점 객체를 새로 만들어서 그 정점과 데이터(ex. 좌표)는 같지만 최단 경로는 더 짧은 별개의 객체로서 큐에 삽입 한다. 어차피 우선순위 큐 특성상 더 짧은 경로를 가진 정점 객체부터 pop 을 하니, 남아 있는 중복되는, 더 긴 경로를 가진 객체는 이미 방문 했었다고 처리하여 거르면 된다.</li>
+            </ul>
+          </li>
+          <li>어떤 경로가 되느냐에 따라, 현재 어떤 정점을 방문 중이며 이걸 경유하느냐 안하냐에 따라 이제까지 최단 경로라고 생각해왔던게 뒤엎어질 수도 있다. 매번 새롭게 그때 그때 상황에 맞춰 아직 방문되지 않은 정점들의 최단 경로를 업데이트 해나간다.
+            <ul>
+              <li>distance[n] = min(distance[n], distance[m] + E(m, n))  👉 Dynammic Programming 방식이다. <code class="language-plaintext highlighter-rouge">n</code>까지 가는데에 <code class="language-plaintext highlighter-rouge">m</code> 정점을 경유하는게 더 최단경로가 된다면 업데이트 하고(n은 m과 연결되어 있다는 전제 하) 아니면 원래 구해놓은 최단 경로로 냅둠.</li>
+              <li>그래서 <strong>언제나 가장 짧은 경로를 가진 정점부터 방문하기 때문에 이 정점까지의 경로는 늘 “현재 까지에서의 최단 경로”라는 것이 유지된다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Town</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">number</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">shortestTime</span><span class="p">;</span>
+
+    <span class="n">Town</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">Town</span><span class="p">(</span><span class="kt">int</span> <span class="n">_number</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_shortestTime</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">_number</span><span class="p">;</span>
+        <span class="n">shortestTime</span> <span class="o">=</span> <span class="n">_shortestTime</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">cmp</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Town</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Town</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">shortestTime</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">road</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">maxTime</span> <span class="o">=</span> <span class="mi">20000000</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">visited</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">time</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">maxTime</span><span class="p">);</span>
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Town</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Town</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">pq</span><span class="p">;</span>
+
+    <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">Town</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        
+        <span class="n">Town</span> <span class="n">startTown</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">])</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="n">visited</span><span class="p">[</span><span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">road</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            
+            <span class="n">Town</span> <span class="n">nextTown</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">nextTown</span><span class="p">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">nextTown</span><span class="p">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+            <span class="k">else</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">])</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="n">time</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+            <span class="n">nextTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">=</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+            <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">nextTown</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="1️⃣-준비">1️⃣ 준비</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">Town</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">number</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">shortestTime</span><span class="p">;</span>
+
+    <span class="n">Town</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="n">Town</span><span class="p">(</span><span class="kt">int</span> <span class="n">_number</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_shortestTime</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">_number</span><span class="p">;</span>
+        <span class="n">shortestTime</span> <span class="o">=</span> <span class="n">_shortestTime</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">cmp</span> <span class="p">{</span> <span class="c1">// 우선순위큐 정렬 기준 👉 최단경로을 가진 Town 이 Pop 되게끔</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Town</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Town</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">shortestTime</span><span class="p">;</span> <span class="c1">// 오름차순 정렬 (Min Heap)</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">road</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">maxTime</span> <span class="o">=</span> <span class="mi">20000000</span><span class="p">;</span> <span class="c1">// = 2,000 x 10,000(c의 최대값)</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">visited</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> 
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">time</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">maxTime</span><span class="p">);</span>
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Town</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Town</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">pq</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>마을과 마을 사이에 걸리는 “가장 짧은 배달 시간”(최단 경로)를 구할 것이다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">pq</code> 👉 마을 번호(number)와 1번 마을부터 n 번 마을까지의 현재까지 구한 최단 경로(shortestTime)을 묶어서 관리하는 <code class="language-plaintext highlighter-rouge">Town</code> 구조체를 담는다. <strong>우선순위 큐가 가장 먼저 pop 하는 것은 현재까지 구한 최단 경로가 가장! 짧은 Town부터 내뱉도록 항상 정렬하고 이를 유지한다.</strong>
+    <ul>
+      <li>현재까지의 최단 경로가 새롭게 업데이트 될 때마다 힙.정.렬 ! ! ! 된다. 최소값이 늘 루트에 오는 힙 트리를 유지하게끔!</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">visited</code> 👉 방문 여부 우선순위 큐에서 pop 된적이 있는 최종 방문 전적이 있는 정점
+    <ul>
+      <li>다익스트라는 출발 정점으로부터 그외 모든 정점으로까지의 최단 경로를 각각 구하기 때문에 모든 정점을 순회하게 된다.</li>
+      <li>visited[n] 은 n번 마을을 방문한 여부를 의미한다.</li>
+      <li>사실 <code class="language-plaintext highlighter-rouge">visited</code>는 없어도 답을 도출하는데에는 전혀 지장이 없다. 방문체크를 안해주어도 재방문 되는 정점이라면 <em>if (time[nextTown.number] &lt; startTown.shortestTime + road[i][2]) continue;</em> 여기서 걸러지게 되어있기 때문이다.
+        <ul>
+          <li>걸러지는 이유와 그럼에도 불구하고 <code class="language-plaintext highlighter-rouge">visited</code>를 사용한 이유는 아래에 후술하겠다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">time</code> 👉 time[n] 은 1 번 마을로부터 n번 마을 까지의 현재까지 구한 최단 경로가 담긴다. 그러니 더 작은 값을 계속 업데이트 해 나갈 것이기 때문에 처음엔 최대값인 20,000,000 으로 모두 초기화를 해주었다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="2️⃣-출발지">2️⃣ 출발지</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">Town</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>출발지는 1 번 마을 고정이다.</p>
+
+<ul>
+  <li>1 번 마을의 최단 경로(최소 배달 시간)은 0 이다.</li>
+  <li>1 번 마을이 가장 처음 방문 되도록 비어있던 우선순위 큐에 삽입한다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="3️⃣-다익스트라--1-방문한다--2-방문한-마을에-연결된-마을들의-최단-경로를-업뎃한다">3️⃣ 다익스트라 : 1) 방문한다  2) 방문한 마을에 연결된 마을들의 최단 경로를 업뎃한다.</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span> <span class="c1">// 더 이상 큐에서 가져올게 없을 때까지, 즉 모든 정점을 순회할 때까지</span>
+        
+        <span class="n">Town</span> <span class="n">startTown</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="c1">// startTown 은 방문한 마을</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">])</span> <span class="c1">// 이미 방문했던 마을일 수도 있다. 동일한 마을 객체가 큐에 여러개 들어 있을 수 있다. 그 이유는 아래에!</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="n">visited</span><span class="p">[</span><span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">road</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            
+            <span class="n">Town</span> <span class="n">nextTown</span><span class="p">;</span> <span class="c1">// nextTown 은 다음에 방문될 수 있는 마을 (예약할 마을)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">nextTown</span><span class="p">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">nextTown</span><span class="p">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+            <span class="k">else</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">])</span> <span class="c1">// 이미 방문된 마을이라면 스킵</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span> <span class="c1">// 최단 경로 업데이트할 필요 없다면 스킵</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// 최단 경로 업데이트 하고 </span>
+            <span class="n">time</span><span class="p">[</span><span class="n">nextTown</span><span class="p">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+
+            <span class="c1">// 큐에 삽입 (nextTown 의 shortestTime 를 업데이트해야 힙정렬이 다시 진행됨)</span>
+            <span class="n">nextTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">=</span> <span class="n">startTown</span><span class="p">.</span><span class="n">shortestTime</span> <span class="o">+</span> <span class="n">road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+            <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">nextTown</span><span class="p">);</span> <span class="c1">// 이렇게 큐 안에 들어있는 마을 구조체의 shortestTime 값을 수정하는게 아니라</span>
+            <span class="c1">// 아예 새로운 구조체 객체를 만들어서 큐에 새롭게 삽입하기 때문에 큐에는 동일한 마을이지만(number 같지만) 각자 계산한 최단 경로는 모두 다른 객체들이 여러개 들어있을 수 있다. (동일한 마을이지만)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>1️⃣ 방문한다. 큐에서 꺼내오자.
+    <ul>
+      <li><strong>근데 큐에서 꺼내온게 이미 방문한 마을일 가능성도 있다.</strong> 왜냐면 위에서도 언급을 했지만 큐 안에 동일한 마을 객체가 여러개가 있을 수 있기 때문이다. (마을 번호 number는 같지만 최단 경로 shortestTime 은 다른) 해당 마을의 최단 경로를 업데이트할 때 큐 안에 이미 들어있는 마을 구조체 오브젝트의 shortestTime 값을 수정할 수는 없기 때문에 (vector나 배열과 다르게 스택이나 큐는 안에 들어있는 원소에 접근할 수 없다.) 그냥 최단 경로가 업데이트 된 마을이라면 새롭게 구조체를 또 만들어서 큐에 또 넣기로 했기 때문이다.(아래 코드 참고) 그래서 동일한 번호의 마을이지만 최단 경로들은 다 다른 동일한 마을을 나타내는 객체들이 큐에 여러개가 있을 수 있고 (그만큼 최단 경로가 업데이트 되서) 그 중 가장 짧은 경로의 마을이 방문 처리 됐다면 큐 안에 들어있는 더 긴 경로들의 동일한 마을들은 제껴야 한다.
+        <ul>
+          <li>최단 경로 업데이트 된 마을을 또 새롭게 우선순위 큐에 넣는 것도, 큐에서 빼냈는데 이미 방문한 마을일 수도 있는 이유도 다 큐 안에 이미 들어있는 원소에 접근하여 수정할 수 없기 때문이다.
+            <ul>
+              <li>⭐ <u>다익스트라 알고리즘에서 우선순위 큐를 쓰는 이유기도 하다.</u> 만약 그냥 큐를 쓴다면, 현재 큐에 경로들이 각각 다르지만 동일한 마을을 나타내는 객체가 여러개 들어있을 수 있는데 일반 큐를 쓰면 가장 짧은 경로를 가진 마을 객체부터 방문 처리 되는 것이 아닌 그냥 큐에 있은지 가장 오래된 마을 객체부터 방문하는게 되기 때문에 <strong>오답을 낳을 수 있다!!</strong> (더 짧은 경로를 가진 동일한 마을이 큐에 있음에도 이 마을은 이미 방문됐다고 처리되니 제껴질 것이니까) 반면에 우선순위 큐를 사용하면 각자 계산한 최단 경로가 다른 동일한 마을 객체들이 큐에 여러개 있더라도 가장 짧은 최단 경로를 가진 마을이 무조건 먼저 방문되니(큐에서 꺼내지니) 올바른 해가 되며 큐 안에 들어있는 그외 더 긴 경로의 동일한 마을 객체들은 아래 코드로 거르면 되는 것이다.
+                <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">startTown</span><span class="p">.</span><span class="n">number</span><span class="p">])</span> 
+    <span class="k">continue</span><span class="p">;</span>
+</code></pre></div>                </div>
+              </li>
+              <li>만약 우선순위큐 안에 있는 원소를 수정할 수 있도록 C++의 <em>priority_queue</em>가 그렇게 구현이 되어 있다면 큐를 써도 오답을 낳진 않을 것이다.(동일한 마을에 대한 객체를 여러개 삽입할 필요가 없어 딱 하나만 삽입하게 될 수 있기 때문이다. 그 하나만 “수정”을 하면 되니까! 그러니 큐에서 빠져나오는건 최소 경로라는게 보장됨.)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>2️⃣ 이번에 방문한 마을에서 갈 수 있는(연결되어 있는) 마을들의 최단경로 업데이트 하고 다음에 방문될 수 있도록 큐에 넣기
+    <ul>
+      <li>아래의 경우 스킵
+        <ul>
+          <li>이미 방문된 마을이라면 스킵</li>
+          <li>최단 경로 업데이트할 필요 없다면, 즉 이번에 방문한 마을을 경유하는 것보다 기존에 구해놨던 최단경로가 더 짧다면 업데이트할 필요 없으니 스킵 (큐에도 이미 들어가 있음을 알 수 있다.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-방문-체크-해주는-이유-사실-다익스트라는-방문체크-안해도-문제-없다">🔥 방문 체크 해주는 이유 (사실 다익스트라는 방문체크 안해도 문제 없다!)</h3>
+
+<p class="notice--warning"><strong>사실 다익스트라 알고리즘에서 방문체크를 안해주어도 답을 도출하는데 문제가 없다.</strong> <strong><u>이미 최단 경로를 업뎃하는 과정에서 이미 방문한적이 있는 정점은 최단 경로 업뎃되지 못하고 스킵될 것이기 때문이다.</u></strong></p>
+
+<p>더 좋은, 더 최소의 가중치합(최단경로)를 가지는 경로를 발견했다면 최단경로를 새롭게 업데이트 해야 한다. 근데 이미 우선순위큐 안에 들어가있는 정점을 수정할 수는 없다. 큐는 배열처럼 이미 안에 들어있는 원소에 접근할 수 없기 때문이다. 따라서 어차피 가중치합만 다른 동일한 정점이 큐 안에 두개 있더라도 우선순위 큐 특성상 최소의 가중치합을 가진 정점이 먼저 빠져나오기에 동일한 정점 중 나중에 빠져나오는 정점은 업뎃 “당한”, 더 크고 안좋은 경로를 가진 정점일게 분명하다. <u>그러므로 어차피 이미 방문된 정점은 예약과정의 *if (time[nextTown.number] &lt; startTown.shortestTime + road[i][2]) continue;* 코드에서 걸러지게 되어 있다.</u></p>
+
+<p>더 자세한 예시 설명은 <a href="https://ansohxxn.github.io/algorithm%20lesson%202/chapter6/">Chapter 6. A* 길찾기 알고리즘 구현</a> 에 적어두었다.</p>
+
+<h4 id="그럼에도-불구하고-방문-체크-해주는-이유">그럼에도 불구하고 방문 체크 해주는 이유</h4>
+
+<ul>
+  <li>1️⃣ 가독성, 논리성, 역할분담
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">time</code>은 좌표마다 현재까지의 최단 경로를 저장해두는 역할이다. <em>if (time[nextTown.number] &lt; startTown.shortestTime + road[i][2]) continue;</em>로 이미 방문한 정점을 거를 수도 있지만! 그래도 역할을 분담하는게 코드를 이해하는 면에서도 좋을 것이다.</li>
+    </ul>
+  </li>
+  <li>2️⃣ 비용 계산이 복잡하다면 이 복잡한 비용 계산을 피할 수 있게 된다.
+    <ul>
+      <li>방문 체크를 하고 미리 예약 전에 <em>if (visited[startTown.number]) continue;</em> 로 재방문 정점을 걸러준다면, 비용 계산을 피할 수 있다. 이정도 경로 계산은 간단한 편이지만 단순히 길이 계산 뿐만아니라 다른 여러 비용까지 합쳐지는 문제였다면 비용 계산 자체가 더 복잡해질 수도 있다. 예약 전에 이 계산 자체를 피할 수가 있으므로 성능상 더 나을 수도 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="4️⃣-최소-배달-시간이-k-이하인-마을들-카운팅">4️⃣ 최소 배달 시간이 K 이하인 마을들 카운팅</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>다익스트라로 최단 경로 구하는 로직이 모두 긑나고나면 <code class="language-plaintext highlighter-rouge">time</code>엔 최종적으로 1번 마을에서부터 <code class="language-plaintext highlighter-rouge">i</code>번 마을까지의 최단 경로가 담겨있게 된다.</p>
+
+<p><br /></p>
+
+<h3 id="-예시">🔥 예시</h3>
+
+<blockquote>
+  <p>첫 번째 예제를 예로 들자면</p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/108813599-b4292f00-75f4-11eb-8842-aca7ad8453d0.png" alt="image" /></p>
+
+<ul>
+  <li>큐 [1], 현재까지의 최단 시간 [0,INF,INF,INF,INF]</li>
+  <li>1️⃣ 1 방문 (큐에 1번 마을 밖에 없으므로 우선순위큐는 1번 마을을 pop함)
+    <ul>
+      <li>1 과 연결되어 있는 마을 : 2, 4
+        <ul>
+          <li>2 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 2 까지의 기존에 구한 최단 시간 : INF</li>
+              <li>1 -&gt; 2 까지 이번에 구한 시간 : 0 + 1 = 1
+                <ul>
+                  <li>1 &lt; INF ⭕ 2번 마을 큐에 삽입</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>4 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 4 까지의 기존에 구한 최단 시간 : INF</li>
+              <li>1 -&gt; 4 까지 이번에 구한 시간 : 0 + 2 = 2
+                <ul>
+                  <li>0 + 2 &lt; INF ⭕ 4번 마을 큐에 삽입</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상황
+        <ul>
+          <li>큐 [2, 4]</li>
+          <li>방문 여부 [T,F,F,F,F]</li>
+          <li>현재까지의 구한 1번 마을부터 걸리는 최단 시간 [0,1,INF,2,INF]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>2️⃣ 2 방문 (방문 안한 것 중 1번 마을과 가장 가까우므로 우선순위큐는 2번 마을을 pop함)
+    <ul>
+      <li>2 과 연결되어 있는 마을 : 3, 5
+        <ul>
+          <li>3 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 3 까지의 기존에 구한 최단 시간 : INF</li>
+              <li>1 -&gt; 3 까지 이번에 구한 시간(2를 거쳐서 온다면) : 1 + 3 = 4
+                <ul>
+                  <li>4 &lt; INF ⭕ 3번 마을 큐에 삽입</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>5 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 5 까지의 기존에 구한 최단 시간 : INF</li>
+              <li>1 -&gt; 5 까지 이번에 구한 시간(2를 거쳐서 온다면) : 1 + 2 = 3
+                <ul>
+                  <li>3 &lt; INF ⭕ 5번 마을 큐에 삽입</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상황
+        <ul>
+          <li>큐 [4, 3, 5]</li>
+          <li>방문 여부 [T,T,F,F,F]</li>
+          <li>현재까지의 구한 1번 마을부터 걸리는 최단 시간 [0,1,4,2,3]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>3️⃣ 4 방문 (방문 안한 것 중 1번 마을과 가장 가까우므로 우선순위큐는 4번 마을을 pop함)
+    <ul>
+      <li>4 과 연결되어 있는 마을 : 1, 5
+        <ul>
+          <li>1 번 마을 예약 가능 여부
+            <ul>
+              <li>❌ 1 번 마을은 이미 방문 한적 있어서 안됨</li>
+            </ul>
+          </li>
+          <li>5 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 5 까지의 기존에 구한 최단 시간 : 3</li>
+              <li>1 -&gt; 5 까지 이번에 구한 시간(4를 거쳐서 온다면) : 2 + 2 = 4
+                <ul>
+                  <li>3 &lt; 4 ❌ 5번 마을 큐에 삽입하지 않는다. <u>이미 1-&gt;5 번으로 가는 더 짧은 경로를 구한적이 있고 5번 마을도 이미 큐에 있음을 알 수 있다.</u></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상황
+        <ul>
+          <li>큐 [3, 5]</li>
+          <li>방문 여부 [T,T,F,T,F]</li>
+          <li>현재까지의 구한 1번 마을부터 걸리는 최단 시간 [0,1,4,2,3]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>4️⃣ 3 방문 (방문 안한 것 중 1번 마을과 가장 가까우므로 우선순위큐는 3번 마을을 pop함)
+    <ul>
+      <li>3 과 연결되어 있는 마을 : 2, 5
+        <ul>
+          <li>2 번 마을 예약 가능 여부
+            <ul>
+              <li>❌ 2 번 마을은 이미 방문 한적 있어서 안됨</li>
+            </ul>
+          </li>
+          <li>5 번 마을 예약 가능 여부
+            <ul>
+              <li>1 -&gt; 5 까지의 기존에 구한 최단 시간 : 3</li>
+              <li>1 -&gt; 5 까지 이번에 구한 시간(3를 거쳐서 온다면) : 4 + 1 = 5
+                <ul>
+                  <li>3 &lt; 5 ❌ 5번 마을 큐에 삽입하지 않는다. <u>이미 1-&gt;5 번으로 가는 더 짧은 경로를 구한적이 있고 5번 마을도 이미 큐에 있음을 알 수 있다.</u></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상황
+        <ul>
+          <li>큐 [5]</li>
+          <li>방문 여부 [T,T,T,T,F]</li>
+          <li>현재까지의 구한 1번 마을부터 걸리는 최단 시간 [0,1,4,2,3]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>5️⃣ 5 방문 (방문 안한 것 중 1번 마을과 가장 가까우므로 우선순위큐는 5번 마을을 pop함)
+    <ul>
+      <li>5 과 연결되어 있는 마을 : 4, 2, 3
+        <ul>
+          <li>4 번 마을 예약 가능 여부
+            <ul>
+              <li>❌ 4 번 마을은 이미 방문 한적 있어서 안됨</li>
+            </ul>
+          </li>
+          <li>2 번 마을 예약 가능 여부
+            <ul>
+              <li>❌ 2 번 마을은 이미 방문 한적 있어서 안됨</li>
+            </ul>
+          </li>
+          <li>3 번 마을 예약 가능 여부
+            <ul>
+              <li>❌ 3 번 마을은 이미 방문 한적 있어서 안됨</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상황
+        <ul>
+          <li>큐 [] 👉 <strong>큐가 비었으니 종료!!</strong></li>
+          <li>방문 여부 [T,T,T,T,T]</li>
+          <li>현재까지의 구한 1번 마을부터 걸리는 최단 시간 [0,1,4,2,3]</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>정점 순회 순서는 1 👉2 👉 4 👉 3 👉 5 가 되었다.</p>
+
+<p><br /></p>
+
+<h2 id="-최단-경로-알고리즘-참고">🚀 최단 경로 알고리즘 참고</h2>
+
+<ul>
+  <li>가중치 없는 그래프에서의 최단 경로 구하기
+    <ul>
+      <li><a href="https://ansohxxn.github.io/algorithm%20lesson%202/chapter4-4/">BFS</a>
+        <ul>
+          <li>👉 하나의 특정 정점에서 그외 모든 정점들까지의 최단 경로 (모든 정점 순회)</li>
+          <li>일반 큐 사용 (방문 안한 것 중 가장 오래된 정점부터 방문)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>가중치 있는 그래프에서의 최단 경로 구하기
+    <ul>
+      <li><a href="https://ansohxxn.github.io/algorithm%20lesson%202/chapter4-5/">다익스트라</a>
+        <ul>
+          <li>👉 하나의 특정 정점에서 그외 모든 정점들까지의 최단 경로 (모든 정점 순회)</li>
+          <li>우선순위 큐 사용 (방문 안한 것 중 가장 최단 경로를 가진 정점부터 방문)</li>
+        </ul>
+      </li>
+      <li><a href="https://ansohxxn.github.io/algorithm/floyd/">플로이드 와샬</a>
+        <ul>
+          <li>👉 모든 정점에서 그외 모든 정점들까지의 최단 경로 (정점들간의 쌍에 대한 최단 경로를 한번에 구함)</li>
+          <li>3중 for문으로 한번에 구함</li>
+        </ul>
+      </li>
+      <li><a href="https://ansohxxn.github.io/algorithm%20lesson%202/chapter6/">A* 길찾기</a>
+        <ul>
+          <li>👉 하나의 특정 정점에서 하나의 특정 정점까지의 최단 경로 (모든 정점을 순회하지 않음)</li>
+          <li>우선순위 큐 사용 (가중치)</li>
+          <li>다익스트라와 거의 똑같다. (다익스트라 응용 버전이랄까..) 목적지를 정해둔다는 것과, 다음 방문 정점을 선택할 때 지금까지 업뎃한 최단거리 뿐만 아니라 목적지까지 더 가까운 정점인지 또한 고려한다는 점 정도만 다르다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Programmers</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/algorithm/bst/" class="pagination--pager" title="(C++) 이진 탐색 트리 (장단점, 삽입, 삭제, 탐색, 순회)
+">이전</a>
+    
+    
+      <a href="/programmers/112/" class="pagination--pager" title="[C++로 풀이] 기지국 설치⭐⭐⭐
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/programmers/110/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>[C++로 풀이] 풍선 터트리기⭐⭐⭐</a>
+    
+    
+      <a href="/programmers/112/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>[C++로 풀이] 기지국 설치⭐⭐⭐</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BC%2B%2B%EB%A1%9C+%ED%92%80%EC%9D%B4%5D+%EB%B0%B0%EB%8B%AC+%28%EC%B5%9C%EB%8B%A8+%EA%B2%BD%EB%A1%9C%2C+%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%2C+%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84+%ED%81%90%EB%A5%BC+%EC%8D%A8%EC%95%BC%ED%95%98%EB%8A%94+%EC%9D%B4%EC%9C%A0%29%E2%AD%90%E2%AD%90%E2%AD%90%20http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F111%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F111%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F111%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/programmers/111/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/programmers/111"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

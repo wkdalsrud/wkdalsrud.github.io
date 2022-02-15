@@ -1,0 +1,2619 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Chater 2. 연결리스트를 사용해 영화 평점 관리 프로그램 만들기 | 기억저장소</title>
+<meta name="description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="Chater 2. 연결리스트를 사용해 영화 평점 관리 프로그램 만들기">
+<meta property="og:url" content="http://localhost:4000/datastructure2/ch2/">
+
+
+  <meta property="og:description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-12-24T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-12-24T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/datastructure2/ch2/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#datastructure2" itemprop="item"><span itemprop="name">Datastructure2</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Chater 2. 연결리스트를 사용해 영화 평점 관리 프로그램 만들기</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Chater 2. 연결리스트를 사용해 영화 평점 관리 프로그램 만들기">
+    <meta itemprop="description" content="홍정모 교수님의 강의 홍정모의 따라하며 배우는 C언어(부록) 를 듣고 정리한 필기입니다. 😀">
+    <meta itemprop="datePublished" content="2020-12-24T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-12-24T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Chater 2. 연결리스트를 사용해 영화 평점 관리 프로그램 만들기
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2020-12-24T00:00:00+09:00">2020.12.24</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-12-24">2020.12.24</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#datastructure2" class="page__taxonomy-item-category" rel="tag">DataStructure2</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#c" class="page__taxonomy-item-tag" rel="tag">C</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#data-structure" class="page__taxonomy-item-tag" rel="tag">Data Structure</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#chapter-2-연결리스트">Chapter 2. 연결리스트</a>
+    <ul>
+      <li><a href="#-배열과의-차이">🚀 배열과의 차이</a>
+        <ul>
+          <li><a href="#-배열">✈ 배열</a></li>
+          <li><a href="#-연결리스트">✈ 연결리스트</a></li>
+        </ul>
+      </li>
+      <li><a href="#-연결리스트-구현하기">🚀 연결리스트 구현하기</a>
+        <ul>
+          <li><a href="#-노드">✈ 노드</a></li>
+          <li><a href="#-노드-출력">✈ 노드 출력</a></li>
+          <li><a href="#-첫-번째-노드-추가">✈ 첫 번째 노드 추가</a></li>
+          <li><a href="#-두-번째-노드-추가--맨-앞에-추가">✈ 두 번째 노드 추가 : 맨 앞에 추가</a></li>
+          <li><a href="#-세-번째-노드-추가--맨-뒤에-추가">✈ 세 번째 노드 추가 : 맨 뒤에 추가</a></li>
+          <li><a href="#-삭제">✈ 삭제</a></li>
+        </ul>
+      </li>
+      <li><a href="#-연결리스트로-구현한-영화-평점-관리-프로그램">🚀 연결리스트로 구현한 영화 평점 관리 프로그램</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p class="notice--warning">홍정모 교수님의 강의 <strong>홍정모의 따라하며 배우는 C언어(부록)</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<h1 id="chapter-2-연결리스트">Chapter 2. 연결리스트</h1>
+
+<h2 id="-배열과의-차이">🚀 배열과의 차이</h2>
+
+<h3 id="-배열">✈ 배열</h3>
+
+<ul>
+  <li>장점 👉 <strong>원소들이 연속적으로 저장</strong>되어 있기 때문에 <code class="language-plaintext highlighter-rouge">[]</code> 인덱스로 임의 접근이 가능함. O(1)</li>
+  <li>단점 👉 추가, 삭제시 효율이 낮다.
+    <ul>
+      <li>추가할 때 추가할 자리 뒤에 있는 원소들은 전부 뒤로 한 칸씩 땡겼어야 함. 삭제할 때는 전부 앞 칸씩 땡기기.</li>
+      <li>정적 배열은 사이즈가 고정적이고 동적 배열은 resize 가 좀 부담스러운 연산일 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-연결리스트">✈ 연결리스트</h3>
+
+<blockquote>
+  <p>순회 및 접근이 빈번할 경우 배열을, 추가 삭제가 빈번할 경우 연결리스트 사용.</p>
+</blockquote>
+
+<ul>
+  <li>배열과 달리 데이터들이 연속해서 같이 있지 않는다.
+    <ul>
+      <li>방향 포인터를 가지고 이를 통해 다음 데이터의 메모리 주소를 가리키게 된다.</li>
+      <li>원소들이 메모리에 따로 따로 분포되어 있고 체인으로 데이터 하나하나가 연결되어 있는 식!</li>
+      <li>배열처럼 바로 임의접근 할 수가 없다. 순차 접근만 가능함.
+        <ul>
+          <li>순차적으로 <code class="language-plaintext highlighter-rouge">HEAD</code>가 가리키는 첫 번째 원소부터 시작하여 각 데이터들이 가지고 있는 포인터를 따라서 직접 순차적으로 해당 원소를 찾아가야 한다. 최악의 경우 O(n)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>배열처럼 통째로 메모리를 다 받아오지 않고, 원소 하나하나를 따로 메모리 할당 받는다.
+    <ul>
+      <li>배열처럼 미리 할당 받아놓는 예비 메모리, 아직 쓸모 없는 메모리를 비효율적으로 미리 가지고 있을 필요가 없게 된다.</li>
+    </ul>
+  </li>
+  <li>접근은 순차접근이라 느릴 수 있지만 추가, 삭제는 빠르다.
+    <ul>
+      <li>A B 사이에 C 를 추가하고자 한다면 A 의 다음 원소를 C 로 하고 C 의 다음 원소를 B 라고 명명만 해주면 땡이기 때문이다. 배열처럼 뒤에 있는 원소들 전부 다 한칸씩 떙기고 밀고 할 필요가 없음!</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/102980778-6851ff00-454b-11eb-8011-f0fb2fa4f8b0.png" alt="image" /></p>
+
+<ul>
+  <li>동적인 노드 개수! 👉 그때 그때 노드(데이터)를 생성함.</li>
+  <li>사실 연결리스트에서 추가적으로 필요한 포인터 메모리는 배열의 남는 메모리에 비하면 아무 것도 아니다..☆</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-연결리스트-구현하기">🚀 연결리스트 구현하기</h2>
+
+<h3 id="-노드">✈ 노드</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TSIZE 45  
+</span>
+<span class="k">struct</span> <span class="nc">movie</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+	<span class="kt">float</span> <span class="n">rating</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">moive</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span> <span class="c1">// 연결리스트의 다음 포인터</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">p_movie</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>영화 노드
+    <ul>
+      <li>제목</li>
+      <li>점수</li>
+      <li><strong>다음 영화를 가리키는 포인터</strong></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">strcut movie*</code>은 <code class="language-plaintext highlighter-rouge">p_movie</code>라고 명명</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-노드-출력">✈ 노드 출력</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"===========================================</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Head adress = %zd</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">head</span><span class="p">);</span>
+	
+	<span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%zd </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s"> %.1f %zd</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">search</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>연결 리스트의 모든 노드들을 출력하는 함수
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">head</code>부터 시작하여 다음 포인터, 다음 포인터 이렇게 순차적으로 모든 노드들에 차례 대로 접근한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-첫-번째-노드-추가">✈ 첫 번째 노드 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">p_movie</span> <span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+
+	<span class="cm">/* First Node */</span>
+	<span class="n">p_movie</span> <span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Avatar"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">9.5</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">// 유일한 노드이므로 마지막 노드라 다음 노드는 없다.</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">head</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228696
+15228696 "Avatar" 9.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>빈 리스트에 첫 번째 노드를 추가하는 것이므로 <code class="language-plaintext highlighter-rouge">head</code>에 첫 번째 노드의 주소를 저장하면 땡이다!</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-두-번째-노드-추가--맨-앞에-추가">✈ 두 번째 노드 추가 : 맨 앞에 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Second Node */</span>
+	<span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Aladdin"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">8.0</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="cm">/* Add front */</span>
+	<span class="n">p_movie</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="n">head</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15228696
+15228696 "Avatar" 9.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>맨 앞에 추가하기
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">head</code>가 가리키던 추가하기 전의 맨 앞 노드를 추가하려는 노드의 다음 노드로 지정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-세-번째-노드-추가--맨-뒤에-추가">✈ 세 번째 노드 추가 : 맨 뒤에 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Third Node */</span>
+	<span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Wonder Woman"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">8.5</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="cm">/* Add back */</span>
+	<span class="c1">// 1. find last node</span>
+	<span class="n">p_movie</span> <span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="c1">// 2. link</span>
+	<span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15228696
+15228696 "Avatar" 9.5 15262064
+15262064 "Wonder Woman" 8.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>맨 뒤에 추가하기
+    <ul>
+      <li>마지막 노드를 찾는다. 👉 <code class="language-plaintext highlighter-rouge">head</code> 처음부터 순차적으로 찾아야 한다. 다음 노드가 NULL 인 노드가 바로 마지막 노드다.</li>
+      <li>원래의 마지막 노드의 다음 노드에 연결해주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-삭제">✈ 삭제</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Find and delete an item */</span>
+	<span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="c1">// 삭제할 노드 찾기</span>
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Avatar"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">search</span><span class="p">;</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">search</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="c1">// 삭제하기</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">head</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">search</span><span class="p">);</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15262064
+15262064 "Wonder Woman" 8.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>삭제할 노드를 검색한다. 그 노드의 주소를 <code class="language-plaintext highlighter-rouge">search</code>에 담고 그 노드의 <strong>이전 노드</strong>도 <code class="language-plaintext highlighter-rouge">prev</code>에 담는다.</li>
+  <li>이전 노드와 삭제할 노드의 다음 노드를 연결한다. 그리고 삭제할 노드는 해제 시킴!</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-연결리스트로-구현한-영화-평점-관리-프로그램">🚀 연결리스트로 구현한 영화 평점 관리 프로그램</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;conio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define TSIZE 45  
+</span>
+<span class="k">struct</span> <span class="nc">movie</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+	<span class="kt">float</span> <span class="n">rating</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">p_movie</span><span class="p">;</span>
+
+<span class="c1">// p_movie* p_head -&gt; 이중 포인터 : head 값이 바껴야 하므로 Call by Reference</span>
+<span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">input_menu</span><span class="p">();</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">count_items</span><span class="p">(</span><span class="k">const</span> <span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">print_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">edit_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">add_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span> <span class="c1">// ☆☆ 이중 포인터</span>
+<span class="kt">void</span> <span class="nf">insert_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span> <span class="c1">// ☆☆ 이중 포인터</span>
+<span class="kt">void</span> <span class="nf">delete_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">delete_all_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">search_by_name</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">p_movie</span> <span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">read_file</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+		<span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">input_menu</span><span class="p">();</span>
+
+		<span class="k">switch</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+		<span class="p">{</span>
+		<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+			<span class="n">print_an_item</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
+			<span class="n">edit_an_item</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">4</span><span class="p">:</span>
+			<span class="n">add_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">5</span><span class="p">:</span>
+			<span class="n">insert_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">6</span><span class="p">:</span>
+			<span class="n">delete_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">7</span><span class="p">:</span>
+			<span class="n">delete_all_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">8</span><span class="p">:</span>
+			<span class="n">write_file</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">9</span><span class="p">:</span>
+			<span class="n">search_by_name</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">10</span><span class="p">:</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Good bye</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">delete_all_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+		<span class="nl">default:</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%d is not implenmented. </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> 
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">filename</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input filename to read and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input. Terminating.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">FILE</span><span class="o">*</span> <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Cannot open file. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%d%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Wrong file format. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">num</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+		
+		<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="o">||</span>
+			<span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Wrong file format. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+			<span class="n">prev</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">new</span> <span class="n">movie</span><span class="p">;</span>
+			<span class="n">prev</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items have been read from the file.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">int</span> <span class="nf">input_int</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">input</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">input</span><span class="p">;</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Please input an integer and press enter. Try again.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">getchar</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">input_menu</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Please select an option and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"1. Print all items			2. Print an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"3. Edit an items			4. Add an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"5. Insert an items			6. Delete an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"7. Delete all items			8. Save file</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"9. Search by name			10. Quit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+		<span class="kt">int</span> <span class="n">input</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">input</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">input</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="k">return</span> <span class="n">input</span><span class="p">;</span>
+		<span class="k">else</span> <span class="n">printf</span><span class="p">(</span><span class="s">"%d is invlid. Please try again.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">input</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">count_items</span><span class="p">(</span><span class="k">const</span> <span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to print.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Invalid item.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">edit_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to edit.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Input new title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Input new rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Invalid item.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">add_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> <span class="c1">// 맨 뒤에 추가ㅣ</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	
+	<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+			<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">insert_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> <span class="c1">// 중간에 추가</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to insert.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">delete_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to delete.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">pnode</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">delete_all_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">p_head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Nothing to delelte.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">search</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">temp</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%s is deleted.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">free</span><span class="p">(</span><span class="n">search</span><span class="p">);</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items deleted.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">filename</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input filename to read and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input. Terminating.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">FILE</span><span class="o">*</span> <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">"w"</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Cannot open file. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">count_items</span><span class="p">(</span><span class="n">head</span><span class="p">));</span>
+	
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+	<span class="n">assert</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">count_items</span><span class="p">(</span><span class="n">head</span><span class="p">));</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items have been saved to the file.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">search_by_name</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input title to search and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"No movie found : %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">title</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">DataStructure2</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/datastructure2/ch1/" class="pagination--pager" title="Chater 1. 배열을 사용해 영화 평점 관리 프로그램 만들기
+">이전</a>
+    
+    
+      <a href="/programmers/46/" class="pagination--pager" title="[C++로 풀이] 문자열 내 마음대로 정렬하기⭐
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/datastructure2/ch1/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>Chater 1. 배열을 사용해 영화 평점 관리 프로그램 만들기</a>
+    
+    
+      <a href="/datastructure2/ch3-1/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>Chater 3-1. 추상 자료형, 캡슐화, 추상화</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Chater+2.+%EC%97%B0%EA%B2%B0%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%A5%BC+%EC%82%AC%EC%9A%A9%ED%95%B4+%EC%98%81%ED%99%94+%ED%8F%89%EC%A0%90+%EA%B4%80%EB%A6%AC+%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8+%EB%A7%8C%EB%93%A4%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdatastructure2%2Fch2%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/datastructure2/ch2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/datastructure2/ch2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

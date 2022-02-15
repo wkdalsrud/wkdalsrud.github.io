@@ -1,0 +1,2185 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[C++로 풀이] 호텔 방 배정 (Union-Find) ⭐⭐⭐⭐ | 기억저장소</title>
+<meta name="description" content="📌 호텔 방 배정 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="[C++로 풀이] 호텔 방 배정 (Union-Find) ⭐⭐⭐⭐">
+<meta property="og:url" content="http://localhost:4000/programmers/138/">
+
+
+  <meta property="og:description" content="📌 호텔 방 배정 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-04-24T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-04-24T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/programmers/138/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#programmers" itemprop="item"><span itemprop="name">Programmers</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[C++로 풀이] 호텔 방 배정 (Union-Find) ⭐⭐⭐⭐</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[C++로 풀이] 호텔 방 배정 (Union-Find) ⭐⭐⭐⭐">
+    <meta itemprop="description" content="📌 호텔 방 배정">
+    <meta itemprop="datePublished" content="2021-04-24T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-04-24T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[C++로 풀이] 호텔 방 배정 (Union-Find) ⭐⭐⭐⭐
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2021-04-24T00:00:00+09:00">2021.04.24</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-04-24">2021.04.24</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#programmers" class="page__taxonomy-item-category" rel="tag">Programmers</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#-호텔-방-배정">📌 호텔 방 배정</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이">🚀 내 풀이</a>
+        <ul>
+          <li><a href="#-이분-탐색-풀이-">🔥 이분 탐색 풀이 ❌</a>
+            <ul>
+              <li><a href="#이-코드의-문제점">이 코드의 문제점</a></li>
+            </ul>
+          </li>
+          <li><a href="#-union-find-풀이-">🔥 Union-Find 풀이 ⭕</a>
+            <ul>
+              <li><a href="#2-차-풀이-">2 차 풀이 ⭕</a></li>
+              <li><a href="#3-차-풀이-">3 차 풀이 ⭕</a></li>
+              <li><a href="#해시맵을-쓰지-않고-배열을-쓰면-메모리-초과-발생-">해시맵을 쓰지 않고 배열을 쓰면 “메모리 초과” 발생 😱</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="-호텔-방-배정">📌 호텔 방 배정</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115959881-69bb2480-a549-11eb-8f40-f57ca0bd73bb.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115959887-7475b980-a549-11eb-890d-06be9aab33d0.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<p><code class="language-plaintext highlighter-rouge">k</code> 가 매우 크다. 그러므로 방 하나하나를 선형으로 순회하는 \(O(k)\) 만으로도 시간 초과가 될 것이다.</p>
+
+<h3 id="-이분-탐색-풀이-">🔥 이분 탐색 풀이 ❌</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">k</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room_number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">checked</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">num</span> <span class="o">:</span> <span class="n">room_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">mid</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">room</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mid</span> <span class="o">&lt;</span> <span class="n">num</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// mid 는 답이 될 수 없음</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">checked</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">room</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span> <span class="c1">// mid 는 답이 될 수 있는 가능성이 있음</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">checked</span><span class="p">[</span><span class="n">room</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">room</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>일단 방의 개수인 <code class="language-plaintext highlighter-rouge">k</code>의 최대값이 굉장히 크기 때문에 처음엔 이분 탐색을 생각했었다. 게다가 방을 찾았다가 빈 방이 아니면 빈방이 아닌 다음 방을 선택하기 때문에 직관적으로 <code class="language-plaintext highlighter-rouge">lower_bound</code> 를 생각했었다.</p>
+
+<p>1 ~ k 개(이 자체만으로 정렬된 상태)의 방에서 이분 탐색으로 답을 찾아나가는데, 문제에서 원하는 방 혹은 원하는 방보다 큰 번호의 방을 배정받는다고 하였으니 <code class="language-plaintext highlighter-rouge">mid</code>가 손님이 원하는 방인 <code class="language-plaintext highlighter-rouge">num</code> 보다 작은 값이라면 절대 답이 될 수 없다. 반대로 <code class="language-plaintext highlighter-rouge">mid</code> 가 손님이 원하는 방인 <code class="language-plaintext highlighter-rouge">num</code>과 같거나 혹은 크다면 답의 후보가 될 수 있으므로 현재의 <code class="language-plaintext highlighter-rouge">mid</code> 가 빈 방이 아니라면 <code class="language-plaintext highlighter-rouge">room</code> 에 저장해두는 식으로 했다. 그리고 while 문이 끝나면 가장 최근에 없뎃된 <code class="language-plaintext highlighter-rouge">room</code> 에 배정하는 식으로 코드를 짰다.</p>
+
+<h4 id="이-코드의-문제점">이 코드의 문제점</h4>
+
+<p>10 개의 방에서 1,2,3,4,5 방이 이미 배정되었다고 가정해보자. 이런 상황에서 1 번방에 묵고 싶다는 손님이 있다면 6 번 방에 배정을 받는게 옳을 것이다. 그러나 위 풀이로는 6번이라는 답을 도출하지 못한다. 이분 탐색을 한다는 것은, 절반의 범위에서 답을 찾겠다는 것이다. 한번 범위가 절반으로 좁혀지만 그 이외에 소위 “잘린 범위”의 값들은 답이 될 수 없으며 그 범위를 다시 답이 될 수 있는 후보로 삼을 방법도 없다. 손님이 원하는 방은 1 번이기에 범위는 1 ~ 10 에서(mid = 5) 1 ~ 5 (mid = 3) 이 될 것이다. 답은 6 인데도 이렇게 절반의 범위가 좁혀지며 6 은 답의 범위에서 제외되버린다. 1 ~ 5 번방이 모두 차있다는 것을 알고난 후엔 이미 늦었다. 그래서 이분 탐색으로는 이 문제를 풀 수 없다고 결론 짓게 되었다. ㅠ ㅠ</p>
+
+<p><u>손님이 원하는 방이 비어있지 않다면 어느 방을 배정해야할지를 그 정보를 늘 가지고 있어야 하며 효율적으로 업데이트가 되는 방법을 택해야 한다.</u>  즉, 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6 이런 식으로 빈 방인 6번 방을 찾는 것이 아니라, 1~5번 방은 비어있지 않으니 6번방으로 가라는 정보를 가지고 있어야 한다. 그래야 손님이 1~5번 방으로 가고 싶어하면 \(O(k)\) 순회를 할 필요 없이 바로 6 번방으로 가면 되겠구나 하고 알 수 있도록! 효율적이라는 것은 \(O(k)\)가 되지 않으면서, a 방이 배정이 되었을 때 다음엔 a 방으로 가도록 value 가 정해져있던 방(key)들의 정보를 업데이트 한다는 면에서.</p>
+
+<p><br /></p>
+
+<h3 id="-union-find-풀이-">🔥 Union-Find 풀이 ⭕</h3>
+
+<blockquote>
+  <p>Union-Find 알고리즘에 대해서는 <a href="https://ansohxxn.github.io/algorithm/unionfind/">(C++) Union-Find 알고리즘</a> 포스팅 한적이 있다. 참고 :)</p>
+</blockquote>
+
+<ul>
+  <li>해시맵으로 배정되야 할 방을 관리한다.
+    <ul>
+      <li>Key : 방 번호</li>
+      <li>Value : 해당 방(key)로 배정받고자 할 때 실제로 배정해야할 <u>다음 빈 방</u>
+        <ul>
+          <li>예를 들어 1,2,3,4,5 방이 꽉 차있다면 <code class="language-plaintext highlighter-rouge">map[1]</code> 의 value 는 6 이 되어야 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Union-Find</strong> 알고리즘에 사용되는 <u>getParent</u> 함수를 사용하여 해시맵을 타고 타고 가서 <u>다음으로 가능한 빈방을 찾아내 리턴 받는다.
+</u>    <ul>
+      <li>value
+        <ul>
+          <li>0 이면 빈방</li>
+          <li>0 이 아니면 해당 key (방)은 배정 되었으니 이 방으로 가서 배정받으세요~ 라는 의미</li>
+        </ul>
+      </li>
+      <li><em>재귀 호출</em> 👉 빈 방을 찾는다.
+        <ul>
+          <li>데이터 상황에서 각자 방마다 “이 방은 배정 되었으니 value 방으로 가세요” 하는 방으로 타고 타고 간다. 타고 타고 갈 수 있다는 것은 현재 그 전의 방들은 빈방이 아닌 곳을 가라고 가리키는 것이나 마찬가지이므로 정보 업데이트가 필요하다.</li>
+          <li>그렇게 타고 타고 가다가 빈 방을 드디어 찾아내면 재귀호출 종료 후 해당 빈방 리턴값을 가지고 Back 시작</li>
+        </ul>
+      </li>
+      <li><em>재귀 호출에서 돌아오는 과정에서</em> 👉 지나온 잘못된 정보들을 알려준 방들에게 찾아낸 빈방 리턴값으로 대입을 해주어 정정해준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="2-차-풀이-">2 차 풀이 ⭕</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room</span><span class="p">;</span> <span class="c1">// key : 방 번호  value : 0 이면 빈방, a 이면 이 방은 빈방이 아니며 a 번 방으로 가라는 의미(업뎃 전 정보인 상태일 수 있음)</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="nf">GetEmptyRoom</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span> <span class="c1">// 빈 방을 찾았다면 n 을 리턴한다. </span>
+    <span class="k">return</span> <span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span> <span class="c1">// 재귀호출을 끝내고 돌아오는 과정에서 타고 올라오기 전의 방들에게도 n 으로 업데이트 해준다.</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">k</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room_number</span><span class="p">){</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">num</span> <span class="o">:</span> <span class="n">room_number</span><span class="p">){</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">emptyRoom</span>  <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">num</span><span class="p">);</span> <span class="c1">// 손님은 num 방 가고 싶어할 때 손님이 갈 수 있는 빈 방</span>
+        <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">emptyRoom</span><span class="p">);</span>
+        <span class="n">room</span><span class="p">[</span><span class="n">emptyRoom</span><span class="p">]</span> <span class="o">=</span> <span class="n">emptyRoom</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 해당 방은 배정 되었으므로 다음 방으로 일단 지정해놓는다. (틀린 정보라도 나중에 GetEmptyRoom 함수 재귀호출에서 돌아오는 과정에서 정정 된다.)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>코드 참고 <a href="https://regularmember.tistory.com/193">https://regularmember.tistory.com/193</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115987384-ca04a180-a5ef-11eb-9a4b-2feea6801bbc.png" alt="image" /></p>
+
+<blockquote>
+  <p>room_number : {1, 3, 4, 1, 3, 1}</p>
+</blockquote>
+
+<ul>
+  <li>1 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 0, 0, 0, 0, 0, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[1] = 0 👉 1 번이 빈 방이므로 1 번으로 배정 <code class="language-plaintext highlighter-rouge">return 1</code></li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[1] = 2</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>3 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 2, 0, 0, 0, 0, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[3] = 0 👉 3 번이 빈 방이므로 3 번으로 배정 <code class="language-plaintext highlighter-rouge">return 3</code></li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[3] = 4</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>4 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 2, 0, 4, 0, 0, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[4] = 0 👉 4 번이 빈 방이므로 4 번으로 배정 <code class="language-plaintext highlighter-rouge">return 4</code></li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[4] = 5</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 2, 0, 4, 5, 0, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[1] = 2 👉 1 번 방은 빈 방이 아님. 2 번방으로 가라고 했으니 2 번방으로 가본다.
+            <ul>
+              <li>room[2] = 0 👉 2 번이 빈 방이므로 2 번으로 배정 <code class="language-plaintext highlighter-rouge">return 2</code></li>
+            </ul>
+          </li>
+          <li>room[1] = 2 (돌아오면서 정정)</li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[2] = 3</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>3 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 2, 3, 4, 5, 0, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[3] = 4 👉 3 번 방은 빈 방이 아님. 4 번방으로 가라고 했으니 4 번방으로 가본다.
+            <ul>
+              <li>room[4] = 5 👉 4 번 방은 빈 방이 아님. 5 번방으로 가라고 했으니 5 번방으로 가본다.
+                <ul>
+                  <li>room[5] = 0 👉 5 번이 빈 방이므로 5 번으로 배정 <code class="language-plaintext highlighter-rouge">return 5</code></li>
+                </ul>
+              </li>
+              <li>room[4] = 5 (돌아오면서 정정)</li>
+            </ul>
+          </li>
+          <li>room[3] = 5 (돌아오면서 정정)</li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[3] = 6</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1 번 방을 배정 받고 싶어하는 손님 + 현재 호텔 방 상황 { 2, 3, 5, 5, 6, 0 }
+    <ul>
+      <li>빈 방 찾기
+        <ul>
+          <li>room[1] = 2 👉 1 번 방은 빈 방이 아님. 2 번방으로 가라고 했으니 2 번방으로 가본다.
+            <ul>
+              <li>room[2] = 3 👉 2 번 방은 빈 방이 아님. 3 번방으로 가라고 했으니 3 번방으로 가본다.
+                <ul>
+                  <li>room[3] = 5 👉 3 번 방은 빈 방이 아님. 5 번방으로 가라고 했으니 5 번방으로 가본다.
+                    <ul>
+                      <li>room[5] = 6 👉 5 번 방은 빈 방이 아님. 6 번방으로 가라고 했으니 6 번방으로 가본다.
+                        <ul>
+                          <li>room[6] = 0 👉 6 번이 빈 방이므로 6 번으로 배정 <code class="language-plaintext highlighter-rouge">return 6</code></li>
+                        </ul>
+                      </li>
+                      <li>room[5] = 6 (돌아오면서 정정)</li>
+                    </ul>
+                  </li>
+                  <li>room[3] = 6 (돌아오면서 정정)</li>
+                </ul>
+              </li>
+              <li>room[2] = 6 (돌아오면서 정정)</li>
+            </ul>
+          </li>
+          <li>room[1] = 6 (돌아오면서 정정)</li>
+        </ul>
+      </li>
+      <li>빈 방에 배정한 후 해당 방은 이제 더 이상 배정 받을 수 없으므로 다음 방을 value 로 한다.
+        <ul>
+          <li>room[6] = 7</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>종료 후 호텔 방 상황 { 6, 6, 6, 5, 6, 7 }</li>
+</ul>
+
+<p>value 가 같다는 것 key 들은 <u>같은 루트 노드를 가진 집합에 속한다고 볼 수 있다.</u></p>
+
+<p><br /></p>
+
+<h4 id="3-차-풀이-">3 차 풀이 ⭕</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room</span><span class="p">;</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="nf">GetEmptyRoom</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">k</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room_number</span><span class="p">){</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">num</span> <span class="o">:</span> <span class="n">room_number</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span> <span class="c1">// 빈 방이라면 </span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+            <span class="n">room</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// num + 1 이 빈방이라면 num + 1 아니라면 num + 1 보다 큰 것 중에 가장 작은 빈 방 찾아옴</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span> <span class="c1">// 빈 방이 아니라면 </span>
+            <span class="kt">long</span> <span class="kt">long</span> <span class="n">next_num</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">next_num</span><span class="p">);</span>
+            <span class="n">room</span><span class="p">[</span><span class="n">next_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">next_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// num + 1 이 빈방이라면 num + 1 아니라면 num + 1 보다 큰 것 중에 가장 작은 빈 방 찾아옴</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115959955-c7e80780-a549-11eb-982c-687333560eac.png" alt="image" /></p>
+
+<blockquote>
+  <p>코드 참고 <a href="https://yabmoons.tistory.com/486">https://yabmoons.tistory.com/486</a></p>
+</blockquote>
+
+<p>위와 같이 풀 수도 있다. 위 풀이는 빈 방일 때, 빈 방이 아닐 때로 케이스를 나누고(빈 방이면 바로 배정한다.) <code class="language-plaintext highlighter-rouge">room[num]</code> Value 를 정하는 과정에서도 현재 시점에서 정확한 정보로 대입을 한다. 이 과정에서도 <em>GetEmptyRoom</em> 호출하여서!</p>
+
+<p><br /></p>
+
+<h4 id="해시맵을-쓰지-않고-배열을-쓰면-메모리-초과-발생-">해시맵을 쓰지 않고 배열을 쓰면 “메모리 초과” 발생 😱</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room</span><span class="p">;</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="nf">GetEmptyRoom</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">k</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">room_number</span><span class="p">){</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+    <span class="n">room</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">num</span> <span class="o">:</span> <span class="n">room_number</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">room</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+            <span class="n">room</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="kt">long</span> <span class="kt">long</span> <span class="n">next_num</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">next_num</span><span class="p">);</span>
+            <span class="n">room</span><span class="p">[</span><span class="n">next_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetEmptyRoom</span><span class="p">(</span><span class="n">next_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115959962-dcc49b00-a549-11eb-9b8a-ff978999f35c.png" alt="image" /></p>
+
+<p>해시맵이 아닌, 배열(vector)를 쓰면 메모리 초과가 발생한다. <code class="language-plaintext highlighter-rouge">k</code> 의 최대값이 무려 1 조다 (..) 그렇기 때문에 배열로 관리를 하면 <code class="language-plaintext highlighter-rouge">long long</code> 을 1 조개 담을 수 있는 아주 큰 용량을 할당받는 것과도 같다. <code class="language-plaintext highlighter-rouge">room_number</code>의 최대 크기는 200,000 이기 떄문에 수 많은 방에 비해 손님들이 원하는 방의 후보의 수는 훨씬 적을 것이다. 즉, 쓰이지 않는 방도 굉장히 많을 수 있다는 것이다. 배열의 인덱스를 통한 임의 접근도 O(1) 로 아주 빠르지만 메모리 낭비가 대단하므로 해시맵을 사용하는 것이 좋겠다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Programmers</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/algorithm/ahocorasick/" class="pagination--pager" title="(C++) 문자열 검색 알고리즘 : 아호-코라식(Aho-Corasick) 알고리즘
+">이전</a>
+    
+    
+      <a href="/programmers/139/" class="pagination--pager" title="[C++로 풀이] 올바른 괄호의 갯수 (DFS, 순열) ⭐⭐⭐⭐
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/programmers/137/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>[C++로 풀이] 자동 완성 (트라이 자료구조) ⭐⭐⭐⭐</a>
+    
+    
+      <a href="/programmers/139/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>[C++로 풀이] 올바른 괄호의 갯수 (DFS, 순열) ⭐⭐⭐⭐</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BC%2B%2B%EB%A1%9C+%ED%92%80%EC%9D%B4%5D+%ED%98%B8%ED%85%94+%EB%B0%A9+%EB%B0%B0%EC%A0%95+%28Union-Find%29+%E2%AD%90%E2%AD%90%E2%AD%90%E2%AD%90%20http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F138%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F138%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F138%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/programmers/138/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/programmers/138"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,2427 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Chapter 1. 재귀(Recursion) : 개념과 기본 예제들 | 기억저장소</title>
+<meta name="description" content="권오흠 교수님의 유튜브 강의 영리한 프로그래밍을 위한 알고리즘 강좌 를 듣고 정리한 필기입니다. 😀 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="Chapter 1. 재귀(Recursion) : 개념과 기본 예제들">
+<meta property="og:url" content="http://localhost:4000/algorithm%20lesson%201/chapter1-1/">
+
+
+  <meta property="og:description" content="권오흠 교수님의 유튜브 강의 영리한 프로그래밍을 위한 알고리즘 강좌 를 듣고 정리한 필기입니다. 😀 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-07-14T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-07-15T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/algorithm%20lesson%201/chapter1-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#algorithm-lesson-1" itemprop="item"><span itemprop="name">Algorithm lesson 1</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Chapter 1. 재귀(Recursion) : 개념과 기본 예제들</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Chapter 1. 재귀(Recursion) : 개념과 기본 예제들">
+    <meta itemprop="description" content="권오흠 교수님의 유튜브 강의 영리한 프로그래밍을 위한 알고리즘 강좌 를 듣고 정리한 필기입니다. 😀">
+    <meta itemprop="datePublished" content="2020-07-14T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-07-15T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Chapter 1. 재귀(Recursion) : 개념과 기본 예제들
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2020-07-14T00:00:00+09:00">2020.07.14</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-07-15">2020.07.15</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#algorithm-lesson-1" class="page__taxonomy-item-category" rel="tag">Algorithm Lesson 1</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#recursion" class="page__taxonomy-item-tag" rel="tag">Recursion</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#chapter1-recursion">Chapter1. Recursion</a>
+    <ul>
+      <li><a href="#-recursion">🔔 Recursion</a>
+        <ul>
+          <li><a href="#무한-루프에-빠지지-않으려면">무한 루프에 빠지지 않으려면</a></li>
+          <li><a href="#재귀-함수와-수학적-귀납법">재귀 함수와 수학적 귀납법</a></li>
+          <li><a href="#재귀-vs-반복">재귀 Vs. 반복</a></li>
+          <li><a href="#재귀-알고리즘-설계">재귀 알고리즘 설계</a></li>
+        </ul>
+      </li>
+      <li><a href="#-재귀-함수를-사용하는-알고리즘">🔔 재귀 함수를 사용하는 알고리즘</a>
+        <ul>
+          <li><a href="#팩토리얼-n">팩토리얼 n!</a></li>
+          <li><a href="#xn">(X^n)</a></li>
+          <li><a href="#피보나치-수열">피보나치 수열</a></li>
+          <li><a href="#최대공약수-구하기-euclid-method">최대공약수 구하기 Euclid Method</a>
+            <ul>
+              <li><a href="#더-간단한-버전">더 간단한 버전</a></li>
+            </ul>
+          </li>
+          <li><a href="#문자열">문자열</a>
+            <ul>
+              <li><a href="#길이-계산">길이 계산</a></li>
+              <li><a href="#프린트">프린트</a></li>
+              <li><a href="#거꾸로-프린트">거꾸로 프린트</a></li>
+            </ul>
+          </li>
+          <li><a href="#순차-탐색">순차 탐색</a></li>
+          <li><a href="#최대값-찾기">최대값 찾기</a></li>
+          <li><a href="#10진수-정수를-2진수로-변환하여-출력">10진수 정수를 2진수로 변환하여 출력</a></li>
+          <li><a href="#disjoints-set">Disjoints Set</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p class="notice--warning">권오흠 교수님의 유튜브 강의 <strong>영리한 프로그래밍을 위한 알고리즘 강좌</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<h1 id="chapter1-recursion">Chapter1. Recursion</h1>
+
+<h2 id="-recursion">🔔 Recursion</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">Recursion</code> : 자기 자신을 호출 하는 함수 = 재귀 함수</p>
+</blockquote>
+
+<h3 id="무한-루프에-빠지지-않으려면">무한 루프에 빠지지 않으려면</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">재귀 함수</code>는 자기 자신을 호출하기 때문에 무한 루프에 빠질 수 있다.
+    <ul>
+      <li>따라서 적어도 하나의 <u>더 이상 자기 자신을 또 호출하지 않는 종료 Case</u>가 존재해야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">func</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="n">func</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>  <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>위 코드에서의 종료 조건 👉 n == 0
+    <ul>
+      <li>return n + func(n-1);
+        <ul>
+          <li>n + 1이였다면 무한 루프.</li>
+          <li>종료 조건인 n = 0 에 수렴하도록 n 이 작아지는 방향으로 구조를 짜야 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>호출 과정은 <a href="https://ansohxxn.github.io/cpp/chapter7-10/">“C++ 재귀적 함수 호출” 포스트 참고</a></li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="재귀-함수와-수학적-귀납법">재귀 함수와 수학적 귀납법</h3>
+
+<blockquote>
+  <p>정리 :  func(int n)은 음이 아닌 정수 n에 대해서 0에서 n
+까지의 합을 올바로 계산한다.</p>
+</blockquote>
+
+<ul>
+  <li>증명
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">n = 0</code>인 경우 👉 n=0인 경우 0을 반환한다 ⭕</li>
+      <li><code class="language-plaintext highlighter-rouge">n &lt; k</code>인 경우 👉 임의의 양의 정수 k에 대해서 n &lt; k인 경우 0에서 n 까지의 합을 올바르게 계산하여 반환한다고 <u>가정.</u></li>
+      <li><code class="language-plaintext highlighter-rouge">n = k</code>인 경우 👉 func은 먼저 func(k-1) 호출하는데 2번 가정에 의해서 0에서 k-1까지의 합이 올바로 계산되어 반환된다. 메서드 func은 그 값에 n을 더해서 반환하므로 결국 0에서 k까지의 합을 올바로 계산하여 반환한다. ⭕
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">func(k) = k + func(k-1)</code> 에서 2 번 가정에 의해 <code class="language-plaintext highlighter-rouge">func(k-1)</code>가 올바르므로 <code class="language-plaintext highlighter-rouge">func(k)</code>도 올바름.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="재귀-vs-반복">재귀 Vs. 반복</h3>
+
+<blockquote>
+  <p>모든 재귀 호출은 반복문으로 변경 가능하며 그 역으로도 성립한다. 모든 반복문은 재귀 호출로도 변경 가능하다.</p>
+</blockquote>
+
+<ul>
+  <li>재귀 함수
+    <ul>
+      <li>장점 : 복잡한 알고리즘을 사람이 보기에 단순하고 알기 쉽게 표현 가능</li>
+      <li>단점 : 함수 호출에 따른 <u>오버헤드</u>가 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="재귀-알고리즘-설계">재귀 알고리즘 설계</h3>
+
+<blockquote>
+  <p>뒤에서부터 빠져나오면서, 혹은 더 깊이 들어가고 차례로 빠져나오면서 뭘 하고 싶을 때.</p>
+</blockquote>
+
+<ul>
+  <li>적어도 하나 이상의 순환되지 않는 종료 case가 있어야 한다.</li>
+  <li>모든 case는 종료 case로 수렴해야 한다.</li>
+  <li><u>암시적 매개변수를 명시적 매개변수로 바꿔라</u>
+    <ul>
+      <li><u>재귀 호출을 위해 매개변수를 좀 더 일반화 하란 얘기</u></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-재귀-함수를-사용하는-알고리즘">🔔 재귀 함수를 사용하는 알고리즘</h2>
+
+<h3 id="팩토리얼-n">팩토리얼 n!</h3>
+
+<blockquote>
+  <p>시간 복잡도 O(n)</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0! = 1
+n! = n X (n-1)!    (n &gt; 0)
+</code></pre></div></div>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="err">–</span><span class="mi">1</span><span class="p">);</span>  <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="xn">\(X^n\)</h3>
+
+<blockquote>
+  <p>시간 복잡도 O(n)</p>
+</blockquote>
+
+<ul>
+  <li>\(X^0 = 1\)</li>
+  <li>\(X^n = X * X^{n-1}\)</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="nf">power</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="err">–</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="피보나치-수열">피보나치 수열</h3>
+
+<p>\[f_0 = 0\]
+\[f_1 = 1\]
+\[f_n = f_{n-1} + f{n_2}\]</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kt">int</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<blockquote>
+  <p>중복 계산이 너무 많아서 <u>재귀로 푸는건 비효율적이다.</u></p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f(4) = f(3) + f(2) = f(1) + f(2) + f(1) + f(0) = f(1) + f(1) + f(0) + f(1) + f(0)
+</code></pre></div></div>
+<ul>
+  <li>중복 多</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="최대공약수-구하기-euclid-method">최대공약수 구하기 Euclid Method</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">m</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span><span class="o">=</span><span class="n">m</span><span class="p">;</span> <span class="n">m</span><span class="o">=</span><span class="n">n</span><span class="p">;</span> <span class="n">n</span><span class="o">=</span><span class="n">tmp</span><span class="p">;</span> <span class="c1">// swap m and n</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">%</span> <span class="n">n</span><span class="p">);</span> <span class="c1">// 👈 </span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>m &gt;= n 인 두 양의 정수 m 과 n 에 대해서
+    <ul>
+      <li><strong>if (m%n==0)</strong>
+        <ul>
+          <li>m 이 n 의 배수이면 gcd(m, n) = n 이고,
+            <ul>
+              <li>리턴하는 이 n 이 최대 공약수가 된다.</li>
+              <li>종료 조건</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>else</strong>
+        <ul>
+          <li>그렇지 않으면 <u>gcd(m, n)= gcd(n, m%n)</u> 이다.
+            <ul>
+              <li>재귀</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>ex) 15 와 6 의 최대 공약수는
+    <ul>
+      <li>gcd(15, 6) 👉 gcd(6, 3) 호출 👉 3 리턴.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="더-간단한-버전">더 간단한 버전</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">q</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="o">%</span> <span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<ul>
+  <li>ex) 15 와 6 의 최대 공약수는
+    <ul>
+      <li>gcd(15, 6) 👉 gcd(6, 3) 호출 👉 <u>gcd(3, 0) 호출</u> 👉 3 리턴.</li>
+      <li>위 예제와 다르게 gcd(3, 0) 까지 간다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="문자열">문자열</h3>
+
+<h4 id="길이-계산">길이 계산</h4>
+
+<blockquote>
+  <p>💡 <u>현재 문자열 길이</u> = <u>첫번째 문자를 제외한 문자열의 길이</u> + 1</p>
+</blockquote>
+
+<ul>
+  <li>💡 재귀적 아이디어
+    <ul>
+      <li>“abcde” 라는 문자열의 길이를 잰다면
+        <ul>
+          <li>“abcde”.length = “bcde”.length + 1</li>
+          <li>“bcde”.length = “cde”.length + 1</li>
+          <li>“cde”.length = “de”.length + 1</li>
+          <li>“de”.length = “e”.length + 1</li>
+          <li>“e”.length = “\0”.length + 1</li>
+          <li>“\0”.length = 0  👈 <u>종료조건</u></li>
+        </ul>
+      </li>
+      <li>결론적으로 “abcde”.length = 0 + 1 + 1 + 1 + 1 = 5 가 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">length</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">str</span> <span class="o">==</span> <span class="err">‘\</span><span class="mi">0</span><span class="err">’</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">length</span><span class="p">(</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>char 포인터 <code class="language-plaintext highlighter-rouge">str</code>가 문자열 배열의 주소를 담게 되면
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">str+1</code>은 다음 원소를 가리키므로 다음 원소를 시작점으로 하는 배열을 뜻하게 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">length</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">length</span><span class="p">(</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="프린트">프린트</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">printChars</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">str</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">str</span> <span class="o">==</span> <span class="err">‘\</span><span class="mi">0</span><span class="err">’</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="k">else</span> 
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">c</span><span class="err">”</span><span class="p">,</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>
+        <span class="n">printChars</span><span class="p">(</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="거꾸로-프린트">거꾸로 프린트</h4>
+
+<blockquote>
+  <p>💡 <u>문자열 거꾸로 프린트</u> = <u>첫번째 문자를 제외한 문자열 거꾸로 프린트</u> + 이후 첫번째 문자 맨 뒤에 프린트</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">printCharsReverse</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">str</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">str</span><span class="o">==</span><span class="err">‘\</span><span class="mi">0</span><span class="err">’</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="k">else</span> 
+    <span class="p">{</span>
+        <span class="n">printCharsReverse</span><span class="p">(</span><span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="err">“</span><span class="o">%</span><span class="n">c</span><span class="err">”</span><span class="p">,</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>  <span class="c1">// %c 로 받으므로 한글자만 출력. *str 즉 첫번째 문자 </span>
+    <span class="p">}</span>   
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><u>마지막 끝 문자까지 끝까지 들어간 이후</u>에 빠져 나오는 과정에서 <u>한문자씩 print</u>
+    <ul>
+      <li>즉 뒷글자부터 한문자씩 출력하게 된다.</li>
+      <li>👉 재귀 호출 printCharsReverse(str+1)가 printf 보다 앞에 있어야 한다.</li>
+      <li>printCharsReverse(“abcde”)
+        <ul>
+          <li>printCharsReverse(“bcde”) 호출
+            <ul>
+              <li>printCharsReverse(“cde”) 호출
+                <ul>
+                  <li>printCharsReverse(“de”) 호출
+                    <ul>
+                      <li>printCharsReverse(“e”) 호출
+                        <ul>
+                          <li>printCharsReverse(“\0”) 호출</li>
+                          <li>return 후 <code class="language-plaintext highlighter-rouge">e</code> 출력</li>
+                        </ul>
+                      </li>
+                      <li>return 후 <code class="language-plaintext highlighter-rouge">d</code> 출력</li>
+                    </ul>
+                  </li>
+                  <li>return 후 <code class="language-plaintext highlighter-rouge">c</code> 출력</li>
+                </ul>
+              </li>
+              <li>return 후 <code class="language-plaintext highlighter-rouge">b</code> 출력</li>
+            </ul>
+          </li>
+          <li>return 후 <code class="language-plaintext highlighter-rouge">a</code> 출력</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="순차-탐색">순차 탐색</h3>
+
+<blockquote>
+  <p>data[0] ~ data[n-1] 사이에서 <code class="language-plaintext highlighter-rouge">target</code>이 있는지 검색한다. 존재하면 <code class="language-plaintext highlighter-rouge">target</code>과 일치하는 원소의 인덱스를 리턴, 없으면 -1 을 리턴.</p>
+</blockquote>
+
+<blockquote>
+  <p>못찾으면 재귀. 더 깊숙히 끝으로 들어감.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">search</span><span class="p">(</span><span class="kt">int</span> <span class="n">data</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">,)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>   <span class="c1">// 못찾았다면 </span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">target</span><span class="o">==</span><span class="n">items</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1">// 찾았다면 리턴하고 끝내기</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span>  <span class="c1">// 찾은건 아닌데 아직 끝에 도달한게 아니라면</span>
+        <span class="k">return</span> <span class="n">search</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">target</span><span class="p">);</span>  <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>인덱스 0 부터 시작으로 쳐서 (즉 배열 원소 전체) begin, end 인덱스는 넘길 필요 X</li>
+  <li>💡 재귀적 아이디어
+    <ul>
+      <li>주어진 범위에서 마지막 원소가 target과 동일한지 검사
+        <ul>
+          <li>원소 하나하나씩 전부 검사하게 됨 👉 <strong>순차 탐색</strong></li>
+        </ul>
+      </li>
+      <li>ex) n = 5 이고 data[1]이 target일 때.
+        <ul>
+          <li>search(5) 👉 data[4]가 target인지 검사
+            <ul>
+              <li>search(4) 👉 data[3]가 target인지 검사
+                <ul>
+                  <li>search(3) 👉 data[2]가 target인지 검사
+                    <ul>
+                      <li>search(2) 👉 data[1]가 target인지 검사
+                        <ul>
+                          <li>1 을 리턴한다. (search(2))</li>
+                        </ul>
+                      </li>
+                      <li>1 을 리턴한다. (search(3))</li>
+                    </ul>
+                  </li>
+                  <li>1 을 리턴한다. (search(4))</li>
+                </ul>
+              </li>
+              <li>1 을 리턴한다. (search(5))</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="최대값-찾기">최대값 찾기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">findMax</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data</span><span class="p">[])</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">findMax</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>💡 <u>data[0] ~ data[n-1] 사이에서의 최대값</u> = <u>data[0] ~ data[n-2] 사이에서의 최대값</u> 과 data[n-1] 中 더 큰 값.</p>
+</blockquote>
+
+<ul>
+  <li>인덱스 0 부터 시작으로 쳐서 (즉 배열 원소 전체) begin, end 인덱스는 넘길 필요 X</li>
+  <li>ex)
+    <ul>
+      <li>findMax(5, data) 👉 findMax(4, data) 과 data[4] 중에 큰 값
+        <ul>
+          <li>findMax(4, data) 👉 findMax(3, data) 과 data[3] 중에 큰 값
+            <ul>
+              <li>findMax(3, data) 👉 findMax(2, data) 과 data[2] 중에 큰 값
+                <ul>
+                  <li>findMax(2, data) 👉 findMax(1, data) 과 data[1] 중에 큰 값
+                    <ul>
+                      <li>findMax(1, data)</li>
+                      <li>data[0] 리턴</li>
+                    </ul>
+                  </li>
+                  <li>data[0] , data[1] 중에 큰 값 리턴</li>
+                </ul>
+              </li>
+              <li>data[0] ,data[1], data[2] 중에 큰 값 리턴</li>
+            </ul>
+          </li>
+          <li>data[0] ,data[1], data[2], data[3] 중에 큰 값 리턴</li>
+          <li>data[0] ,data[1], data[2], data[3], data[4] 중에 큰 값 리턴</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">findMax</span><span class="p">(</span><span class="kt">int</span> <span class="n">data</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> 
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">begin</span> <span class="o">==</span> <span class="n">end</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">begin</span><span class="p">];</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">begin</span> <span class="o">+</span> <span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">max_1</span> <span class="o">=</span> <span class="n">findMax</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">middle</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">max_2</span> <span class="o">=</span> <span class="n">findMax</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">max1</span><span class="p">,</span> <span class="n">max2</span><span class="p">);</span>
+    <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>전체 배열이 아닌 구체적인 범위가 주어진 경우기 때문에 시작 인덱스와 끝 인덱스를 넘겨주었다.</li>
+  <li>💡 재귀 호출이 전부 끝난 최종적인 max_1과 max_2 값끼리 비교한게 진짜 최대값이다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="10진수-정수를-2진수로-변환하여-출력">10진수 정수를 2진수로 변환하여 출력</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">printInBinary</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// 종료조건</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>  
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">printInBinary</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// 👈</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>💡 2 로 나눈 <u>나머지가 0 혹은 1이 될 때까지</u> <u>계속 해서 2 로 나눈 몫을 또 2로 나누고 반복</u></li>
+  <li>💡 나머지들을 출력하되 <u>출력은 역순으로 해야하므로 재귀호출이 모두 끝난 다음에 printf 출력할 수 있도록 printf를 재귀 호출보다 뒤에 위치하게</u>
+    <ul>
+      <li>ex) n = 13
+        <ul>
+          <li>printInBinary(13)
+            <ul>
+              <li>👉 printInBinary(6)
+                <ul>
+                  <li>👉 printInBinary(3)
+                    <ul>
+                      <li>👉 printInBinary(1)
+                        <ul>
+                          <li>1 출력</li>
+                        </ul>
+                      </li>
+                      <li>1 출력 (3 % 2)</li>
+                    </ul>
+                  </li>
+                  <li>0 출력 (6 % 2)</li>
+                </ul>
+              </li>
+              <li>1 출력 (13 % 2)</li>
+            </ul>
+          </li>
+          <li>최종적으로 1101 출력</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="disjoints-set">Disjoints Set</h3>
+
+<blockquote>
+  <p>A, B 두 배열의 교집합, 즉 공통 원소가 하나도 없으면 True, 하나라도 있으면 False</p>
+</blockquote>
+
+<blockquote>
+  <p>A, B <u>두 배열이 정렬되어 있다고 가정</u></p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">isDisjoint</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">A</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">B</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">n</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>   <span class="c1">// 종료조건 1️⃣ 공통 원소가 하나도 없음. Disjoint 함.</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">B</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1">// 종료조건 2️⃣ 공통 원소 발견. Disjoint 하지 않음.</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">B</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">isDisjoint</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>  <span class="c1">// 👈</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">isDisjoint</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span> <span class="c1">// 👈</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>💡 끝 원소부터 차례대로 검사해나간다.
+    <ul>
+      <li><strong>A[m-1]&gt;B[n-1]</strong> 라면 A[m-1]은 모든 B[0] ~ B[n-1] 들 보다 크다.
+        <ul>
+          <li>A, B 두 배열은 정렬되어 있기 때문에.</li>
+          <li>따라서 A[m-1]은 B[0] ~ B[n-1] 범위 내엔 없으므로 <u>A 의 다음 안쪽 원소 검사. 재귀로 다음 원소로 들어가기</u>
+            <ul>
+              <li>👉 재귀 호출 : 이제 A[m-2] 와 B[n-1] 비교
+                <ul>
+                  <li>isDisjoint(m-1, A, n, B)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>A[m-1]&lt;B[n-1]</strong> 라면 B[n-1]은 모든 A[0] ~ A[m-1] 들 보다 크다.
+        <ul>
+          <li>A, B 두 배열은 정렬되어 있기 때문에.</li>
+          <li>따라서 B[n-1]은 A[0] ~ A[m-1] 범위 내엔 없으므로 <u>B 의 다음 안쪽 원소 검사. 재귀로 다음 원소로 들어가기</u>
+            <ul>
+              <li>👉 재귀 호출 : 이제 B[n-2] 와 A[m-1] 비교
+                <ul>
+                  <li>isDisjoint(m, A, n-1, B)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>두 배열 중 하나라도 인덱스가 음수가 되면 종료. 한 배열을 다 뒤졌는데도 공통 원소가 없는 것이니!</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Algorithm Lesson 1</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">이전</a>
+    
+    
+      <a href="/algorithm%20lesson%202/chapter1-1/" class="pagination--pager" title="Chapter 1-1. Big-O 표기법
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="#" class="pagination_prev_next--pager disabled-first-child">첫 번째 글입니다</a>
+    
+    
+      <a href="/algorithm%20lesson%201/etc1/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>보충 강의) 이진 검색 트리 & 인접 리스트 구현하기</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Chapter+1.+%EC%9E%AC%EA%B7%80%28Recursion%29+%3A+%EA%B0%9C%EB%85%90%EA%B3%BC+%EA%B8%B0%EB%B3%B8+%EC%98%88%EC%A0%9C%EB%93%A4%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2520lesson%25201%2Fchapter1-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2520lesson%25201%2Fchapter1-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2520lesson%25201%2Fchapter1-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/algorithm%20lesson%201/chapter1-1/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/algorithm%20lesson%201/chapter1-1"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,2441 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[C++로 풀이] 경주로 건설 (DFS, BFS, 다익스트라)⭐⭐⭐ | 기억저장소</title>
+<meta name="description" content="📌 경주로 건설 ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="[C++로 풀이] 경주로 건설 (DFS, BFS, 다익스트라)⭐⭐⭐">
+<meta property="og:url" content="http://localhost:4000/programmers/117/">
+
+
+  <meta property="og:description" content="📌 경주로 건설 ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-03-18T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-03-18T00:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/programmers/117/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffdf24">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 16px;}
+      ::-webkit-scrollbar-track {background-color:#4b4f52; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb {background-color:#5e6265; border-radius: 16px;}
+      ::-webkit-scrollbar-thumb:hover {background: #ffd24c;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {
+          width:12px;height:12px;background:transparent;}
+      }  
+
+      
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#programmers" itemprop="item"><span itemprop="name">Programmers</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[C++로 풀이] 경주로 건설 (DFS, BFS, 다익스트라)⭐⭐⭐</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Incheon, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">247</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <span class="nav__sub-title">C/C++/C#</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Coding Test</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 구현 (with C++) (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/programmers" class="">프로그래머스 (150)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/boj" class="">백준 (35)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/coding-test-lesson" class="">코딩 테스트 강의 (3)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/codeup" class="">코드업 (12)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">Unity</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">UE4</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-1" class="">알고리즘 강의1 (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm-lesson-2" class="">알고리즘 강의2 (15)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure" class="">C 자료구조 강의 1(1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/data-structure2" class="">C 자료구조 강의 2(11)</a></li>
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">Server</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">DB</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        <span class="nav__sub-title">etc</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/bitcoin" class="">블록체인 암호화폐 (3)</a></li>
+                    
+                
+            </ul>
+      </li>
+      <li>	
+            <br>      
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
+      </li>
+  </ul>
+</nav>
+
+
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[C++로 풀이] 경주로 건설 (DFS, BFS, 다익스트라)⭐⭐⭐">
+    <meta itemprop="description" content="📌 경주로 건설">
+    <meta itemprop="datePublished" content="2021-03-18T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-03-18T00:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[C++로 풀이] 경주로 건설 (DFS, BFS, 다익스트라)⭐⭐⭐
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Date:</strong> <time datetime="2021-03-18T00:00:00+09:00">2021.03.18</time>&nbsp&nbsp&nbsp<strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-03-18">2021.03.18</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#programmers" class="page__taxonomy-item-category" rel="tag">Programmers</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#-경주로-건설">📌 경주로 건설</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이">🚀 내 풀이</a>
+        <ul>
+          <li><a href="#-1-차-풀이--최소의-코너-횟수를-구해야하는걸로-착각한-풀이">🔥 1 차 풀이 ❌ (최소의 코너 횟수를 구해야하는걸로 착각한 풀이)</a></li>
+          <li><a href="#-2-차-풀이--최소-금액이-되는-경로">🔥 2 차 풀이 ⭕ (최소 “금액”이 되는 경로)</a>
+            <ul>
+              <li><a href="#1️⃣-다익스트라를-사용한-풀이-우선순위큐">1️⃣ 다익스트라를 사용한 풀이 (우선순위큐)</a>
+                <ul>
+                  <li><a href="#-준비">✈ 준비</a></li>
+                  <li><a href="#-출발지-처리">✈ 출발지 처리</a></li>
+                  <li><a href="#-예약">✈ 예약</a></li>
+                  <li><a href="#-목적지의-최소-비용">✈ 목적지의 최소 비용</a></li>
+                </ul>
+              </li>
+              <li><a href="#2️⃣-bfs-를-사용한-풀이-그냥-큐">2️⃣ BFS 를 사용한 풀이 (그냥 큐)</a>
+                <ul>
+                  <li><a href="#-그냥-일반큐-사용하여-bfs-로-풀어도-상관-없다">✔ 그냥 일반큐 사용하여 BFS 로 풀어도 상관 없다.</a></li>
+                </ul>
+              </li>
+              <li><a href="#3️⃣-dfs-를-사용한-풀이">3️⃣ DFS 를 사용한 풀이</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="-경주로-건설">📌 경주로 건설</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110319047-ac847400-8051-11eb-94d8-9e878127a70d.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110319088-bb6b2680-8051-11eb-8c87-5e59beb8888a.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110319115-c45bf800-8051-11eb-8f6c-ba3eab41284f.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110319155-d2117d80-8051-11eb-889f-4ec4c0850815.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110319167-d8075e80-8051-11eb-9038-845ccac2c63a.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<h3 id="-1-차-풀이--최소의-코너-횟수를-구해야하는걸로-착각한-풀이">🔥 1 차 풀이 ❌ (최소의 코너 횟수를 구해야하는걸로 착각한 풀이)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">corner</span><span class="p">;</span> <span class="c1">// (y, x) 를 방문 했을 때 여태까지의 최소 코너 횟수</span>
+    <span class="n">Pos</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="n">Pos</span><span class="p">(</span><span class="kt">int</span> <span class="n">_y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">_c</span><span class="p">)</span> <span class="p">{</span> <span class="n">y</span> <span class="o">=</span> <span class="n">_y</span><span class="p">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">_x</span><span class="p">;</span> <span class="n">corner</span> <span class="o">=</span> <span class="n">_c</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">cmp</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">corner</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">corner</span><span class="p">;</span> <span class="c1">// min heap</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="c1">// 시계방향 : 상-&gt;우-&gt;하-&gt;좌</span>
+    <span class="kt">int</span> <span class="n">deltaY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">deltaX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="p">};</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">visited</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span> <span class="c1">// 방문 체크</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dist</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span> <span class="c1">// 각 정점마다 최소 횟수의 코너를 가졌을 때의 거리 (from 출발지)</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">shortestCorner</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">625</span><span class="p">));</span> <span class="c1">// 각 정점마다 최소 횟수의 코너</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;&gt;</span> <span class="n">parent</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span> <span class="c1">// 각 정점의 바로 윗 부모 (이전 정점)</span>
+
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">pq</span><span class="p">;</span>
+
+    <span class="cm">/* 출발지 예약 */</span>
+    <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">Pos</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">shortestCorner</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">parent</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pos</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 방문</span>
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// 다익스트라에서 필요한 과정. (정점의 최소 코너 횟수를 업데이트할 때 이미 우선순위큐에 들어있는 정점은 수정할 수가 없으므로 똑같은 정점을 또 넣는다. 최적해를 가진 똑같은 정점은 이미 방문 되었을 것이므로 이렇게 방문 체크를 해주어 똑같지만 최적해는 아닌 다른 정점을 걸러주어야 한다.)</span>
+        <span class="c1">// 더 자세한 설명은 &lt;배달&gt;문제 참고하기 https://ansohxxn.github.io/programmers/111/</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">])</span> 
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="n">visited</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="c1">// 예약 (현재 방문한 정점을 기준으로한 상하좌우 4가지 방향에 대해)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            
+            <span class="n">Pos</span> <span class="n">next</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// 예약 후보 정점</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">next</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">)</span> <span class="c1">// 범위를 벗어난다면 예약될 수 없는 정점</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 벽이라 갈 수 없는 곳이면 예약될 수 없는 정점</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">visited</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">])</span> <span class="c1">// 이미 방문된 정점이라면 예약될 수 없는 정점</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="kt">int</span> <span class="n">numOfCorner</span> <span class="o">=</span> <span class="n">shortestCorner</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">];</span> <span class="c1">// 현재 방문 정점까지의 최소 코너 횟수</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// 출발 정점이 아니고</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">next</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">parent</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">].</span><span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">next</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">parent</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">].</span><span class="n">y</span><span class="p">))</span> <span class="c1">// 예약 후보 정점은 자신의 부모인 현재 방문 정점과 x 혹은 y 가 같지만 현재 방문 정점은 그의 부모와 x 혹은 y 가 다르면 코너가 발생한다고 판단했다.</span>
+                    <span class="n">numOfCorner</span><span class="o">++</span><span class="p">;</span> 
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">shortestCorner</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">numOfCorner</span><span class="p">)</span>  <span class="c1">// 업뎃할 필요가 없으면 그냥 넘어감</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// 업뎃하고 새롭게 예약</span>
+            <span class="n">next</span><span class="p">.</span><span class="n">corner</span> <span class="o">=</span> <span class="n">numOfCorner</span><span class="p">;</span>
+            <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+            <span class="n">dist</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">shortestCorner</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">numOfCorner</span><span class="p">;</span>
+            <span class="n">parent</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">y</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">shortestCorner</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">500</span> <span class="o">+</span> <span class="n">dist</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>문제를 좀 더 제대로 읽을걸 너무 대충 읽었나보다.. (반성) 다익스트라로 문제를 풀긴 했는데 “코너 횟수가 최소인 경로”를 만드는 기준으로 풀이한 틀린 풀이이다. 왜 이렇게 생각을 했을까.. 😭 이렇게 풀이해놓고는 문제를 다시 읽어보고 아차 싶었다.. 코너 건설 비용이 제일 비싸므로 코너를 최소로 하는 경로도 어느정도 총 건설 비용을 최소로 하는데에 상관관계가 있을 수는 있지만 정확한 인과관계로 이어지는 것은 아니다. 이 문제는 <strong>총 건설 비용</strong>을 최소로 해야하는 문제이지 코너를 최소로 하는 경로를 구하는 문제가 아니다. 코너 횟수를 최소롷 하는 경로보다 코너 좀 여러개인 경로가 더 저렴할 수도 있는 것이다!</p>
+
+<p><br /></p>
+
+<h3 id="-2-차-풀이--최소-금액이-되는-경로">🔥 2 차 풀이 ⭕ (최소 “금액”이 되는 경로)</h3>
+
+<h4 id="1️⃣-다익스트라를-사용한-풀이-우선순위큐">1️⃣ 다익스트라를 사용한 풀이 (우선순위큐)</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define INF 999999
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+</span>
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span> <span class="c1">// 정점</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">dir</span><span class="p">;</span> <span class="c1">// 행, 열, 현재까지의 최소 금액, 바라보고 있는 방향</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">cmp</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">cost</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="c1">// 상하좌우</span>
+    <span class="kt">int</span> <span class="n">deltaY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">deltaX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+    <span class="c1">// 하나의 y, x 위치에 4 가지 바라보는 방향 저장. 하나의 위치마다 바라보는 방향별 최소 건설비용이 다를 수 있으므로! </span>
+    <span class="c1">// 2가지 정보 저장 (위치 + 바라보는 방향)</span>
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="mi">25</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span> 
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span> <span class="c1">// 최소 비용을 업뎃할 것이므로 최대값으로 초기화</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cost</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">pq</span><span class="p">;</span>
+    <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span> <span class="c1">// 출발지가 바라보는 방향은 UP DOWN RIGHT LEFT 어디에도 해당하지 않도록 -1 로 넘긴다. 오른쪽, 아래 두 정점 다 코너로 판단되지 않고 100이 될 수 있게.</span>
+    <span class="c1">//if (board[1][0] == 0) pq.push({ 1, 0, 100, DOWN});</span>
+    <span class="c1">//if (board[0][1] == 0) pq.push({ 0, 1, 100, RIGHT });</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 방문</span>
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="cm">/* 
+        방문 체크 안해줫음 그냥 (다익스트라 굳이 방문체크 안해줘도 답 도출에 지장없다.)
+        근데 해주면 for문을 안들어가도 되니까 밑에 코너 계산, 비용 계산 안해도 되니까 성능상 조금은 유리하지 않을까 싶다.
+        if (visited[now.y][now.x][now.dir])
+            continue;
+        */</span>
+
+        <span class="c1">// 예약</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextDir</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">nextCost</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span>
+
+            <span class="c1">// 범위를 벗어난 곳이라면 예약 불가</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// 비용 계산 (코너가 아니라면 100, 코너라면 600)</span>
+            <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">100</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+
+            <span class="c1">// 🤍현재 바라보는 방향에서의 여태 구한 최소비용보다 작으면 예약🤍</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextCost</span> <span class="o">&lt;</span> <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">]</span> <span class="o">=</span> <span class="n">nextCost</span><span class="p">;</span>
+                <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">nextY</span><span class="p">,</span> <span class="n">nextX</span><span class="p">,</span> <span class="n">nextCost</span><span class="p">,</span> <span class="n">nextDir</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 목적지의 4 가지 방향별 최소비용 중 가장 작은 값을 선택하면 그게 바로 정답</span>
+    <span class="c1">// cost[n-1][n-1][0], cost[n-1][n-1][1], cost[n-1][n-1][2], cost[n-1][n-1][3] 중 가장 작은 것.</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="o">*</span><span class="n">min_element</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>이 문제 풀이에 있어 가장 중요한 포인트</p>
+</blockquote>
+
+<ul>
+  <li><strong>이미 방문한 정점이라도 <u>재방문이 가능해야</u> 한다.</strong>
+    <ul>
+      <li>왜냐하면 같은 정점이라도 <u>바라보는 방향, 즉 어느 방향에서 왔느냐에 따라 최소 비용이 달라지기 때문이다.</u></li>
+    </ul>
+  </li>
+  <li><strong>내가 온 방향을 기억하고 있어야 한다.</strong> 👉 <strong><em>코너</em></strong> 때문에 내가 어느 방향을 바라보고 있느냐에 따라 비용이 완전히 달라지기 떄문이다.
+    <ul>
+      <li>방문 정점(부모)이 현재 어느 방향을 바라보고 있느냐에 따라 예약이 진행될 그 방문 정점의 4 가지 방향에 있는 자식 정점들의 비용이 결정된다.
+        <ul>
+          <li>방문 정점(부모)이 수평 방향을 바라보고 있다면 좌, 우 정점(자식)은 코너가 되므로 추가 비용이 +500 붙게 된다.</li>
+        </ul>
+      </li>
+      <li>왜냐하면 내가 지금 바라보고 있는 방향에 따라 (내가 어느 방향에서 왔느냐)에 따라 <u>"앞으로의" 최소 비용이 달라질 수 있기 때문이다.</u>
+        <ul>
+          <li>즉, 하나의 정점이 바라볼 수 있는 방향은 4 가지 이니 하나의 정점마다 바라보는 방향별로 4 가지 종류의 최단 경로를 가지고 있어야 한다는 의미기도 하다.
+            <ul>
+              <li>방향을 저장하지 않고, 즉 방향별로 최단 경로를 업데이트하지 않고 일반 다익스트라 최단경로 구하듯이 정점 좌표가지고만 (<code class="language-plaintext highlighter-rouge">cost[y][x]</code> 2차원 배열만 사용하여) 각각의 정점의 최단 경로를 업뎃하면 내가 바라보는</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>따라서 y,x 좌표뿐만아니라 내가 바라보는 방향도 저장하는 <u>3 차원 배열</u>을 사용해야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/111590493-8311d800-8809-11eb-9892-8f2843dbf22a.png" alt="image" /></p>
+
+<blockquote>
+  <p>정점마다 바라보는 방향 4 가지 별로 최소 비용을 따로 저장해야 하는 이유 (4 가지)</p>
+</blockquote>
+
+<p>현재 도로 상태가 위와 같다고 가정해보자. 노란색은 도로, 회색은 갈 수 없는 벽이다. <strong>정점 별로 방향을 저장하지 않고 cost[y][x] 이렇게 좌표에만 최소 비용을 기록했다고 가정해보자.</strong></p>
+
+<ul>
+  <li>초록색 경로를 통하여 (4, 4), (5, 4), 그리고 목적지인 (5, 5)가 각각 2100, 2700, 3300 최소 비용이 저장되어 있는 상태가 될 것이다.</li>
+  <li>이 상태에서 보라색 경로(바라보는 방향:👇)를 통하여 최소비용이 2300인 (4, 4) 를 예약하려고 하는데 이미 방문된 정점이고 <u>2100 &lt; 2300 이기 때문에 예약 되지 않는다. 즉 해당 보라색 경로는 (4, 4) 이상 진행되지 않고 (3, 4) 에서 끊겨버린다.</u>
+    <ul>
+      <li>그러나! 이 보라색 경로를 따른다면 2300 - 2400 - 3000 이 되어 사실 초록 경로보다 목적지의 최소비용을 더 작은 값(3300보다 작은 3000) 으로 업데이트 할 수 있었다. 근데 일단 현재 좌표의 최소 비용만 따져서 나중에 방문할지 말지를 결정하기 때문에 보라색 경로는 (2100 &lt; 2300)에 막혀 더 이상 진행되지 못하는 것이다.</li>
+      <li>이와 같은 원인은 바라보는 방향은 따지지 않고 무작정 좌표의 최소비용만 따져 비교했기 때문이다. 이 문제는 “코너”가 있기 때문에 <u>바라보는 방향에 따라 앞으로의 비용이 완전히 바뀔 수 있다. 더 작은 비용을 발견할 수도 있다.</u>
+        <ul>
+          <li><strong>그렇기 떄문에 하나의 좌표라도 바라 보는 방향(내가 예약될 때 부모의 상하좌우 중 어디에 있었는지)이 4 가지가 있을 수 있으므로 이 좌표가 바라보고 있는 방향이 어디냐에 따라 이것과 연결된 이후 정점들의 최소 비용이 앞으로도 달라질 것이라는 것을 의미한다.</strong> 따라서 방향을 <code class="language-plaintext highlighter-rouge">cost</code> 에 함께 3차원 배열로 저장한다!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/111058293-eda4da00-84d0-11eb-9e19-96518da162be.png" alt="image" /></p>
+
+<p>이렇게 모든 정점마다 바라보고 있는 방향(= 내가 온 방향) 4 가지별로 최소비용을 저장해야 한다! 목적지는 4 가지의 방향별 최소비용 가장 최소값을 선택하면 그게 바로 정답이 될 것이다.</p>
+
+<p><br /></p>
+
+<h5 id="-준비">✈ 준비</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define INF 999999
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+</span>
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span> <span class="c1">// 정점</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>  <span class="c1">// 행</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// 열</span>
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span> <span class="c1">// 이 정점이 예약됐던 시점까지 최소 금액</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span> <span class="c1">// 이 정점이 예약됐던 시점에 바라보고 있었던 방향</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="c1">// 상하좌우</span>
+    <span class="kt">int</span> <span class="n">deltaY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">deltaX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="-출발지-처리">✈ 출발지 처리</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kt">int</span> <span class="n">cost</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="mi">25</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span> 
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span> <span class="c1">// 최소 비용을 업뎃할 것이므로 최대값으로 초기화</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="c1">// 출발지 4 방향 0 으로 초기화</span>
+        <span class="n">cost</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">pq</span><span class="p">;</span>
+    <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span> <span class="c1">// 출발지가 바라보는 방향은 UP DOWN RIGHT LEFT 어디에도 해당하지 않도록 -1 로 넘긴다. 오른쪽, 아래 두 정점 다 코너로 판단되지 않고 100이 될 수 있게.</span>
+    <span class="c1">//if (board[1][0] == 0) pq.push({ 1, 0, 100, DOWN});</span>
+    <span class="c1">//if (board[0][1] == 0) pq.push({ 0, 1, 100, RIGHT });</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">cost[y][x][dir]</code> :  (y, x) 정점이 dir 방향을 바라보고 있을 떄의 최소비용</li>
+  <li><code class="language-plaintext highlighter-rouge">pq</code> : 우선순위 큐 (정점 구조체의 <code class="language-plaintext highlighter-rouge">cost</code> 멤버가 가장 작은게 먼저 빠져나온다.)</li>
+  <li>모든 정점은 최대값에서 시작해야 한데 (그래야 최소비용으로 업데이트가 될테니까)</li>
+  <li>출발지의 비용은 4 방향 모두 0 으로 초기화 한다.
+    <ul>
+      <li>출발지가 새로운 최소 비용으로 업데이트 되면 안되니까 가장 작은 비용으로..</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h5 id="-예약">✈ 예약</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextDir</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>  
+            <span class="kt">int</span> <span class="n">nextCost</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span> <span class="c1">// 현재 이 정점까지의 최소 비용(now 의 비용). 여기서 +100 이되거나 +600 이 되는데 예약 정점의 최소 비용이 됨</span>
+
+            <span class="c1">// 범위를 벗어난 곳이라면 예약 불가</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// 비용 계산 (코너가 아니라면 +100, 코너라면 +600)</span>
+            <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">100</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span> <span class="c1">// 방문 정점(부모)가 수직방향을 바라보고 있을 때</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span> <span class="c1">// 예약 후보 정점이 수평방향을 바라보고 있다면 코너</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span> <span class="c1">// 방문 정점(부모)가 수평방향을 바라보고 있을 때</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span> <span class="c1">// 예약 후보 정점이 수직방향을 바라보고 있다면 코너</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+
+            <span class="c1">// 🤍현재 바라보는 방향에서의 여태 구한 최소비용보다 작으면 예약🤍</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextCost</span> <span class="o">&lt;</span> <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">]</span> <span class="o">=</span> <span class="n">nextCost</span><span class="p">;</span>
+                <span class="n">pq</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">nextY</span><span class="p">,</span> <span class="n">nextX</span><span class="p">,</span> <span class="n">nextCost</span><span class="p">,</span> <span class="n">nextDir</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="-목적지의-최소-비용">✈ 목적지의 최소 비용</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">answer</span> <span class="o">=</span> <span class="o">*</span><span class="n">min_element</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>목적지에 저장된 바라보는 방향 4 가지 별 최소비용 중에서 가장 작은 것을 선택하면 된다.</p>
+
+<ul>
+  <li><em>*min_element(cost[n - 1][n - 1], cost[n - 1][n - 1] + 3)</em> 처음엔 이렇게 3 으로 썼어서 틀린 부분 찾느라 얼마나 고민했는지 ㅠㅠ..
+    <ul>
+      <li>내 풀이가 틀린건 줄 알고 계속 뜯어고치고 고민해보고 했었는데 계속 틀렸던 이유는 이 코드에서 내가 cost[n - 1][n - 1] + 3 으로 적었기 때문이었다..
+        <ul>
+          <li>두 번째 파라미터는 최소값을 찾는 범위에 포함되지 않는다!!!!! <em>\min_element(cost[n - 1][n - 1], cost[n - 1][n - 1] + 4)</em> 이렇게 + 4 로 써야한다..</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="2️⃣-bfs-를-사용한-풀이-그냥-큐">2️⃣ BFS 를 사용한 풀이 (그냥 큐)</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define INF 999999
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+</span>
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">dir</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="kt">int</span> <span class="n">deltaY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">deltaX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="mi">25</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cost</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
+    <span class="c1">//if (board[1][0] == 0) q.push({ 1, 0, 100, DOWN});</span>
+    <span class="c1">//if (board[0][1] == 0) q.push({ 0, 1, 100, RIGHT });</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextDir</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">nextCost</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">100</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">nextDir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">nextDir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span>
+                    <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextCost</span> <span class="o">&lt;</span> <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">cost</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">nextDir</span><span class="p">]</span> <span class="o">=</span> <span class="n">nextCost</span><span class="p">;</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">nextY</span><span class="p">,</span> <span class="n">nextX</span><span class="p">,</span> <span class="n">nextCost</span><span class="p">,</span> <span class="n">nextDir</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">answer</span> <span class="o">=</span> <span class="o">*</span><span class="n">min_element</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cost</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="-그냥-일반큐-사용하여-bfs-로-풀어도-상관-없다">✔ 그냥 일반큐 사용하여 BFS 로 풀어도 상관 없다.</h5>
+
+<blockquote>
+  <p>위 풀이는 위위 풀이에서 우선순위큐를 그냥 일반 큐로 바꾼 것 말고는 차이가 없다.</p>
+</blockquote>
+
+<ul>
+  <li>어차피 정점마다 4가지 방향별로 최소비용을 4 개씩이나 저장을 하기 때문에 그냥 BFS 방식으로 가장 먼저 들어간 것이 제일 먼저 방문되는 일반 큐를 사용해도 결과는 똑같았다. 방향별 최소비용이 다 저장이 되서 그런듯 하다. 우선순위큐 사용할 이유가 없었는지도 모른다.</li>
+  <li>큐는 자연스럽게 줄어들 수 밖에 없다. 각각 x,y,dir 그 위치의 4가지 방향에 대해 최소값만 남게되면 더 이상 큐에 푸쉬가 안되기 때문이다.</li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="3️⃣-dfs-를-사용한-풀이">3️⃣ DFS 를 사용한 풀이</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define INF 999999
+#define DOWN 0
+#define RIGHT 1
+#define UP 2
+#define LEFT 3
+</span>
+<span class="kt">int</span> <span class="n">deltaY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">deltaX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">minDest</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span> <span class="c1">// 현재까지 찾은 출발지-&gt;목적지 까지의 최~~~소의 비용</span>
+<span class="kt">int</span> <span class="n">cost_4Dir</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="mi">25</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+
+<span class="kt">void</span> <span class="nf">DFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">board</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">curCost</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dir</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 현재 방문 정점 (y, x) 에 방향은 dir, 그리고 현재까지의 비용은 curCost</span>
+
+    <span class="cm">/* 시간 효율성 높이는 기능! */</span>
+    <span class="c1">// return 조건 1 (더 이상 이 경로는 검사 X ) : 현재까지 찾은 최소값보다 더 커질 때! 더 이상 검사할 필요가 없음</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">minDest</span> <span class="o">&lt;</span> <span class="n">curCost</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="c1">// return 조건 2 (더 이상 이 경로는 검사 X ) : 목적지에 도착했을 떄</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">minDest</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">curCost</span><span class="p">,</span> <span class="n">minDest</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 4가지 방향 중 다음 방문 후보 검사</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="kt">int</span> <span class="n">nextCost</span> <span class="o">=</span> <span class="n">curCost</span> <span class="o">+</span> <span class="mi">100</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dir</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">dir</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">i</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span>
+                <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dir</span> <span class="o">==</span> <span class="n">LEFT</span> <span class="o">||</span> <span class="n">dir</span> <span class="o">==</span> <span class="n">RIGHT</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">UP</span> <span class="o">||</span> <span class="n">i</span> <span class="o">==</span> <span class="n">DOWN</span><span class="p">)</span>
+                <span class="n">nextCost</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">cost_4Dir</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nextCost</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cost_4Dir</span><span class="p">[</span><span class="n">nextY</span><span class="p">][</span><span class="n">nextX</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nextCost</span><span class="p">;</span>
+            <span class="n">DFS</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">nextY</span><span class="p">,</span> <span class="n">nextX</span><span class="p">,</span> <span class="n">nextCost</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>  <span class="c1">// 바로 방문하러 ㄱㄱ</span>
+        <span class="p">}</span>  
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">board</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">cost_4Dir</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span>
+
+    <span class="n">DFS</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">minDest</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/110760734-59e5ca80-8292-11eb-8960-d671a89b40e9.png" alt="image" /></p>
+
+<p>위의 BFS 풀이랑 똑같이 풀면 된다. 큐에 예약하는 부분을 재귀로 DFS 함수를 호출하여 또 깊게 들어가는식으로 코드를 짜면 된다. DFS 에선 예약하지 않고 그냥 다음 방문할 후보를 보면 냅다 방문하러 들어가버리기 때문! 그리고 목적지 (n-1, n-1)에 도달하면 <code class="language-plaintext highlighter-rouge">return</code> 하여 되돌아오게끔 하면 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="p">(</span><span class="n">minDest</span> <span class="o">&lt;</span> <span class="n">curCost</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>다만 DFS 는 깊이 있는데로 다 들어가기 때문에 시간초과가 날 수도 있다!! 그렇기 때문에 현재까지 구한 목적지까지의 최소비용인 <code class="language-plaintext highlighter-rouge">minDest</code>보다 현재까지 구한 최소비용이 더 크다면 이 경로는 <code class="language-plaintext highlighter-rouge">minDest</code>를 업데이트 할 수 있는 경로가 아니므로 <code class="language-plaintext highlighter-rouge">return</code> 한다. 이렇게만 해주면 시간 초과 나지 않았다.</p>
+
+<p>마찬가지로! DFS 도 방향까지 저장하여 최소비용을 업데이트 하는데에 3 차원 배열을 사용하였다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'Coming Soon'; color:#fcd14f;">Programmers</span> <span style="font-family:'Cafe24Oneprettynight';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/boj/11003/" class="pagination--pager" title="[백준 11003][💚5] 최소값 찾기 (슬라이딩 윈도우, deque)
+">이전</a>
+    
+    
+      <a href="/programmers/118/" class="pagination--pager" title="[C++로 풀이] 보석 쇼핑 (투포인터 알고리즘)⭐⭐⭐
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/programmers/116/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>[C++로 풀이] 스티커 모으기2 (DP)⭐⭐⭐</a>
+    
+    
+      <a href="/programmers/118/" class="pagination_prev_next--pager"><span class="prev_next">다음 글  &nbsp  </span>[C++로 풀이] 보석 쇼핑 (투포인터 알고리즘)⭐⭐⭐</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </section>
+      <footer class="page__meta">
+        
+        <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BC%2B%2B%EB%A1%9C+%ED%92%80%EC%9D%B4%5D+%EA%B2%BD%EC%A3%BC%EB%A1%9C+%EA%B1%B4%EC%84%A4+%28DFS%2C+BFS%2C+%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%29%E2%AD%90%E2%AD%90%E2%AD%90%20http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F117%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F117%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fprogrammers%2F117%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+  
+  
+    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
+      <h4 class="page__related-title">최근 글 10 개 :)</h4>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9663/">[백준 9663][💛5] N-Queen (백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20437/">[백준 20437][💛5] 문자열 게임 2</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20366/">[백준 20366][💛3] 같이 눈사람 만들래? (조합, 투포인터)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1368/">[백준 1368][💛2] 물대기 (MST, 크루스칼)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.26
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/9489/">[백준 9489][💛4] 사촌</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.25
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/4358/">[백준 4358][💛5] 생태학 (map, 소수 출력)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.24
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/1987/">[백준 1987][💛4] 알파벳 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.11
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/3980/">[백준 3980][💛4] 선발 명단 (DFS, 백트래킹)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20924/">[백준 20924][💛4] 트리의 기둥과 가지 (DFS, 트리)</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+          <div class="list__item">
+    <article class="archive-item">
+        <div>
+            <span>
+              <a href="/boj/20164/">[백준 20164][💛5] 홀수 홀릭 호석</a>
+            </span>
+            <small> 
+              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.07.10
+              <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#boj" class="page__taxonomy-item-category" rel="tag">BOJ</a>
+                    
+                    
+                    <a href="/tags/#algorithm" class="page__taxonomy-item-tag" rel="tag">Algorithm</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#coding-test" class="page__taxonomy-item-tag" rel="tag">Coding Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#cpp" class="page__taxonomy-item-tag" rel="tag">Cpp</a>
+                
+            </span>
+        </span>
+            </small>
+        </div>
+      </article>
+</div>
+        
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/programmers/117/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/programmers/117"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>
