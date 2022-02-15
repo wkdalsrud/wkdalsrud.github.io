@@ -1,0 +1,269 @@
+I"-u<h1 id="-프렌즈-4블록">📌 프렌즈 4블록</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107188568-39c0b280-6a2b-11eb-9e56-feb7aea936be.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107188643-58bf4480-6a2b-11eb-90b5-34769cd44229.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107188662-64ab0680-6a2b-11eb-8a71-8ccfb5f68387.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">isSqaure</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">false</span><span class="p">));</span>
+    <span class="kt">bool</span> <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="c1">// 초기화</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">isSqaure</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">fill</span><span class="p">(</span><span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">begin</span><span class="p">(),</span> <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+        <span class="c1">// 2x2 정사각형 찾아 기록</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 2x2 정사각형 다 없애기</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span><span class="p">;</span>
+                    <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 블록 떨어뜨려 빈공간 채우기 (두 번째 행 부터 시작)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="n">board</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+                        <span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">canRemove</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><em>do-while</em> 문 (현재의 보드 상태에서 제거할 블록들 찾고 제거하고 땡기는게 한 번의 반복)
+    <ul>
+      <li>초기 상태 👉 <code class="language-plaintext highlighter-rouge">canRemove</code>는 false, <code class="language-plaintext highlighter-rouge">isSqaure</code>의 모든 값들은 false</li>
+      <li>1️⃣ 제거 할 2x2 블록 체크
+        <ul>
+          <li>2x2 블록들이 하나도 없다면 <code class="language-plaintext highlighter-rouge">canRemove</code>는 false인 상태로 유지되므로 while문을 종료하고 빠져나온다.</li>
+        </ul>
+      </li>
+      <li>2️⃣ 블록들을 본격적으로 제거</li>
+      <li>3️⃣ 블록 떨어뜨려 빈공간 채우기</li>
+      <li><em>do-while</em> 을 사용한 이유는 그냥 단순히 <code class="language-plaintext highlighter-rouge">canRemove</code> 초기값은 false로 시작하고 싶은데 반복문 조건은 <em>while (canRemove)</em> 로 쓰고 싶어서였다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="1️⃣-초기화">1️⃣ 초기화</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">isSqaure</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">fill</span><span class="p">(</span><span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">begin</span><span class="p">(),</span> <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>현재의 보드 상태에서 제거할 블록들 찾고 제거하고 땡기는게 한 번의 반복.</li>
+  <li><code class="language-plaintext highlighter-rouge">canRemove</code>는 false.
+    <ul>
+      <li>아래 과정에서 제거할 블록을 찾으면 true 로 변경되어 while문을 다음 반복 때 또 돌게 될 것이다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">isSqaure</code>의 모든 값들은 false 로 초기화.
+    <ul>
+      <li>이전 while문 반복에서 제거할 블록들이 true 체크 했었는데 제거가 되었으므로 다시 false 로 초기화한다. <strong>변경된 현재의 보드 상태에서 새롭게 제거할 블록들을 찾아야 하므로.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="2️⃣-제거-할-2x2-블록-체크">2️⃣ 제거 할 2x2 블록 체크</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="c1">// 2x2 정사각형 찾아 기록</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                    <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>2 x 2 정사각형이 되는지의 기준. 아래와 같은 조건을 만족한다면 <code class="language-plaintext highlighter-rouge">board[i][j]</code>는 2 x 2 정사각형의 우하단인 것이다.
+    <ul>
+      <li>“우하단” 위치가 되는 자리로부터
+        <ul>
+          <li>그래서 첫번째 행(i = 0), 첫번째 열(j = 0)은 체크를 제외한다. (false)</li>
+        </ul>
+      </li>
+      <li>1️⃣왼쪽(i,j-1), 2️⃣위쪽(i-1,j), 3️⃣왼쪽위쪽(i-1, j-1) 4️⃣우하단이되는 본인(i,j) 이 4개가 모두 같고</li>
+      <li><code class="language-plaintext highlighter-rouge">board[i][j]</code>가 <code class="language-plaintext highlighter-rouge">0</code>이 아니라면 (즉 빈공간이 아니라면! <strong>빈 공간은 ‘0’으로 표시하기로 했다.</strong>)</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">board[i][j]</code>는 2 x 2 정사각형의 우하단이 맞다면
+    <ul>
+      <li>1️⃣왼쪽(i,j-1), 2️⃣위쪽(i-1,j), 3️⃣왼쪽위쪽(i-1, j-1) 4️⃣우하단이되는 본인(i,j) 자리를 모두 <code class="language-plaintext highlighter-rouge">isSqaure</code>에 True 로 체크한다.
+        <ul>
+          <li>추후 <code class="language-plaintext highlighter-rouge">isSqaure</code> 원소들이 True 인지를 검사하여 제거할 것.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">canRemove</code>를 True로 하여 다음 while 반복을 또 돌 수 있도록 한다.
+        <ul>
+          <li>제거가 가능했다는 것이므로.. 아무것도 제거되지 못했을때는 이 부분을 만나지 못해 while문 빠져나옴.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FFFFFF
+TTFFTT
+TTTFTT
+FTTTFF
+FFFFFF
+FFFFFF
+</code></pre></div></div>
+
+<p>예제의 첫 번째 while문 반복에서의 <code class="language-plaintext highlighter-rouge">isSqaure</code> 모습</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FFFFFF
+FFFFFF
+FFFFFF
+TTFFFF
+TTFFFF
+FFFFFF
+</code></pre></div></div>
+
+<p>예제의 두 번째 while문 반복에서의 <code class="language-plaintext highlighter-rouge">isSqaure</code> 모습</p>
+
+<p><br /></p>
+
+<h3 id="3️⃣-2x2-블록-제거하기">3️⃣ 2x2 블록 제거하기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="c1">// 2x2 정사각형 다 없애기</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">isSqaure</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span><span class="p">;</span>
+                    <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">isSqaure</code> True인 자리들은 제거해야할 자리들.
+    <ul>
+      <li>제거된 자리므로 <code class="language-plaintext highlighter-rouge">board[i][j]</code>를 <code class="language-plaintext highlighter-rouge">0</code>으로 변경</li>
+      <li><code class="language-plaintext highlighter-rouge">answer</code>를 증가시킨다. (제거한 블록의 수)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="4️⃣-블록-떨어뜨려-빈-공간-채우기">4️⃣ 블록 떨어뜨려 빈 공간 채우기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="c1">// 블록 떨어뜨려 빈공간 채우기 (두 번째 행 부터 시작)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 내가 빈 공간이라면</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="n">board</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span> <span class="c1">// 위에 있는 것들 한 칸씩 아래로 땡겨 옴 </span>
+                        <span class="n">board</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'0'</span><span class="p">;</span> <span class="c1">// 땡겨진 것들의 원래 자리는 빈공간으로 만들어주어야 함</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">i=1</code> 두번째행부터 검사하여 내가 빈 공간인데 내 위에 있는 것들이 빈 공간이 아니라면 땡겨온다.</p>
+</blockquote>
+
+<p>이제 빈 공간을 없애고 떨어뜨려서 아래로 땡겨야하는데 정말 주의해야할 점은 <u>바로 위에 것만 땡기는게 아니라 위에 있는 모든 글자들을 전부 아래로 땡겨야 한다는 것이다.</u> 테스트 케이스 5, 10번이 계속 틀려서 애를 먹었는데 문제는 내가 바로 위에 있는 것만 땡겨오는 식으로 처음에 코드를 짰었기 떄문이였다!!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A
+A
+A
+0
+A
+</code></pre></div></div>
+
+<p>위와 같은 상태라면 <code class="language-plaintext highlighter-rouge">0</code>에서</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A
+A
+0
+A
+A
+</code></pre></div></div>
+
+<p>바로 위에 것만 땡겨온다면 이렇게 되는게 끝일 것이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0
+A
+A
+A
+A
+</code></pre></div></div>
+
+<p>이렇게 빈 공간 위에 있는 것들 중 빈 공간 <code class="language-plaintext highlighter-rouge">0</code>이 아닌 것들은 모조리 한 칸씩 아래로 땡겨와야 한다. 이 과정을 <em>for (int k = i; k &gt; 0; k–)</em> 안에서 진행함</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

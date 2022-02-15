@@ -1,0 +1,161 @@
+I"D<h1 id="열-개씩-끊어-출력하기">열 개씩 끊어 출력하기</h1>
+
+<blockquote>
+  <p>11721번 문제 👉 <a href="https://www.acmicpc.net/problem/11721">https://www.acmicpc.net/problem/11721</a></p>
+</blockquote>
+
+<blockquote>
+  <p>난이도 👉 <strong>브론즈 2</strong></p>
+</blockquote>
+
+<h2 id="내-풀이">내 풀이</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span> 
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">11</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cin</span><span class="p">.</span><span class="n">gcount</span><span class="p">())</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">buf</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gcount()</code>가 0 이면, 즉 입력 버퍼에 이제 읽어들일게 아무것도 없으면 반복 종료.</li>
+  <li>첫 번째 반복
+    <ul>
+      <li>입력 👉 OneTwoThreeFourFiveSixSevenEightNineTen</li>
+      <li>버퍼 👉🏻 OneTwoThreeFourFiveSixSevenEightNineTen<code class="language-plaintext highlighter-rouge">\n</code></li>
+      <li><code class="language-plaintext highlighter-rouge">cin.get(buf, 11);</code>
+        <ul>
+          <li>buf 👉🏻 OneTwoThre<code class="language-plaintext highlighter-rouge">\0</code></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">cin.gcount()</code>
+        <ul>
+          <li>10</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>두 번째 반복
+    <ul>
+      <li>버퍼 👉🏻 eFourFiveSixSevenEightNineTen<code class="language-plaintext highlighter-rouge">\n</code></li>
+      <li><code class="language-plaintext highlighter-rouge">cin.get(buf, 11);</code>
+        <ul>
+          <li>buf 👉🏻 eFourFiveS<code class="language-plaintext highlighter-rouge">\0</code></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">cin.gcount()</code>
+        <ul>
+          <li>10</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>세 번째 반복
+    <ul>
+      <li>버퍼 👉🏻 ixSevenEightNineTen<code class="language-plaintext highlighter-rouge">\n</code></li>
+      <li><code class="language-plaintext highlighter-rouge">cin.get(buf, 11);</code>
+        <ul>
+          <li>buf 👉🏻 ixSevenEig<code class="language-plaintext highlighter-rouge">\0</code></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">cin.gcount()</code>
+        <ul>
+          <li>10</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>네 번째 반복
+    <ul>
+      <li>버퍼 👉🏻 htNineTen<code class="language-plaintext highlighter-rouge">\n</code></li>
+      <li><code class="language-plaintext highlighter-rouge">cin.get(buf, 11);</code>
+        <ul>
+          <li>buf 👉🏻 htNineTen<code class="language-plaintext highlighter-rouge">\0\0</code></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">cin.gcount()</code>
+        <ul>
+          <li>9</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>다섯 번째 반복
+    <ul>
+      <li>버퍼 👉🏻 비어있음! 아무것도 없어</li>
+      <li><code class="language-plaintext highlighter-rouge">cin.gcount()</code>
+        <ul>
+          <li>0</li>
+          <li>반복 종료</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cinget">cin.get</h3>
+
+<blockquote>
+  <p>입력 버퍼로부터 <u>문자 딱 하나</u>를 읽어들인다.</p>
+</blockquote>
+
+<ul>
+  <li><u>공백도, 개행 문자도 모두 입력으로 포함된다.</u>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">cin</code>은 개행 문자나 공백이 나오면 입력 종료로 간주한 반면에 <code class="language-plaintext highlighter-rouge">cin.get</code>은 개행 문자, 공백 또한 입력 받을 문자로 간주하여 저장한다.
+        <ul>
+          <li>문자 딱 1개만 읽어들일땐 개행 문자도 문자로서 읽어들이고</li>
+          <li>읽어들일 문자 개수를 인수로 넘겨 문자열로 받을때는 개행문자전까지만 받되 개행 문자는 그냥 읽고 버린다. 무시함.</li>
+        </ul>
+      </li>
+      <li>따라서 <code class="language-plaintext highlighter-rouge">cin.get()</code> 하여 버퍼에 남아있는 개행 문자를 비워줄 수도 있다.</li>
+    </ul>
+  </li>
+  <li>인수 (<code class="language-plaintext highlighter-rouge">cin.get()</code> 없어도 된다.)
+    <ol>
+      <li>읽어서 저장할 <code class="language-plaintext highlighter-rouge">char</code> 포인터</li>
+      <li>읽어들일 문자 개수 n
+        <ul>
+          <li>여러개 읽어 들이니 문자열을 만들 수 있음.</li>
+          <li>문자열 끝에 <code class="language-plaintext highlighter-rouge">\0</code>가 붙을 것도 고려해서 n - 1 개의 문자만 읽어들인다.</li>
+          <li>자동으로 문자열 끝에 <code class="language-plaintext highlighter-rouge">\0</code>를 붙여준다.</li>
+        </ul>
+      </li>
+      <li>제한자
+        <ul>
+          <li>디폴트로 <code class="language-plaintext highlighter-rouge">\n</code> 즉, 디폴트로는 <code class="language-plaintext highlighter-rouge">\n</code>전까지만 읽어들임.</li>
+          <li><code class="language-plaintext highlighter-rouge">\n</code>은 <u>문자열에 포함되지 않으며 읽고 버린다.</u></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="cingcount">cin.gcount</h3>
+
+<blockquote>
+  <p>마지막 입력 작업에서 읽어들인 문자의 개수를 리턴한다.</p>
+</blockquote>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

@@ -1,0 +1,65 @@
+I"U!<h1 id="-다단계-칫솔-판매">📌 다단계 칫솔 판매</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079278-90f12d80-a6d2-11eb-96f4-87aface8f4cf.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079291-964e7800-a6d2-11eb-8985-6a6eb3701b48.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079316-9c445900-a6d2-11eb-9e0f-3328242f5405.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079342-a36b6700-a6d2-11eb-80d6-dd1cb48a8c4a.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079357-aa927500-a6d2-11eb-804b-02fea23cd932.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/116079402-b9792780-a6d2-11eb-82a0-cb19b740caca.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">;</span> <span class="c1">// Key 사람,  Value : 이 사람의 트리 상 부모(= 이 사람을 다단계에 참여시킨 사람)</span>
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">profit</span><span class="p">;</span> <span class="c1">// Key 사람,  Value : 이 사람의 순이익</span>
+<span class="kt">void</span> <span class="nf">UpdateProfit</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">int</span> <span class="n">money</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">==</span> <span class="s">"none"</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// 종료 조건</span>
+
+    <span class="kt">int</span> <span class="n">notmine</span> <span class="o">=</span> <span class="n">money</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span> <span class="c1">// 부모에게 넘겨줄 이익 (10 %)</span>
+    <span class="n">profit</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">money</span> <span class="o">-</span> <span class="n">notmine</span><span class="p">);</span> <span class="c1">// 자신의 이익 (90 %)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">notmine</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// 이거 안해주면 시간초과 난다! (21.05.21 테스트케이스 추가) 그냥 부모에게 넘겨줄 이익이 없다면 더 이상 재귀 호출로 올라가지 않도록 하여 시간을 절약한다.</span>
+    <span class="n">UpdateProfit</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">notmine</span><span class="p">);</span> <span class="c1">// 재귀호출. 부모 노드의 profit 업데이트 하러.</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">enroll</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">referral</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">seller</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">enroll</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">referral</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">"-"</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">enroll</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="s">"none"</span><span class="p">;</span> <span class="c1">// 트리 상 부모가 none 인 사람은 부모 노드가 없는 사람. (부모는 아마 민수겠지만 문제에선 민수를 제외함)</span>
+        <span class="k">else</span> <span class="n">parent</span><span class="p">[</span><span class="n">enroll</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">referral</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">seller</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">UpdateProfit</span><span class="p">(</span><span class="n">seller</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">amount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">enroll</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">profit</span><span class="p">[</span><span class="n">enroll</span><span class="p">[</span><span class="n">i</span><span class="p">]]);</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

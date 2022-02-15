@@ -1,0 +1,108 @@
+I"')<h1 id="별-찍기-11">별 찍기 11</h1>
+
+<blockquote>
+  <p>2448번 문제 👉 <a href="https://www.acmicpc.net/problem/2448">https://www.acmicpc.net/problem/2448</a></p>
+</blockquote>
+
+<blockquote>
+  <p>난이도 👉 <strong>골드 4</strong></p>
+</blockquote>
+
+<h2 id="내-풀이-">내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">arr</span><span class="p">[</span><span class="mi">3072</span><span class="p">][</span><span class="mi">6143</span><span class="p">];</span>
+
+<span class="kt">void</span> <span class="nf">draw</span><span class="p">(</span><span class="kt">int</span> <span class="n">row</span><span class="p">,</span> <span class="kt">int</span> <span class="n">col</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 첫번째 줄 (꼭직점에 * 1개)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'*'</span><span class="p">;</span>
+    
+    <span class="c1">// 두번째 줄 (* 2개)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'*'</span><span class="p">;</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'*'</span><span class="p">;</span>
+    
+    <span class="c1">// 세번째 줄 (* 5개)</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">col</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'*'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">triangle</span><span class="p">(</span><span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">row</span><span class="p">,</span> <span class="kt">int</span> <span class="n">col</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">draw</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>  <span class="c1">// 리턴의 유무 중요 !!!</span>
+    <span class="p">}</span>
+        
+    <span class="n">triangle</span><span class="p">(</span><span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">);</span>  <span class="c1">// 첫 번째 삼각형의 꼭짓점</span>
+    <span class="n">triangle</span><span class="p">(</span><span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">-</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// 두 번째 삼각형의 꼭짓점</span>
+    <span class="n">triangle</span><span class="p">(</span><span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// 세 번째 삼각형의 꼭짓점</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">N</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span><span class="p">;</span>
+    
+    <span class="c1">// 별찍기 전에 미리 전체 배열에 공백 넣어주기 </span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="sc">' '</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="n">triangle</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// 별 찍기. 가~장 큰 삼각형부터 넘기기</span>
+    
+    <span class="c1">// 출력 </span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/88471323-34928f00-cf43-11ea-937c-362fe1ad419b.png" alt="image" width="70%" height="70%" class="align-center" /></p>
+
+<ol>
+  <li>한 문자를 원소로 하는 전체 배열을 미리 선언해둔다.
+    <ul>
+      <li>char arr[3072][6143]</li>
+      <li>문제에서 k 의 최대값은 10 으로 주어졌으므로 행은 \(3 * 2^10 = 3072\) 행, 열은 \(3072 * 2 - 1 = 6143\) 열로 최대 크기로 배열을 선언해주었다.</li>
+    </ul>
+  </li>
+  <li>미리 전체 배열에 공백을 쫙 넣어준다.</li>
+  <li><code class="language-plaintext highlighter-rouge">triangle(N, 0, N - 1)</code> 일단 가~ 장 큰 삼각형부터 넘긴다. 재귀 호출로 점점 깊이 들어가며 <u>각 3개의 삼각형의 꼭짓점을 인수로 넘긴다.</u></li>
+  <li>각 3 개의 삼각형에 대해 재귀 호출 시켜준다.
+    <ul>
+      <li>재귀호출마다 N은 절반으로 줄어들어 종료 조건인 3 에 수렴한다.</li>
+      <li><strong>draw</strong> <u>종료 조건인 N = 3에 다다랐을 때 비로소 * 을 N = 3일때의 모양으로 배열에 넣어준다.</u></li>
+      <li>
+        <blockquote>
+          <p>모~~~~든 삼각형은 N = 3일때의 모양으로 동일하게 그려지기 때문에 재귀 호출로 가장 깊숙히 들어간 후 그 자리에 N = 3일때의 모양으로 그려준 후 빠져 나오는 것 !</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li>배열을 전부 출력해준다.</li>
+</ol>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

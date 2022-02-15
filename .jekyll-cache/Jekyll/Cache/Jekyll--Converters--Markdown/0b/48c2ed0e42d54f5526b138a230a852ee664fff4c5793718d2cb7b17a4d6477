@@ -1,0 +1,13 @@
+I"I<ul class="toc__menu">
+  <li><a href="#열-개씩-끊어-출력하기">열 개씩 끊어 출력하기</a>
+    <ul>
+      <li><a href="#내-풀이">내 풀이</a>
+        <ul>
+          <li><a href="#cinget">cin.get</a></li>
+          <li><a href="#cingcount">cin.gcount</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

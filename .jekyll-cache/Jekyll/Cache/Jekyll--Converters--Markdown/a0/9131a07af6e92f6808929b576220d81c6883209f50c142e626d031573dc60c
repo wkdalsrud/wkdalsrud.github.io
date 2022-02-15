@@ -1,0 +1,175 @@
+I"#[<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 4</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/5052">https://www.acmicpc.net/problem/5052</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/114744116-4ee9f280-9d88-11eb-962f-a74957e735c2.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<p><a href="https://ansohxxn.github.io/programmers/kit2/">프로그래머스의 “전화번호 목록”</a> 문제와 똑같다. 심지어 문제 이름도 똑같네! 입력 크기는 프로그래머스 문제가 더 빡센 편이다.</p>
+
+<h3 id="-해시-사용한-풀이">🔥 해시 사용한 풀이</h3>
+
+<ul>
+  <li>1️⃣ <strong>현재 검사하는 번호의 접두어들이 해시셋에 있는지 검사.</strong> 있다면 “NO” 출력 후 종료
+    <ul>
+      <li>“abcd” 라는 단어가 있다면 “a”, “ab”, “abc” 가 접두어 (문제에서 같은 단어가 주어지는 경우는 없다고 했으니 “abcd”는 해당 안됨)</li>
+      <li>모든 번호들이 전부 이 검사를 통과했다면 “YES” 출력</li>
+    </ul>
+  </li>
+  <li>2️⃣ 현재 검사하는 번호의 모든 접두어가 해시셋에 없었다면 해시셋에 현재 번호를 추가 (다른 번호의 접두어가 될 수 있으니)</li>
+</ul>
+
+<p>문자열 배열을 미리 <strong>정렬</strong> 해둔 후 위 과정을 수행해야 한다. 정렬을 하면 625 는 62581 보다 앞에 오게된다. 그러면 62581 에서 접두어 625 를 찾아낼 수 있다. 만약 정렬이 되어 있지 않아 62581 이 625 보다 앞에 있다면 62581 에 625 접두어가 있음에도 불구하고 625 가 해시셋에 추가되기 전에 검사가 이루어졌기 때문에(즉 이 시점에선 625 를 모르는 상태) 찾아내지 못하게 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        
+        <span class="n">sort</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">arr</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 정렬</span>
+        <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">hash_set</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">string</span> <span class="n">str</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span> <span class="c1">// arr[j]의 접두어</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//문제에서 같은 단어가 주어지는 경우는 없다고 했기 때문에 lengh() - 1</span>
+                <span class="n">str</span> <span class="o">+=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">];</span> <span class="c1">// 접두어 만들기</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">hash_set</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="o">!=</span> <span class="n">hash_set</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">flag</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"NO"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">hash_set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span> <span class="c1">// 현재 단어 추가</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"YES"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-트라이-자료구조-사용한-풀이">🔥 트라이 자료구조 사용한 풀이</h3>
+
+<blockquote>
+  <p>트라이에 관한 더 자세한 설명은 이 포스트를 참고해주세요. 👉 <a href="https://ansohxxn.github.io/algorithm/trie/">(C++) 문자열 집합 : 트라이 자료구조</a></p>
+</blockquote>
+
+<p class="notice--warning">문자열들이 저장되어 있는 트라이 트리(Trie tree)에서 단어의 첫 글자부터 타고 내려오며 검사를 하기 때문에 <strong>접두어 를 찾기에 좋은 자료구조</strong>이다. 단어들은 루트부터 트리형태로 한 데 모여있기 때문이다. <strong>자연스럽게 루트부터 타고 내려오면 모든 단어의 첫 문자부터 검사하는게 되기 때문에 접두어 찾기에 딱이다.</strong></p>
+
+<ul>
+  <li>먼저 트라이 트리를 만들고 전화번호 문자열들을 모두 저장한다.</li>
+  <li>1️⃣ <strong>현재 검사하는 번호가 트라이 트리에서 자기 자신(현재 검사하는 번호의 끝)을 제외하고 어떤 단어의 끝에 도달하였는지를 검사.</strong> 있다면 “NO” 출력 후 종료</li>
+  <li>2️⃣ 현재 검사하는 번호가 트라이 트리에서 자기 자신의 끝(현재 검사하는 번호의 끝)까지 내려와 버릴 동안 “끝 단어”를 만나지 못했다면 “YES” 출력 후 종료</li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115138821-6adfe380-a069-11eb-8ca9-6e90bff7742e.png" alt="image" /></p>
+
+<p>트라이(Trie) 트리에 { 911, 9732, 91125, 265 } 문자열들을 넣어주면 위와 같은 모습이 된다. (자식 노드 링크를 0~9 배열에 저장하여서 위와 같은 그림으로 표현함!) 문자열마다 끝이 표시되어있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">91125</code> 같은 문자열은 쭉쭉 내려오다가 <code class="language-plaintext highlighter-rouge">911</code> 까지 왔을 때 <code class="language-plaintext highlighter-rouge">isEnd</code> 가 True 인 상태를 맞닥뜨리게 된다. <code class="language-plaintext highlighter-rouge">911</code> 이라는 단어도 존재하기 때문이다! 91125 는 본인의 끝이 아닌 중간에 isEnd 를 만났기 때문에 91125 접두어로 쓰인 단어가 있다는 의미가 된다. 따라서 이와 같은 경우엔 접두어가 존재하는 경우이다.</p>
+
+<p>마찬가지로 문자열들을 정렬해준 후 위 과정을 실행해야 한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="k">private</span> <span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">isEnd</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">// 이 Trie 노드 객체가 문자열(단어)의 끝인지를 알 수 있는</span>
+    <span class="n">Trie</span><span class="o">*</span> <span class="n">child</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span> <span class="c1">// Trie 객체들은 각각 서브 트리들의 루트 노드가 된다. 자식 10 개( 0 ~ 9 )를 담을 수 있는 배열을 가지고 있음 (배열말고 해시로 해도 된다.)</span>
+    
+<span class="k">public</span> <span class="o">:</span>
+    <span class="n">Trie</span><span class="p">()</span> <span class="o">:</span> <span class="n">child</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+    
+    <span class="cm">/* 트라이 트리 만들기 */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span> <span class="n">phone_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// 루트에서부터 시작 (루트 Trie 객체에서만 이 Insert 를 한번 실행하도록 함. 재귀 안 쓰고 반복문 써서..)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> 
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span> <span class="c1">// 해당 글자 자식이 없다면 Trie 객체 만들어주기. 이미 있다면 만들어줄 필요 없음. </span>
+            <span class="c1">// 다음 글자 노드로 이동 (트리 타고 내려감) </span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">];</span>
+            <span class="c1">// 문자열의 끝에 도달했다면 해당 글자 노드의 isEnd 를 True 로</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="cm">/* 트라이 트리에 phone_number 문자열을 타고 내려가되 중간에 isEnd 가 True 인 노드를 만나면 접두어가 있다고 판단함 */</span>
+    <span class="kt">bool</span> <span class="n">IsTherePrefix</span><span class="p">(</span><span class="n">string</span> <span class="n">phone_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// 루트에서부터 시작 (루트 Trie 객체에서만 이 IsTherePrefix 를 한번 실행하도록 함. 재귀 안 쓰고 반복문 써서..)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">];</span> <span class="c1">// 다음 글자 노드로 이동 (트리 타고 내려감) </span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span><span class="p">)</span> <span class="c1">// 다음 글자가 있는 상태인데(위 if) isEnd 가 True 인 경우를 만났다는 것은 이 글자가 끝인 다른 단어가 있다는 것. 접두어! </span>
+                    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="c1">// 다음 글자도 없다면(문자열 끝에 도달) 한번도 접두어가 없었던 것! (같은 문자열이 중복으로 주어지는 경우는 없다고 제한했으니 같은 문자열 접두사 있을 걱정은 안해도 되므로 그냥 더 이상 자식 없을 때까지 걸린적 없으면 접두사 없는 것임)</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">phone_number_list</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">phone_number_list</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">phone_number_list</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">phone_number_list</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 정렬</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">trie</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span> <span class="c1">// 트라이 트리의 루트 </span>
+        <span class="kt">bool</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">phone_number</span> <span class="o">:</span> <span class="n">phone_number_list</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">trie</span><span class="o">-&gt;</span><span class="n">IsTherePrefix</span><span class="p">(</span><span class="n">phone_number</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 접두사 있는지 검사</span>
+                <span class="n">ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">trie</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">phone_number</span><span class="p">);</span> <span class="c1">// 접두사 없으면 추가</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ok</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"YES"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"NO"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

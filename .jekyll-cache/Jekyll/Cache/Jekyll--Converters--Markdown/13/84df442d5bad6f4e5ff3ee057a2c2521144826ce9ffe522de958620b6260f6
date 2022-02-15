@@ -1,0 +1,62 @@
+I"<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 5</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/4358">https://www.acmicpc.net/problem/4358</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/125741732-e2c7b843-6080-408d-a7c3-1c097fb533a7.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<ul>
+  <li>주의해야할 점
+    <ul>
+      <li>공백을 포함하여 문자열 입력 받기. key 는 공백이 포함된 문자열. 👉 <code class="language-plaintext highlighter-rouge">getline</code></li>
+      <li>소수점 넷째자리</li>
+    </ul>
+  </li>
+  <li>map 은 추가할 때 자동 정렬이 되므로 (이진 탐색 트리라서) 이 map 을 그냥 반복자를 이용해 출력하면 끝!</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">//freopen("input.txt", "r", stdin);</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">trees</span><span class="p">;</span>
+	<span class="n">string</span> <span class="n">tree_name</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">tree_name</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// 입력이 더 이상 없을 때까지 반복!</span>
+		<span class="n">trees</span><span class="p">[</span><span class="n">tree_name</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">size</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">fixed</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// 소수점 넷째자리</span>
+	<span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">tree</span> <span class="o">:</span> <span class="n">trees</span><span class="p">)</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tree</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">tree</span><span class="p">.</span><span class="n">second</span> <span class="o">/</span> <span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

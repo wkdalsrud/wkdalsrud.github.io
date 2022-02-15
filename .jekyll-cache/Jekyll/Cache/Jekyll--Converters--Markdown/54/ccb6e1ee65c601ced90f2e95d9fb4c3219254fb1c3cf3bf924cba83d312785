@@ -1,0 +1,349 @@
+I"�d<p class="notice--warning">홍정모 교수님의 강의 <strong>홍정모의 따라하며 배우는 C언어(부록)</strong> 를 듣고 정리한 필기입니다. 😀<br />
+<u>ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다.</u></p>
+
+<h1 id="chapter-5-큐">Chapter 5. 큐</h1>
+
+<h2 id="-queue-란">🚀 Queue 란?</h2>
+
+<ul>
+  <li>스택 👉 먼저 들어온게 가장 늦게 나간다. (Last In First Out)</li>
+  <li>큐 👉 먼저 들어온게 가장 먼저 나간다. (First In First Out)
+    <ul>
+      <li>들어온게 가장 뒤에 가고</li>
+      <li>가장 앞에 있는게 제일 먼저 삭제되기 떄문에</li>
+      <li><code class="language-plaintext highlighter-rouge">top</code>만 필요하던 스택과 달리, <code class="language-plaintext highlighter-rouge">first</code>, <code class="language-plaintext highlighter-rouge">last</code> 두 인덱스를 추적해야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-큐의-구현">🔥 큐의 구현</h3>
+
+<p>맨 앞 원소가 삭제될 때마다 뒤에 있는 원소들을 한 칸씩 모두 땡기는 작업을 매번 한다는 것은 매우 부담스러운 일이 될 것이다. 그래서 큐는 보통 <u>"순환 큐"</u> 구조로 구현된다. (큐가 원형인 것처럼 프로그래밍) 👉 싸그리 한 칸씩 앞으로 땡길 필요가 없음.</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109501163-910dec00-7ada-11eb-9a2c-7877d76ecfe2.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-배열로-원형-큐-구현하기">🚀 배열로 원형 큐 구현하기</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109638453-616deb00-7b91-11eb-8398-cb8b723d3aba.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109638621-8febc600-7b91-11eb-9e5b-f93e0855cfb5.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109638750-bd387400-7b91-11eb-8b03-4f10ab2ef171.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109639314-5f585c00-7b92-11eb-8b42-0c14067873cd.png" alt="image" /></p>
+
+<p>1차원 배열을 원형으로 돌기 위해(순환하기 위해) 나머지 연산자 사용!</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109639470-90389100-7b92-11eb-8d7f-c6cc4543880b.png" alt="image" /></p>
+
+<ul>
+  <li>비어있을 때 👉 Front == Rear 상태</li>
+  <li>꽉 차 있을 때 👉 Front == (Rear + 1) % MAX_SIZE
+    <ul>
+      <li>꽉 차 있을 때도 Front == Rear 이진 않다. 비어있을 때만 Front == Rear 가 되도록 구분할 것이기 때문에.</li>
+      <li><u>MAX_SIZE 보다 1 작은 개수의 원소들이 있을 때만 꽉찬 상태라고 판정할 것</u></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="arrayqueueh">📜ArrayQueue.h</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma once
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define TSIZE 45
+#define MAXSIZE 4 // MAXSIZE - 1 을 꽉찬 상태라고 볼 것!
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">element</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">Item</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">queue</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">front</span><span class="p">;</span> <span class="c1">// 큐의 첫번째 원소 위치</span>
+	<span class="kt">int</span> <span class="n">rear</span><span class="p">;</span>  <span class="c1">// 큐의 마지막 원소 위치</span>
+	<span class="kt">int</span> <span class="n">n_items</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="n">items</span><span class="p">[</span><span class="n">MAXSIZE</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">Queue</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">InitializeQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">QueueIsFull</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">QueueIsEmpty</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">QueueItemCount</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">EnQueue</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">DeQueue</span><span class="p">(</span><span class="n">Item</span><span class="o">*</span> <span class="n">pitem</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">EmptyTheQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">TraverseQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">Item</span> <span class="n">item</span><span class="p">));</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="arrayqueuec">📜ArrayQueue.c</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">InitializeQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">QueueIsFull</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span> <span class="o">==</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">QueueIsEmpty</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">==</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">QueueItemCount</span><span class="p">(</span><span class="k">const</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">EnQueue</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsFull</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Queue is full. Cannot enqueue.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">=</span> <span class="p">(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">DeQueue</span><span class="p">(</span><span class="n">Item</span><span class="o">*</span> <span class="n">pitem</span><span class="p">,</span> <span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Queue is empty. Cannot enqueue.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">=</span> <span class="p">(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">pitem</span> <span class="o">=</span> <span class="n">pq</span> <span class="o">-&gt;</span> <span class="n">items</span><span class="p">[</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">];</span>
+	<span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">EmptyTheQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">InitializeQueue</span><span class="p">(</span><span class="n">pq</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">TraverseQueue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">Item</span> <span class="n">item</span><span class="p">))</span>
+<span class="p">{</span>
+	<span class="c1">// i &lt; pq-&gt;rear 가 아닌 i != pq-&gt;rear 인 것에 주의! 순환구조라 front 가 rear 을 초과할 때도 있기 때문이다.</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="p">;</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">)</span>
+		<span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="n">pq</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">]);</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="mainc">📜main.c</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"ArrayQueue.h"</span><span class="cp">
+</span>
+<span class="n">Item</span> <span class="nf">get_item</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">new_item</span><span class="p">;</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_item</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">new_item</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_item</span><span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s "</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_queue</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span> <span class="n">pq</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Front: %d, Rear: %d, Size %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">front</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">rear</span><span class="p">,</span> <span class="n">pq</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Queue : "</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">QueueIsEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Empty"</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">TraverseQueue</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">print_item</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">Queue</span> <span class="n">queue</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="n">temp</span><span class="p">;</span>
+
+	<span class="n">InitializeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Jack"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Henry"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Stan"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Butters"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+	<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">".......Circulation Test........</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="n">InitializeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">EnQueue</span><span class="p">(</span><span class="n">get_item</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+		<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">DeQueue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">queue</span><span class="p">))</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Item from queue: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">temp</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+		<span class="n">print_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+Front: 0, Rear: 1, Size 1
+Queue : Jack
+
+Front: 0, Rear: 2, Size 2
+Queue : Jack Henry
+
+Front: 0, Rear: 3, Size 3
+Queue : Jack Henry Stan
+
+Queue is full. Cannot enqueue.
+Front: 0, Rear: 3, Size 3
+Queue : Jack Henry Stan
+
+Item from queue: Jack
+Front: 1, Rear: 3, Size 2
+Queue : Henry Stan
+
+Item from queue: Henry
+Front: 2, Rear: 3, Size 1
+Queue : Stan
+
+Item from queue: Stan
+Front: 3, Rear: 3, Size 0
+Queue : Empty
+
+Queue is empty. Cannot enqueue.
+Front: 3, Rear: 3, Size 0
+Queue : Empty
+
+.......Circulation Test........
+Front: 0, Rear: 1, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 1, Rear: 1, Size 0
+Queue : Empty
+
+Front: 1, Rear: 2, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 2, Rear: 2, Size 0
+Queue : Empty
+
+Front: 2, Rear: 3, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 3, Rear: 3, Size 0
+Queue : Empty
+
+Front: 3, Rear: 0, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 0, Rear: 0, Size 0
+Queue : Empty
+
+Front: 0, Rear: 1, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 1, Rear: 1, Size 0
+Queue : Empty
+
+Front: 1, Rear: 2, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 2, Rear: 2, Size 0
+Queue : Empty
+
+Front: 2, Rear: 3, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 3, Rear: 3, Size 0
+Queue : Empty
+
+Front: 3, Rear: 0, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 0, Rear: 0, Size 0
+Queue : Empty
+
+Front: 0, Rear: 1, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 1, Rear: 1, Size 0
+Queue : Empty
+
+Front: 1, Rear: 2, Size 1
+Queue : Hello
+
+Item from queue: Hello
+Front: 2, Rear: 2, Size 0
+Queue : Empty
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

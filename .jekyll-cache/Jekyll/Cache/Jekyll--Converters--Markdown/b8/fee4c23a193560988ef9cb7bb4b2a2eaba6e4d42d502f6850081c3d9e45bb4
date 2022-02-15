@@ -1,0 +1,121 @@
+I"�9<h1 id="-괄호-변환">📌 괄호 변환</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106380178-d4017480-63f3-11eb-8577-8d738ad5a27c.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106380185-dfed3680-63f3-11eb-843a-b1017bad9b4b.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">isProper</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="c1">// "올바른 괄호 문자열"인지 판별</span>
+<span class="p">{</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">st</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span>
+            <span class="n">st</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+                <span class="n">st</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">st</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">removeAndReverse</span><span class="p">(</span><span class="n">string</span> <span class="n">u</span><span class="p">)</span>  <span class="c1">// 4-4 의 과정</span>
+<span class="p">{</span>
+    <span class="n">u</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>   <span class="c1">// u의 첫번쨰 문자 제거</span>
+    <span class="n">u</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// u의 마지막 문자 제거</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="c1">// 괄호 방향 뒤집기</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">')'</span><span class="p">;</span> 
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'('</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">convert</span><span class="p">(</span><span class="n">string</span> <span class="n">w</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">w</span> <span class="o">==</span> <span class="s">""</span><span class="p">)</span> <span class="k">return</span> <span class="n">w</span><span class="p">;</span>  <span class="c1">// 1. 빈 문자열인 경우 검사</span>
+    
+    <span class="cm">/* 2. w = u, v 로 분리. "균형잡힌 괄호 문자열" 찾자마자 break하면 그게 바로 u, 나머지는 v*/</span>
+    <span class="kt">int</span> <span class="n">openCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kt">int</span> <span class="n">closeCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span> <span class="n">openCount</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span> <span class="n">closeCount</span><span class="o">++</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">openCount</span> <span class="o">==</span> <span class="n">closeCount</span><span class="p">)</span> 
+        <span class="p">{</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">string</span> <span class="n">u</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">v</span> <span class="o">=</span> <span class="n">w</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+    
+    <span class="n">string</span> <span class="n">result</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isProper</span><span class="p">(</span><span class="n">u</span><span class="p">))</span> <span class="c1">// 3. 문자열 u가 "올바른 괄호 문자열"이라면</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">u</span> <span class="o">+</span> <span class="n">convert</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> 
+    <span class="k">else</span> <span class="c1">// 4. 문자열 u가 "올바른 괄호 문자열"이 아니라면</span>
+        <span class="n">result</span> <span class="o">=</span>  <span class="s">"("</span> <span class="o">+</span> <span class="n">convert</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="s">")"</span> <span class="o">+</span> <span class="n">removeAndReverse</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 입력이 빈 문자열인 경우, 빈 문자열을 반환합니다. 
+2. 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리합니다. 단, u는 "균형잡힌 괄호 문자열"로 더 이상 분리할 수 없어야 하며, v는 빈 문자열이 될 수 있습니다. 
+3. 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행합니다. 
+    3-1. 수행한 결과 문자열을 u에 이어 붙인 후 반환합니다. 
+4. 문자열 u가 "올바른 괄호 문자열"이 아니라면 아래 과정을 수행합니다. 
+    4-1. 빈 문자열에 첫 번째 문자로 '('를 붙입니다. 
+    4-2. 문자열 v에 대해 1단계부터 재귀적으로 수행한 결과 문자열을 이어 붙입니다. 
+    4-3. ')'를 다시 붙입니다. 
+    4-4. u의 첫 번째와 마지막 문자를 제거하고, 나머지 문자열의 괄호 방향을 뒤집어서 뒤에 붙입니다. 
+    4-5. 생성된 문자열을 반환합니다.
+</code></pre></div></div>
+
+<p>위 과정을 그대로 코드로 옮기면 되는 문제다! “올바른 괄호 문자열”을 판별하는 코드는 <a href="https://ansohxxn.github.io/programmers/67/#-%EB%82%B4-%ED%92%80%EC%9D%B4-">지난 포스팅</a>에 썼던 코드를 그대로 활용했다. (이 문제에서는 <code class="language-plaintext highlighter-rouge">(</code>, <code class="language-plaintext highlighter-rouge">)</code>의 개수는 같다는 것을 보장해주었으니 카운팅은 하지 않음)</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">')'</span><span class="p">;</span> 
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'('</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>원래는 앞서 <code class="language-plaintext highlighter-rouge">else if</code>가 아닌 <code class="language-plaintext highlighter-rouge">if</code>로 써서 틀렸다는 결과를 얻었다. 이러면 위의 <code class="language-plaintext highlighter-rouge">if</code>에서 <code class="language-plaintext highlighter-rouge">)</code>으로 바꿔주었으니 아래 <code class="language-plaintext highlighter-rouge">if</code>에 그대로 걸리게 되어 다시금 <code class="language-plaintext highlighter-rouge">(</code>로 바뀌게 되어 오답이 되버렸던 것이다. 경우에 따라 결과가 완전히 달라질 수 있으니 <code class="language-plaintext highlighter-rouge">if - if</code>를 쓸지 <code class="language-plaintext highlighter-rouge">if - else if</code>를 쓸지는 정말 신중하게 어떻게 달라질지 고민을 해보고 결정하자는 교훈을 얻었다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

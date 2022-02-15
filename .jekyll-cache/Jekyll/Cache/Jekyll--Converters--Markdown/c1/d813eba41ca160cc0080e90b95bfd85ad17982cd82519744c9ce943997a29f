@@ -1,0 +1,109 @@
+I"�+<h1 id="-다트-게임">📌 다트 게임</h1>
+
+<blockquote>
+  <p>난이도 ⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105578325-9e8cd380-5dc2-11eb-9df8-585b93bba7dd.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105578333-acdaef80-5dc2-11eb-98d3-e1df8828f952.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">pow</span><span class="p">(</span><span class="kt">int</span> <span class="n">base</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">base</span> <span class="o">*</span> <span class="n">pow</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">dartResult</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">dartResult</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'1'</span> <span class="o">&amp;&amp;</span> <span class="n">dartResult</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'0'</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">;</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'S'</span><span class="p">)</span>
+            <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pow</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'D'</span><span class="p">)</span>
+            <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pow</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'T'</span><span class="p">)</span>
+            <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">pow</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">3</span><span class="p">));</span>
+        
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">dartResult</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">back</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">vec</span><span class="p">[</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">vec</span><span class="p">[</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dartResult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'#'</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">vec</span><span class="p">[</span><span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">vec</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">elem</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>길다 길어.. 사실 <code class="language-plaintext highlighter-rouge">'0'</code> ~ <code class="language-plaintext highlighter-rouge">'10'</code> 사이의 숫자 나오는동안만 정수로 변환해 저장해놓으면 됐을 것 같다. 제곱도 3승까지 밖에 없어서 <em>pow</em> 함수를 따로 만들 필요 없이 그냥 3 번 곱했어도 됐을 텐데!</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">*</code>의 경우 그 전의 값도 2를 곱해주어야 하기 때문에 차례대로 저장하는 벡터가 필요하다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-메모">🚀 메모</h2>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">num</span> <span class="p">=</span> <span class="m">1023</span><span class="p">;</span>
+
+<span class="n">s</span> <span class="p">+=</span> <span class="n">s</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>  <span class="c1">// 1</span>
+<span class="n">s</span> <span class="p">+=</span> <span class="n">s</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="m">0</span><span class="p">;</span>  <span class="c1">// 10</span>
+<span class="n">s</span> <span class="p">+=</span> <span class="n">s</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="m">2</span><span class="p">;</span>  <span class="c1">// 102</span>
+<span class="n">s</span> <span class="p">+=</span> <span class="n">s</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="m">3</span><span class="p">;</span>  <span class="c1">// 1023</span>
+</code></pre></div></div>
+
+<p>자리수들 조합해서 정수로 만드는 연산.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

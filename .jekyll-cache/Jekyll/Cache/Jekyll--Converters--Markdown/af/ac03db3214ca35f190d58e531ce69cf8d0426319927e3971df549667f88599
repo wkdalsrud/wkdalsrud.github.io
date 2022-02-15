@@ -1,0 +1,265 @@
+I"��<h1 id="그래프-순위">[그래프] 순위</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/99494394-45648600-29b4-11eb-8478-5f1d37d2d84d.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="풀이-1️⃣-dfs">풀이 1️⃣ (DFS)</h2>
+
+<blockquote>
+  <p>(승리 횟수 + 패배 횟수)가 <code class="language-plaintext highlighter-rouge">n - 1</code>이면 그 선수는 정확하게 순위를 매길 수 있는 선수다. 자기 자신을 제외한 <code class="language-plaintext highlighter-rouge">n - 1</code>명과의 확실한 순위 비교가 가능한 선수라는 뜻이기 때문에 !</p>
+</blockquote>
+
+<p>A 가 B 를 이겼고, B 가 C 를 이겼다면 A 는 C 를 이긴적은 없지만 C 보다 더 윗 순위임을 알 수 있다. A 와 C 가 직접적으로 붙었는지 아닌지 알 수는 없더라도 A 는 C 를 이긴 B 를 이겼기 때문에 반드시 C 를 이긴다. 모든 경기 결과에는 모순이 없고 실력이 더 좋은 선수가 항상 이긴다는 가정이 있기 때문에 가능한 발상이다. [A, B]와 [B, C] 데이터로 [A 👉 B 👉 C] 를 만들어내는 것.. DFS가 딱 떠오른다!!! A 가 이긴 상대가 이긴 상대 이런식으로 쭉쭉 깊이 타고 들어가면 될 것이다.</p>
+
+<p><strong>이긴 횟수와 진 횟수를 DFS 방식으로 각각 구할 것이다.</strong> 그리고 이 두 횟수를 더했을 때 <code class="language-plaintext highlighter-rouge">n - 1</code>이 된다면 그 선수는 확실한 순위를 매길 수 있는 선수다.</p>
+
+<ul>
+  <li><strong><em>Win</em></strong>  <code class="language-plaintext highlighter-rouge">[[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">1</code> 선수에서 출발할 때
+        <ul>
+          <li>[1, 2] 👉 [2, 5] 즉 1-2-5</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">1</code>이 확실히 이길 수 있는 선수의 수 = 2, 5 이렇게 <strong>2 명</strong> (1가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">2</code> 선수에서 출발할 때
+        <ul>
+          <li>[2, 5] 즉 2-5</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">2</code>이 확실히 이길 수 있는 선수의 수 = 5 이렇게 <strong>1 명</strong> (1가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">3</code> 선수에서 출발할 때
+        <ul>
+          <li>[3, 2] 👉 [2, 5] 즉 3-2-5</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">3</code>이 확실히 이길 수 있는 선수의 수 = 2, 5 이렇게 <strong>2 명</strong> (1가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">4</code> 선수에서 출발할 때
+        <ul>
+          <li>[4, 3] 👉 [3, 2] 즉 4-3-2</li>
+          <li>[4, 2]는 돌지 않는다. <code class="language-plaintext highlighter-rouge">2</code>를 위 경로에서 방문 했었기 때문에. 즉, <code class="language-plaintext highlighter-rouge">2</code>선수는 확실히 <code class="language-plaintext highlighter-rouge">4</code>선수가 이길 수 있다는 것이 확인이 됐기 때문에.</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">4</code>이 확실히 이길 수 있는 선수의 수 = 3, 2 이렇게 <strong>2 명</strong> (1가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">5</code> 선수에서 출발할 때
+        <ul>
+          <li>선수 <code class="language-plaintext highlighter-rouge">5</code>이 확실히 이길 수 있는 선수의 수 <strong>0 명</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong><em>Lose</em></strong>  (원소들의 첫번째, 두번째 순서를 바꾼 <code class="language-plaintext highlighter-rouge">[[3, 4], [2, 4], [2, 3], [2, 1], [5, 2]]</code> 라고 생각해보자)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">1</code> 선수에서 출발할 때
+        <ul>
+          <li>선수 <code class="language-plaintext highlighter-rouge">1</code>이 확실히 패배하는 선수의 수 <strong>0 명</strong></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">2</code> 선수에서 출발할 때
+        <ul>
+          <li>[2, 4] 즉 2-4</li>
+          <li>[2, 3] 즉 2-3</li>
+          <li>[2, 1] 즉 2-1</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">2</code>이 확실히 패배하는 선수의 수 = 4, 3, 1 이렇게 <strong>3 명</strong> (3가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">3</code> 선수에서 출발할 때
+        <ul>
+          <li>[3, 4] 즉 3-4</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">3</code>이 확실히 패배하는 선수의 수 = 4 이렇게 <strong>1 명</strong> (1가지 경로)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">4</code> 선수에서 출발할 때
+        <ul>
+          <li>선수 <code class="language-plaintext highlighter-rouge">4</code>이 확실히 패배하는 선수의 수 <strong>0 명</strong></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">5</code> 선수에서 출발할 때
+        <ul>
+          <li>[5, 2] 👉 [2, 3] 👉 [3, 4] 즉 5-2-3-4</li>
+          <li>[5, 2] 👉 [2, 1] 👉 즉 5-2-1</li>
+          <li>선수 <code class="language-plaintext highlighter-rouge">5</code>이 확실히 패배하는 선수의 수 = 2, 3, 4, 1 이렇게 <strong>4 명</strong> (2가지 경로)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">winDFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">results</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">visited</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">visited</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">winDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+                                               
+<span class="kt">int</span> <span class="nf">loseDFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">results</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">visited</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">visited</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">loseDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>          
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">winVisited</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">loseVisited</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">winDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">winVisited</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">loseDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">loseVisited</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>각각의 선수들 마다 (for문 <code class="language-plaintext highlighter-rouge">1 ~ n</code> 순회) 확실히 이길 수 있는 상대의 수(<code class="language-plaintext highlighter-rouge">winDFS</code>) + 붙으면 확실히 지는 상대의 수(<code class="language-plaintext highlighter-rouge">loseDFS</code>)를 구한다. 이 두수의 합이 <code class="language-plaintext highlighter-rouge">n - 1</code>과 일치하면 이 선수는 확실히 순위를 알 수 있는 선수이므로 <code class="language-plaintext highlighter-rouge">answer</code>를 1 증가시킨다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">winDFS</code>, <code class="language-plaintext highlighter-rouge">loseDFS</code> 방문 체크 벡터를 각각 다른걸로 쓰게 했다. <code class="language-plaintext highlighter-rouge">loseDFS</code>를 구할 땐 전부 false로 초기화된 방문 체크 벡터로 시작해야 해서 그냥 두개로 선언했다.
+        <ul>
+          <li>매 for문 반복마다, 즉 선수마다 방문 체크 벡터는 새롭게 선언되고 DFS도 새롭게 진행 된다. 출발지 다른 새로운 경로를 짜는 거라서..</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">winDFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">results</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">visited</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">visited</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">==</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">winDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">winDFS</code> 는 <code class="language-plaintext highlighter-rouge">results[i][0]</code> 👉 <code class="language-plaintext highlighter-rouge">results[i][1]</code> 방향으로의 이동이 진행된다.
+    <ul>
+      <li>깊게 들어가는 조건 👉 <code class="language-plaintext highlighter-rouge">results[i][1]</code> 선수 방문 X</li>
+    </ul>
+  </li>
+  <li>방문 했던 곳은 다시는 지나치지도 않도록 <code class="language-plaintext highlighter-rouge">visited</code>를 reference 로 선언했고 방문 체크를 해제하는 작업도 하지 않는다.</li>
+  <li>각각의 재귀 함수는 <code class="language-plaintext highlighter-rouge">count</code>를 리턴한다. 최종적으로 초기 <code class="language-plaintext highlighter-rouge">winDFS</code>는 리턴값으로 (각 경로의 길이)들의 합을 받게 될 것이다. 즉, 해당 선수가 확실히 이길 수 있는 선수를 전부 센 값.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">winDFS</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>각 단계마다 일단 <code class="language-plaintext highlighter-rouge">count</code>는 0으로 초기화 한 상태에서 시작한다. 어차피 리턴되서 상위 호출에서 받는다.</li>
+  <li>
+    <p>각 단계마다 일단 현재의 선수를 방문 체크 해준다.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">loseDFS</code> 는 <code class="language-plaintext highlighter-rouge">results[i][1]</code> 👉 <code class="language-plaintext highlighter-rouge">results[i][0]</code> 방향으로의 이동이 진행된다.
+    <ul>
+      <li>깊게 들어가는 조건 👉 <code class="language-plaintext highlighter-rouge">results[i][0]</code> 선수 방문 X</li>
+    </ul>
+  </li>
+  <li>나머지 <code class="language-plaintext highlighter-rouge">winDFS</code>와 동일.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="풀이-2️⃣-플로이드-와샬-알고리즘">풀이 2️⃣ (플로이드 와샬 알고리즘)</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">graph</span><span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="n">graph</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+                    <span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">||</span> <span class="n">graph</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>플로이드 와샬 알고리즘의 자세한 설명은 <a href="https://ansohxxn.github.io/algorithm/floyd/">링크 클릭</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/99629728-d7839180-2a7b-11eb-9af9-8804eb78305f.png" alt="image" /></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="n">graph</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+                    <span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>(i, j) 원소는 <code class="language-plaintext highlighter-rouge">i</code> 선수가 <code class="language-plaintext highlighter-rouge">j</code> 선수를 이길 수 있느냐에 대한 bool 값이다. <code class="language-plaintext highlighter-rouge">i</code> 선수가 <code class="language-plaintext highlighter-rouge">n</code>선수를 거쳐서도 <code class="language-plaintext highlighter-rouge">j</code> 선수를 이길 수 있는게 확실하다면 원소 값을 True로 설정한다. <u>확실하지 않다면 기존 값으로 냅둔다.</u>  즉 <strong>선수 n을 통해(경유해서) 승리를 확신할 수 있게 된 경우엔 True로 업데이트 해준다.</strong> False로 갱신되는 경우는 없음!! (경유 할 수 없으면 False로 바꿔야 하나 하고 혼란스러웠던 적이 있다.)</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/99629764-e66a4400-2a7b-11eb-8000-3310e4f37253.png" alt="image" /></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span> <span class="o">||</span> <span class="n">graph</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>내가 확실히 승리할 수 있는 선수의 수와 내가 붙으면 확실히 지는 선수의 수를 합한 값이 <code class="language-plaintext highlighter-rouge">n - 1</code> 이라면 모두와의 비교가 가능하다는 뜻이니 나는 순위를 확실히 정할 수 있는 사람이므로 이때 <code class="language-plaintext highlighter-rouge">answer</code>를 1 증가시킨다. <code class="language-plaintext highlighter-rouge">graph[i][j]</code>, <code class="language-plaintext highlighter-rouge">graph[j][i]</code> 둘 중 하나라도 True 값이라면 동일한 경기에서 누구는 지고 누구는 이겼다는 뜻이니 비교 가능한 경우다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

@@ -1,0 +1,191 @@
+I"�e<h1 id="-지형-이동">📌 지형 이동</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117474560-ff1cd680-af95-11eb-90c1-0647e77daa5d.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117474650-1956b480-af96-11eb-84cb-db9044b35639.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<ul>
+  <li>1️⃣ <strong>BFS</strong> 를 통해 연결 되어 있는 그래프(= 사다리 안놓고 갈 수 있는 곳)들로 구분한다.</li>
+  <li>2️⃣ 각 그래프를 연결 하는 비용(= 사다리 비용)을 구한다.</li>
+  <li>3️⃣ BFS 로 나눈 그래프들을 <u>하나의 그래프로 통합</u>할 수 있도록 사이클 없고 최소 비용(= 사다리 비용)으로 연결하는 <strong>최소 신장 트리</strong>를 만든다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="1️⃣-bfs-를-통해-연결-되어-있는-그래프-사다리-안놓고-갈-수-있는-곳들을-구분한다">1️⃣ BFS 를 통해 연결 되어 있는 그래프(= 사다리 안놓고 갈 수 있는 곳)들을 구분한다.</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117604643-e0cefa80-b190-11eb-84aa-8cc53a26add5.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117605201-29d37e80-b192-11eb-9a51-88a35ddb3631.png" alt="image" /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">graph_number</code> 같은 값을 가진 그래프는 같은 그래프로 구분한다.</p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">graph_number</code> 값이 0 이 아닌 곳은 이미 탐색이 완료 되었다는 곳이다.</li>
+  <li>그래픝 넘버가 같은 값인 위치들은 서로 같은 그래프이다.
+    <ul>
+      <li>여기서 ‘같은 그래프’란 사다리 안 놓고 서로 한 번에 갈 수 있는 위치들.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="2️⃣-각-그래프를-연결-하는-사다리-비용간선-가중치을-구한다">2️⃣ 각 그래프를 연결 하는 사다리 비용(간선 가중치)을 구한다.</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117605886-ac107280-b193-11eb-844a-432409554322.png" alt="image" /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">edges</code> 에 두 그래프 사이를 연결하는 비용을 저장해둔다.</p>
+</blockquote>
+
+<p>BFS 로 여러 그래프로 구분하는 작업을 모두 마친 후, 그래프 사이의 비용(= 사다리 비용)을 모두 구해 <code class="language-plaintext highlighter-rouge">edges</code> 에 저장한다.</p>
+
+<p><br /></p>
+
+<h3 id="3️⃣-그래프들을-모두-최소-신장-트리로서-하나의-그래프로-통합하여-연결한다-with-크루스칼-알고리즘">3️⃣ 그래프들을 모두 최소 신장 트리로서 하나의 그래프로 통합하여 연결한다. (with 크루스칼 알고리즘)</h3>
+
+<blockquote>
+  <p><a href="https://ansohxxn.github.io/algorithm/mst/">(C++) 최소 신장 트리 MST, 크루스칼 알고리즘, 프림 알고리즘</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/117605993-f134a480-b193-11eb-98f1-4c615d2c3997.png" alt="image" /></p>
+
+<ul>
+  <li>최소 간선부터 차례 차례 검사하며 사이클이(= 부모, 즉 루트가 같지 않은) 없으면서 최소 가중치 간선만을 사용하여 그래프를 하나로 통합한다. 즉, 모두 연결함. 👉 최소 신장 트리
+    <ul>
+      <li>최소 사다리 비용을 들여서 모든 위치를 다 갈 수 있게 연결하는 작업.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// 위치 (BFS 에 사용)</span>
+<span class="k">struct</span> <span class="nc">Edge</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">cost</span><span class="p">,</span> <span class="n">graph_1</span><span class="p">,</span> <span class="n">graph_2</span><span class="p">;</span> <span class="p">};</span> <span class="c1">// 간선 (edges 에 저장할 단위로 비용, 간선의 양 끝점 함께 묶어 저장)</span>
+<span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="k">const</span> <span class="n">Edge</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Edge</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">cost</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// 크루스칼은 가중치 별 오름차순 정렬이 필요하기 떄문에 비용으로 크기 따지는 비교 함수 마련</span>
+
+<span class="kt">int</span> <span class="n">graph_number</span><span class="p">[</span><span class="mi">301</span><span class="p">][</span><span class="mi">301</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>  <span class="c1">// 위치 별로 속한 그래프를 구분</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">edges</span><span class="p">;</span> <span class="c1">// 간선 정보들 저장</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">;</span> <span class="c1">// 그래프 넘버별로 부모 정점 저장 (같은 부모면 같은 그래프)</span>
+<span class="kt">int</span> <span class="n">group_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 현재까지 생긴 그래프 수 (넘버 저장)</span>
+<span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">dy</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">_land</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">_height</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">BFS</span><span class="p">(</span><span class="n">Pos</span> <span class="n">start</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+    <span class="c1">// BFS 로 탐색할 수 있는, 사다리 안타고 갈 수 있는 연결된 하나의 그래프는 모두 graph_number[start.i][start.j] 로 통일되어 같은 그래프임을 표시할 것</span>
+    <span class="n">graph_number</span><span class="p">[</span><span class="n">start</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">start</span><span class="p">.</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">++</span><span class="n">group_count</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Pos</span> <span class="n">next</span><span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">i</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">now</span><span class="p">.</span><span class="n">j</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">};</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">next</span><span class="p">.</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">j</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">graph_number</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+            <span class="c1">// 사다리 비용 안쓰고 그냥 갈 수 있는 경우에만 예약 </span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">_land</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">_land</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">_height</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">graph_number</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">group_count</span><span class="p">;</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">next</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 크루스칼의 Find</span>
+<span class="kt">int</span> <span class="nf">getParent</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">getParent</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">a</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="c1">// 크루스칼의 Union</span>
+<span class="kt">void</span> <span class="nf">unionParent</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">getParent</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">getParent</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">parent</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">land</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="n">land</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">_land</span> <span class="o">=</span> <span class="n">land</span><span class="p">;</span>
+    <span class="n">_height</span> <span class="o">=</span> <span class="n">height</span><span class="p">;</span>
+
+    <span class="c1">// 1️⃣ BFS 로 사다리 안 쓰고 갈 수 있는 연결된 그래프들로 나누기. (같은 그래프끼린 같은 번호 부여)</span>
+    <span class="c1">// graph_number</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">graph_number</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">BFS</span><span class="p">({</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="p">});</span>
+
+    <span class="c1">// 2️⃣ 각각의 그래프들끼리 연결할 수 있는 사다리 비용(간선 가중치) 저장 </span>
+    <span class="c1">// edges</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">Pos</span> <span class="n">next</span><span class="p">{</span> <span class="n">i</span> <span class="o">+</span> <span class="n">dy</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">j</span> <span class="o">+</span> <span class="n">dx</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">};</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">next</span><span class="p">.</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">N</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">j</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">next</span><span class="p">.</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">graph_number</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">graph_number</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">])</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// 같은 그래프면 사다리 놓을 필요 없음</span>
+                <span class="kt">int</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">_land</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">_land</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">]);</span>
+                <span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span> <span class="n">cost</span><span class="p">,</span> <span class="n">graph_number</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">graph_number</span><span class="p">[</span><span class="n">next</span><span class="p">.</span><span class="n">i</span><span class="p">][</span><span class="n">next</span><span class="p">.</span><span class="n">j</span><span class="p">]</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 3️⃣ 크루스칼 알고리즘을 사용해 그래프들을 하나로 통합하는데 최소 신장 트리로서 통합한다. (최소의 사다리 비용을 들여서 사이클 없이)</span>
+    <span class="c1">// 정렬 (최소 간선부터)</span>
+    <span class="n">sort</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">edges</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span> 
+    <span class="c1">// 부모 초기화 (인덱스는 하나의 그래프에 대응)</span>
+    <span class="n">parent</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">group_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">group_count</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">edges</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">getParent</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">graph_1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">getParent</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">graph_2</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 부모가 같지 않다면 (즉, 같은 그래프가 아니라면)</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">cost</span><span class="p">;</span>
+            <span class="n">unionParent</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">graph_1</span><span class="p">,</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">graph_2</span><span class="p">);</span> <span class="c1">// 통합한다.</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// MST 로 만듦으로서 하나의 그래프로 통합하였으니 이제 모든 그래프의 부모가 같게 된다.</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

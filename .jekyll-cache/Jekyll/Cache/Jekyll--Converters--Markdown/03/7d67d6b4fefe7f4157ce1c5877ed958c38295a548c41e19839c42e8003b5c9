@@ -1,0 +1,42 @@
+I"<p class="notice--warning"><strong>C/C++</strong>로 풀이했습니다.<br />
+출처 : <strong>Code Up</strong> 문제 풀이. <a href="https://codeup.kr/">https://codeup.kr/</a></p>
+
+<p><br /></p>
+
+<p>문제 출처 <a href="https://codeup.kr/problem.php?id=1082">https://codeup.kr/problem.php?id=1082</a>
+***</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/101648065-caefc900-3a7c-11eb-8737-e5468e57952e.png" alt="image" /></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%X*%X=%X</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">55</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">55</span><span class="p">)</span> <span class="o">*</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>입력은 <code class="language-plaintext highlighter-rouge">A</code> ~ <code class="language-plaintext highlighter-rouge">F</code> 만 된다.
+    <ul>
+      <li>이를 <code class="language-plaintext highlighter-rouge">10</code> ~ <code class="language-plaintext highlighter-rouge">15</code> 로 만들어야 하므로 A 의 아스키 코드 값인 65 에서 10 을 뺀 55를 빼준다.</li>
+    </ul>
+  </li>
+  <li>출력은 대문자 16진수로.</li>
+</ul>
+
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

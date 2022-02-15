@@ -1,0 +1,18 @@
+I"<ul class="toc__menu">
+  <li><a href="#그대로-출력하기">그대로 출력하기</a>
+    <ul>
+      <li><a href="#내-풀이">내 풀이</a>
+        <ul>
+          <li><a href="#getline">getline</a>
+            <ul>
+              <li><a href="#istream의-getline">istream의 getline</a></li>
+              <li><a href="#string의-getline">string의 getline</a></li>
+              <li><a href="#stdcin-과의-차이">std::cin 과의 차이</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

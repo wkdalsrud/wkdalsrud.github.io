@@ -1,0 +1,123 @@
+I"�!<h1 id="그대로-출력하기">그대로 출력하기</h1>
+
+<blockquote>
+  <p>11718번 문제 👉 <a href="https://www.acmicpc.net/problem/11718">https://www.acmicpc.net/problem/11718</a></p>
+</blockquote>
+
+<blockquote>
+  <p>난이도 👉 <strong>브론즈 3</strong></p>
+</blockquote>
+
+<h2 id="내-풀이">내 풀이</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">string</code>의 <code class="language-plaintext highlighter-rouge">getline</code>을 사용했다.</li>
+  <li>매 반복마다 <u>버퍼로부터 '\n'을 기준으로 끊어서 읽어들여 str에 저장한다.</u>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">getline</code>은 ‘\n’을 버퍼에 남기지 않는다. 그냥 무시할뿐!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="getline">getline</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">\n</code> 개행 문자(엔터)가 나올 때까지 <u>공백, 띄어쓰기 포함</u>하여 문자들을 다 읽어들인다.
+    <ul>
+      <li>즉 한 줄을 통째로 읽어 들인다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">\n</code>이 디폴트 값이며 제한자를 다른 걸로 바꿀 수도 있다.</li>
+</ul>
+
+<h4 id="istream의-getline">istream의 getline</h4>
+
+<blockquote>
+  <p>istream::cin 의 <code class="language-plaintext highlighter-rouge">getline</code></p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">istream</span> <span class="o">&amp;</span> <span class="n">getline</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">streamsize</span> <span class="n">n</span><span class="p">,</span> <span class="kt">char</span> <span class="n">delim</span><span class="p">);</span>  <span class="c1">// delim 디폴트 값은 '\n'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>끝에 ‘\0’이 붙는 <code class="language-plaintext highlighter-rouge">char *</code>형식의 <u>C 언어 스타일 문자열</u>에 입력하는 방식이다.</li>
+  <li>즉 인수가 <code class="language-plaintext highlighter-rouge">char *</code> 포인터 형식이다.</li>
+  <li>끝에 ‘\0’을 저장해주어야 해서 ‘\0’이 붙는 것도 고려해야 한다. 따라서 실 문자 개수는 n-1개가 들어가게 된다.</li>
+  <li><u>n-1개의 문자를 읽어들인다.</u></li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 콘솔 입력 : cin.getline</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="c1">// 파일 입력 : ifstream 객체에서 getline 호출</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="n">ifstream</span> <span class="n">ifs</span><span class="p">;</span>
+<span class="n">ifs</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"input.txt"</span><span class="p">);</span>
+<span class="n">ifs</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="string의-getline">string의 getline</h4>
+
+<blockquote>
+  <p>string 의 <code class="language-plaintext highlighter-rouge">getline</code></p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">istream</span> <span class="o">&amp;</span> <span class="n">getline</span> <span class="p">(</span><span class="n">istream</span> <span class="o">&amp;</span> <span class="n">is</span><span class="p">,</span> <span class="n">string</span> <span class="o">&amp;</span> <span class="n">str</span><span class="p">,</span> <span class="kt">char</span> <span class="n">delim</span><span class="p">);</span>  <span class="c1">// delim 디폴트 값은 '\n'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>입력 스트림이 첫번재 인자로 오고 두번째 인자로는 string 객체를 받는다.</li>
+  <li><code class="language-plaintext highlighter-rouge">string</code>형식의 <u>C++ 언어 스타일 문자열</u>에 입력하는 방식이다.</li>
+  <li>인수로 <code class="language-plaintext highlighter-rouge">char *</code> 포인터 형식을 넣어줘선 안된다!</li>
+  <li><code class="language-plaintext highlighter-rouge">cin.getline</code>과 달리 읽어들일 문자의 개수를 지정하는건 없다.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 콘솔 입력 </span>
+<span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+<span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+
+<span class="c1">// 파일 입력 </span>
+<span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+<span class="n">ifstream</span> <span class="n">ifs</span><span class="p">;</span>
+<span class="n">ifs</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"input.txt"</span><span class="p">);</span>
+<span class="n">getline</span><span class="p">(</span><span class="n">ifs</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="stdcin-과의-차이">std::cin 과의 차이</h4>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">getline</code>은 string이든 cin이든 둘 다 해당</p>
+</blockquote>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">cin</code>은 공백, 탭, 엔터를 기준으로 나누어 읽어들인다. 반면에 <code class="language-plaintext highlighter-rouge">getline</code>은 오직 엔터 <code class="language-plaintext highlighter-rouge">\n</code>을 기준으로 읽어들인다.</li>
+  <li><code class="language-plaintext highlighter-rouge">cin</code>은 공백, 탭, 엔터를 <u>버퍼에 남긴다.</u> 반면에 <code class="language-plaintext highlighter-rouge">getline</code>은 엔터까지 읽어들이면서 <u>엔터를 버퍼에 남기지 않는다. 버퍼에 남기지 않고 그냥 버린다!</u></li>
+</ol>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

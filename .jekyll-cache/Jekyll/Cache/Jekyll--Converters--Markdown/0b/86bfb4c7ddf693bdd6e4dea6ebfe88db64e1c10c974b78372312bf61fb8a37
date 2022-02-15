@@ -1,0 +1,500 @@
+I"İ<h1 id="정렬-가장-큰-수">[정렬] 가장 큰 수</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/90333618-41664800-e002-11ea-9bcf-eae89be42f71.png" alt="image" width="80%" height="80%" class="align-center" /></p>
+
+<p>배울게 많은 문제였다!</p>
+
+<p><br /></p>
+
+<h2 id="내-풀이-feat-삽질-과정-">내 풀이 (feat. 삽질 과정) ❌</h2>
+
+<blockquote>
+  <p>정답인 풀이는 아래에 있습니다. 1 ~ 3 차 이 풀이들은 제 틀린 풀이라는 것에 유념해주세요!</p>
+</blockquote>
+
+<ul>
+  <li>모 ~ 든 조합을 다 따져본 후 최대값을 구하는건 엄청나게 비효율적이라는 것은 인지 하고 시작했다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">numbers</code>의 길이가 100,000 까지도 갈 수 있기 때문에</li>
+    </ul>
+  </li>
+  <li>‘📢틀린’ 내 풀이의 아이디어
+    <ul>
+      <li>붙여 이었을 때 큰 수를 만들 수 있는 것을 기준으로 <code class="language-plaintext highlighter-rouge">numbers</code>을 내림 차순 정렬을 한 후 차례대로 원소들을 이어 붙이면 그것이 바로 정답!
+        <ul>
+          <li>sort 함수에 넘길 비교 함수를 따로 마련한다.</li>
+          <li>정렬 기준 👉
+            <ul>
+              <li>왼쪽 자릿수부터 검사하여 비교한 자릿수가 더 큰 것이 더 크다고 정의 내린다. 단, 두 자릿수가 같다면 그 뒤에 있는 자릿수끼리 비교한다.</li>
+              <li>예를 들어 112 와 12 을 비교한다면 12112 &gt; 11212 로 12 가 112 보다 앞서서 붙여주는게 더 크다.
+                <ul>
+                  <li>우선 비교하기에 앞서 자릿수들을 구분한다. 112 는 1, 1, 2 로 12 는 1, 2 로.
+                    <ul>
+                      <li>나는 이 자릿수들을 2 개의 스택에 각각 저장하기로 했다.</li>
+                      <li>자릿수 계산은 10을 나눈 나머지로 계산되므로 오른쪽 끝 자릿수부터 저장된다.</li>
+                    </ul>
+                  </li>
+                  <li>스택에 저장되므로 가장 먼저 빠져나오는 것은 왼쪽 끝자릿수이다.
+                    <ul>
+                      <li>1 과 1 을 비교 👉 같으므로 두 스택을 pop 한다.</li>
+                      <li>1 과 2 을 비교 👉 1 &lt; 2 이므로 <code class="language-plaintext highlighter-rouge">112 &lt; 12</code> 라고 판단한다.</li>
+                    </ul>
+                  </li>
+                  <li>만약 스택의 사이즈가 둘 다 1 인데 또 값이 같다면 두 수가 완전 같은 수라고 판단한다.</li>
+                  <li>스택의 사이즈가 1 은 아니지만 두 수가 같다면 스택에서 pop 한다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>이렇게 나는 위와 같이 두 수를 비교할 수 있으며 이와 같은 기준으로 정렬하면 될 것이라고 생각했다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="1-차-풀이">1 차 풀이</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_A</span><span class="p">;</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">quo_a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">quo_b</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_A</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_a</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_B</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_b</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_A</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_B</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">numbers</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>결론적으로 이 풀이는 <strong>런타임 에러</strong>가 나는 테스트 케이스가 존재할 수 있다.</p>
+</blockquote>
+
+<ul>
+  <li>런타임 에러가 나는 케이스 👉 <u>원소가 0 일 때</u>
+    <ul>
+      <li>원소가 0 이면 <code class="language-plaintext highlighter-rouge">while(quo_a &gt; 0)</code> 혹은 <code class="language-plaintext highlighter-rouge">while(quo_b &gt; 0)</code> 에 걸리지 않아 while 문을 돌지 않기 때문에 스택에 아무것도 추가하지 못한 채 빈 스택으로 남게된다.</li>
+      <li>그런 상태에서 <code class="language-plaintext highlighter-rouge">stack_A.top()</code>, <code class="language-plaintext highlighter-rouge">stack_B.top()</code><u>빈 스택에 접근하려고 하니 런타임 에러가 발생하는 것</u></li>
+    </ul>
+  </li>
+  <li>🎵 교훈
+    <ul>
+      <li>런타임 에러 segmentation fault (core dumped)에러가 발생한다면 빈 컨테이너 혹은 아무것도 없는 null 상태에서 그 빈 인스턴스의 함수를 호출하려고 하진 않는지 그런 경우는 혹시 없는지 검사를 꼭 해야 한다.
+        <ul>
+          <li>런타임 에러가 발생하므로 stack.top() 호출 하기 전에 빈 스택이 되는 경우는 없었는지 체크했어야 했다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>아래와 같이 고쳐주었다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="n">stack_A</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+      <span class="n">quo_a</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">quo_a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+    
+  <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="n">stack_B</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+      <span class="n">quo_b</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">quo_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="2-차-풀이">2 차 풀이</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_A</span><span class="p">;</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">quo_a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">quo_b</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_A</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_a</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_B</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_b</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_A</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_B</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">numbers</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>결론적으로 이 풀이는 <strong>시간 초과, 런타임 에러</strong> 가 되는 테스트 케이스가 존재할 수 있다.</p>
+</blockquote>
+
+<ul>
+  <li>처음에는 이해하지 못했다. 아무리 봐도 1 억번 연산을 넘기지는 않는데 도대체 왜 시간 초과가 될까..!</li>
+  <li>📢 문제는 <code class="language-plaintext highlighter-rouge">return stack_A.top() == stack_B.top();</code>에 있었다. <code class="language-plaintext highlighter-rouge">a &lt; b</code> 를 만족하는 관계 뿐만아니라 <code class="language-plaintext highlighter-rouge">a == b</code> 두 값이 같은 경우에도 true를 리턴 하는 경우가 문제였던 것이다.
+    <ul>
+      <li>이러한 코드는 <strong>strict weak ordering</strong>을 위반하기 때문에 정렬이 정상적으로 이루어지지 않는다.</li>
+      <li>정렬을 하기 위해 두 수의 크기 비교를 할 때 항상 **<u>strict weak ordering<u>** 조건들을 반드시 만족해야 한다.
+</u></u>        <ul>
+          <li>1️⃣ x &lt; y 가 참이면 y &lt; x 는 false 여야 한다.</li>
+          <li>2️⃣ x &lt; y 이고 y &lt; z 이면 x &lt; z 도 참이어야 한다.</li>
+          <li>3️⃣ a &lt;= b 이고 b &lt;= a 이고 b &lt;= c 이고 c &lt;= b 라면 <code class="language-plaintext highlighter-rouge">a = b = c</code> 이다. 따라서 a &lt;= c 이고 c &lt;= a 인 ` a = c`도 성립해야 한다.</li>
+          <li>4️⃣ 연산자 <code class="language-plaintext highlighter-rouge">&lt;</code> 에 대해서 <code class="language-plaintext highlighter-rouge">a &lt; a</code> 는 false 라는 것을 항상 보장해야 한다.</li>
+          <li><u>위 조건들이 만족되지 않으면 여러 원소들을 정렬하는데 혼돈의 카오스를 빚을 것이다!</u> 명확하게, 안정적으로 정렬되지 못한다.</li>
+        </ul>
+      </li>
+      <li>위의 조건들에 의해 같은 것 끼리의 <code class="language-plaintext highlighter-rouge">&lt;</code> 비교 연산은 반드시 false를 리턴해야 한다.
+        <ul>
+          <li>난 같은 경우에도 <code class="language-plaintext highlighter-rouge">true</code>를 리턴하게끔 했기 때문에 STL 비교함수가 혼란을 겪은 것이다.</li>
+          <li>STL 비교 함수는 “동등한가?”가 아닌 “첫번 째 것이 두번째 것 보다 작은가?”라고 묻는 다는 것을 기억하자.
+            <ul>
+              <li>It sorts only different numbers. You should always use <code class="language-plaintext highlighter-rouge">&lt;</code> or <code class="language-plaintext highlighter-rouge">&gt;</code> to compare things. You should have no reason to use <code class="language-plaintext highlighter-rouge">&lt;=</code> or <code class="language-plaintext highlighter-rouge">&gt;=</code> operator.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>🎵 교훈
+    <ul>
+      <li>비교함수를 구현할 땐 <code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code> 일 때 true 로 리턴하게끔 하면 안되고 반드시 <code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;</code> 한가지 경우에만 true를 리턴하게끔 명확히 해야 한다.</li>
+    </ul>
+  </li>
+  <li>아래와 같이 바꿔 주었더니 시간 초과, 런타임 에러는 사라졌다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">// 같은 경우 true가 아닌 false를 리턴하게끔 바꿨다.</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="3차-풀이">3차 풀이</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_A</span><span class="p">;</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">quo_a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">quo_b</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_A</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_a</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_B</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_b</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_A</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_B</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">numbers</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<blockquote>
+  <p>이 풀이는 틀렸습니다</p>
+</blockquote>
+
+<ul>
+  <li>왜 틀렸냐면 <code class="language-plaintext highlighter-rouge">0, 0, 0, 0</code> 모두 0 인 케이스를 고려하지 않았기 때문이다.
+    <ul>
+      <li>이런 경우엔 <code class="language-plaintext highlighter-rouge">"0000"</code>가 되는 것이 아닌 <code class="language-plaintext highlighter-rouge">"0"</code>이 되어야 한다.</li>
+      <li>이런 경우를 커버하기 위해 solution 함수에 아래와 같은 코드를 추가해주었다.
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1">// 내림차순 정렬이니 첫번째 원소가 0 이면 그냥 그 numbers 배열의 원소는 전부 0 이라는 뜻 </span>
+        <span class="k">return</span> <span class="s">"0"</span><span class="p">;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="이-풀이의-한계점">이 풀이의 한계점</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_A</span><span class="p">;</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">quo_a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">quo_b</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_A</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_a</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_a</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">stack_B</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">quo_b</span> <span class="o">%</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="n">quo_b</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">quo_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">==</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_A</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_A</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">stack_B</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">stack_B</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="n">stack_A</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">stack_B</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">"0"</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">numbers</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>그럼에도 불구하고 위 풀이는 프로그래머스의 테스트케이스 1번 ~ 6번을 계속해서 실패했다.
+    <ul>
+      <li>반례는 다름이 아니라 <code class="language-plaintext highlighter-rouge">20</code> &amp; <code class="language-plaintext highlighter-rouge">200</code> 같은 상황이였다! 이런 케이스일 때 내 구현 코드로는 20200 &gt; 20020 이므로 <code class="language-plaintext highlighter-rouge">20 &gt; 200</code>인게 명확함에도 불구하고 <code class="language-plaintext highlighter-rouge">20 == 200</code>으로 인식 된다.
+        <ul>
+          <li>2 와 2 는 같고 0 과 0 은 같고 또 0 과 0 도 같기 때문에</li>
+        </ul>
+      </li>
+      <li>이런 경우는 어떻게 예외를 두고 처리해야 하나 싶은 막막함에 내 풀이는 폐기하기 되었다 😢</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="정답-풀이-">정답 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="n">string</span> <span class="n">str_a</span> <span class="o">=</span> <span class="n">to_astring</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">to_string</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">str_b</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">to_string</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="n">str_a</span> <span class="o">&gt;</span> <span class="n">str_b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">numbers</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">numbers</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">"0"</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">numbers</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>두 원소를 비교할 때 <u>그냥 간단하게 두 원소를 문자열로 변환하여 ab, ba 순서로 붙여본 후 이 두개를 문자열 순서로 비교하면 됐다.</u>
+    <ul>
+      <li>문자열로서 앞에 붙였을 때 더 커지는 원소라면 문자열로 변환한 두 원소끼리 붙인 것끼리 비교했을 때도 클 것이니까!
+        <ul>
+          <li>간단한 생각인데 왜 이 생각을 못 했을까 ㅠ ㅠ</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="이-문제로-배운-점-정리">이 문제로 배운 점 정리</h2>
+
+<ul>
+  <li>런타임 에러가 발생하므로 stack.top() 호출 하기 전에 빈 스택이 되는 경우는 없었는지 체크했어야 했다.</li>
+  <li>strict weak ordering. 비교 함수 구현 혹은 비교 연산자 오버로딩시 반드시 서로 다른 원소의 비교 경우에만 true를 리턴해야 한다. <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code> ⭕ <code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code> ❌
+    <ul>
+      <li>a &gt; b 인 경우에도 true, a == b 인 경우에도 true 이러면 안됨!!</li>
+    </ul>
+  </li>
+  <li>원소들을 문자열로서 전부 붙인 것을 최대로 만드는 정렬이라면 그의 일부분 개념으로서 두 원소끼리 붙인 것에어서의 최대가 되는 원소가 결국엔 전체 정렬에서 앞부분을 차지한다.</li>
+  <li><u>문자열 붙이기</u>
+    <ul>
+      <li>처음엔 <code class="language-plaintext highlighter-rouge">strcat</code>만 생각했었다. 이는 C 스타일 문자열인 <code class="language-plaintext highlighter-rouge">char 배열</code>, <code class="language-plaintext highlighter-rouge">char 포인터</code>에만 적용되는 것임에도 불구하고 ㅠ ㅠ</li>
+      <li>C++의 <strong>string.h</strong> 헤더 파일은 문자열끼리 이어 붙이는 다양한 방법을 제공한다.
+        <ol>
+          <li><code class="language-plaintext highlighter-rouge">+</code> 연산자가 오버로딩 되어 있으므로 문자열끼리 <code class="language-plaintext highlighter-rouge">+</code> 연산하면 이어 붙일 수 있다.</li>
+          <li><code class="language-plaintext highlighter-rouge">append</code> 함수 👉 뒤에 문자열을 붙인다.</li>
+          <li><code class="language-plaintext highlighter-rouge">insert</code> 함수 👉 문자열의 원하는 인덱스에 문자열을 삽일 할 때</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

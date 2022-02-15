@@ -1,0 +1,522 @@
+I"b<h1 id="-리틀-프렌즈-사천성">📌 리틀 프렌즈 사천성</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113010889-2a045580-91b4-11eb-9ab8-6b4cbaba2e16.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113010924-35578100-91b4-11eb-953e-88cc63411c90.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113010947-3dafbc00-91b4-11eb-9934-99d8fe67b195.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<p>최대한 제거 가능한 선에서 <u>알파벳 순으로</u> 가장 먼저인 것을 제거해야 한다. 따라서 <strong>알파벳 순서가 가장 빠른 것 ⭐한 개⭐를 제거하고</strong>, 또 제거 가능한 것들을 검사하여 그 중 알파벳 순서가 가장 빠른 것 한개를 제거하고.. 또 제거할 수 있는 것 검사하고.. 이 행위를 더 이상 제거 가능한 알파벳이 없을 때까지 반복하면 된다!</p>
+
+<ul>
+  <li>제거 가능 기준 : 같은 두 알파벳이 1 번 이하로 경로를 꺾을 수 있는 것만 제거할 수 있다.
+    <ul>
+      <li>0 번 꺾는 것 👉 같은 행 (ㅡ 모양), 같은 열 (│ 모양)</li>
+      <li>1 번 꺾는 것 👉 ┌ , ┐ , └ , ┘ 이런 모양의 경로여야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-첫-번째-풀이--일일이-경로를-찾아-검사-">🔥 첫 번째 풀이 : 일일이 경로를 찾아 검사 ⭕</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/113647503-e636b200-96c5-11eb-844e-b234d6f1033d.png" alt="image" /></p>
+
+<ul>
+  <li>추후 제거하기로 결정된 알파벳들을 <code class="language-plaintext highlighter-rouge">v</code> 벡터에 넣을 것이고 <code class="language-plaintext highlighter-rouge">v_index</code>로 이 <code class="language-plaintext highlighter-rouge">v</code> 벡터에서 <u>이번에 제거할 순서인 하나의 알파벳</u>를 가리키게 할 것이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">remove</code> set 에 현재의 <code class="language-plaintext highlighter-rouge">board</code>에서 제거 가능한 알파벳들을 후보로 담을 것이다.
+    <ul>
+      <li>그리고 모두 담고나면
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">v</code>에 추가하되 <code class="language-plaintext highlighter-rouge">v_index</code>의 뒤에 있는(이번에 제거된 알파벳보다 뒷 순서에 오는게 당연하므로) <code class="language-plaintext highlighter-rouge">v</code>내의 알파벳들 중 정렬 순서에 맞는 알맞는 자리에 추가하면 된다.</li>
+          <li>이미 <code class="language-plaintext highlighter-rouge">v</code>에 있다면 추가하지 않는다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>위와 같은 방식으로 코드를 짰다. 하 근데 1번 꺾는 경로에서 짝꿍 알파벳을 찾는 것을 구현하는게 좀 힘들었다. 머리가 안 돌아가요..😂 근데 이 과정을 BFS 로 푸신 분이 계셔서 나도 BFS 로 풀어보았다.</p>
+
+<ul>
+  <li>🔥 첫 번째 풀이 : 0 번 (ㅡ, │), 1 번 (┌ , ┐ , └ , ┘) 꺾어서 갈 수 있는 모든 경로에 짝꿍 알파벳이 있는지 일일이 검사함 (<del>힘들어따..</del>)
+    <ul>
+      <li>여담으로 만약 문제가 1 번 이하로 꺾는 것 이 아닌, <code class="language-plaintext highlighter-rouge">n</code>이 2 이상일 때, <code class="language-plaintext highlighter-rouge">n</code> 번 이하로 꺾게 하는 문제였다면 이 풀이론 풀지 못했을 것이다. 문제가 1 번 이하로 꺾는 것이라고 하여 경우의 수가  ┌ , ┐ , └ , ┘ 이렇게 4 가지 뿐이니 가능했지만, 원래 프렌즈 사천성 게임처럼 2번까지 꺾는걸 허용했다면 이 노가다식 풀이로는 구현하기가 정말 어려웠을 것이다. 따라서 2 번 이상으로 꺾는 것도 가능한 문제였다면 군말 없이 BFS 혹은 다익스트라를 사용하여 꺾는 횟수가 2번 이하인 경로들을 구했어야 했을 것이다.</li>
+    </ul>
+  </li>
+  <li>🔥 두 번째 풀이 : BFS 로 짝꿍 알파벳 찾기</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="c1">// 인덱스는 알파벳에 대응. 알파벳 별로 위치 저장. </span>
+    <span class="c1">// pos_record[i][0], pos_record[i][1]  i 번쨰 알파벳인 두 글자의 위치</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;&gt;</span> <span class="n">pos_record</span><span class="p">(</span><span class="mi">26</span><span class="p">);</span> 
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span> <span class="o">||</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="n">pos_record</span><span class="p">[</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">].</span><span class="n">push_back</span><span class="p">({</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">}</span>  
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span> <span class="c1">// "최종 제거 순서"  </span>
+    <span class="kt">int</span> <span class="n">v_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// v 의 인덱스. 이 인덱스가 가리키는 v 의 알파벳이 이번에 제거할 알파벳이다. 이 인덱스가 가리키는 v내의 알파벳 뒤에 있는 것들에서 알파벳 정렬 순서에 맞게 새로운 알파벳이 추가 될 것이다. </span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">set</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">remove</span><span class="p">;</span> <span class="c1">// "제거 후보." while문의 반복마다 현재의 board 에서 제거 가능한 알파벳 정렬된 순서대로 차례대로 여기에 추가할 것.</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">// board에 없는 알파벳이라면 넘어감</span>
+            
+            <span class="kt">bool</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            
+            <span class="c1">// 경로 0 번 꺾기 (같은 행 사이에 장애물 있는지 검사)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span> <span class="o">==</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 짝꿍인 두 알파벳끼리 같은 행이라면 두 열의 사이에 장애물(* 혹은 다른 알파벳)이 있는지 검사한다.</span>
+                <span class="c1">// ㅡ 모양의 경로</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 장애물이 없다면 remove 에 추가</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 경로 0 번 꺾기 (같은 열 사이에 장애물 있는지 검사)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="o">==</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 짝꿍인 두 알파벳끼리 같은 열이라면 두 행의 사이에 장애물(* 혹은 다른 알파벳)이 있는지 검사한다.</span>
+                <span class="c1">// │ 모양의 경로</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 장애물이 없다면 remove 에 추가</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 경로 1 번 꺾기 </span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// ㄴ, ㄱ. </span>
+                <span class="c1">// ㄴ 모양의 경로 (ㄴ 의 왼쪽 위가 pos_record[k][0], 오른쪽 아래가 pos_record[k][1])</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="c1">// (point_r, point_c) 는 꺾이는 위치</span>
+                <span class="kt">int</span> <span class="n">point_r</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">point_c</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span><span class="p">;</span>
+                
+                <span class="c1">// ㄴ의 │ </span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">point_r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="c1">// ㄴ의 ㅡ</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">point_c</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="c1">// ㄱ 모양의 경로 (ㄱ 의 왼쪽 위가 pos_record[k][0], 오른쪽 아래가 pos_record[k][1])</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="c1">// (point_r, point_c) 는 꺾이는 위치</span>
+                <span class="n">point_r</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+                <span class="n">point_c</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">;</span>
+
+                <span class="c1">// ㄱ 의 ㅡ</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">point_c</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="c1">// ㄱ 의 │</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">point_r</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="o">&gt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// ┌ , ┘</span>
+                <span class="c1">// ┘ 모양의 경로 ( ┘ 의 오른쪽 위가 pos_record[k][0], 왼쪽 아래가 pos_record[k][1])</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="c1">// (point_r, point_c) 는 꺾이는 위치</span>
+                <span class="kt">int</span> <span class="n">point_r</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">point_c</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span><span class="p">;</span>
+
+                <span class="c1">// ┘ 의 │</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">point_r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="c1">// ┘ 의 ㅡ</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">point_c</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="c1">// ┌ 모양의 경로 ( ┌ 의 오른쪽 위가 pos_record[k][0], 왼쪽 아래가 pos_record[k][1])</span>
+                <span class="n">OK</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="c1">// (point_r, point_c) 는 꺾이는 위치</span>
+                <span class="n">point_r</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+                <span class="n">point_c</span> <span class="o">=</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span><span class="p">;</span>
+
+                <span class="c1">// ┌ 의 ㅡ</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">point_c</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">point_r</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="c1">// ┌ 의 │</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">point_r</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'*'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">point_c</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> <span class="p">{</span> <span class="n">OK</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OK</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">remove</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="sc">'A'</span><span class="p">);</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">remove</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="k">break</span><span class="p">;</span> <span class="c1">// 현재 board 에서 하나도 제거할 수 있는게 없었다면 while문 종료</span>
+
+        <span class="c1">// 현재 board 에서 제거 가능한 알파벳들을 v 에 "알파벳 순서"에 맞춰 추가 (단, v_index 가 가리키는 알파벳 뒤에 추가. v_index는 이번 턴에 제거한 알파벳의 포인터이기 때문)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">ele</span> <span class="o">:</span> <span class="n">remove</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="c1">// 이미 v 에 있다면 추가하지 않음</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">ele</span><span class="p">)</span> <span class="o">!=</span> <span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// 추가되야할 위치 찾기 (v_index 뒤, 정렬된 순서 유지)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">v_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> 
+                <span class="k">if</span> <span class="p">(</span><span class="n">ele</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">break</span><span class="p">;</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">ele</span><span class="p">);</span> <span class="c1">// v 가 비어있는 처음 턴에선 그냥 바로 추가</span>
+            <span class="k">else</span> <span class="n">v</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">ele</span><span class="p">);</span> <span class="c1">// 위에서 찾은 위치 i 자리에 추가</span>
+        <span class="p">}</span>
+
+        <span class="n">v_index</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="c1">// v[v_index] 알파벳 2 개 제거하기</span>
+        <span class="kt">char</span> <span class="n">next_remove_char</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">v_index</span><span class="p">];</span>
+        <span class="n">Pos</span> <span class="n">pos_next_remove_char1</span><span class="p">{</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">next_remove_char</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">r</span><span class="p">,</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">next_remove_char</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">c</span> <span class="p">};</span> <span class="c1">// 위치</span>
+        <span class="n">Pos</span> <span class="n">pos_next_remove_char2</span><span class="p">{</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">next_remove_char</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">r</span><span class="p">,</span> <span class="n">pos_record</span><span class="p">[</span><span class="n">next_remove_char</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">c</span> <span class="p">};</span> <span class="c1">// 위치</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">pos_next_remove_char1</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">pos_next_remove_char1</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span> <span class="c1">// 제거</span>
+        <span class="n">board</span><span class="p">[</span><span class="n">pos_next_remove_char2</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">pos_next_remove_char2</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span> <span class="c1">// 제거</span>
+        <span class="n">pos_record</span><span class="p">[</span><span class="n">next_remove_char</span> <span class="o">-</span> <span class="sc">'A'</span><span class="p">].</span><span class="n">clear</span><span class="p">();</span> <span class="c1">// pos_record 에서도 두 위치 담은 벡터 지우기 </span>
+    <span class="p">}</span>
+
+    <span class="c1">// 더 이상 제거할게 없어서 while문 종료 후 빠져나왔는데 알파벳이 아직 남아있다면 제거 불가능한 알파벳이 있다는 뜻이므로 "IMPOSSIBLE" 리턴</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span>
+                <span class="k">return</span> <span class="s">"IMPOSSIBLE"</span><span class="p">;</span>
+
+    <span class="c1">// 알파벳이 모두 제거되었다면 v 에 차례로 담긴 알파벳이 답이 된다.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/112981414-1e099b00-9196-11eb-81db-d7178cb0487e.png" alt="image" /></p>
+
+<p>그나저나 이 문제.. 8 점이나 준다! 레벨 3 문제들 점수 1,2 점 주는게 대부분이였는데 ㅠ ㅠ 아무튼 그래서 채점 후 특히 기분 좋았던 문제였다.💛</p>
+
+<p><br /></p>
+
+<h3 id="-두-번째-풀이--bfs-">🔥 두 번째 풀이 : BFS ⭕</h3>
+
+<p>풀이는 <a href="https://wlshddlek.tistory.com/63?category=882537">https://wlshddlek.tistory.com/63?category=882537</a> 진홍이님 블로그를 참고하여 작성했다. 나는 일일이 6 개의 경로를 검사하였는데 이 분 풀이를 보고 아 맞다 BFS 로 풀 수 있겠구나 싶어서 무릎을 탁.. BFS 문제를 다양하게 풀어보고 싶다.</p>
+
+<p><u>BFS 로 1 번 이하로 꺾어 갈 수 있는 곳들만 탐색한다.</u> 두 알파벳 위치 중 하나만 <code class="language-plaintext highlighter-rouge">map</code>에 저장한 후 이 위치를 시작점으로 나머지 알파벳에 1 번 이하로 꺾어서 도착할 수 있는지 BFS 로 탐색한다. 불가능하다면 찾지 못한채로 빠져나오게 한다. 그건 현재 <code class="language-plaintext highlighter-rouge">board</code>에서 제거할 수 없는 알파벳인 것이다.</p>
+
+<p>마찬가지로 현재 board 에서 제거 가능한 알파벳들 중 <strong>알파벳 순서가 가장 빠른 알파벳 종류를 <u>딱 하나만</u> 제거한다.</strong> <code class="language-plaintext highlighter-rouge">map</code> 은 자동 정렬이 되기 때문에 Key 를 알파벳으로 하여 나머지 하나의 위치를 저장한 <code class="language-plaintext highlighter-rouge">map</code>의 요소들을 차례대로 넣으면 알파벳 순서대로 넘겨주는 것과 같으며, <code class="language-plaintext highlighter-rouge">map</code>의 Value 인 위치를 시작점으로 나머지 짝꿍 알파벳을 1 번 이하로 꺾어 가는 것이 가능한지를 BFS 로 탐색하여 구하면 된다.</p>
+
+<p class="notice--warning"><strong>BFS 로 ⭐여태까지 꺾은 횟수⭐ 고려하여 탐색하기</strong></p>
+
+<ul>
+  <li>모든 위치마다 시작점으로부터 현재까지 <u>꺾어진 횟수를 기억해야 한다.</u>
+    <ul>
+      <li>꺾는 것은 그때 그때 방문하는 위치가 향하는 방향에 따라 다르기 때문에 가중치 없는 그래프에서의 최단’거리’와는 다르게 BFS 방식으로 너비 우선 탐색을 하더라도 <strong><u>더 적은 횟수로 꺾을 수 있는</u> 경로를 찾아낼 가능성이 있다.</strong></li>
+      <li>따라서 동일한 위치더라도 더 적게 꺾어서 올 수 있다면 다시 재방문(큐에 또 삽입) 할 수 있어야 한다. 그 위치로부터 뻗어나가는 모든 위치들도 다 새롭게 꺾은 횟수로 업데이트 되야하니까!</li>
+      <li>그래서 <strong>구조체에도 꺾은 횟수를 담고 우선순위큐를 써서 다익스트라로 풀 수도 있다.</strong></li>
+    </ul>
+  </li>
+  <li>큐에 삽입되는 기준 👉 <u>상,하,좌,우 갈 수 있는 곳들 중에서 꺾은 횟수가 1 이하인 위치만 삽입 가능</u></li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="p">;</span> <span class="c1">// 행</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span> <span class="c1">// 열</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span> <span class="c1">// ⭐방향⭐ (현재 향하고 있는 방향을 알아서 다음 위치를 큐에 삽입할 때 꺾어야할지를 알 수 있다.) </span>
+<span class="p">};</span>
+
+<span class="cp">#define INF 987654321
+#define alpha first 
+#define pos second 
+</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">Board</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dr</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">dc</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">;</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Pos</span><span class="o">&gt;</span> <span class="n">pos_record</span><span class="p">;</span> <span class="c1">// key : 알파벳  value : 위치 (두 알파벳 중 하나만. 그리고 나머지는 BFS 로 찾는다.)</span>
+
+<span class="n">Pos</span> <span class="nf">BFS</span><span class="p">(</span><span class="n">Pos</span> <span class="n">start</span><span class="p">,</span> <span class="kt">char</span> <span class="n">start_alpha</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// start 출발 위치, start_alpha 출발지 알파벳</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">turn_and_check</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">INF</span><span class="p">));</span> <span class="c1">// 꺾은 횟수 저장</span>
+
+    <span class="c1">// 출발 지점 예약</span>
+    <span class="n">start</span><span class="p">.</span><span class="n">dir</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+    <span class="n">turn_and_check</span><span class="p">[</span><span class="n">start</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">start</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="n">not_first</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// 출발지의 알파벳과 동일한 위치에서 종료할건데 바로 출발지의 알파벳과 동일하다고 판정되어 종료되면 안되기 때문에 사용할 플래그</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 방문</span>
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="c1">// 짝꿍을 찾았다면! (출발지가 아니고!)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">not_first</span> <span class="o">&amp;&amp;</span> <span class="n">Board</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">start_alpha</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">c</span> <span class="p">};</span> <span class="c1">// 제거 가능하다는 뜻이다. 이 짝꿍 알파벳 위치를 리턴하고 종료.</span>
+        <span class="n">not_first</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 출발지 방문시에만 false 상태고 나머지 위치 방문시엔 모두 true 인 상태</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">nextR</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">r</span> <span class="o">+</span> <span class="n">dr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextC</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">dc</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextDir</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">next_turn_count</span> <span class="o">=</span> <span class="n">turn_and_check</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">c</span><span class="p">];</span> <span class="c1">// 현재 방문 위치까지 꺾은 횟수가 초기값</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">!=</span> <span class="n">nextDir</span><span class="p">)</span> <span class="c1">// 출발지가 아니고(출발지의 방향은 -1로 하였다. 출발지에서 예약되는 위치들은 꺾였다고 판단되지 않기 위해) 방향이 일치하지 않으면 꺾어야 한다. 꺾는 횟수를 1 증가시켜야 한다.</span>
+                <span class="n">next_turn_count</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="c1">// 다음 방문 후보 검사</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextR</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextR</span> <span class="o">&gt;=</span> <span class="n">M</span> <span class="o">||</span> <span class="n">nextC</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextC</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="c1">// 1. 범위 내에 있어야 함</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">next_turn_count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// ⭐2. 꺾은 횟수가 2 이상이 되면 그 위치는 탐색하지 않는다.⭐</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Board</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'.'</span> <span class="o">&amp;&amp;</span> <span class="n">Board</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_alpha</span><span class="p">)</span> <span class="c1">// 3. 장애물이 아니어야 함</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">turn_and_check</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">next_turn_count</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 4. 기존에 찾은 꺾은 횟수 그 이하로 꺾을 수 있다면 더 적은 횟수로 꺾을 수 있는 가능성이 있는 탐색 경로가 되므로 또 삽입</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">nextR</span><span class="p">,</span> <span class="n">nextC</span><span class="p">,</span> <span class="n">nextDir</span> <span class="p">});</span>
+                <span class="n">turn_and_check</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_turn_count</span><span class="p">;</span> <span class="c1">// 위치별 현재까지 꺾은 횟수 업데이트</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="p">};</span> <span class="c1">// while문을 빠져나왔다면 짝꿍알파벳을 찾지 못한 것이다. 즉, 제거 불가능! 제거 불가능시에는 {-1, -1}를 리턴하기로 했다.</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">Board</span> <span class="o">=</span> <span class="n">board</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span>
+                <span class="n">pos_record</span><span class="p">[</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="p">};</span> <span class="c1">// 두 위치 중 하나의 위치만 담음. </span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// 이번 board에서 제거 할 수 있는 알파벳이 있었다는 것을 표시</span>
+        <span class="c1">// 현재 board 상태에서 처음으로 제거 가능한 알파벳을 발견하자마자 break (알파벳은 딱 한 종류만 제거함)</span>
+        <span class="c1">// pos_record 는 map 이기 때문에 letter 는 자동으로 알파벳 순서대로 </span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">letter</span> <span class="o">:</span> <span class="n">pos_record</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">start_alpha</span> <span class="o">=</span> <span class="n">letter</span><span class="p">.</span><span class="n">alpha</span><span class="p">;</span>
+            <span class="n">Pos</span> <span class="n">start</span> <span class="o">=</span> <span class="n">letter</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
+            <span class="n">Pos</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">BFS</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">start_alpha</span><span class="p">);</span> <span class="c1">// 짝꿍 알파벳 위치 (못찾았다면, 즉 제거 불가능하다면 {-1, -1} 리턴받음)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dest</span><span class="p">.</span><span class="n">r</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">dest</span><span class="p">.</span><span class="n">c</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span> <span class="c1">// 제거 가능하다면</span>
+                <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> 
+                <span class="n">Board</span><span class="p">[</span><span class="n">start</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">start</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span> <span class="c1">// 제거</span>
+                <span class="n">Board</span><span class="p">[</span><span class="n">dest</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">dest</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span> <span class="c1">// 제거</span>
+                <span class="n">answer</span> <span class="o">+=</span> <span class="n">start_alpha</span><span class="p">;</span> <span class="c1">// answer 에 반영</span>
+                <span class="n">pos_record</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">start_alpha</span><span class="p">);</span> <span class="c1">// map 에서 지우기</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">canRemove</span><span class="p">)</span> <span class="c1">// 지울 수 있는 알파벳이 있었다면 다시 현재의 board 에서 또 제거 가능한 알파벳 중 가장 앞선 순서의 알파벳 제거하러 고고 </span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="c1">// map 이 비었다는건 알파벳을 전부 제거했다는 의미</span>
+            <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+        <span class="k">else</span> <span class="c1">// canRemove 는 false 인데 (즉 더 이상 board에서 지울 수 있는게 없음) map 은 비지 않았다면 제거 불가능한 알파벳들이 있다는 의미</span>
+            <span class="k">return</span> <span class="s">"IMPOSSIBLE"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-세-번째-풀이--다익스트라-">🔥 세 번째 풀이 : 다익스트라 ⭕</h3>
+
+<ul>
+  <li>우선순위 큐 사용 (힙정렬 기준은 꺾은 횟수가 가장 적은게 루트에 오도록)</li>
+  <li>구조체에 꺾은 횟수 저장</li>
+  <li>힙정렬과 수많은 재방문 때문인지 BFS 보다 시간은 두 배 정도 더 걸렸다.
+    <ul>
+      <li>방문 체크를 따로 두고 예약 for문 들어가기 전에 거른다면 좀 더 빨라질 것. <a href="https://ansohxxn.github.io/programmers/111/#-%EB%B0%A9%EB%AC%B8-%EC%B2%B4%ED%81%AC-%ED%95%B4%EC%A3%BC%EB%8A%94-%EC%9D%B4%EC%9C%A0-%EC%82%AC%EC%8B%A4-%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%EB%8A%94-%EB%B0%A9%EB%AC%B8%EC%B2%B4%ED%81%AC-%EC%95%88%ED%95%B4%EB%8F%84-%EB%AC%B8%EC%A0%9C-%EC%97%86%EB%8B%A4">[C++로 풀이] 배달 (최단 경로, 다익스트라, 우선순위 큐를 써야하는 이유)⭐⭐⭐</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Pos</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">dir</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">turn_count</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">cmp</span> <span class="p">{</span>
+    <span class="kt">bool</span> <span class="k">operator</span> <span class="p">()</span> <span class="p">(</span><span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">p1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">p2</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">p1</span><span class="p">.</span><span class="n">turn_count</span> <span class="o">&gt;</span> <span class="n">p2</span><span class="p">.</span><span class="n">turn_count</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cp">#define INF 987654321
+</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">Board</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dr</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">dc</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">;</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Pos</span><span class="o">&gt;</span> <span class="n">pos_record</span><span class="p">;</span>
+<span class="cp">#define alpha first 
+#define pos second 
+</span>
+<span class="n">Pos</span> <span class="nf">BFS</span><span class="p">(</span><span class="n">Pos</span> <span class="n">start</span><span class="p">,</span> <span class="kt">char</span> <span class="n">start_alpha</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">Pos</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pos</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">cmp</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">turn_and_check</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">INF</span><span class="p">));</span>
+    <span class="n">start</span><span class="p">.</span><span class="n">dir</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">start</span><span class="p">.</span><span class="n">turn_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+    <span class="n">turn_and_check</span><span class="p">[</span><span class="n">start</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">start</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="n">not_first</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">Pos</span> <span class="n">now</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">not_first</span> <span class="o">&amp;&amp;</span> <span class="n">Board</span><span class="p">[</span><span class="n">now</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">now</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">start_alpha</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span> <span class="n">now</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">now</span><span class="p">.</span><span class="n">c</span> <span class="p">};</span>
+        <span class="n">not_first</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">nextR</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">r</span> <span class="o">+</span> <span class="n">dr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextC</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">dc</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">int</span> <span class="n">nextDir</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">next_turn_count</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">turn_count</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">now</span><span class="p">.</span><span class="n">dir</span> <span class="o">!=</span> <span class="n">nextDir</span><span class="p">)</span>
+                <span class="n">next_turn_count</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">nextR</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextR</span> <span class="o">&gt;=</span> <span class="n">M</span> <span class="o">||</span> <span class="n">nextC</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextC</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">next_turn_count</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Board</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'.'</span> <span class="o">&amp;&amp;</span> <span class="n">Board</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">!=</span> <span class="n">start_alpha</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">turn_and_check</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">next_turn_count</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span> <span class="n">nextR</span><span class="p">,</span> <span class="n">nextC</span><span class="p">,</span> <span class="n">nextDir</span><span class="p">,</span> <span class="n">next_turn_count</span> <span class="p">});</span>
+                <span class="n">turn_and_check</span><span class="p">[</span><span class="n">nextR</span><span class="p">][</span><span class="n">nextC</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_turn_count</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">board</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">Board</span> <span class="o">=</span> <span class="n">board</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span>
+                <span class="n">pos_record</span><span class="p">[</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="p">};</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">letter</span> <span class="o">:</span> <span class="n">pos_record</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">start_alpha</span> <span class="o">=</span> <span class="n">letter</span><span class="p">.</span><span class="n">alpha</span><span class="p">;</span>
+            <span class="n">Pos</span> <span class="n">start</span> <span class="o">=</span> <span class="n">letter</span><span class="p">.</span><span class="n">pos</span><span class="p">;</span>
+            <span class="n">Pos</span> <span class="n">dest</span> <span class="o">=</span> <span class="n">BFS</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">start_alpha</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dest</span><span class="p">.</span><span class="n">r</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">dest</span><span class="p">.</span><span class="n">c</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+                <span class="n">canRemove</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="n">Board</span><span class="p">[</span><span class="n">start</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">start</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span>
+                <span class="n">Board</span><span class="p">[</span><span class="n">dest</span><span class="p">.</span><span class="n">r</span><span class="p">][</span><span class="n">dest</span><span class="p">.</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'.'</span><span class="p">;</span>
+                <span class="n">answer</span> <span class="o">+=</span> <span class="n">start_alpha</span><span class="p">;</span>
+                <span class="n">pos_record</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">start_alpha</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">canRemove</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">pos_record</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="k">return</span> <span class="s">"IMPOSSIBLE"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

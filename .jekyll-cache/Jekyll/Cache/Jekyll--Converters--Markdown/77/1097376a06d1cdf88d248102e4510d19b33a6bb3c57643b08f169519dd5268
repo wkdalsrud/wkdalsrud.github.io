@@ -1,0 +1,142 @@
+I"�=<h1 id="-야근-지수">📌 야근 지수</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107867741-82132100-6ec0-11eb-86f4-f1a46688c044.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">long</span> <span class="kt">long</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">works</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">sort</span><span class="p">(</span><span class="n">works</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">works</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 오름 차순 정렬</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">works</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 최대값 범위 찾기</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">works</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 반복 조건 안씀 주의 (else 에 해당할때만 break)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">works</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">works</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">else</span> <span class="p">{</span> 
+                <span class="n">delta</span> <span class="o">=</span> <span class="n">works</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">works</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 최대값들에서 균등하게 빼주기</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">delta</span><span class="p">;</span>
+            <span class="n">n</span> <span class="o">-=</span> <span class="n">count</span> <span class="o">*</span> <span class="n">delta</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">n</span> <span class="o">/</span> <span class="n">count</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">%</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="o">--</span><span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">works</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">works</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">works</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>야근 지수를 최소화하려면 <code class="language-plaintext highlighter-rouge">works</code>의 모든 원소들끼리 균등해지는 방향으로 <code class="language-plaintext highlighter-rouge">n</code>만큼 빼야한다. [1,2,3] 보단 [2,2,2] 의 야근 지수가 더 작다. 균등하게 만드는 것이 중요.</p>
+</blockquote>
+
+<ul>
+  <li>✨ 균등하게 만드려면?
+    <ul>
+      <li>먼저 오름차순 정렬한다.
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sort</span><span class="p">(</span><span class="n">works</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">works</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</code></pre></div>        </div>
+      </li>
+      <li>아래 과정을 반복한다 .(최대값들이 두 번째로 큰 것과 같아지게끔!)
+        <ul>
+          <li>반복 조건
+            <ul>
+              <li><u>다 빼서 n이 0 이 되거나</u> <strong>OR</strong></li>
+              <li><u>n을 다 못쓰더라도 작업이 다 끝났다면, 즉 works[0]이 0이 되었거나</u> 하면 반복을 종료한다.</li>
+            </ul>
+          </li>
+          <li>1️⃣ 최대값 범위 찾기 (최대값은 중복된 여러개가 있을 수 있음)
+            <ul>
+              <li>[1,2,7,9,9,9,9] 라면 첫번째 for문을 다 돌고나면 <code class="language-plaintext highlighter-rouge">index</code>는 최대값 9가 시작되는 <code class="language-plaintext highlighter-rouge">4</code> 가 되며 (4부터 끝까지가 최대값 범위) 두번째로 큰것과의 차이를 뜻하는 <code class="language-plaintext highlighter-rouge">delta</code>는 9 - 7 = <code class="language-plaintext highlighter-rouge">2</code>가 된다. <code class="language-plaintext highlighter-rouge">count</code>는 최대값이 4개이므로 <code class="language-plaintext highlighter-rouge">4</code> 가 된다.</li>
+            </ul>
+          </li>
+          <li>2️⃣ 균등해지게끔 최대값들에게 빼주기.
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">n</code>이 허락하는 선에서 [1,2,7,9,9,9,9] 에서 [1,2,7,7,7,7,7] 가 되는 것이 목표. 최대값인 4개의 9들에서 2씩을 빼서 7로 다 균등하게 만들어야 한다. 즉 <u>현재의 works 범위에서 두 번째로 큰 것과 같아지게끔 최대값들에서 뺀다.</u>
+                <ul>
+                  <li>1️⃣ <em>n / count &gt;= delta</em> 인 경우
+                    <ul>
+                      <li><code class="language-plaintext highlighter-rouge">n</code>이 현재 10 이라면(즉 현재 10시간 작업 가능) 10 / 4 &gt;= 2 이므로 4개의 최대값들에서 2씩 빼서 7로 만들 수 있다!
+                        <ul>
+                          <li>[1,2,7,9,9,9,9] 에서 4 * 2 = 8 (count * delta) 시간만큼을 소모하여 4개의 9마다 각각 2씩 빼주어 [1,2,7,7,7,7,7] 로 만들 수 있다. <code class="language-plaintext highlighter-rouge">n</code>은 10 시간에서 8시간 소모했으니 <code class="language-plaintext highlighter-rouge">n = 2</code>가 된다. (다음 while문에서 이제 2가 된 <code class="language-plaintext highlighter-rouge">n</code>으로 처리)
+                            <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">delta</span><span class="p">;</span>
+  <span class="n">n</span> <span class="o">-=</span> <span class="n">count</span> <span class="o">*</span> <span class="n">delta</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>2️⃣ <em>n / count &lt; delta</em> 인 경우
+                    <ul>
+                      <li><code class="language-plaintext highlighter-rouge">n</code>이 현재 7이라면(즉 현재 7시간 작업 가능) 7 / 4 &lt; 2 이므로 <strong>n을 균등하게 만드는데 전부 다 써야 한다. (즉 7 다써서 n은 0이 되야함) 또한 최대값 4개가 전부 균등해지진 못할 수도 있다.</strong>
+                        <ul>
+                          <li>[1,2,7,9,9,9,9] 에서 7 값인 <code class="language-plaintext highlighter-rouge">n</code>을 전부 소모하여 7 을 4 로 나눈 몫은 1 이므로 4개의 9에서 몫인 <code class="language-plaintext highlighter-rouge">1</code>씩 빼줄 수 있다. 그리고 나머지 7 % 4 는 3이므로 4개의 9중에서 3개는 1씩 더 빼줄 수 있다.
+                            <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">else</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">n</span> <span class="o">/</span> <span class="n">count</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">%</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="o">--</span><span class="n">works</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

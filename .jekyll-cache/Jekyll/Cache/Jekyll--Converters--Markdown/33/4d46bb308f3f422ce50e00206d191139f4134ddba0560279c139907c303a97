@@ -1,0 +1,335 @@
+I"İ<h1 id="dfsdp-n-으로-표현">[DFS][DP] N 으로 표현</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/97078992-5deab600-162b-11eb-8a7f-e833d8dd373c.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-dfs-풀이">👩🏽 DFS 풀이</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">DFS</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">answer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">,</span> <span class="kt">int</span> <span class="n">calc</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">calc</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">depth</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="n">operand</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">8</span> <span class="o">-</span> <span class="n">depth</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">operand</span> <span class="o">=</span> <span class="n">operand</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">N</span><span class="p">;</span>
+        
+        <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">calc</span> <span class="o">+</span> <span class="n">operand</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">calc</span> <span class="o">-</span> <span class="n">operand</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">calc</span> <span class="o">*</span> <span class="n">operand</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">calc</span> <span class="o">/</span> <span class="n">operand</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+    
+    <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">answer</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>이 문제의 포인트
+    <ul>
+      <li>1️⃣ 최소값이 8 을 넘어가면 <code class="language-plaintext highlighter-rouge">-1</code>을 리턴한다는 조건이 있다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">N</code>의 개수는 총 8번까지만 허용된다.</li>
+        </ul>
+      </li>
+      <li>2️⃣ 재귀 깊이는 현재까지 사용된 <code class="language-plaintext highlighter-rouge">N</code> 개수라고 볼 수 있다.
+        <ul>
+          <li><strong>종료 조건</strong>
+            <ul>
+              <li>성공 조건 👉 따라서 <code class="language-plaintext highlighter-rouge">number</code>(<code class="language-plaintext highlighter-rouge">target</code>)와 일치하는 값을 찾았다면 해당 재귀 단계( = 현재까지 쓰인 <code class="language-plaintext highlighter-rouge">N</code>의 개수)와 <code class="language-plaintext highlighter-rouge">answer</code> 중 작은 것을 <code class="language-plaintext highlighter-rouge">answer</code>로 업뎃하고 리턴한다. <code class="language-plaintext highlighter-rouge">answer</code>엔 최소 값이 들어가야 하기 때문에!
+                <ul>
+                  <li><code class="language-plaintext highlighter-rouge">answer</code>는 <code class="language-plaintext highlighter-rouge">&amp;</code> 참조 타입으로 넘겨서 모든 재귀 단계에서 공유할 수 있다.</li>
+                </ul>
+              </li>
+              <li>실패 조건 👉 재귀 단계( = 현재까지 쓰인 <code class="language-plaintext highlighter-rouge">N</code>의 개수)가 8 에 도달할 때까지 <em>if (calc == target)</em> 에 걸리지 못한 상태라면 그냥 리턴한다. 즉 <code class="language-plaintext highlighter-rouge">N</code>이 8 개까지 모두 다 쓰였는데 아직도 <code class="language-plaintext highlighter-rouge">target</code>을 찾지 못한 경우이다. 이 경우엔 for문도 조건에 안맞아 돌지 못한다. 따라서 for문 아래의 <code class="language-plaintext highlighter-rouge">return</code>을 만나게 된다.</li>
+            </ul>
+          </li>
+          <li>재귀 단계의 깊이는 현재까지 사용된 <code class="language-plaintext highlighter-rouge">N</code> 개수와 동일하다.</li>
+          <li>for 문의 반복 횟수는 추가로 붙일 수 있는 <code class="language-plaintext highlighter-rouge">N</code> 개수와 동일하다. 현재의 재귀 단계가 3 이면 (<code class="language-plaintext highlighter-rouge">depth</code>가 3 이면) <code class="language-plaintext highlighter-rouge">N</code>이 현재 단계까지 3 개 쓰였다는 것이므로 앞으로 8 - 3 = 5 개의 <code class="language-plaintext highlighter-rouge">N</code>개를 더 쓸 수 있다. (8 - <code class="language-plaintext highlighter-rouge">depth</code>)
+            <ul>
+              <li>현재 8 - <code class="language-plaintext highlighter-rouge">depth</code> 값이 5 이라면 즉, 현재 단계(<code class="language-plaintext highlighter-rouge">depth</code>가 3, <code class="language-plaintext highlighter-rouge">N</code> 현재까지 3 개 쓰임)를 기준으로 앞으로 5 개의 <code class="language-plaintext highlighter-rouge">N</code>을 사용할 수 있다면 <code class="language-plaintext highlighter-rouge">operand</code>는 for문 반복마다 각각 <code class="language-plaintext highlighter-rouge">N</code>, <code class="language-plaintext highlighter-rouge">NN</code>, <code class="language-plaintext highlighter-rouge">NNN</code>, <code class="language-plaintext highlighter-rouge">NNNN</code>, <code class="language-plaintext highlighter-rouge">NNNNN</code> 로 업데이트 된다.
+                <ul>
+                  <li>현재 단계가 3 이라면
+                    <ul>
+                      <li><code class="language-plaintext highlighter-rouge">operand</code>가 <code class="language-plaintext highlighter-rouge">N</code> 으로 업데이트 되었다면 3 + 1 = 4 개의 <code class="language-plaintext highlighter-rouge">N</code>이 쓰이게 되는 것이므로 이제 현재까지의 <code class="language-plaintext highlighter-rouge">calc</code>에 <code class="language-plaintext highlighter-rouge">N</code>을 사칙연산하여  4 단계로 넘어간다.(현재까지 <code class="language-plaintext highlighter-rouge">N</code>이 4 개 쓰였다는 의미에서) 다음 단계에서의 for문은 8 - 4 = 4 번 돌게 될 것이다.</li>
+                      <li><code class="language-plaintext highlighter-rouge">operand</code>가 <code class="language-plaintext highlighter-rouge">NN</code> 으로 업데이트 되었다면 3 + 2 = 5 개의 <code class="language-plaintext highlighter-rouge">N</code>이 쓰이게 되는 것이므로 이제 현재까지의 <code class="language-plaintext highlighter-rouge">calc</code>에 <code class="language-plaintext highlighter-rouge">NN</code>을 사칙연산하여  5 단계로 넘어간다.(현재까지 <code class="language-plaintext highlighter-rouge">N</code>이 5 개 쓰였다는 의미에서) 다음 단계에서의 for문은 8 - 5 = 3 번 돌게 될 것이다.</li>
+                      <li><code class="language-plaintext highlighter-rouge">operand</code>가 <code class="language-plaintext highlighter-rouge">NNN</code> 으로 업데이트 되었다면 3 + 3 = 6 개의 <code class="language-plaintext highlighter-rouge">N</code>이 쓰이게 되는 것이므로 이제 현재까지의 <code class="language-plaintext highlighter-rouge">calc</code>에 <code class="language-plaintext highlighter-rouge">NNN</code>을 사칙연산하여  6 단계로 넘어간다.(현재까지 <code class="language-plaintext highlighter-rouge">N</code>이 6 개 쓰였다는 의미에서) 다음 단계에서의 for문은 8 - 6 = 2 번 돌게 될 것이다.</li>
+                      <li><code class="language-plaintext highlighter-rouge">operand</code>가 <code class="language-plaintext highlighter-rouge">NNNN</code> 으로 업데이트 되었다면 3 + 4 = 7 개의 <code class="language-plaintext highlighter-rouge">N</code>이 쓰이게 되는 것이므로 이제 현재까지의 <code class="language-plaintext highlighter-rouge">calc</code>에 <code class="language-plaintext highlighter-rouge">NNNN</code>을 사칙연산하여 7 단계로 넘어간다.(현재까지 <code class="language-plaintext highlighter-rouge">N</code>이 7 개 쓰였다는 의미에서) 다음 단계에서의 for문은 8 - 7 = 1 번 돌게 될 것이다.</li>
+                      <li><code class="language-plaintext highlighter-rouge">operand</code>가 <code class="language-plaintext highlighter-rouge">NNNNN</code> 으로 업데이트 되었다면 3 + 5 = 8 개의 <code class="language-plaintext highlighter-rouge">N</code>이 쓰이게 되는 것이므로 이제 현재까지의 <code class="language-plaintext highlighter-rouge">calc</code>에 <code class="language-plaintext highlighter-rouge">NNNNN</code>을 사칙연산하여 8 단계로 넘어간다.(현재까지 <code class="language-plaintext highlighter-rouge">N</code>이 8 개 쓰였다는 의미에서) 다음 단계에서의 for문은 8 - 8 = 0 번 돌게 될 것이다.
+                        <ul>
+                          <li>즉 for문을 돌지 않게 됨. <code class="language-plaintext highlighter-rouge">N</code>이 8개까지 모두 다 쓴 이 때에 <em>if (calc == target)</em>에 걸리지 못하면 함수 맨 아래의 <code class="language-plaintext highlighter-rouge">return</code>을 만나게 된다. 즉, 이런 경우엔 <code class="language-plaintext highlighter-rouge">answer</code>가 업데이트 되지 못 함.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>현재의 재귀 단계에서의 <code class="language-plaintext highlighter-rouge">operand</code>를 기준으로 현재까지 누적 계산해온 값 <code class="language-plaintext highlighter-rouge">calc</code> 에대가 차례 대로 <code class="language-plaintext highlighter-rouge">operand</code>를 사칙연산하여 각각 4 가지 깊이 탐색을 진행하면 된다!
+                <ul>
+                  <li>각 재귀 호출 마다 지나온 <code class="language-plaintext highlighter-rouge">calc</code>들은 독립적으로 달라야 하기 때문에 참조로 넘기지 않는다. <code class="language-plaintext highlighter-rouge">depth</code>도 마찬가지.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>3️⃣ <code class="language-plaintext highlighter-rouge">answer</code>는 9 로 초기화 해둔다. DFS 함수를 돌리는 동안 <em>if (calc == target)</em> 에 한번도 걸리지 못했다면 <code class="language-plaintext highlighter-rouge">answer</code>는 한번도 업데이트 되지 못한 것이다.
+        <ul>
+          <li>일치하는게 아예 없는게 아니라 <code class="language-plaintext highlighter-rouge">N</code>을 8 개 이하로 사용해야 한다는 제한 내에서 사칙연산하는 모든 경우의 수에서 <code class="language-plaintext highlighter-rouge">number</code>와 일치한적이 한번도 없었다는 얘기므로 이건 최소값이 9 를 넘는다는 것을 의미한다.
+            <ul>
+              <li>따라서 DFS 함수가 최종적으로 모두 리턴되었을 때 <code class="language-plaintext highlighter-rouge">answer</code>가 그대로 9 라면 <code class="language-plaintext highlighter-rouge">-1</code> 을 리턴한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-dynamic-programming-동적-계획법-풀이">👩🏼 Dynamic Programming (동적 계획법) 풀이</h2>
+
+<blockquote>
+  <p><a href="https://hydroponicglass.tistory.com/84">풀이 출처 : 하글님 블로그</a></p>
+</blockquote>
+
+<p>DP로 푸는 방법은 이 분의 블로그에서 DP 로 푸신 풀이를 보고 이해할 수 있었다! DP 로는 어떻게 풀어야하는지 감을 못 잡았는데 이 분의 설명을 보고 무릎을 탁 치고 이해…</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="kt">int</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="k">const</span> <span class="n">min</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">set</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">v</span><span class="p">(</span><span class="n">min</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">min</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="c1">// 1 열 (행과 동일한 5, 55, 555 등등)</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		  <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">N</span><span class="p">;</span>
+		<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+        
+    <span class="c1">// 1열이 아닌 그 외의 열</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">a</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+						<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">b</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="p">{</span>
+							<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">);</span>
+							<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">);</span>
+						<span class="p">}</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+    
+    <span class="c1">// 최소값 도출</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">min</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">j</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>동적계획법 👉 점화식 세우는게 가능해야 한다.</p>
+</blockquote>
+
+<ul>
+  <li>큰 문제를 작은 문제들로 해결할 수 있어야 한다. ex) 피보나치 수열, 이항 계수 처럼.</li>
+  <li>큰 문제의 최적화는 곧 작은 문제의 최적화와 같다.</li>
+  <li>Bottom-Up 방식으로 밑에서부터, 앞에서부터 차례대로 문제를 풀고 결과를 저장한다.
+    <ul>
+      <li>이 문제를 작은 문제로서 필요로 하는 다른 큰 문제를 풀 때, 해당 작은 문제를 다시 풀 필요없이 결과만 가져올 수 있도록.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kt">int</span> <span class="k">const</span> <span class="n">min</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">set</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">v</span><span class="p">(</span><span class="n">min</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>벡터 <code class="language-plaintext highlighter-rouge">v</code> 1 ~ 8 행을 가진다. 추후 인덱스를 행과 맞추기 위해 사이즈를 9 로 선언하신 것 같다. 행마다 각각 사이즈가 다른 <code class="language-plaintext highlighter-rouge">set</code>이 있다. <code class="language-plaintext highlighter-rouge">set</code>을 벡터의 원소로 하면 중복 값을 배제할 수 있다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/97097933-66d69880-16ba-11eb-862a-87b80d90c21d.png" alt="image" /></p>
+
+<ul>
+  <li>1 행은 <code class="language-plaintext highlighter-rouge">5</code> 이렇게 1 개로 만들 수 있는 모든 값들을 저장한다.
+    <ul>
+      <li>1 행은 그 자체로 <code class="language-plaintext highlighter-rouge">5</code> 하나만 있을 수 있게 된다.</li>
+      <li>1 행 1 열은 <code class="language-plaintext highlighter-rouge">5</code> 고정. set 의 크기는 1</li>
+    </ul>
+  </li>
+  <li>2 행은 <code class="language-plaintext highlighter-rouge">55</code> 이렇게 2 개로 만들 수 있는 모든 값들을 저장한다.
+    <ul>
+      <li>1 열은 <code class="language-plaintext highlighter-rouge">55</code> 고정.</li>
+      <li>점화식 👉 B2 = (B1 + B1) + (B0 + B2)
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">5</code> 2 개로 만들 수 있는 모든 경우의 수인 2 행 원소들은 ✨2행 1열의 <code class="language-plaintext highlighter-rouge">55</code>를 제외하면 (B0 + B2)✨ <code class="language-plaintext highlighter-rouge">5</code> 1 개로 만들 수 있는 모든 경우의 수인 1행과 <code class="language-plaintext highlighter-rouge">5</code> 1 개로 만들 수 있는 모든 경우의 수인 1행을 사칙연산한 모든 경우의 수다. (B1 + B1)</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>3 행은 <code class="language-plaintext highlighter-rouge">555</code> 이렇게 3 개로 만들 수 있는 모든 값들을 저장한다.
+    <ul>
+      <li>1 열은 <code class="language-plaintext highlighter-rouge">555</code> 고정.</li>
+      <li>점화식 👉 B3 = (B1 + B2) + (B0 + B3)
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">5</code> 3 개로 만들 수 있는 모든 경우의 수인 3 행 원소들은 ✨3행 1열의 <code class="language-plaintext highlighter-rouge">555</code>를 제외하면 (B0 + B3)✨ <code class="language-plaintext highlighter-rouge">5</code> 1 개로 만들 수 있는 모든 경우의 수인 1행과 <code class="language-plaintext highlighter-rouge">5</code> 2 개로 만들 수 있는 모든 경우의 수인 2행을 사칙연산한 모든 경우의 수다. (B1 + B2)</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>4 행은 <code class="language-plaintext highlighter-rouge">5555</code> 이렇게 4 개로 만들 수 있는 모든 값들을 저장한다.
+    <ul>
+      <li>1 열은 <code class="language-plaintext highlighter-rouge">5555</code> 고정.</li>
+      <li>점화식 👉 B4 = (B1 + B3) + (B2 + B2) + (B0 + B4)
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">5</code> 4 개로 만들 수 있는 모든 경우의 수인 4 행 원소들은 ✨4행 1열의 <code class="language-plaintext highlighter-rouge">5555</code>를 제외하면 (B0 + B4)✨ <code class="language-plaintext highlighter-rouge">5</code> 1 개로 만들 수 있는 모든 경우의 수인 1행과 <code class="language-plaintext highlighter-rouge">5</code> 3 개로 만들 수 있는 모든 경우의 수인 3행을 사칙연산한 모든 경우의 수와 (B1 + B3) <code class="language-plaintext highlighter-rouge">5</code> 2 개로 만들 수 있는 모든 경우의 수인 2행과 <code class="language-plaintext highlighter-rouge">5</code> 2 개로 만들 수 있는 모든 경우의 수인 2행을 사칙연산한 모든 경우의 수다. (B2 + B2)</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이런식 ! 마치 피보나치 수열이나 이항계수처럼! 작은 문제로 쪼개질 수 있다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">5</code> 3개로 만들 수 있는 모든 경우의 수는, <code class="language-plaintext highlighter-rouge">5</code> 2개로 만들 수 있는 모든 경우와 <code class="language-plaintext highlighter-rouge">5</code> 1개로 만들 수 있는 모든 경우의 수들을 사칙연산 한것과 같다. 여기에 더해 <code class="language-plaintext highlighter-rouge">5</code> 3 개로 만들 수 있는 모든 경우의 수를 사칙연산 해준것과도 같다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">min</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>**각 <code class="language-plaintext highlighter-rouge">v[i]</code>행의 <code class="language-plaintext highlighter-rouge">set</code>에 값을 저장하여 완성해나간다.</p>
+</blockquote>
+
+<p>1 행부터 8 행까지 살펴보자. <code class="language-plaintext highlighter-rouge">i</code>는 행을 뜻한며 <code class="language-plaintext highlighter-rouge">v[i]</code>에는 <code class="language-plaintext highlighter-rouge">i</code>개의 <code class="language-plaintext highlighter-rouge">N</code>개를 사용하여 사칙연산한 값들을 차례로 저장해두는 <code class="language-plaintext highlighter-rouge">set</code>이 있다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1 열 (행과 동일한 5, 55, 555 등등)</span>
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">N</span><span class="p">;</span>
+<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>현재 <code class="language-plaintext highlighter-rouge">i</code>는 행을 뜻함. 더 큰 fr문 for (int i = 1; i &lt; min; i++)</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">i</code>행의 모든 1 열은 <code class="language-plaintext highlighter-rouge">i</code>개의 <code class="language-plaintext highlighter-rouge">N</code>개를 하나의 수로 단독으로 사용한 값이다. 1 행 1 열은 5, 2행 1열은 55, 3행 1열은 555 등등.. 먼저 모든 행의 1 열에 넣어주자. <code class="language-plaintext highlighter-rouge">i</code>번 만큼 <em>result = result * 10 + N;</em> 를 진행하여 <code class="language-plaintext highlighter-rouge">result</code>를 만들고 이를 <code class="language-plaintext highlighter-rouge">i</code>행의 set 에 처음으로 추가 해주면 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// 1열이 아닌 그 외의 열</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">a</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+						<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">b</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="p">{</span>
+							<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">);</span>
+							<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">);</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">);</span>
+						<span class="p">}</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>현재 <code class="language-plaintext highlighter-rouge">i</code>는 행을 뜻함. 더 큰 fr문 for (int i = 1; i &lt; min; i++)</p>
+</blockquote>
+
+<ul>
+  <li>점화식 👉 N을 <code class="language-plaintext highlighter-rouge">i</code>개 사용하여 만드는 모든 경우의 수(<strong><code class="language-plaintext highlighter-rouge">i</code>행</strong>)는 N을 <code class="language-plaintext highlighter-rouge">j</code>개 사용하여 만드는 모든 경우의 수((<strong><code class="language-plaintext highlighter-rouge">j</code>행</strong>)와 N을 <code class="language-plaintext highlighter-rouge">i - j</code>개 사용하여 만드는 모든 경우의 수( (<strong><code class="language-plaintext highlighter-rouge">k</code>행</strong>)를 사칙연산 한 것과 같다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>					<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">a</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+                      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">b</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="p">{</span>
+                          <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">);</span>
+                          <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+                          <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span>
+                          <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">);</span>
+                          <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">);</span>
+                          <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">b</span> <span class="o">/</span> <span class="n">a</span><span class="p">);</span>
+                      <span class="p">}</span>
+                  <span class="p">}</span>
+</code></pre></div>    </div>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">j</code>,<code class="language-plaintext highlighter-rouge">k</code>는  1 ~ <code class="language-plaintext highlighter-rouge">i</code> 범위를 가지며</li>
+      <li><code class="language-plaintext highlighter-rouge">j + k</code> 는 <code class="language-plaintext highlighter-rouge">i</code>이다.
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>동적 계획법 중요 포인트 👉 <strong>큰 문제의 최적화는 곧 작은 문제의 최적화와 같다.</strong></p>
+</blockquote>
+
+<p>궁극적인 목표는 <code class="language-plaintext highlighter-rouge">number</code>와 같은 값을 찾는 것이다. <code class="language-plaintext highlighter-rouge">number</code>는 1 이상인 양수이므로 각각의 사칙 연선 결과가 양수인 것만 저장하도록 할 것이다. <code class="language-plaintext highlighter-rouge">number</code>가 큰 문제라면 <code class="language-plaintext highlighter-rouge">number</code>의 구성요소인 작은 문제들 또한 양수여야 하기 때문이다. 따라서 빼기와 나누기의 경우 음수가 되지 않도록, 예외를 일으키지 않도록 한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// 최소값 도출</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">min</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">j</span> <span class="o">:</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>벡터 <code class="language-plaintext highlighter-rouge">v</code>의 모든 값을 차례대로 앞에서 부터(1행부터, 1열부터) 검사하여 <code class="language-plaintext highlighter-rouge">number</code>와 동일한 원소 값을 찾아낸다. 그럼 그 값은 자연스럽게 최소값이다. 앞에서부터 찾았으니까! (<code class="language-plaintext highlighter-rouge">i</code>행은 <code class="language-plaintext highlighter-rouge">N</code>을 <code class="language-plaintext highlighter-rouge">i</code>번 사용한 모든 경우의수가 모여 있으므로 앞의 행부터 찾아서 최초로 찾았다면 당연히 최소 값이다.) 따라서 그 때의 행 <code class="language-plaintext highlighter-rouge">i</code>를 리턴한다. for문 다 돌도록 찾지 못했다면 -1 리턴</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

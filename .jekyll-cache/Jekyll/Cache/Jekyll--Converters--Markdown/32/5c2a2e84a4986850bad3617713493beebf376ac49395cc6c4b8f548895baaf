@@ -1,0 +1,80 @@
+I"a<p class="notice--warning"><strong>C/C++</strong>로 풀이했습니다.<br />
+출처 : <strong>Code Up</strong> 문제 풀이. <a href="https://codeup.kr/">https://codeup.kr/</a></p>
+
+<p><br /></p>
+
+<h2 id="1028">1028</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>입력되는 정수의 범위는 0 ~ 4294967295 
+</code></pre></div></div>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%u"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%u"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">int</code>의 최대값인 약 21억(\(2^{31} - 1\))을 넘고 있다. 그래서 바로 <code class="language-plaintext highlighter-rouge">long</code>을 생각했는데, 사실 <code class="language-plaintext highlighter-rouge">long long</code>까지 갈 필요도 없이 <code class="language-plaintext highlighter-rouge">unsigned int</code>를 생각하면 된다. <code class="language-plaintext highlighter-rouge">unsigned int</code>의 범위는 0 ~ (\(2^{32} - 1\)) 즉, <u>0 ~ 4294967295 이기 때문이다.</u> 음수 안쓰는데 범위는 (\(2^{31} - 1\)) 을 약간 넘는 수준이라면 <code class="language-plaintext highlighter-rouge">unsigned int</code>으로 선언하자.</p>
+
+<p><br /></p>
+
+<h2 id="1029">1029</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>소수점 아래 숫자가 11개 이하인 실수 1개가 입력된다.
+(단, 입력되는 실수의 범위는 +- 1.7*10-308 ~ +- 1.7*10308 이다.)
+
+입력된 실수를 소수점 이하 11자리까지 반올림하여 출력한다.
+참고
+%.11lf 를 사용하면 소수점 이하 11자리까지 출력된다.
+</code></pre></div></div>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lf"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">);</span> <span class="c1">// double(long float) 형식으로 입력</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%.11lf"</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>double 의 출력 지정자 <code class="language-plaintext highlighter-rouge">lf</code></li>
+  <li>double 의 범위 +- 1.7<em>10-308 ~ +- 1.7</em>10308</li>
+  <li>소수점을 11자리 까지 출력하고 싶다면 <code class="language-plaintext highlighter-rouge">.11</code>을 출력 지정자 앞에 붙여주기
+    <ul>
+      <li>알아서 11자리까지 <strong>반올림</strong> 되어 출력한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="1030">1030</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>long long 의 출력 지정자 <code class="language-plaintext highlighter-rouge">lld</code></li>
+  <li>long long 의 범위 (\(-2^{63} ~ 2^{63} - 1\))</li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

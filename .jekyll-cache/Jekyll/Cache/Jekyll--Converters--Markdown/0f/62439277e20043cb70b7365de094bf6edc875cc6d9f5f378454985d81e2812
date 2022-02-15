@@ -1,0 +1,178 @@
+I"�J<h1 id="-삼각-달팽이">📌 삼각 달팽이</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106727058-6dc45e00-664e-11eb-93b8-da497018a875.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">DFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">answer</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">elem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">int</span> <span class="n">arrSize</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="c1">// 1. 꼭짓점</span>
+    <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">elem</span> <span class="o">&gt;</span> <span class="n">arrSize</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">depth</span><span class="p">;</span>
+
+    <span class="c1">// 2. 왼쪽 빗변 </span>
+    <span class="kt">int</span> <span class="n">indexTerm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span> <span class="o">+</span> <span class="n">indexTerm</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">startIndex</span> <span class="o">+=</span> <span class="n">indexTerm</span><span class="p">;</span>
+        <span class="n">indexTerm</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 3. 밑변 </span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">startIndex</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 4. 오른쪽 빗변 </span>
+    <span class="n">indexTerm</span> <span class="o">=</span>  <span class="n">n</span> <span class="o">-</span> <span class="n">depth</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span> <span class="o">-</span> <span class="n">indexTerm</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">startIndex</span> <span class="o">-=</span> <span class="n">indexTerm</span><span class="p">;</span>
+        <span class="n">indexTerm</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">X</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">startIndex</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">)</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">startIndex</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>근데 이거를 DFS로 풀이했다고 말할 수 있을지 잘 모르겠다.. 말할 수..있나? 😅 하나하나 다 깊이 들어가는식으로 방문한거니까 그렇다고 할 수 있겠G..?</p>
+
+<p>재귀 사용하니까 오히려 너무 복잡했다.. 1 차원 배열 인덱스의 변화되는 규칙을 찾으려니 너무너무 복잡하고 힘들었다.. 😭</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106737332-e250ca00-6659-11eb-996a-03275d07a8fe.png" alt="image" /></p>
+
+<p>예를 들어 n이 7이라면 이렇게 3개의 삼각형이 생긴다고 보았다.</p>
+
+<ul>
+  <li>depth = 0 일땐 노란색</li>
+  <li>depth = 1 일땐 초록색</li>
+  <li>depth = 2 일땐 파란색
+    <ul>
+      <li>이렇게 하나밖에 없는건 length 가 0인 것으로 간주함</li>
+    </ul>
+  </li>
+</ul>
+
+<p>재귀적으로 이렇게 <code class="language-plaintext highlighter-rouge">depth</code>가 늘어날 수록 더 작은 삼각형으로 들어가게 됨.</p>
+
+<p><code class="language-plaintext highlighter-rouge">length</code> 는 n - 3 * depth 로 정의함. n = 7 에서의 가장 큰 삼각형(depth = 0)에서는 length가  7이고, 초록색 삼각형일 때는</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106737383-eed52280-6659-11eb-9d90-3863afadaa2c.png" alt="image" /></p>
+
+<ul>
+  <li>1️⃣ 새로운 삼각형의 꼭짓점 방문 (<code class="language-plaintext highlighter-rouge">startIndex</code>)
+    <ul>
+      <li>위에 위에 사진의 파란 삼각형처럼 하나밖에 없는 삼각형에 도달했을 경우 꼭짓점만 찍고 재귀가 종료될 수 있도록 종료 조건을 꼭짓점 찍은 후 추가
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kt">int</span> <span class="n">arrSize</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+ <span class="c1">// 1. 꼭짓점</span>
+ <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+
+ <span class="k">if</span> <span class="p">(</span><span class="n">elem</span> <span class="o">&gt;</span> <span class="n">arrSize</span><span class="p">)</span>
+     <span class="k">return</span><span class="p">;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>2️⃣ 왼쪽 빗변 (주황 화살표) 👉 <code class="language-plaintext highlighter-rouge">length - 1</code> 개
+    <ul>
+      <li>꼭짓점 [0] (depth = 0) 삼각형의 주황 화살표에서의 인덱스 차이 : 0, 1(0 + 1), 3(0 + 1 + 2), 6(0 + 1 + 2 + 3), 10(0 + 1 + 2 + 3 + 4), …</li>
+      <li>꼭짓점 [4] (depth = 1) 삼각형의 주황 화살표에서의 인덱스 차이 : 4, 7(4 + 3), 11(4 + 3 + 4), 16(4 + 3 + 4 + 5), …</li>
+      <li>
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// 2. 왼쪽 빗변 </span>
+  <span class="kt">int</span> <span class="n">indexTerm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span> <span class="o">+</span> <span class="n">indexTerm</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+  <span class="n">startIndex</span> <span class="o">+=</span> <span class="n">indexTerm</span><span class="p">;</span>
+  <span class="n">indexTerm</span><span class="o">++</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>2️⃣ 밑변 (노란 화살표) 👉 <code class="language-plaintext highlighter-rouge">length - 1</code> 개
+    <ul>
+      <li>1 번 과정에서 끝낸 <code class="language-plaintext highlighter-rouge">startIndex</code>에서 1씩 더한 곳에 저장하면 된다. (수평 방향이므로)
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">startIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>3️⃣ 오른쪽 빗변 (초록 화살표) 👉 <code class="language-plaintext highlighter-rouge">length - 2</code> 개
+    <ul>
+      <li>꼭짓점 [0] (depth = 0) 삼각형의 초록 화살표에서의 인덱스 차이 : 27, 20(27 - 7), 14(27 - 7 - 6), 9(27 - 7 - 6 - 5), 10(0 + 1 + 2 + 3 + 4), …</li>
+      <li>꼭짓점 [4] (depth = 1) 삼각형의 초록 화살표에서의 인덱스 차이 : 19, 13(19 - 6), 8(19 - 6 - 5), 4(19- 6 - 5 - 4), …
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">indexTerm</span> <span class="o">=</span>  <span class="n">n</span> <span class="o">-</span> <span class="n">depth</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">;</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">answer</span><span class="p">[</span><span class="n">startIndex</span> <span class="o">-</span> <span class="n">indexTerm</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">startIndex</span> <span class="o">-=</span> <span class="n">indexTerm</span><span class="p">;</span>
+    <span class="n">indexTerm</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>다음 재귀 삼각형의 꼭짓점 정하고 다음 삼각형으로 이동
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kt">int</span> <span class="n">X</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">startIndex</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">elem</span> <span class="o">&lt;=</span> <span class="n">arrSize</span><span class="p">)</span>
+      <span class="n">DFS</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">startIndex</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-다른-풀이">🚀 다른 풀이</h2>
+
+<blockquote>
+  <p>출처 및 참고 : <a href="https://yabmoons.tistory.com/575">얍문님 블로그</a></p>
+</blockquote>
+
+<p>내 풀이처럼 1차원 배열 상에서의 인덱스간 규칙을 찾으려고 애쓰지 않고.. 삼각형의 각 자리들을 2차원 배열에 대응시켜 2차원 좌표를 사용한다.(정삼각형이 아닌 직각삼각형 모양이 되게끔 정도만) 나중에 이 2차원 배열에 정리한 것을 1차원 배열에 읽어오기만 하면 땡이다. 좋은 풀이이니 이 포스트를 다시 본다면 얍문님 블로그에 들어가서 풀이와 코드 자세히 다시금 확인해보자..</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

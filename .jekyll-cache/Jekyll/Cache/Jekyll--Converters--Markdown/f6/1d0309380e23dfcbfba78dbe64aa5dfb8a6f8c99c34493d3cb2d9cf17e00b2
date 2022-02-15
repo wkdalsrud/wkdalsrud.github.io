@@ -1,0 +1,102 @@
+I"�<h1 id="그리디-구명보트">[그리디] 구명보트</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/96545243-fc50e180-12e2-11eb-8b61-a1dd0cd991ec.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="내-풀이-">내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">people</span><span class="p">,</span> <span class="kt">int</span> <span class="n">limit</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">sort</span><span class="p">(</span><span class="n">people</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">people</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+    
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">people</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">j</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>   
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">people</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        
+        <span class="n">j</span><span class="o">--</span><span class="p">;</span>
+        
+        <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>우선 <code class="language-plaintext highlighter-rouge">people</code> 벡터를 오름차순 정렬 한다.
+    <ul>
+      <li>사람들의 무게 순으로 정렬. 가장 가벼운 사람이 앞에, 무거울 수록 뒤에 위치하게 된다.</li>
+    </ul>
+  </li>
+  <li>인덱스를 두개 사용했다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">i</code> 벡터의 맨 앞부터 시작하여 증가하는 인덱스</li>
+      <li><code class="language-plaintext highlighter-rouge">j</code> 벡터의 맨 뒤부터 시작하여 감소하는 인덱스</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>최대 2 명까지만 태울 수 있고, 보트를 최소한으로 써야 하므로 👉🏽 최대한 무거운 사람 중에서 함께 탈 사람을 찾아 봐야 한다.</p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/96547069-6a4ad800-12e6-11eb-8f03-76f556f7f5da.png" alt="image" /></p>
+
+<ul>
+  <li>예시 1
+    <ul>
+      <li>[40, 50], [70], [80] 👉 3 개</li>
+    </ul>
+  </li>
+  <li>예시 2
+    <ul>
+      <li>[50], [70], [80] 👉 3 개</li>
+    </ul>
+  </li>
+  <li>예시 3
+    <ul>
+      <li>[10, 90], [20, 80], [30, 70], [40, 60], [50] 👉 5 개</li>
+    </ul>
+  </li>
+  <li>예시 4
+    <ul>
+      <li>[90], [80], [30, 70], [40, 60], [50] 👉 5 개</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

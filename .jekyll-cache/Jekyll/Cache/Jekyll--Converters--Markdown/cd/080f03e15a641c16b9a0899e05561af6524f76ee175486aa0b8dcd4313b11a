@@ -1,0 +1,321 @@
+I"��<h1 id="-소수-만들기">📌 소수 만들기</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106908836-04724700-6743-11eb-9006-00cc1c320559.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<h3 id="-dfs-nc3-조합">✈ DFS (nC3 조합)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">Prime</span><span class="p">[</span><span class="mi">3001</span><span class="p">];</span>
+
+<span class="kt">bool</span> <span class="nf">isPrime</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">three</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">three</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">three</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">three</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">sum</span><span class="p">])</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">DFS</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">three</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">answer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="mi">3</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isPrime</span><span class="p">(</span><span class="n">three</span><span class="p">))</span>
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 👇 조합의 특징</span>
+    <span class="c1">// a가 등장했다면 그 다음엔 b,c,d 에서만 등장할 수 있다.</span>
+    <span class="c1">// a는 다시는 한번 등장했다면 다시는 등장할 수 없다.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">three</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">three</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">Prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">three</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="n">DFS</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">three</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">nums.size()</code>를 <code class="language-plaintext highlighter-rouge">n</code>이라고 했을 때 위 문제는 <code class="language-plaintext highlighter-rouge">nums</code> 에서 <u>nC3 개의 모든 조합을 구한 후 이 조합의 합이 소수인지를 확인</u> 하면 되는 문제다.</p>
+</blockquote>
+
+<p>모든 조합의 경우를 다 구하면 시간초과가 나지 않을까 싶었는데 다행히 나진 않았다. <code class="language-plaintext highlighter-rouge">nums</code>의 최대길이인 1000으로 1000C3 구하는 정도는 시간초과가 나지 않는다.</p>
+
+<p><a href="https://ansohxxn.github.io/algorithm/combination/">(C++) 조합(Combination)을 구현하는 여러가지 방법</a></p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">nums</code>의 최대 길이를 대충 3000 으로 잡고 이를 바탕으로 1 에서 3000 까지의 인덱스 중에서 소수인 것만 <code class="language-plaintext highlighter-rouge">True</code>를 표시하는 배열 <code class="language-plaintext highlighter-rouge">Prime</code>을 만든다.
+    <ul>
+      <li>에라토스테네스의 체를 이용함</li>
+    </ul>
+  </li>
+  <li>DFS 를 통하여 <code class="language-plaintext highlighter-rouge">nums</code>의 모든 nC3 개의 조합을 전부 검사한다.
+    <ul>
+      <li>완성된 이 3개의 조합의 합이 소수라면 <code class="language-plaintext highlighter-rouge">answer</code>를 1만큼 더한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>조합의 DFS 과정 eX) [1, 2, 7, 6, 4]
+    <ul>
+      <li>1 👉 12 👉 <strong>127</strong></li>
+      <li>1 👉 12 👉 <strong>126</strong></li>
+      <li>1 👉 12 👉 <strong>124</strong></li>
+      <li>1 👉 17 👉 <strong>176</strong></li>
+      <li>1 👉 17 👉 <strong>174</strong></li>
+      <li>1 👉 16 👉 <strong>164</strong></li>
+      <li>2 👉 76 👉 <strong>276</strong></li>
+      <li>2 👉 74 👉 <strong>274</strong></li>
+      <li>2 👉 64 👉 <strong>264</strong></li>
+      <li>7 👉 76 👉 <strong>764</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p>최종적으로 <code class="language-plaintext highlighter-rouge">answer</code>는 서로 다른 3개를 골라 더했을 때 소수가 되는 모든 경우의 개수가 된다.</p>
+
+<p><br /></p>
+
+<h3 id="-에라토스테네스의-체로-효율적으로-소수-체크">✈ (에라토스테네스의 체)로 효율적으로 소수 체크</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">Prime</span><span class="p">[</span><span class="mi">3001</span><span class="p">];</span>
+<span class="c1">//...</span>
+
+    <span class="c1">// ✨에라토스테네스의 체✨</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">Prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>에라토스테네스의 체 👉 초기화를 싹 <code class="language-plaintext highlighter-rouge">true</code>로 시작한 후, 모든 배수들을 전부 <code class="language-plaintext highlighter-rouge">false</code> 처리해 나간다. 최종적으로 소수인 것만 <code class="language-plaintext highlighter-rouge">true</code>가 되게끔!</p>
+</blockquote>
+
+<ul>
+  <li>모든 수에 일단 <code class="language-plaintext highlighter-rouge">true</code>를 체크한다.</li>
+  <li>2 부터 차례 차례 검사한다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">true</code> 체크되어 있는 수라면 소수다.
+        <ul>
+          <li>그 소수의 제곱들을 전부 <code class="language-plaintext highlighter-rouge">false</code>로 체크한다. (약수에 그 소수가 포함된다는 것이므로.)
+            <ul>
+              <li>ex) 5는 소수니까 25부터 시작하여 25, 125, 625, …. 전부 소수 아닌 것으로 체크함.</li>
+              <li>ex) 2는 소수니까 2를 제외한 모든 짝수는 소수 아닌 것으로 체크됨.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-다른-풀이">🚀 다른 풀이</h2>
+
+<h3 id="-반복문-풀이">✈ 반복문 풀이</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">Prime</span><span class="p">[</span><span class="mi">3001</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">Prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+                    <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>어차피 딱 3개만 뽑는 것이므로 3중 for문을 사용하여 뽑을 수도 있다. “ABCDE”를 예시로 들자면 첫 번째에서 A 를 뽑았고 B 를 뽑지 않기로 했다면 그 다음은 CDE 에서 2개를 뽑아야 한다. C를 뽑고 D를 뽑지 않기로 했다면 E를 뽑는다. 즉, <u>뽑든 안뽑든 한번 결정하고 지나간 것은 다신 보지 않는다.</u> <strong>따라서 두번째 for문의 반복은 첫번째 for문에서 살핀 것의 다음 것(i + 1)부터, 세번째 for문의 반복은 두번재 for문에서 살핀 것의 다음 것(j + 1)부터 돌리면 된다.</strong></p>
+
+<p><br /></p>
+
+<h3 id="-next_permutation-사용">✈ next_permutation 사용</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">Prime</span><span class="p">[</span><span class="mi">3001</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">Prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb_bool</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    
+    <span class="k">do</span><span class="p">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">sum</span><span class="p">])</span> 
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+        
+    <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">next_permutation</span><span class="p">(</span><span class="n">comb_bool</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// nC3 조합 구하기 </span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb_bool</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">true</span><span class="p">);</span> <span class="c1">// 3개의 true를 뒤에 </span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    
+    <span class="k">do</span><span class="p">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c1">// true와 일치하는 것</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">sum</span><span class="p">])</span> 
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+        
+    <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">next_permutation</span><span class="p">(</span><span class="n">comb_bool</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+</code></pre></div></div>
+
+<p>순서 신경 안쓰고 <code class="language-plaintext highlighter-rouge">next_permutation</code>을 사용한 조합 구현. 어차피 3 개 조합의 합만 구하면 되니까 순서는 중요치 않아 <code class="language-plaintext highlighter-rouge">true</code> 3개를 뒤에다 배치.</p>
+
+<p><code class="language-plaintext highlighter-rouge">next_permutation</code>으로 조합을 구현하는 자세한 설명은 <a href="https://ansohxxn.github.io/algorithm/combination/#stl-next_permutation%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%95%A9-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0">이 포스트 참고</a></p>
+
+<p><br /></p>
+
+<h3 id="-prev_permutation-사용">✈ prev_permutation 사용</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">Prime</span><span class="p">[</span><span class="mi">3001</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3001</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">Prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb_bool</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="k">do</span><span class="p">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">sum</span><span class="p">])</span> 
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+        
+    <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">prev_permutation</span><span class="p">(</span><span class="n">comb_bool</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb_bool</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="c1">// 앞에 3개를 true로</span>
+        <span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="k">do</span><span class="p">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">comb_bool</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">Prime</span><span class="p">[</span><span class="n">sum</span><span class="p">])</span> 
+            <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+        
+    <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">prev_permutation</span><span class="p">(</span><span class="n">comb_bool</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb_bool</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">prev_permutation</code>으로 조합을 구현하는 자세한 설명은 <a href="https://ansohxxn.github.io/algorithm/combination/#stl-prev_permutation%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%95%A9-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0">이 포스트 참고</a></p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

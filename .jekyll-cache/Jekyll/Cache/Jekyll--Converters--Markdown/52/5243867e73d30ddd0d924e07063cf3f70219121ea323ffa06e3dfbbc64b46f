@@ -1,0 +1,177 @@
+I"FN<h1 id="-가장-긴-팰린드롬">📌 가장 긴 팰린드롬</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107901899-43e13480-6f88-11eb-9f57-15a5831e19e9.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<ul>
+  <li>팰린 드롬의 종류는 두 가지가 있다.
+    <ul>
+      <li>1️⃣ <code class="language-plaintext highlighter-rouge">caabaac</code>처럼 가운데 하나가 중심이 되어 이걸 기준으로 양 옆이 동일.
+        <ul>
+          <li>가운데 <code class="language-plaintext highlighter-rouge">b</code>를 중점으로 ca<code class="language-plaintext highlighter-rouge">a</code>b<code class="language-plaintext highlighter-rouge">a</code>ac, c<code class="language-plaintext highlighter-rouge">a</code>aba<code class="language-plaintext highlighter-rouge">a</code>c, <code class="language-plaintext highlighter-rouge">c</code>aabaa<code class="language-plaintext highlighter-rouge">c</code> 이렇게 좌우가 같다.</li>
+        </ul>
+      </li>
+      <li>2️⃣ <code class="language-plaintext highlighter-rouge">baab</code>처럼 가운데 하나가 중심이 되는 것은 아니고, 그냥 양 옆이 동일.
+        <ul>
+          <li>a<code class="language-plaintext highlighter-rouge">ab</code>, <code class="language-plaintext highlighter-rouge">a</code>ab<code class="language-plaintext highlighter-rouge">b</code> 이렇게!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>이렇게 두 가지 종류가 있다고 판단하고 코드를 짰다.</p>
+
+<h3 id="-1-차-풀이--효율성-테스트-2번에서-시간-초과">✈ 1 차 풀이 (⏰ 효율성 테스트 2번에서 시간 초과)</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="c1">// caabaac</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">center</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">temp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="n">center</span><span class="p">]);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">center</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">center</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">left</span><span class="o">--</span><span class="p">,</span> <span class="n">right</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">+</span> <span class="n">temp</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">temp</span><span class="p">.</span><span class="n">length</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="c1">// baab</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">center</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">center</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">center</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">center</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">left</span><span class="o">--</span><span class="p">,</span> <span class="n">right</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">+</span> <span class="n">temp</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">temp</span><span class="p">.</span><span class="n">length</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>1️⃣ <code class="language-plaintext highlighter-rouge">aabaa</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">center</code>는 하나의 중점이 될 문자의 인덱스를 뜻한다. <code class="language-plaintext highlighter-rouge">center</code>는 <strong>1부터 시작</strong>하여 1,2,3 이 될 수 있다. 즉 위 문자열에서 중점이 될 수 있는건 가운데 a<u>aba</u>a 부분이다.</li>
+      <li>현재의 <code class="language-plaintext highlighter-rouge">center</code>를 중점으로, 중점의 왼쪽에 있는 원소와 오른쪽에 있는 원소가 같은지를 비교하고 같다면 팰린드롬을 완성해나간다.</li>
+      <li><code class="language-plaintext highlighter-rouge">left</code> 혹은 <code class="language-plaintext highlighter-rouge">right</code> 둘 중 하나라도 끝에 도달했거나 더 이상 팰린드롬이 되지 않는다면 해당 <code class="language-plaintext highlighter-rouge">center</code>의 팰린드롬 구하기는 종료하고 다음 원소를 <code class="language-plaintext highlighter-rouge">center</code>로 하러 가야됨.
+        <ul>
+          <li>“abcdcba” 에서 현재 <code class="language-plaintext highlighter-rouge">center</code>가 2 라면 (즉 <code class="language-plaintext highlighter-rouge">c</code> 가 현재 중점 원소라면) b와 d를 비교 한다. 이 경우 b와 d는 다르기 때문에 종료 한다. 그래서 중점이 <code class="language-plaintext highlighter-rouge">c</code>일 땐 팰린드롬은 <code class="language-plaintext highlighter-rouge">"c"</code> 달랑 한개가 끝이다.</li>
+          <li>“abcdcba” 에서 현재 <code class="language-plaintext highlighter-rouge">center</code>가 3 라면 (즉 <code class="language-plaintext highlighter-rouge">d</code> 가 현재 중점 원소라면)
+            <ul>
+              <li>c와 c는 같다. -&gt; 팰린드롬 = “cdc”</li>
+              <li>b와 b는 같다. -&gt; 팰린드롬 = “bcdcb”</li>
+              <li>a와 a는 같다. -&gt; 팰린드롬 = “abcdcba”</li>
+              <li>따라서 <code class="language-plaintext highlighter-rouge">d</code>가 중점일 땐 가장 긴 팰린드롬이 “abcdcba”가 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>2️⃣ <code class="language-plaintext highlighter-rouge">baab</code>
+    <ul>
+      <li><u>ba</u>ab -&gt; b<u>aa</u>b -&gt; ba<u>ab</u> 이 순서로 비교해나간다.</li>
+      <li>따라서 이땐 <code class="language-plaintext highlighter-rouge">center</code>는 <strong>0부터 시작</strong> 하고(b,a,a 까지가 <code class="language-plaintext highlighter-rouge">center</code>가 될 수 있음) <code class="language-plaintext highlighter-rouge">left</code>는 딱 <code class="language-plaintext highlighter-rouge">center</code>에서 시작하여 감소, <code class="language-plaintext highlighter-rouge">right</code>는 <code class="language-plaintext highlighter-rouge">center + 1</code>에서 시작하여 증가하는 식으로 함.
+        <ul>
+          <li>“baab” 에서 현재 <code class="language-plaintext highlighter-rouge">center</code>가 1이라면
+            <ul>
+              <li>a와 a는 같다. -&gt; 팰린드롬 = “aa”</li>
+              <li>b와 b는 같다. -&gt; 팰린드롬 = “baab”</li>
+              <li>따라서 <code class="language-plaintext highlighter-rouge">center</code>가 1일 땐 가장 긴 팰린드롬이 “baab”가 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이렇게 각각의 경우마다 가장 긴 팰린드롬 문자열을 구하고 최종적인 최대 길이 값을 업뎃해 나간다.</li>
+</ul>
+
+<p>근데 위 코드는 시간 초과가 발생한다. 내가 각각의 <code class="language-plaintext highlighter-rouge">center</code>에서의 팰린드롬을 <code class="language-plaintext highlighter-rouge">temp</code> 문자열에 직접 만들어서 업뎃하고 그 길이를 구하는 식으로 코드를 짰는데 <u>사실 문제에서 원하는건 팰린드롬 문자열이 아닌 팰린드롬 문자열의 "길이"이므로 그냥 길이만 업뎃하면 됐었다.</u> <strong>문자열 접합</strong> 연산이 시간이 꽤 소모가 많이 드는 작업인 듯하다.</p>
+
+<p><br /></p>
+
+<h3 id="-2-차-풀이-">✈ 2 차 풀이 ⭕</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// aabaa</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">center</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">center</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">center</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">left</span><span class="o">--</span><span class="p">,</span> <span class="n">right</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">t_max</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">t_max</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// aabb</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">center</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">center</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">center</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">center</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">center</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">left</span><span class="o">--</span><span class="p">,</span> <span class="n">right</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+            <span class="n">t_max</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">t_max</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>따라서 위와 같이 코드를 바꿨고 시간 초과 문제를 해결하였다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">t_max</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">t_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">t_max</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>팰린드롬 발견시마다 2 씩만 더해주면 된다.
+    <ul>
+      <li>1️⃣ <code class="language-plaintext highlighter-rouge">aabaa</code> 👉 <strong>초기값 1</strong> (중점이 되는 하나가 있을 때의 가장 짧은 팰린드롬 길이는 <code class="language-plaintext highlighter-rouge">1</code>이다.)
+        <ul>
+          <li>1 에서 2 씩 더해나가니 홀수 길이다.</li>
+        </ul>
+      </li>
+      <li>2️⃣ <code class="language-plaintext highlighter-rouge">baab</code> 👉 <strong>초기값 0</strong> (모두 다 짝지어져 있는 형태의 팰린드롬 중 가장 짧은 길이는 <code class="language-plaintext highlighter-rouge">0</code>이다. 사실 0 이면 팰린드롬이 아니라는거긴 하지만..)
+        <ul>
+          <li>0 에서 2 씩 더해나가니 짝수 길이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

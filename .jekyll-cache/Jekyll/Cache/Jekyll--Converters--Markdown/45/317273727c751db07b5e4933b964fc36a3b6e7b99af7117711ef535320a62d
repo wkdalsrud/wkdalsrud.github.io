@@ -1,0 +1,216 @@
+I"�V<h1 id="힙-디스크-컨트롤러">[힙] 디스크 컨트롤러</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/89114285-9c9e2380-d4b5-11ea-8780-06ee87a8882a.png" alt="image" width="90%" height="90%" class="align-center" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/89114289-afb0f380-d4b5-11ea-8b94-094964046f6f.png" alt="image" width="90%" height="90%" class="align-center" /></p>
+
+<p><br /></p>
+
+<h2 id="풀이">풀이</h2>
+
+<h3 id="틀린-내-풀이">틀린 내 풀이</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">compare_queue</span>
+<span class="p">{</span>
+   <span class="kt">bool</span> <span class="k">operator</span><span class="p">()</span> <span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+   <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">bool</span> <span class="nf">compare_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+   <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">jobs</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+   <span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q_sum</span><span class="p">;</span>
+   <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">compare_queue</span><span class="o">&gt;</span> <span class="n">waiting</span><span class="p">;</span>
+
+   <span class="kt">int</span> <span class="n">total_time</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">jobs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">total_time</span> <span class="o">+=</span> <span class="n">jobs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+   <span class="p">}</span>
+
+   <span class="n">sort</span><span class="p">(</span><span class="n">jobs</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">jobs</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare_sort</span><span class="p">);</span>
+
+   <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">// jobs 순회</span>
+   <span class="kt">int</span> <span class="n">endTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="kt">bool</span> <span class="n">processing</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="n">total_time</span><span class="p">;</span> <span class="n">time</span><span class="o">++</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">==</span> <span class="n">jobs</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+         <span class="p">{</span>
+            <span class="n">waiting</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">jobs</span><span class="p">[</span><span class="n">index</span><span class="p">]);</span>
+            <span class="n">index</span><span class="o">++</span><span class="p">;</span>
+         <span class="p">}</span>
+         <span class="k">else</span>
+            <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">processing</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">endTime</span> <span class="o">=</span> <span class="n">time</span> <span class="o">+</span> <span class="n">waiting</span><span class="p">.</span><span class="n">top</span><span class="p">()[</span><span class="mi">1</span><span class="p">];</span>
+         <span class="n">waiting</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+         <span class="n">processing</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">==</span> <span class="n">endTime</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">processing</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+         <span class="n">endTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+
+   <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>위 코드는 제 틀린 풀이입니다 😥 (+ answer에 합산하는 부분은 구현 안했던 상태)</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="통과됐던-풀이">통과됐던 풀이</h3>
+
+<blockquote>
+  <p>위 풀이로 계속해서 난관에 부딪쳤기 때문에 구글링으로 다른 분들의 풀이를 참고하였다.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">compare_queue</span>
+<span class="p">{</span>
+	<span class="kt">bool</span> <span class="k">operator</span><span class="p">()</span> <span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">bool</span> <span class="nf">compare_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+		<span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+	<span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">jobs</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">compare_queue</span><span class="o">&gt;</span> <span class="n">waiting</span><span class="p">;</span>  <span class="c1">// 우선순위 큐 (jobs로부터 현재 시점time에서 실행 가능한 작업들만 모아둔 큐. 평균이 작아지는 방향으로 우선순위가 부여 됨.)</span>
+
+	<span class="n">sort</span><span class="p">(</span><span class="n">jobs</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">jobs</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare_sort</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// jobs 순회 인덱스</span>
+    <span class="kt">int</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// ✨현재 시간✨</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">jobs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">waiting</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">jobs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">jobs</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">time</span><span class="p">)</span> <span class="c1">// jobs에서 가져올게 남아있고 ✨요청시간이 현재 time보다 작을때만✨ 우선순위 큐로 가져올 수 있음</span>
+        <span class="p">{</span>
+            <span class="n">waiting</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">jobs</span><span class="p">[</span><span class="n">index</span><span class="p">]);</span> <span class="c1">// 우선순위 큐에 추가</span>
+            <span class="n">index</span><span class="o">++</span><span class="p">;</span> 
+            <span class="k">continue</span><span class="p">;</span> <span class="c1">// jobs[index][0] &lt;= time을 만족하는 원소는 다 받도록 while문, if문 조건 다시 반복</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">waiting</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="c1">// 큐가 비어있지 않다면, 즉 디스크가 일하는 동한 현재 시점 전에 jobs로부터 들어온 것들이 있었다면</span>
+        <span class="p">{</span>
+            <span class="n">time</span> <span class="o">+=</span> <span class="n">waiting</span><span class="p">.</span><span class="n">top</span><span class="p">()[</span><span class="mi">1</span><span class="p">];</span>  <span class="c1">// 요청시간(else) + 소요시간 = 끝나는 시간 </span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">waiting</span><span class="p">.</span><span class="n">top</span><span class="p">()[</span><span class="mi">0</span><span class="p">];</span>  <span class="c1">// answer += 현재 시간 - 요청시간</span>
+            <span class="n">waiting</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="c1">// 우선순위 큐는 비었는데 jobs에서 가져올 것은 남아있는 경우</span>
+        <span class="p">{</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">jobs</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>  <span class="c1">// 현재시간 time을 jobs내의 ✨제일 빨리 들어오는 작업 시간✨(jobs가 정렬되있어서 가능한 일)으로 초기화해놓기 (필요없는 연산 방지)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">answer</span> <span class="o">/</span> <span class="n">jobs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="비교-오답-정리">비교, 오답 정리</h3>
+
+<ul>
+  <li>우선 순위큐 자료 구조 활용
+    <ul>
+      <li>실행할 수 있는 작업들 중에서 <u>요청시간부터 종료시점까지 걸리는 시간의 평균이 작아지는 방향으로 우선순위를 두어</u> 다음 실행할 작업을 선택할 수 있는 우선순위 큐를 사용한다.
+        <ul>
+          <li>⭐모든 해를 다 구한후 그중에서 가장 평균이 작은 최적해를 뽑는 풀이는 안된다.
+            <ul>
+              <li>디스크 입장에선 다음에 어떤 작업이 들어올지 알 수 없기 때문이다.</li>
+              <li>그때 그때 작업할 수 있는 것들 중에서 평균이 작아지는 방향으로 선택해 나가야함</li>
+            </ul>
+          </li>
+          <li>틀렸던 부분
+            <ul>
+              <li>👉 <em>a[1] - a[0] &gt; b[1] - b[0]</em>
+                <ul>
+                  <li>평균이 작아지는 방향으로 작업을 선택하기 위해 우선 순위 큐의 우선 순위를 정해줄 때 이렇게 하면 틀리더라 ㅠ ㅠ</li>
+                  <li>각각의 케이스들의 작업의 요청부터 종료까지 걸린 시간 차이는 딱 저 값으로 나던데.. 사실 아직도 이해가 잘 안된다. 이게 왜 틀린지는 따흑..</li>
+                </ul>
+              </li>
+              <li>👉 <em>a[1] &gt; b[1]</em>
+                <ul>
+                  <li>정답은 요것 ! 그냥 처리시간이 가장 적은 작업부터 처리하면 요청부터 종료까지의 평균 시간이 줄어들 수 있다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">jobs</code> 가 정렬되어 있는건 아니기 때문에 요청 시간을 기준으로 오름 차순 정렬이 되어야 평균을 좀 더 쉽게 구할 수 있다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">jobs</code>를 요청 시간 오름차순으로 정렬하면 현재시간 <code class="language-plaintext highlighter-rouge">time</code>을 <code class="language-plaintext highlighter-rouge">jobs[index][0]</code>로 초기화하면 다음 요청시간 들 중 가장 빠른 시간으로 초기화 된다는것이 보장 된다.</li>
+      <li>bool compare_sort(vector&lt;int&gt; a, vector&lt;int&gt; b)</li>
+    </ul>
+  </li>
+  <li>원소는 <code class="language-plaintext highlighter-rouge">vector&lt;int&gt;</code>이며 <code class="language-plaintext highlighter-rouge">vector&lt;vector&lt;int&gt;&gt;</code>타입의 벡터 위에서 우선순위 큐를 돌릴 것. 그냥 평소처럼 <code class="language-plaintext highlighter-rouge">vector&lt;int&gt;</code>만 써줘가지고 에러에 부딪쳤었다..😭
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">compare_queue</span><span class="o">&gt;</span> <span class="n">waiting</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>나는 for문을 두어 라면공장 문제처럼 time을 1씩 증가시키는 방식으로 반복하려 했으나 이러니까 작업이 끝나자마자 해당 time에 또 새로운 작업이 바로 시작되는 것을 구현하는게 좀 어려웠다 ㅠ
+    <ul>
+      <li>우선순위큐가 비거나 혹은 jobs가 빌 때 까지만 while문으로 반복문을 돌리면 된다.</li>
+    </ul>
+  </li>
+  <li><a href="https://mungto.tistory.com/15">이해하는데 도움이 많이 되었던 블로그</a></li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

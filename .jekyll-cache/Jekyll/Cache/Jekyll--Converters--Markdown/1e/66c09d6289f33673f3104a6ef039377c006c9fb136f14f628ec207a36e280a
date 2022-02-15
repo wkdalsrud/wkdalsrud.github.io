@@ -1,0 +1,107 @@
+I"O-<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 2</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/14725">https://www.acmicpc.net/problem/14725</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/114846428-a6836f00-9e17-11eb-8bcc-fd6eacc03cdc.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/114846450-ae431380-9e17-11eb-981f-9532dee11763.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<blockquote>
+  <p>트라이에 관한 더 자세한 설명은 이 포스트를 참고해주세요. 👉 <a href="https://ansohxxn.github.io/algorithm/trie/">(C++) 문자열 집합 : 트라이 자료구조</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115140174-ded1ba00-a070-11eb-9173-b6b210e11e4b.png" alt="image" /></p>
+
+<ul>
+  <li>1️⃣ <u>트라이 그래프</u>(트리)를 만들어 그 안에 모든 문자열을 저장하면 위와 같은 모양이 된다.</li>
+  <li>2️⃣ <u>그리고 이를 DFS 로 탐색하며 출력하면 된다.</u></li>
+</ul>
+
+<p>노드에 들어갈 데이터가 문자열(string)이기 때문에, 숫자 혹은 알파벳만 사용할 때와 다르게 자식 노드(다음 글자)들을 <code class="language-plaintext highlighter-rouge">배열</code>로 놓기는 힘들다. 배열처럼 임의 접근이 빠른 자료구조로는 <code class="language-plaintext highlighter-rouge">맵</code>이 있으니 배열 대신 사용할 수 있을 것이다. 그러나 문제에서 같은 깊이에 여러 방이 있을 땐 사전 순서가 앞서는 먹이를 먼저 탐색하라고 했기 때문에 해시맵이 아닌 정렬된 순서를 유지해주는 그냥 일반 <code class="language-plaintext highlighter-rouge">map</code> 을 사용하였다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AntDen</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">AntDen</span><span class="o">*&gt;</span> <span class="n">child</span><span class="p">;</span> <span class="c1">// key : 자식 문자열(다음 문자열)  valuse : 자식 객체 주소 </span>
+
+<span class="nl">public:</span>
+    <span class="cm">/* 트라이 트리 만들기 (재귀로 구현) */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">foods</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">foods</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> 
+            <span class="k">return</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">child</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">==</span> <span class="n">child</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+            <span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AntDen</span><span class="p">();</span>
+        <span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">Output</span><span class="p">(</span><span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// DFS</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">child</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">depth</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="c1">// 깊이 당 -- 한 번 </span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"--"</span><span class="p">;</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">ch</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+            <span class="n">ch</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">Output</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//freopen("input.txt", "r", stdin);</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">AntDen</span><span class="o">*</span> <span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AntDen</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">k</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">foods</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">foods</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+
+        <span class="n">root</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// 트라이 트리 만들고</span>
+    <span class="p">}</span>
+
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">Output</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// DFS 탐색</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>트라이를 만드는 <code class="language-plaintext highlighter-rouge">Insert</code> 함수는 재귀를 안쓰고 아래와 같이 반복문으로 구현할 수도 있다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kt">void</span> <span class="nf">Insert</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">foods</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">AntDen</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">foods</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AntDen</span><span class="p">();</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

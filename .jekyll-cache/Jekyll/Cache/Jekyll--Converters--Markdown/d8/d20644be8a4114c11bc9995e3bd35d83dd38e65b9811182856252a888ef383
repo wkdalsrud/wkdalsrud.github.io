@@ -1,0 +1,72 @@
+I"�<h1 id="정렬-h-index">[정렬] H-Index</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/90468905-75e91980-e152-11ea-91c5-af4ba0cecebe.png" alt="image" width="80%" height="80%" class="align-center" /></p>
+
+<p><br /></p>
+
+<h2 id="내-풀이-">내 풀이 ⭕</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">h-index</code>가 <code class="language-plaintext highlighter-rouge">citations</code>의 원소가 아닐 수 있다는 것에 유념해야 한다.
+    <ul>
+      <li>처음엔 당연히 <code class="language-plaintext highlighter-rouge">citations</code>의 원소이겠거니 했는데.. 항상 코테에서 ‘당연히’라는건 없고 ㅎㅎ 반례가 되는 케이스가 있는지 먼저 찾아보는 그런 습관을 들이는게 중요한 것 같다.
+        <ul>
+          <li>예를 들어 <code class="language-plaintext highlighter-rouge">citations</code>가 [100, 50] <code class="language-plaintext highlighter-rouge">h-index</code>는 2 가 될 것이다.</li>
+        </ul>
+      </li>
+      <li>👉 내림차순으로 <code class="language-plaintext highlighter-rouge">citations</code>을 정렬하면 <code class="language-plaintext highlighter-rouge">citations[0]</code>에는 최대값이 자리하게 된다. 이 <code class="language-plaintext highlighter-rouge">citations</code>의 원소가 아닐 수 있으므로 인덱스를 감소시키는 것이 아닌, <code class="language-plaintext highlighter-rouge">citations[0]</code>값부터 1 씩 감소하면서 h 번 이상 인용된 논문이 h 편 이상이 되는 논문을 찾아 내려간다.
+        <ul>
+          <li>몇번 이상 인용됐는지를 논문을 두번째 for문으로 순회하며 <code class="language-plaintext highlighter-rouge">count</code>로 센다.</li>
+          <li><code class="language-plaintext highlighter-rouge">citations[0]</code>값부터 1 씩 감소시켜 내려왔던 그 값과 <code class="language-plaintext highlighter-rouge">count</code>가 일치하는 것을 찾으면 그것이 바로 h의 최대값이 된다.
+            <ul>
+              <li>내림 차순 정렬이기 때문에!</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">citations</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="n">sort</span><span class="p">(</span><span class="n">citations</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">citations</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span> <span class="c1">// 내림차순 정렬</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">citations</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="n">elem</span> <span class="o">:</span> <span class="n">citations</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">elem</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">count</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

@@ -1,0 +1,55 @@
+I"G<h1 id="-폰켓몬">📌 폰켓몬</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106847533-70788f00-66f2-11eb-966e-a77f78a5aec7.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106847556-7b332400-66f2-11eb-883b-6cd06a5024db.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="k">else</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">m</code> : 종류가 Key 로, 그 종류의 해당하는 폰켓몬 마리수가 Value에 담김</li>
+  <li><code class="language-plaintext highlighter-rouge">nums.size() / 2</code> 마리만 선택할 수 있으므로
+    <ul>
+      <li><em>if (nums.size() / 2 &gt;= m.size())</em> 종류 수보다 선택할 수 있는 마리수가 더 많으면 <code class="language-plaintext highlighter-rouge">answer</code>는 폰켓몬 종류 수가 된다.</li>
+      <li><em>else</em> 종류 수보다 선택할 수 있는 마리수가 더 적으면 <code class="language-plaintext highlighter-rouge">answer</code>는 선택할 수 있는 마리수가 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

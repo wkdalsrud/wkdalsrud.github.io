@@ -1,0 +1,154 @@
+I"hJ<p class="notice--warning">홍정모 교수님의 강의 <strong>홍정모의 따라하며 배우는 C언어(부록)</strong> 를 듣고 정리한 필기입니다. 😀 
+<u>ppt 캡처는 모두 교수님 강의에서 캡처한 것임을 밝힙니다.</u></p>
+
+<h1 id="chapter-4-스택">Chapter 4. 스택</h1>
+
+<h2 id="-플러드-필-알고리즘이란-flood-fill">🚀 플러드 필 알고리즘이란? (Flood Fill)</h2>
+
+<blockquote>
+  <p><a href="https://ko.wikipedia.org/wiki/%ED%94%8C%EB%9F%AC%EB%93%9C_%ED%95%84">플러드 필 위키피디아</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109418095-e0d0b280-7a09-11eb-9ce0-da0856d482d6.png" alt="image" /></p>
+
+<p>하얀 곳은 갈 수 있는 곳, 파란 곳은 벽이라 갈 수 없는 곳이다. <strong>BFS</strong>과 비슷하게 이동은 스택에서 빼내는(Pop) 것으로 이루어지고, 현재 위치에서 갈 수 있는 곳들은 스택에 넣는다.(Push)</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109418426-aec05000-7a0b-11eb-9aca-8fa8e1f65b79.png" alt="image" /></p>
+
+<p>이 과정을 스택이 빌 때까지 진행하면 출발지에서 갈 수 있는 곳은 모두 방문하게 된다. 출발을 좌하단 (0,0) 에서 시작한다면 바깥 하얀 부분을 모두 방문하게 될 것이고, 출발을 가운데 하얀 부분에서 한다면 가운데 하얀 부분은 모두 방문하게 될 것이다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109418202-70766100-7a0a-11eb-9e9b-cfe78a093ec9.png" alt="image" /></p>
+
+<p>갈 수 있는 곳은 스택에 넣어버린다. 
+그리고 갔다면 pop 함 그 pop 한 것을 기준으로 갈 수 있는 곳들을 push 한다.
+스택이 다 비면  종료.(= 더 이상 갈 곳이 없음)</p>
+
+<ol>
+  <li>Pop 👉 방문</li>
+  <li>Push 👉 현재 방문한 곳에서 갈 수 있는 곳들 스택에 넣기</li>
+</ol>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/109496470-0a561080-7ad4-11eb-9eea-17c2f3d29ad7.png" alt="image" /></p>
+
+<blockquote>
+  <p>스택은 먼저 들어가는게 제일 나중에 나온다.</p>
+</blockquote>
+
+<p>상👉하👉좌👉우 이 순서로 갈 수 있는 곳을 검사한다면 위와 같은 순서로 방문하게 되며(출발지의 밑에 있는게 오른쪽에 있는 것 보다 먼저 스택에 들어가게 되니까) 가장 먼저 스택에 들어갔었던 (0, 1)은 가장 마지막에 방문하게 된다. 어떤 방향부터 검사하느냐에 따라 방문 순서가 달라질 것이다.</p>
+
+<h3 id="elementh">📜element.h</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+<span class="p">}</span><span class="n">element</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="stackh">📜stack.h</h3>
+
+<p><br /></p>
+
+<h3 id="mainc">📜main.c</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;conio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"stack.h"</span><span class="cp">
+</span>
+<span class="cp">#define WIDTH 7
+#define HEIGHT 7
+</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">map</span><span class="p">[</span><span class="n">HEIGHT</span><span class="p">][</span><span class="n">WIDTH</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">print_map</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">HEIGHT</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">WIDTH</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">map</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">element</span> <span class="nf">get_element</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">element</span> <span class="n">new_element</span><span class="p">;</span>
+	<span class="n">new_element</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	<span class="n">new_element</span><span class="p">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">new_element</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">print_stack</span><span class="p">(</span><span class="k">const</span> <span class="n">Stack</span><span class="o">*</span> <span class="n">stack</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Stack : "</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">IsEmpty</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Empty"</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">stack</span><span class="o">-&gt;</span><span class="n">top</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"(%d, %d) "</span><span class="p">,</span> <span class="n">stack</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">i</span><span class="p">,</span> <span class="n">stack</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">j</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">print_map</span><span class="p">();</span>
+
+	<span class="n">Stack</span> <span class="n">to_visit</span><span class="p">;</span>
+	<span class="n">Initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">);</span>
+
+	<span class="n">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">,</span> <span class="n">get_element</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span> <span class="c1">// start cell  (바깥 쪽 하얀색)</span>
+	<span class="c1">// Push(&amp;to_visit, get_element(3, 3)); // start cell (안 쪽 하얀색)</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">IsEmpty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		
+		<span class="n">element</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// already visited</span>
+			<span class="k">continue</span><span class="p">;</span>
+
+		<span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 방문 처리</span>
+
+		<span class="c1">// 현재 방문 중인 위치에서 갈 수 있는 곳들 스택에 넣기 (상하좌우)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// up</span>
+			<span class="n">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">,</span> <span class="n">get_element</span><span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">HEIGHT</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// down</span>
+			<span class="n">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">,</span> <span class="n">get_element</span><span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// left</span>
+			<span class="n">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">,</span> <span class="n">get_element</span><span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">));</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">WIDTH</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">][</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// right</span>
+			<span class="n">Push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">,</span> <span class="n">get_element</span><span class="p">(</span><span class="n">cell</span><span class="p">.</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">));</span>
+
+    <span class="c1">// 애니메이션 효과로 출력</span>
+		<span class="n">system</span><span class="p">(</span><span class="s">"cls"</span><span class="p">);</span> <span class="c1">// #include &lt;conio.h&gt; 에서 지원하는, 콘솔창 지우는 명령어! (clear screen 의 약자) system(커맨드)</span>
+		<span class="n">print_all</span><span class="p">(</span><span class="o">&amp;</span><span class="n">to_visit</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Cell : (%d, %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">.</span><span class="n">j</span><span class="p">);</span>
+		<span class="n">print_map</span><span class="p">();</span>
+		<span class="kt">int</span> <span class="n">dummy</span> <span class="o">=</span> <span class="n">_getch</span><span class="p">();</span> <span class="c1">// 사용자가 엔터 쳐야 다음으로 넘어가게끔</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Result:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">print_map</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

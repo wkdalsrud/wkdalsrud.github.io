@@ -1,0 +1,325 @@
+I"��<h1 id="-카카오-프렌즈-컬러링북">📌 카카오 프렌즈 컬러링북</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106605509-529d1400-65a4-11eb-8498-a05a8e2e6580.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106605546-5df03f80-65a4-11eb-90d6-9df32eaeb566.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<h3 id="-1-차-풀이-">✈ 1 차 풀이 ❌</h3>
+
+<blockquote>
+  <p><u>이 풀이는 틀린 풀이입니다.</u></p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">picture</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&gt;</span> <span class="n">record</span><span class="p">(</span><span class="n">picture</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>   <span class="c1">// 모든 칸 마다 (칸, 속한 영역)</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">group</span><span class="p">;</span>                                  <span class="c1">// 영역마다 몇 칸 있는지</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 속한 영역 찾기</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 왼쪽, 위쪽 다 같은 영역인데 그룹을 합쳐야 할 때)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">])</span>
+                <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+
+                    <span class="kt">int</span> <span class="n">mustEraseGroupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">].</span><span class="n">second</span> <span class="o">==</span> <span class="n">mustEraseGroupIndex</span><span class="p">)</span>
+                            <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">].</span><span class="n">second</span> <span class="o">=</span> <span class="n">groupIndex</span><span class="p">;</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span> <span class="o">+=</span> <span class="n">group</span><span class="p">[</span><span class="n">mustEraseGroupIndex</span><span class="p">];</span>
+                    <span class="n">group</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">mustEraseGroupIndex</span><span class="p">);</span>
+
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">])</span>
+                <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+
+                    <span class="kt">int</span> <span class="n">mustEraseGroupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span> <span class="o">==</span> <span class="n">mustEraseGroupIndex</span><span class="p">)</span>
+                            <span class="n">record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span> <span class="o">=</span> <span class="n">groupIndex</span><span class="p">;</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span> <span class="o">+=</span> <span class="n">group</span><span class="p">[</span><span class="n">mustEraseGroupIndex</span><span class="p">];</span>
+                    <span class="n">group</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">mustEraseGroupIndex</span><span class="p">);</span>
+
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">]</span> <span class="o">==</span> <span class="n">group</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">])</span>
+                <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+
+                    <span class="kt">int</span> <span class="n">mustEraseGroupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span> <span class="o">==</span> <span class="n">mustEraseGroupIndex</span><span class="p">)</span>
+                            <span class="n">record</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span> <span class="o">=</span> <span class="n">groupIndex</span><span class="p">;</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span> <span class="o">+=</span> <span class="n">group</span><span class="p">[</span><span class="n">mustEraseGroupIndex</span><span class="p">];</span>
+                    <span class="n">group</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">mustEraseGroupIndex</span><span class="p">);</span>
+
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 위쪽과 같은 영역일 때</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+                <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 왼쪽과 같은 영역일 때</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+                <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+                <span class="n">group</span><span class="p">[</span><span class="n">groupIndex</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// 속한 영역 없으면 새로운 영역</span>
+            <span class="kt">int</span> <span class="n">groupIndex</span> <span class="o">=</span> <span class="n">group</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+            <span class="n">record</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">groupIndex</span><span class="p">));</span>
+            <span class="n">group</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">*</span><span class="n">max_element</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">group</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>요새 코테를 3 달만에 풀어서인지 BFS, DFS를 다 까먹었다.. 그래서 이 문제를 그래프에 대응시키지 못했고 위와 같이 삽질하다가 포기..ㅠㅠ 힌트를 살짝 보려고 구글링 해보고나서야 이 문제가 BFS 문제라는 것을 알게 되어 BFS와 DFS를 복습한 후 아래와 같이 풀이했다!</p>
+
+<p><br /></p>
+
+<h3 id="-bfs-풀이-">✈ BFS 풀이 ⭕</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">picture</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">found</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">false</span><span class="p">));</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">colorCount</span><span class="p">;</span>  <span class="c1">// 그래프별로 정점(=타일) 개수 저장</span>
+
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">dirX</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">dirY</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">found</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+
+            <span class="c1">// BFS 과정 (while문까지)  : 처음으로 방문 안한 지역을 발견한다면 그건 새로운 그래프(=새로운 색 발견)라는 뜻이다. BFS 순회를 시작해야함.</span>
+            <span class="kt">int</span> <span class="n">nowRow</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">nowCol</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+            <span class="n">queue</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">q</span><span class="p">;</span>
+            <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nowRow</span><span class="p">,</span> <span class="n">nowCol</span><span class="p">));</span>
+            <span class="n">found</span><span class="p">[</span><span class="n">nowRow</span><span class="p">][</span><span class="n">nowCol</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+            <span class="n">colorCount</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 새로운 그래프 순회를 시작했으니 출발지 1개 추가</span>
+
+            <span class="k">while</span> <span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+                <span class="n">nowRow</span> <span class="o">=</span> <span class="n">pos</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+                <span class="n">nowCol</span> <span class="o">=</span> <span class="n">pos</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+                <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kt">int</span> <span class="n">nextRow</span> <span class="o">=</span> <span class="n">nowRow</span> <span class="o">+</span> <span class="n">dirX</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+                    <span class="kt">int</span> <span class="n">nextCol</span> <span class="o">=</span> <span class="n">nowCol</span> <span class="o">+</span> <span class="n">dirY</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nextRow</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextRow</span> <span class="o">&gt;</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">nextCol</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextCol</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 1. 그림을 벗어난 영역이 아니고</span>
+                        <span class="k">continue</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="c1">// 2. 예약된 적이 없고</span>
+                        <span class="k">continue</span><span class="p">;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">nowRow</span><span class="p">][</span><span class="n">nowCol</span><span class="p">]</span> <span class="o">!=</span> <span class="n">picture</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">])</span> <span class="c1">// 3. 색깔이 같다면 ! 이렇게 1,2,3 조건을 모두 만족하면 연결되어 있는 타일이니 추후 방문을 위해 큐에 예약! </span>
+                        <span class="k">continue</span><span class="p">;</span>
+
+                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextRow</span><span class="p">,</span> <span class="n">nextCol</span><span class="p">));</span>
+                    <span class="n">found</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+                    <span class="n">colorCount</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="o">++</span><span class="p">;</span> <span class="c1">// 지금 순회중인 이 그래프는 colorCount에 최근에 뒤에 추가되었으니 가장 마지막 원소다. 예약했고 곧 방문 예정이니 타일 개수 1 더해줌.</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">colorCount</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">answer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">max_element</span><span class="p">(</span><span class="n">colorCount</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">colorCount</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>그래프에 대응시키기</p>
+</blockquote>
+
+<ul>
+  <li>예전에 배웠던 미로찾기처럼 타일 하나하나를 그래프 “정점”으로 생각하고, 같은 색깔 &amp;&amp; 0 이 아닌 곳이라 갈 수 있는 곳이라면 “간선”으로 연결되어있는 정점이라고 생각하면 된다. 이렇게 그래프에 대응시킬 수 있다면 <strong>그래프를 순회</strong>하는 문제로 생각해볼 수 있을 것이다.</li>
+  <li><u>연결 되어 있는 모든 정점 순회</u> 👉 <code class="language-plaintext highlighter-rouge">DFS</code>, <code class="language-plaintext highlighter-rouge">BFS</code>
+    <ul>
+      <li>연결 되어 있다고 판단되는 기준
+        <ol>
+          <li><code class="language-plaintext highlighter-rouge">0</code> 이 아닌 곳</li>
+          <li>나(정점)와 같은 색깔 (pictrue 원소 값이 같을 때)</li>
+          <li>나(정점)의 상하좌우에 있을 때</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>BFS</p>
+</blockquote>
+
+<p>예제에선 그림이 12개 영역으로 나뉘어져 있다고 했는데 이는 그래프가 독립적으로 12개 있는 것이나 마찬가지이다. 같은 색깔이고 상하좌우에 있는 것들끼리가 같은 그래프라고 생각할 수 있다. 색깔이 다른 타일은 서로 다른 그래프라 연결되어 있지 않다고 볼 수 있다.</p>
+
+<p>이중 for문 내에서 BFS를 진행하는 이유는, 이러한 각각의 그래프별로 BFS 를 진행하기 위해서이다. 그래프가 하나가 아니기 때문이다! 어피치 얼굴 색이 되는 분홍색 타일들을 큐를 사용해 BFS로 모두 순회했다면 분홍색 그래프 하나를 전부 순회한 것이나 마찬가지이니 이 분홍 타일들은 전부 방문 체크가 되어 있을 것이다. 다음 for문 반복에서 처음으로 방문이 안된 색깔을 발견하면 이제 그 타일은 새로운 그래프에 속한 정점인 것이니 새롭게 그 타일을 시작점으로 큐를 생성해서 BFS로 또 그 새로운 그래프를 순회하고 이런 식이다! 위의 코드로 보자면 큐가 이중 for문 도는동안 총 12번 만들어졌고 BFS가 12번 실행되었을 것임을 알 수 있다!</p>
+
+<p>아래 과정을 큐가 비어있을 때까지(= 하나의 그래프 순회를 완료할 때까지) 반복한다.</p>
+
+<ol>
+  <li>큐에서 꺼내서 방문한다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           <span class="k">while</span> <span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+             <span class="n">nowRow</span> <span class="o">=</span> <span class="n">pos</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+             <span class="n">nowCol</span> <span class="o">=</span> <span class="n">pos</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+             <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>연결되어 있는 정점을 검사한 후 통과하면 큐에 삽입하여 예약
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>               <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="kt">int</span> <span class="n">nextRow</span> <span class="o">=</span> <span class="n">nowRow</span> <span class="o">+</span> <span class="n">dirX</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+                 <span class="kt">int</span> <span class="n">nextCol</span> <span class="o">=</span> <span class="n">nowCol</span> <span class="o">+</span> <span class="n">dirY</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+
+                 <span class="k">if</span> <span class="p">(</span><span class="n">nextRow</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextRow</span> <span class="o">&gt;</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">nextCol</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextCol</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 1. 그림을 벗어난 영역이 아니고</span>
+                     <span class="k">continue</span><span class="p">;</span>
+                 <span class="k">if</span> <span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="c1">// 2. 예약된 적이 없고</span>
+                     <span class="k">continue</span><span class="p">;</span>
+                 <span class="k">if</span> <span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">nowRow</span><span class="p">][</span><span class="n">nowCol</span><span class="p">]</span> <span class="o">!=</span> <span class="n">picture</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">])</span> <span class="c1">// 3. 색깔이 같다면 ! 이렇게 1,2,3 조건을 모두 만족하면 연결되어 있는 타일이니 추후 방문을 위해 큐에 예약! </span>
+                     <span class="k">continue</span><span class="p">;</span>
+
+                 <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">nextRow</span><span class="p">,</span> <span class="n">nextCol</span><span class="p">));</span>
+                 <span class="n">found</span><span class="p">[</span><span class="n">nextRow</span><span class="p">][</span><span class="n">nextCol</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+                 <span class="n">colorCount</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="o">++</span><span class="p">;</span> <span class="c1">// 지금 순회중인 이 그래프는 colorCount에 최근에 뒤에 추가되었으니 가장 마지막 원소다. 예약했고 곧 방문 예정이니 타일 개수 1 더해줌.</span>
+             <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106684075-12bc4800-6609-11eb-973d-9a3663457e1f.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h3 id="-dfs-풀이-">✈ DFS 풀이 ⭕</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">DFS</span> <span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">picture</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;&amp;</span> <span class="n">found</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">color</span><span class="p">,</span> <span class="kt">int</span> <span class="n">row</span><span class="p">,</span> <span class="kt">int</span> <span class="n">col</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// DFS가 진행되는 동안 타일 개수를 하나씩 센다.</span>
+    <span class="n">found</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="c1">// 위 쪽이 연결되어 있는지 검사하고 연결되어 있다면 깊이 들어감.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="k">if</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="n">color</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">);</span>
+    <span class="c1">// 아래 쪽이 연결되어 있는지 검사하고 연결되어 있다면 깊이 들어감.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span> 
+        <span class="k">if</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="n">color</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="p">);</span>
+    <span class="c1">// 왼 쪽이 연결되어 있는지 검사하고 연결되어 있다면 깊이 들어감.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">col</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="k">if</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">color</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// 오른 쪽이 연결되어 있는지 검사하고 연결되어 있다면 깊이 들어감.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> 
+        <span class="k">if</span><span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">color</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">found</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">DFS</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">picture</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">found</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">false</span><span class="p">));</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">colorCount</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">found</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+                <span class="n">colorCount</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">DFS</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">colorCount</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">answer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">*</span><span class="n">max_element</span><span class="p">(</span><span class="n">colorCount</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">colorCount</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>DFS도 위의 BFS 풀이와 마찬가지로, 그래프가 12개이니 (같은 색깔이고 상하좌우 연결되어 있는 것들이 하나의 그래프) 이중 for문에서 DFS를 실행한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106684028-ff10e180-6608-11eb-8fd0-8c6dc05afadc.png" alt="image" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">BFS</code>가 더 빠른 것을 확인할 수 있다. 아무래도 <code class="language-plaintext highlighter-rouge">DFS</code>는 재귀를 사용해서인 것 같다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

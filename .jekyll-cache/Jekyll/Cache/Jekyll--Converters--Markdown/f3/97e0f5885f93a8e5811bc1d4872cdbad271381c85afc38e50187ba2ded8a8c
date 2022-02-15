@@ -1,0 +1,19 @@
+I"P<ul class="toc__menu">
+  <li><a href="#chapter-4-그래프">Chapter 4. 그래프</a>
+    <ul>
+      <li><a href="#-스택과-큐">🚖 스택과 큐</a>
+        <ul>
+          <li><a href="#스택">스택</a></li>
+          <li><a href="#큐">큐</a></li>
+        </ul>
+      </li>
+      <li><a href="#-스택과-큐-관점에서-생각해보기">🚖 스택과 큐 관점에서 생각해보기</a>
+        <ul>
+          <li><a href="#연결-리스트">연결 리스트</a></li>
+          <li><a href="#동적-배열">동적 배열</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,32 @@
+I"�<ul class="toc__menu">
+  <li><a href="#조합이란">조합이란</a>
+    <ul>
+      <li><a href="#조합-경우의-수-구하기-ncr">조합 경우의 수 구하기 nCr</a></li>
+    </ul>
+  </li>
+  <li><a href="#재귀로-구현한-코드-1">재귀로 구현한 코드 1</a>
+    <ul>
+      <li><a href="#이-풀이의-원리">이 풀이의 원리</a></li>
+    </ul>
+  </li>
+  <li><a href="#재귀로-구현한-코드-2">재귀로 구현한 코드 2</a>
+    <ul>
+      <li><a href="#이-풀이의-원리-1">이 풀이의 원리</a></li>
+      <li><a href="#재귀로-구현한-코드-3---2-응용">재귀로 구현한 코드 3  👉 2 응용</a></li>
+    </ul>
+  </li>
+  <li><a href="#stl-prev_permutation으로-조합-구현하기">STL: prev_permutation으로 조합 구현하기</a></li>
+  <li><a href="#stl-next_permutation으로-조합-구현하기">STL: next_permutation으로 조합 구현하기</a>
+    <ul>
+      <li><a href="#변형-순서대로-조합">변형 (순서대로 조합)</a></li>
+    </ul>
+  </li>
+  <li><a href="#모든-조합의-수-구하기-nc0--nc1--nc2----ncn">모든 조합의 수 구하기 (nC0 + nC1 + nC2 + .. + nCn)</a>
+    <ul>
+      <li><a href="#prev_permutation-혹은-next_permutation">prev_permutation (혹은 next_permutation)</a></li>
+      <li><a href="#비트-마스크로-구하기">비트 마스크로 구하기</a></li>
+    </ul>
+  </li>
+  <li><a href="#참고한-블로그">참고한 블로그</a></li>
+</ul>
+:ET

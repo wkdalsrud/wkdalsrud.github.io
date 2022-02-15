@@ -1,0 +1,22 @@
+I"_<ul class="toc__menu">
+  <li><a href="#-거스름돈">📌 거스름돈</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이">🚀 내 풀이</a>
+        <ul>
+          <li><a href="#-1-차-풀이-dfs-시간초과">✈ 1 차 풀이 (DFS) ⏰시간초과</a></li>
+          <li><a href="#-이-문제는-dynamic-programming-으로-풀어야-함">🔥 이 문제는 Dynamic Programming 으로 풀어야 함!</a>
+            <ul>
+              <li><a href="#시간-복잡도-차원에서">시간 복잡도 차원에서</a></li>
+              <li><a href="#2차원-dp-배열--점화식에-2-가지-정보가-필요">2차원 DP 배열 👉 “점화식”에 2 가지 정보가 필요</a></li>
+            </ul>
+          </li>
+          <li><a href="#-2-차-풀이-dp-시간-메모리-초과">✈ 2 차 풀이 (DP) ⏰시간, 메모리 초과</a></li>
+          <li><a href="#-3-차-풀이--dp">✈ 3 차 풀이 ⭕ (DP)</a></li>
+          <li><a href="#-이-문제로-깨달은-교훈">🔥 이 문제로 깨달은 교훈</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

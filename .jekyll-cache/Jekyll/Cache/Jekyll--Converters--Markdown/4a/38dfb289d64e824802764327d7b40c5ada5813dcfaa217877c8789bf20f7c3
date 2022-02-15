@@ -1,0 +1,17 @@
+I"�<ul class="toc__menu">
+  <li><a href="#-신장-트리-spanning-tree">🌜 신장 트리 Spanning Tree</a></li>
+  <li><a href="#-최소-비용-신장-트리-minimum-spanning-tree">🌜 최소 비용 신장 트리 Minimum Spanning Tree</a></li>
+  <li><a href="#-크루스칼-알고리즘-kruskal">💛 크루스칼 알고리즘 Kruskal</a>
+    <ul>
+      <li><a href="#이해를-위한-그림">이해를 위한 그림</a></li>
+      <li><a href="#코드">코드</a></li>
+    </ul>
+  </li>
+  <li><a href="#-프림-알고리즘-prim">💛 프림 알고리즘 Prim</a>
+    <ul>
+      <li><a href="#이해를-위한-그림-1">이해를 위한 그림</a></li>
+      <li><a href="#코드-1">코드</a></li>
+    </ul>
+  </li>
+</ul>
+:ET

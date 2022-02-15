@@ -1,0 +1,789 @@
+I"9<p class="notice--warning">홍정모 교수님의 강의 <strong>홍정모의 따라하며 배우는 C언어(부록)</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<h1 id="chapter-2-연결리스트">Chapter 2. 연결리스트</h1>
+
+<h2 id="-배열과의-차이">🚀 배열과의 차이</h2>
+
+<h3 id="-배열">✈ 배열</h3>
+
+<ul>
+  <li>장점 👉 <strong>원소들이 연속적으로 저장</strong>되어 있기 때문에 <code class="language-plaintext highlighter-rouge">[]</code> 인덱스로 임의 접근이 가능함. O(1)</li>
+  <li>단점 👉 추가, 삭제시 효율이 낮다.
+    <ul>
+      <li>추가할 때 추가할 자리 뒤에 있는 원소들은 전부 뒤로 한 칸씩 땡겼어야 함. 삭제할 때는 전부 앞 칸씩 땡기기.</li>
+      <li>정적 배열은 사이즈가 고정적이고 동적 배열은 resize 가 좀 부담스러운 연산일 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-연결리스트">✈ 연결리스트</h3>
+
+<blockquote>
+  <p>순회 및 접근이 빈번할 경우 배열을, 추가 삭제가 빈번할 경우 연결리스트 사용.</p>
+</blockquote>
+
+<ul>
+  <li>배열과 달리 데이터들이 연속해서 같이 있지 않는다.
+    <ul>
+      <li>방향 포인터를 가지고 이를 통해 다음 데이터의 메모리 주소를 가리키게 된다.</li>
+      <li>원소들이 메모리에 따로 따로 분포되어 있고 체인으로 데이터 하나하나가 연결되어 있는 식!</li>
+      <li>배열처럼 바로 임의접근 할 수가 없다. 순차 접근만 가능함.
+        <ul>
+          <li>순차적으로 <code class="language-plaintext highlighter-rouge">HEAD</code>가 가리키는 첫 번째 원소부터 시작하여 각 데이터들이 가지고 있는 포인터를 따라서 직접 순차적으로 해당 원소를 찾아가야 한다. 최악의 경우 O(n)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>배열처럼 통째로 메모리를 다 받아오지 않고, 원소 하나하나를 따로 메모리 할당 받는다.
+    <ul>
+      <li>배열처럼 미리 할당 받아놓는 예비 메모리, 아직 쓸모 없는 메모리를 비효율적으로 미리 가지고 있을 필요가 없게 된다.</li>
+    </ul>
+  </li>
+  <li>접근은 순차접근이라 느릴 수 있지만 추가, 삭제는 빠르다.
+    <ul>
+      <li>A B 사이에 C 를 추가하고자 한다면 A 의 다음 원소를 C 로 하고 C 의 다음 원소를 B 라고 명명만 해주면 땡이기 때문이다. 배열처럼 뒤에 있는 원소들 전부 다 한칸씩 떙기고 밀고 할 필요가 없음!</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/102980778-6851ff00-454b-11eb-8011-f0fb2fa4f8b0.png" alt="image" /></p>
+
+<ul>
+  <li>동적인 노드 개수! 👉 그때 그때 노드(데이터)를 생성함.</li>
+  <li>사실 연결리스트에서 추가적으로 필요한 포인터 메모리는 배열의 남는 메모리에 비하면 아무 것도 아니다..☆</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-연결리스트-구현하기">🚀 연결리스트 구현하기</h2>
+
+<h3 id="-노드">✈ 노드</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TSIZE 45  
+</span>
+<span class="k">struct</span> <span class="nc">movie</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+	<span class="kt">float</span> <span class="n">rating</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">moive</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span> <span class="c1">// 연결리스트의 다음 포인터</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">p_movie</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>영화 노드
+    <ul>
+      <li>제목</li>
+      <li>점수</li>
+      <li><strong>다음 영화를 가리키는 포인터</strong></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">strcut movie*</code>은 <code class="language-plaintext highlighter-rouge">p_movie</code>라고 명명</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-노드-출력">✈ 노드 출력</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"===========================================</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Head adress = %zd</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">head</span><span class="p">);</span>
+	
+	<span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%zd </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s"> %.1f %zd</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">search</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">,</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>연결 리스트의 모든 노드들을 출력하는 함수
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">head</code>부터 시작하여 다음 포인터, 다음 포인터 이렇게 순차적으로 모든 노드들에 차례 대로 접근한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-첫-번째-노드-추가">✈ 첫 번째 노드 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">p_movie</span> <span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+
+	<span class="cm">/* First Node */</span>
+	<span class="n">p_movie</span> <span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Avatar"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">9.5</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">// 유일한 노드이므로 마지막 노드라 다음 노드는 없다.</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">head</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228696
+15228696 "Avatar" 9.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>빈 리스트에 첫 번째 노드를 추가하는 것이므로 <code class="language-plaintext highlighter-rouge">head</code>에 첫 번째 노드의 주소를 저장하면 땡이다!</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-두-번째-노드-추가--맨-앞에-추가">✈ 두 번째 노드 추가 : 맨 앞에 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Second Node */</span>
+	<span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Aladdin"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">8.0</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="cm">/* Add front */</span>
+	<span class="n">p_movie</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="n">head</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15228696
+15228696 "Avatar" 9.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>맨 앞에 추가하기
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">head</code>가 가리키던 추가하기 전의 맨 앞 노드를 추가하려는 노드의 다음 노드로 지정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-세-번째-노드-추가--맨-뒤에-추가">✈ 세 번째 노드 추가 : 맨 뒤에 추가</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Third Node */</span>
+	<span class="n">new_node</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_node</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: malloc failed."</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">strcpy</span><span class="p">(</span><span class="n">new_node</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Wonder Woman"</span><span class="p">);</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">rating</span> <span class="o">=</span> <span class="mf">8.5</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">new_node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="cm">/* Add back */</span>
+	<span class="c1">// 1. find last node</span>
+	<span class="n">p_movie</span> <span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="c1">// 2. link</span>
+	<span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">;</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15228696
+15228696 "Avatar" 9.5 15262064
+15262064 "Wonder Woman" 8.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>맨 뒤에 추가하기
+    <ul>
+      <li>마지막 노드를 찾는다. 👉 <code class="language-plaintext highlighter-rouge">head</code> 처음부터 순차적으로 찾아야 한다. 다음 노드가 NULL 인 노드가 바로 마지막 노드다.</li>
+      <li>원래의 마지막 노드의 다음 노드에 연결해주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-삭제">✈ 삭제</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="cm">/* Find and delete an item */</span>
+	<span class="n">search</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="c1">// 삭제할 노드 찾기</span>
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s">"Avatar"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">search</span><span class="p">;</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">search</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="c1">// 삭제하기</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">head</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">search</span><span class="p">);</span>
+
+	<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+===========================================
+Head adress = 15228368
+15228368 "Aladdin" 8.0 15262064
+15262064 "Wonder Woman" 8.5 0
+</code></pre></div></div>
+
+<ul>
+  <li>삭제할 노드를 검색한다. 그 노드의 주소를 <code class="language-plaintext highlighter-rouge">search</code>에 담고 그 노드의 <strong>이전 노드</strong>도 <code class="language-plaintext highlighter-rouge">prev</code>에 담는다.</li>
+  <li>이전 노드와 삭제할 노드의 다음 노드를 연결한다. 그리고 삭제할 노드는 해제 시킴!</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-연결리스트로-구현한-영화-평점-관리-프로그램">🚀 연결리스트로 구현한 영화 평점 관리 프로그램</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;conio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define TSIZE 45  
+</span>
+<span class="k">struct</span> <span class="nc">movie</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">];</span>
+	<span class="kt">float</span> <span class="n">rating</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">movie</span><span class="o">*</span> <span class="n">p_movie</span><span class="p">;</span>
+
+<span class="c1">// p_movie* p_head -&gt; 이중 포인터 : head 값이 바껴야 하므로 Call by Reference</span>
+<span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">input_menu</span><span class="p">();</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">count_items</span><span class="p">(</span><span class="k">const</span> <span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">print_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">edit_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">add_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span> <span class="c1">// ☆☆ 이중 포인터</span>
+<span class="kt">void</span> <span class="nf">insert_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span> <span class="c1">// ☆☆ 이중 포인터</span>
+<span class="kt">void</span> <span class="nf">delete_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">delete_all_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">search_by_name</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">p_movie</span> <span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">read_file</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+		<span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">input_menu</span><span class="p">();</span>
+
+		<span class="k">switch</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+		<span class="p">{</span>
+		<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">print_all</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+			<span class="n">print_an_item</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
+			<span class="n">edit_an_item</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">4</span><span class="p">:</span>
+			<span class="n">add_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">5</span><span class="p">:</span>
+			<span class="n">insert_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">6</span><span class="p">:</span>
+			<span class="n">delete_an_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">7</span><span class="p">:</span>
+			<span class="n">delete_all_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">8</span><span class="p">:</span>
+			<span class="n">write_file</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">9</span><span class="p">:</span>
+			<span class="n">search_by_name</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="mi">10</span><span class="p">:</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Good bye</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">delete_all_item</span><span class="p">(</span><span class="o">&amp;</span><span class="n">head</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+		<span class="nl">default:</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"%d is not implenmented. </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> 
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">filename</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input filename to read and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input. Terminating.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">FILE</span><span class="o">*</span> <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Cannot open file. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%d%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Wrong file format. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">num</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+		
+		<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="o">||</span>
+			<span class="n">fscanf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Wrong file format. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+			<span class="n">prev</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">new</span> <span class="n">movie</span><span class="p">;</span>
+			<span class="n">prev</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items have been read from the file.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">int</span> <span class="nf">input_int</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">input</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">input</span><span class="p">;</span>
+		<span class="k">else</span>
+		<span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Please input an integer and press enter. Try again.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+			<span class="k">while</span> <span class="p">(</span><span class="n">getchar</span><span class="p">()</span> <span class="o">!=</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">input_menu</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Please select an option and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"1. Print all items			2. Print an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"3. Edit an items			4. Add an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"5. Insert an items			6. Delete an item</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"7. Delete all items			8. Save file</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"9. Search by name			10. Quit</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+		<span class="kt">int</span> <span class="n">input</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">input</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">input</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="k">return</span> <span class="n">input</span><span class="p">;</span>
+		<span class="k">else</span> <span class="n">printf</span><span class="p">(</span><span class="s">"%d is invlid. Please try again.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">input</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">count_items</span><span class="p">(</span><span class="k">const</span> <span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">print_all</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to print.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Invalid item.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">edit_an_item</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to edit.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Input new title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Input new rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+		<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Invalid item.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">add_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> <span class="c1">// 맨 뒤에 추가ㅣ</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	
+	<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+			<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">insert_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span> <span class="c1">// 중간에 추가</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to insert.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_movie</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">movie</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new_movie</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Malloc failed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input title and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input rating and press enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+	<span class="n">f</span> <span class="o">=</span> <span class="n">scanf</span><span class="p">(</span><span class="s">"%f%*c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_movie</span><span class="p">;</span>
+	<span class="n">new_movie</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">delete_an_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Input the index of item to delete.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">input_int</span><span class="p">();</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">pnode</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong index</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">pnode</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">delete_all_item</span><span class="p">(</span><span class="n">p_movie</span><span class="o">*</span> <span class="n">p_head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">p_head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Nothing to delelte.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">search</span> <span class="o">=</span> <span class="o">*</span><span class="n">p_head</span><span class="p">;</span>
+	<span class="n">p_movie</span> <span class="n">temp</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">search</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%s is deleted.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">search</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">free</span><span class="p">(</span><span class="n">search</span><span class="p">);</span>
+		<span class="n">search</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="o">*</span><span class="n">p_head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items deleted.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="n">filename</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input filename to read and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input. Terminating.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">FILE</span><span class="o">*</span> <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">"w"</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"ERROR: Cannot open file. </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">count_items</span><span class="p">(</span><span class="n">head</span><span class="p">));</span>
+	
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s">"%.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+	<span class="n">assert</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">count_items</span><span class="p">(</span><span class="n">head</span><span class="p">));</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d items have been saved to the file.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="kt">void</span> <span class="nf">search_by_name</span><span class="p">(</span><span class="n">p_movie</span> <span class="n">head</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Please input title to search and press Enter.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"&gt;&gt; "</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="n">title</span><span class="p">[</span><span class="n">TSIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="p">};</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%[^</span><span class="se">\n</span><span class="s">]%*c"</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Wrong input.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">p_movie</span> <span class="n">pnode</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		<span class="n">pnode</span> <span class="o">=</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">count</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pnode</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"No movie found : %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">title</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%d : </span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">, %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="n">pnode</span><span class="o">-&gt;</span><span class="n">rating</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

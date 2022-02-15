@@ -1,0 +1,170 @@
+I"�!<p class="notice--warning">인프런에 있는 Rookiss님의 강의 <strong>Part2: 자료구조와 알고리즘</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<h2 id="-게임의-3-단계">🔔 게임의 3 단계</h2>
+
+<ol>
+  <li>입력
+    <ul>
+      <li>유저의 입력</li>
+    </ul>
+  </li>
+  <li>게임 로직
+    <ul>
+      <li>입력에 따른 어떤 실행</li>
+    </ul>
+  </li>
+  <li>렌더링
+    <ul>
+      <li>로직에 따라 게임 화면에 그래픽을 그려 줌</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h2 id="-console">🔔 Console</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Console.WriteLine</code>
+    <ul>
+      <li>콘솔 창에 문자열 출력하고 자동으로 한 줄 띄워준다. (Line)
+        <ul>
+          <li>Console.WriteLine(“문자열)</li>
+          <li>Console.WriteLine();
+            <ul>
+              <li>단순 개행. std::endl; 같은</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Console.SetCursorPosition</code>
+    <ul>
+      <li>콘솔 창의 커서 위치를 세팅한다.</li>
+      <li>Console.SetCursorPosition(0, 0);
+        <ul>
+          <li>커서 위치가 콘솔 창의 맨 왼쪽 상단에.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Console.CursorVisible</code>
+    <ul>
+      <li>콘솔 창에서 커서 위치를 보이게 할건지 아닌지.</li>
+      <li>Console.CursorVisible = false
+        <ul>
+          <li>콘솔 창에서 커서 위치가 안보이게 됨. 커서 깜빡 깜빡 하는거 없어짐.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Console.ForegroundColor</code>
+    <ul>
+      <li>콘솔 창에 있는 텍스트 등등의 컬러를 설정</li>
+      <li>Console.ForegroundColor = ConsoleColor.Green;</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-프레임">🔔 프레임</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/87417448-266f7500-c60b-11ea-9c6d-1ba80114f075.png" alt="image" width="40%" height="40%" class="align-center" /></p>
+
+<blockquote>
+  <p>프레임이 N fps 이다 =  1 초에 N 번 실행이 된다. = 렌더링이 1초에 N 번 된다.</p>
+</blockquote>
+
+<ul>
+  <li>프레임이 높을 수록, 즉 렌더링이 여러번 될 수록 화면이 부드러움.</li>
+</ul>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">ConsoleApp1</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">CursorVisible</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+
+            <span class="kt">int</span> <span class="n">lastTick</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+            
+            <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="err">#</span><span class="n">region</span> <span class="err">프레임</span> <span class="err">관리</span>
+                <span class="kt">int</span> <span class="n">currentTick</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Environment</span><span class="p">.</span><span class="n">TickCount</span><span class="p">;</span>  <span class="c1">// 밀리 세컨즈로 나타낸 현재시간.  1초 = 1000 밀리세컨즈</span>
+                <span class="kt">int</span> <span class="n">elapsedTick</span> <span class="p">=</span> <span class="n">currentTick</span> <span class="p">-</span> <span class="n">lastTick</span><span class="p">;</span> <span class="c1">// 경과 시간</span>
+
+                <span class="c1">// 만약 경과한 시간이 1/30초보다 작다면</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">elapsedTick</span> <span class="p">&lt;</span> <span class="m">1000</span> <span class="p">/</span> <span class="m">30</span><span class="p">)</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="n">lastTick</span> <span class="p">=</span> <span class="n">currentTick</span><span class="p">;</span>  <span class="c1">// 마지막 측정 시간 업뎃</span>
+                <span class="err">#</span><span class="n">endregion</span>
+
+                <span class="c1">// 1.입력</span>
+
+                <span class="c1">// 2.로직</span>
+
+                <span class="c1">// 3.렌더링</span>
+                <span class="n">Console</span><span class="p">.</span><span class="nf">SetCursorPosition</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+                <span class="n">Console</span><span class="p">.</span><span class="n">ForegroundColor</span> <span class="p">=</span> <span class="n">ConsoleColor</span><span class="p">.</span><span class="n">Green</span><span class="p">;</span>
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">25</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+                <span class="p">{</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="m">25</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+                    <span class="p">{</span>
+                        <span class="n">Console</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="err">'\</span><span class="n">u25cf</span><span class="err">'</span><span class="p">);</span>  <span class="c1">// 동그라미 1개 그림</span>
+                    <span class="p">}</span>
+                    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">();</span>  <span class="c1">// 개행</span>
+                <span class="p">}</span>   
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>30 프레임으로 25 X 25 의 초록색 공 그리기.</p>
+</blockquote>
+
+<ul>
+  <li><strong>프레임 관리</strong>
+    <ul>
+      <li>1 / 30 초 마다 그리도록 한다.
+        <ul>
+          <li>경과시간이 1 / 30 초가 안됐으면 continue
+            <ul>
+              <li>1000 / 30 밀리 세컨즈 = 1 / 30 세컨즈</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>즉 30 프레임마다 그리도록 한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">#region</code> ~ <code class="language-plaintext highlighter-rouge">#endregion</code>
+    <ul>
+      <li>이렇게 범위를 지정해주면 비주얼 스튜디오 내에서 해당 범위를 접을 수 있게 해준다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">System.Environment.TickCount;</code>
+    <ul>
+      <li>현재 시간을 밀리 세컨즈로 리턴해준다.</li>
+      <li>1 초 = 1000 밀리 세컨즈</li>
+    </ul>
+  </li>
+  <li>\u25cf : 동그라미 문자를 표현하는 코드인 것 같..ㄷ r … ⭐</li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

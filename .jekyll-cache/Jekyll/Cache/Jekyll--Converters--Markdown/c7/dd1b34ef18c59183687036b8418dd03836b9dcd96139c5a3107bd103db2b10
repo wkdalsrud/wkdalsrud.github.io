@@ -1,0 +1,247 @@
+I"�m<p class="notice--warning">인프런에 있는 Rookiss님의 <strong>[C#과 유니티로 만드는 MMORPG 게임 개발 시리즈] Part2: 자료구조와 알고리즘</strong> 강의를 듣고 정리한 필기입니다. 😀<br />
+<a href="(https://www.inflearn.com/course/유니티-MMORPG-유니티-개발-part2#)">🌜 강의 들으러 가기 Click</a></p>
+
+<h1 id="chapter-4-그래프">Chapter 4. 그래프</h1>
+
+<h2 id="-그래프-이론">🚖 그래프 이론</h2>
+
+<h3 id="그래프의-개념">그래프의 개념</h3>
+
+<blockquote>
+  <p>그래프의 개념 👉 현실 세계의 사물이나 추상적인 개념간의 연결 관계를 표현.</p>
+</blockquote>
+
+<ul>
+  <li>정점(Vertex) 👉 데이터를 표현 (사물, 개념 등)</li>
+  <li>간선(Edge) 👉 정점들을 연결하여 정점 간의 연결 관계를 표현
+    <ul>
+      <li>간선에 가중치 같은 어떤 값을 줄 수도 있다.</li>
+    </ul>
+  </li>
+  <li>그래프 ex) 소셜 네트워크 관계도 (페이스북 친구 관계)</li>
+</ul>
+
+<h4 id="방향-그래프">방향 그래프</h4>
+
+<blockquote>
+  <p>방향이 존재하는 간선을 가진 그래프 <code class="language-plaintext highlighter-rouge">👉</code>, <code class="language-plaintext highlighter-rouge">👈</code></p>
+</blockquote>
+
+<ul>
+  <li>방향 그래프 ex) 사람 간의 호감도, 일방 통행이 포함된 도로망</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="그래프를-어떻게-코드로-표현할까">그래프를 어떻게 코드로 표현할까?</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/95180525-0fe94c00-07fd-11eb-8b4a-faf8e385f812.png" alt="image" /></p>
+
+<p>각 방법마다 장단점이 있기 때문에 그래프는 딱히 정해진 라이브러리 클래스가 없다.</p>
+
+<ul>
+  <li>경우에 따라 어떤 방법이 더 효율적이냐가 다르기 때문이다.
+    <ul>
+      <li>정점의 수 &gt; 간선의 수 👉 리스트가 나음</li>
+      <li>정점의 수 &lt; 간선의 수 👉 행렬(배열)이 나음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫-번째-방법---정점을-인스턴스로-생성">첫 번째 방법 - 정점을 인스턴스로 생성</h3>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">Vertex</span>
+    <span class="p">{</span>
+        <span class="c1">// 나(정점)와 연결되어 있는 정점들을 edges 리스트에 저장</span>
+        <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vertex</span><span class="p">&gt;</span> <span class="n">edges</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vertex</span><span class="p">&gt;();</span>  
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="k">void</span> <span class="nf">CreateGraph</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">List</span><span class="p">&lt;</span><span class="n">Vertex</span><span class="p">&gt;</span> <span class="n">v</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vertex</span><span class="p">&gt;(</span><span class="m">6</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+                <span class="k">new</span> <span class="nf">Vertex</span><span class="p">(),</span>
+            <span class="p">};</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">0</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">1</span><span class="p">]);</span>  <span class="c1">// v[0] 정점은 v[1], v[3] 과 연결됨.</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">0</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">3</span><span class="p">]);</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>  <span class="c1">// v[1] 정점은 v[0], v[2], v[3] 과 연결됨.</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">2</span><span class="p">]);</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">3</span><span class="p">]);</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">3</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">4</span><span class="p">]);</span>  <span class="c1">// v[3] 정점은 v[4] 과 연결됨.</span>
+            <span class="n">v</span><span class="p">[</span><span class="m">5</span><span class="p">].</span><span class="n">edges</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="m">4</span><span class="p">]);</span>  <span class="c1">// v[5] 정점은 v[4] 과 연결됨.</span>
+        <span class="p">}</span>
+
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nf">CreateGraph</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>직관적으로 정점을 실제로 <code class="language-plaintext highlighter-rouge">new</code>로 인스턴스로서 생성한 후, 각각의 정점들에서 자신과 연결된 정점들을 리스트로 관리하는 방법.
+    <ul>
+      <li><em>단점</em>
+        <ul>
+          <li>정점을 추가할 때마다 <code class="language-plaintext highlighter-rouge">new</code>로 인스턴스를 만들어 구체화 해주어야 한다. 만약 정점이 추상적인 데이터를 담고 있어 구체화할 필요가 없다면 메모리 낭비.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="두-번째-방법---리스트로-그래프-표현">두 번째 방법 - 리스트로 그래프 표현</h3>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[]</span> <span class="n">adjacent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[</span><span class="m">6</span><span class="p">]</span> <span class="c1">// 6 개의 리스트를 adjacent 배열로 관리</span>
+<span class="p">{</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">},</span>       <span class="c1">// v[0] 정점은 v[1], v[3] 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span><span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">},</span>    <span class="c1">// v[1] 정점은 v[0], v[2], v[3] 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="m">4</span> <span class="p">},</span>        <span class="c1">// v[3] 정점은 v[4] 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="m">4</span> <span class="p">},</span>        <span class="c1">// v[5] 정점은 v[4] 과 연결됨.</span>
+<span class="p">}</span>   
+</code></pre></div></div>
+
+<ul>
+  <li>정점을 꼭 인스턴스로 생성해야 한다는 부담감을 덜어주었다. 인스턴스 생성할 필요 없이 정수 배열 인덱스를 정점으로 생각하고 리스트의 배열로 관리. 메모리를 아낄 수 있다.</li>
+</ul>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Edge</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Edge</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span> <span class="n">vertex</span> <span class="p">=</span> <span class="n">v</span><span class="p">;</span> <span class="n">weight</span> <span class="p">=</span> <span class="n">w</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">vertex</span><span class="p">;</span>  
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">weight</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[]</span> <span class="n">adjacent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[</span><span class="m">6</span><span class="p">]</span> <span class="c1">// 6 개의 리스트를 adjacent 배열로 관리</span>
+<span class="p">{</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">15</span><span class="p">),</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">35</span><span class="p">)</span> <span class="p">},</span>       <span class="c1">// v[0] 정점은 v[1] (가중치 15), v[3] (가중치 35) 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">15</span><span class="p">),</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">5</span><span class="p">),</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span> <span class="p">},</span>    <span class="c1">// v[1] 정점은 v[0] (가중치 15), v[2] (가중치 5), v[3] (가중치 10) 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span> <span class="p">},</span>        <span class="c1">// v[3] 정점은 v[4] (가중치 5) 과 연결됨.</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Edge</span><span class="p">&gt;</span> <span class="p">{</span> <span class="k">new</span> <span class="nf">Edge</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span> <span class="p">},</span>        <span class="c1">// v[5] 정점은 v[4] (가중치 5) 과 연결됨.</span>
+<span class="p">}</span>   
+</code></pre></div></div>
+
+<p>연결에 있어 가중치 같은 추가 정보가 필요하다면 위와 같이 구현할 수도 있다.</p>
+
+<ul>
+  <li>리스트로 그래프 표현시 단점
+    <ul>
+      <li>접근 속도에서 손해를 본다.
+        <ul>
+          <li>2 번째 정점이 3 번째 정점과 연결되어 있는지를 알고 싶다면 리스트 배열 adjacent[1] 에 접근한 후 또 adjacent[1] 리스트에서 3 번째 정점이 있는지를 탐색해야 한다.</li>
+          <li>바로 바로 알 수가 없다.</li>
+          <li><u>간선이 적고 정점이 많은 경우엔 이점이 있지만 간선이 많은 경우엔 탐색이 오래 걸리게 된다.</u></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="세-번째-방법---행렬2차원-배열-이용하기">세 번째 방법 - 행렬(2차원 배열) 이용하기</h3>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="p">[,]</span> <span class="n">adjacent2</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">6</span><span class="p">,</span> <span class="m">6</span><span class="p">]</span>
+<span class="p">{</span>
+    <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>       <span class="c1">// v[0] 정점은 v[1], v[3] 과 연결됨.</span>
+    <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>       <span class="c1">// v[1] 정점은 v[0], v[2], v[3] 과 연결됨.</span>
+    <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>
+    <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>       <span class="c1">// v[3] 정점은 v[4] 과 연결됨.</span>
+    <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>
+    <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">},</span>       <span class="c1">// v[5] 정점은 v[4] 과 연결됨.</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>메모리 소모가 심하다.
+    <ul>
+      <li>연결 되어 있지 않은 정점도 배열의 연속성을 꺠지 않기 위해 넣어주어야 하므로</li>
+      <li>정점이 100개면 만개 데이터를 저장해야 함.</li>
+    </ul>
+  </li>
+  <li>그러나 빠른 접근이 가능하다! 배열의 연속성 때문에.
+    <ul>
+      <li>2 번째 정점이 3 번째 정점과 연결되어 있는지를 알고 싶다면 adjacent[1][2] 값을 받아보면 땡이다.</li>
+    </ul>
+  </li>
+  <li><u>간선이 많고 정점이 적은 경우에 이점이 있다.</u></li>
+</ul>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="p">[,]</span> <span class="n">adjacent2</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">6</span><span class="p">,</span> <span class="m">6</span><span class="p">]</span>
+<span class="p">{</span>
+    <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">35</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>   <span class="c1">// v[0] 정점은 v[1] (가중치 15), v[3] (가중치 35) 과 연결됨.</span>
+    <span class="p">{</span> <span class="m">15</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>     <span class="c1">// v[1] 정점은 v[0] (가중치 15), v[2] (가중치 5), v[3] (가중치 10) 과 연결됨.</span>
+    <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>
+    <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>     <span class="c1">// v[3] 정점은 v[4] (가중치 5) 과 연결됨.</span>
+    <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>
+    <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">},</span>     <span class="c1">// v[5] 정점은 v[4] (가중치 5) 과 연결됨.</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>가중치를 표현한다면
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-1</code>로 연결 안되어 있음을 표시</li>
+    </ul>
+  </li>
+  <li>리스트로 구현했을 때처럼 자료구조를 또 쓸 필요 없이 그냥 한번에 배열 하나로 가중치 표현도 가능하다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-그래프-구현">🚖 그래프 구현</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/95181033-b46b8e00-07fd-11eb-86bd-f4b5c827d8b2.png" alt="image" /></p>
+
+<p>방향이 없는 (양방향인) 그래프 구현.</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">Graph</span>
+    <span class="p">{</span>
+        <span class="c1">// 1️⃣ 배열로 구현</span>
+        <span class="kt">int</span><span class="p">[,]</span> <span class="n">adj</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">6</span><span class="p">,</span> <span class="m">6</span><span class="p">]</span>  <span class="c1">// 방향 없는 그래프라 서로 대칭되는 것을 볼 수 있다.</span>
+        <span class="p">{</span>
+            <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span>
+        <span class="p">};</span>
+
+        <span class="c1">// 2️⃣ 리스트로 구현</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[]</span> <span class="n">adj2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;[]</span>
+        <span class="p">{</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">1</span> <span class="p">},</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">4</span> <span class="p">},</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span> <span class="p">},</span>
+            <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">4</span> <span class="p">},</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

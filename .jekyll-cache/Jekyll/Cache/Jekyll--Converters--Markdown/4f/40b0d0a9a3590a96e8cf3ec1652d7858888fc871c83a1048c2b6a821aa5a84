@@ -1,0 +1,41 @@
+I"
+<ul class="toc__menu">
+  <li><a href="#-브라이언의-고민">📌 브라이언의 고민</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이-">🚀 내 풀이 ⭕</a>
+        <ul>
+          <li><a href="#-해설">🔥 해설</a>
+            <ul>
+              <li><a href="#1️⃣-규칙-1-상태도-아니고-규칙-2-상태도-아닐-때--else">1️⃣ 규칙 1 상태도 아니고, 규칙 2 상태도 아닐 때 : else</a>
+                <ul>
+                  <li><a href="#현재-문자가-대문자일-때--if-isuppersentencei">현재 문자가 대문자일 때 : if (isupper(sentence[i]))</a></li>
+                  <li><a href="#현재-문자가-소문자일-때--if-islowersentencei">현재 문자가 소문자일 때 : if (islower(sentence[i]))</a></li>
+                </ul>
+              </li>
+              <li><a href="#2️⃣-오직-규칙-1-상태일-때--else-if-first_rule">2️⃣ 오직 규칙 1 상태일 때 : else if (first_rule)</a>
+                <ul>
+                  <li><a href="#현재-문자가-대문자일-때--if-isuppersentencei-1">현재 문자가 대문자일 때 : if (isupper(sentence[i]))</a></li>
+                  <li><a href="#현재-문자가-소문자일-때--if-islowersentencei-1">현재 문자가 소문자일 때 : if (islower(sentence[i]))</a></li>
+                </ul>
+              </li>
+              <li><a href="#3️⃣-오직-규칙-2-상태일-때--else-if-second_rule">3️⃣ 오직 규칙 2 상태일 때 : else if (second_rule)</a>
+                <ul>
+                  <li><a href="#현재-문자가-대문자일-때--if-isuppersentencei-2">현재 문자가 대문자일 때 : if (isupper(sentence[i]))</a></li>
+                  <li><a href="#현재-문자가-소문자일-때--if-islowersentencei-2">현재 문자가 소문자일 때 : if (islower(sentence[i]))</a></li>
+                </ul>
+              </li>
+              <li><a href="#2️⃣-규칙-1-and-2-상태일-때--if-first_rule--second_rule">2️⃣ 규칙 1 and 2 상태일 때 : if (first_rule &amp;&amp; second_rule)</a>
+                <ul>
+                  <li><a href="#현재-문자가-대문자일-때--if-isuppersentencei-3">현재 문자가 대문자일 때 : if (isupper(sentence[i]))</a></li>
+                  <li><a href="#현재-문자가-소문자일-때--if-islowersentencei-3">현재 문자가 소문자일 때 : if (islower(sentence[i]))</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

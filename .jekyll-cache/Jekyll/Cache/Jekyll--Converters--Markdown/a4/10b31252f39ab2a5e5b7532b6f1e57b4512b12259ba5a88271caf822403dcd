@@ -1,0 +1,460 @@
+I"o�<h2 id="-신장-트리-spanning-tree">🌜 신장 트리 Spanning Tree</h2>
+
+<ul>
+  <li>어떤 하나의 그래프 中에서 1️⃣ <u>모든 정점을 포함</u>하되 2️⃣ <u>최소로 연결</u> 되도록 일부 간선들을 선택하여 만든 트리. 단, 3️⃣ 사이클이 생성되선 안된다. 어떤 그래프로 신장 트리를 만들 때 사이클을 만드는 간선은 선택하지 않는다.
+    <ul>
+      <li><strong>최소 연결</strong>
+        <ul>
+          <li>👉 간선의 수가 가장 적다.
+            <ul>
+              <li>정점의 수가 <code class="language-plaintext highlighter-rouge">n</code>개 일 때, <code class="language-plaintext highlighter-rouge">Spanning Tree</code>의 간선 수는 언제나 <code class="language-plaintext highlighter-rouge">n - 1</code>개.</li>
+            </ul>
+          </li>
+          <li>👉 사이클이 발생해선 안된다. 사이클이 있다는 것 자체가 최소로 연결되지 않았다는 뜻이므로!
+            <ul>
+              <li>1 - 2 - 3 으로 연결 되어 있다면 1 과 3 은 직접적으로 연결되있는건 아니더라도 연결된 것으로 본다. 통행이 가능해지므로. 따라서 사이클을 형성하도록 1 - 3 을 연결시킬 필요가 없는 것이다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>DFS, BFS 를 사용하여 그래프에서 신장 트리를 찾을 수 있다.</li>
+  <li>한 그래프에서 스패닝 트리가 여러개 있을 수 있다.</li>
+</ul>
+
+<blockquote>
+  <p>참고 블로그 <a href="https://gmlwjd9405.github.io/2018/08/28/algorithm-mst.html">https://gmlwjd9405.github.io/2018/08/28/algorithm-mst.html</a></p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-최소-비용-신장-트리-minimum-spanning-tree">🌜 최소 비용 신장 트리 Minimum Spanning Tree</h2>
+
+<blockquote>
+  <p>가장 적은 비용으로 모든 노드를 연결하고자 할 때</p>
+</blockquote>
+
+<blockquote>
+  <p>모두 연결하되 최소 비용으로 연결하는 그런 문제들은 <code class="language-plaintext highlighter-rouge">MST</code>를 만들어야 하는 케이스라고 보면 된다. 크루스칼 혹은 프림 알고리즘으로 <code class="language-plaintext highlighter-rouge">MST</code>를 만들면 된다.</p>
+</blockquote>
+
+<ul>
+  <li>그래프 내의 모든 정점들을 포함하되 최소로 연결되며 <u>최소 비용으로 포함하는 트리.</u> 👉 가중치의 합이 최소.
+    <ul>
+      <li>신장 트리 특징
+        <ul>
+          <li>1️⃣ 반드시 <code class="language-plaintext highlighter-rouge">n-1</code>개의 간선만을 사용 한다.</li>
+          <li>2️⃣ 사이클을 가져선 안된다.</li>
+        </ul>
+      </li>
+      <li>최소 비용 신장 트리만의 특징
+        <ul>
+          <li>3️⃣ <u>간선의 가중치의 합이 최소</u>여야 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>최소 비용 신장 트리로 만든다는 것은, 그래프에서, 모든 정점이 연결되어 있게 하되, 간선을 <code class="language-plaintext highlighter-rouge">n-1</code>개를 선택하여(최소로 연결), 선택된 간선들의 가중치의 합이 최소이도록 간선을 선택한다는 것이다. 단 사이클을 만들지 않도록 선택해야 한다.</p>
+
+<ul>
+  <li>어떤 그래프에서 <code class="language-plaintext highlighter-rouge">MST</code> 만드는 방법 2 가지
+    <ol>
+      <li>크루스칼 알고리즘 👉 간선 선택
+        <ul>
+          <li>간선이 적은 그래프를 <code class="language-plaintext highlighter-rouge">MST</code>로 만들 때 적합</li>
+          <li>사이클 검사가 필요하다. <em>(간선을 선택하므로 트리가 여러개 생길 수 있음. 사이클이 생기지 않도록 선택애야 함.)</em></li>
+        </ul>
+      </li>
+      <li>프림 알고리즘 👉 정점 선택
+        <ul>
+          <li>간선이 많은 그래프를 <code class="language-plaintext highlighter-rouge">MST</code>로 만들 때 적합</li>
+          <li>시작 정점을 정해두고 시작한다.</li>
+          <li>사이클 검사가 필요하지 않다. <em>(인접한 정점들 중에서 선택해 나가므로 트리는 시작 정점에서 발생했던 단 하나의 트리만 유지되며 정점들을 선택해 나감으로써 하나의 트리를 확장해나가는 식이다. 따라서 이 과정에선 사이클이 생길 일이 없다.)</em></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<blockquote>
+  <p>참고 블로그 <a href="https://gmlwjd9405.github.io/2018/08/28/algorithm-mst.html">https://gmlwjd9405.github.io/2018/08/28/algorithm-mst.html</a></p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-크루스칼-알고리즘-kruskal">💛 크루스칼 알고리즘 Kruskal</h2>
+
+<blockquote>
+  <p><strong>간선</strong>을 선택해나감.</p>
+</blockquote>
+
+<p>✨ <u>무조건 가장 비용이 작은 간선부터 선택</u>해 나간다는 점에서 <code class="language-plaintext highlighter-rouge">Greedy</code>한 알고리즘이다. 단, 선택한 간선의 <u>두 정점이 연결되 있지 않는 경우에만 해당 간선을 선택한다. 즉, 사이클을 이루지 않도록.</u></p>
+
+<p><code class="language-plaintext highlighter-rouge">MST</code> 집합은 공백에서 시작한다.</p>
+
+<ol>
+  <li>가중치 순서대로 간선들을 오름차순 정렬한다.</li>
+  <li>오름 차순 정렬된 간선들을 차례대로 살펴보며 <u>두 정점이 아직 연결되 있지 않는, 즉 사이클을 형성하지 않는</u> 간선이면 선택한다. 형성한다면 그 간선은 무시하고 다음 차례로 넘어 간다.
+    <ul>
+      <li>정점들의 부모가 같다면(즉, 같은 그룹이라 서로 통행이 가능하다면) 사이클이 형성되는 것이고, 부모가 같지 않다면(즉, 서로 통행이 불가능 하다면) 사이클이 형성되지 않는것이다.</li>
+      <li>Kruskal 알고리즘이 Union-Find 알고리즘과도 연관이 있는 이유. <a href="https://ansohxxn.github.io/algorithm/unionfind/">Union-Find 포스트</a></li>
+    </ul>
+  </li>
+  <li>선택한 간선을 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 Union 시킨다.
+    <ul>
+      <li>2~3 과정을 선택한 간선의 수가 <code class="language-plaintext highlighter-rouge">n-1</code>개가 될 때까지 반복한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>적은 숫자의 간선을 가지는 그래프라면 크루스칼 알고리즘으로 <code class="language-plaintext highlighter-rouge">MST</code>를 만드는게 적합하다. 크루스칼 알고리즘은 간선을 정렬하는 시간에 좌우되기 때문이다.</p>
+
+<h3 id="이해를-위한-그림">이해를 위한 그림</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/96864077-d5410e00-14a2-11eb-8abe-62adabc3d43e.png" alt="image" /></p>
+
+<p>정점 <code class="language-plaintext highlighter-rouge">2</code>와 <code class="language-plaintext highlighter-rouge">0</code>은 현재 통행이 가능하도록 연결 되어 있는 같은 그룹이다.(트리 개념으로 치면 부모 정점이 같은 셈이다.) 그런 상태에서 <code class="language-plaintext highlighter-rouge">0 - 2</code> 간선을 추가하려고 하면 사이클이 발생하므로 선택하지 않는다.</p>
+
+<p>✨<u>모든 정점의 부모 정점이 같아진다면, 즉 모든 정점이 하나의 그룹에 속하면서 통행이 가능해진다면! 즉, 하나의 트리로 합쳐져 완성된다면!</u> 작업을 종료한다.</p>
+
+<h3 id="코드">코드</h3>
+
+<ul>
+  <li>Union-Find 알고리즘을 사용한다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">union</code> 👉 연결하기(merge)
+        <ul>
+          <li>두 정점을 하나의 트리(같은 부모를 가진 같은 그룹)으로 합치고자 할 때</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">find</code> 👉 연결 되어 있는지 확인
+        <ul>
+          <li>같은 부모를 가지는지, 즉 같은 그룹인지를 확인하고자 할 때</li>
+          <li>같은 부모라고 판단된다면 이 간선은 추가하면 안된다. 사이클을 형성하게 되기 때문에!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>크루스칼 알고리즘 코드 참고 나동빈님 블로그 <a href="https://blog.naver.com/ndb796/221230994142">https://blog.naver.com/ndb796/221230994142</a></p>
+</blockquote>
+
+<blockquote>
+  <p>프로그래머스 <strong>섬 연결하기</strong> 풀이 코드.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">getRoot</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">parent</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span>  <span class="c1">// 인수로 넘긴 정점의 부모 정점을 알려줌</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">getRoot</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">unionParent</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">parent</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>  <span class="c1">// 두 정점을 병합함. 부모가 같은, 같은 그룹으로.</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">par_a</span> <span class="o">=</span> <span class="n">getRoot</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">par_b</span> <span class="o">=</span> <span class="n">getRoot</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">par_a</span> <span class="o">&lt;</span> <span class="n">par_b</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">par_b</span><span class="p">]</span> <span class="o">=</span> <span class="n">par_a</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">parent</span><span class="p">[</span><span class="n">par_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">par_b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">find</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">parent</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>  <span class="c1">// 두 정점이 같은 부모를 가졌는지 확인</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">par_a</span> <span class="o">=</span> <span class="n">getRoot</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">par_b</span> <span class="o">=</span> <span class="n">getRoot</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">par_a</span> <span class="o">==</span> <span class="n">par_b</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">compare</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">costs</span><span class="p">)</span> <span class="p">{</span>	
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+	<span class="n">sort</span><span class="p">(</span><span class="n">costs</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">costs</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parents</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">parents</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">parents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">costs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">find</span><span class="p">(</span><span class="n">parents</span><span class="p">,</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">unionParent</span><span class="p">(</span><span class="n">parents</span><span class="p">,</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">parents</code>에서 각 인덱스는 정점을 뜻하며 원소는 해당 정점의 부모 정점을 가리킨다. 정점이 4 개라면 초기값은 [0, 1, 2, 3]으로 자기 자신이 부모다. 최종적으로 [0, 0, 0, 0]이 되어 모든 정점의 부모 정점이 같아진다면, 즉 하나의 트리로 완성되었다면 종료한다.  0 과 2 정점이 이어진다면 [0, 1, 0, 3]이 될 것이도 1 과 3 이 이어진다면 [0, 1, 0, 1]이 될 것이고 1 과 0 이 이어진다면 최종적으로 [0, 0, 0, 0]이 될 것이다.</p>
+
+<ol>
+  <li><em>int getRoot(vector&lt;int&gt;&amp; parent, int x)</em>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">x</code> 정점의 부모 정점을 리턴한다.</li>
+    </ul>
+  </li>
+  <li><em>void unionParent(vector&lt;int&gt;&amp; parent, int a, int b)</em>
+    <ul>
+      <li>두 정점 <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>를 같은 부모를 가진 하나의 트리로 병합한다.</li>
+      <li>더 작은 값의 부모로 통합한다.</li>
+    </ul>
+  </li>
+  <li><em>bool find(vector&lt;int&gt;&amp; parent, int a, int b)</em>
+    <ul>
+      <li>두 정점 <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>가 같은 부모를 가졌는지를 확인한다.</li>
+      <li>True 라면 또 똑같은 <code class="language-plaintext highlighter-rouge">a - b</code>를 잇는 간선을 추가한다면 사이클이 형성된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sort</span><span class="p">(</span><span class="n">costs</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">costs</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>비용순서대로 가장 최소비용을 가진 간선이 앞에 오게 오름차순 정렬.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parents</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">parents</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">parents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">parents</code>의 초기화는 자기 자신이 부모이게끔.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">costs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">find</span><span class="p">(</span><span class="n">parents</span><span class="p">,</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="p">{</span>
+            <span class="n">unionParent</span><span class="p">(</span><span class="n">parents</span><span class="p">,</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>부모가 같지 않을 때만 (같다면 이 두 정점을 추가하면 사이클이 형성되게 되므로 추가하면 안된다.)
+    <ul>
+      <li>두 정점을 합치기
+        <ul>
+          <li>기존에 이미 다른 트리에 속해 있다면 이제 그 트리와 합쳐질 것이고</li>
+          <li>그런적 없었다면 자기 자신이 부모인 지금 상태에서 해당 트리로 연결될 것이다.</li>
+        </ul>
+      </li>
+      <li>비용 더해주기</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-프림-알고리즘-prim">💛 프림 알고리즘 Prim</h2>
+
+<blockquote>
+  <p>시작 정점에서 출발하여 <strong>정점</strong>을 선택해나감.</p>
+</blockquote>
+
+<p>✨ 프림 또한 <code class="language-plaintext highlighter-rouge">Greedy</code>하다. 시작 할 때 시작 정점만 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 포함시키고 현재까지의 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 포함된 정점들 중에서 인접한 정점들 中 가중치 최소 간선으로 연결된 정점을 선택하여 <u>트리를 확장</u>한다. 크루스칼 알고리즘은 이미 선택 완료되어 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 들어가 있는 ‘간선’들은 다시 고려하지 않았던 반면, 프림 알고리즘은 이미 선택 완료되어 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 들어가 있는 ‘정점’들의 인접 정점들 중에서 최소 간선을 가지는 <u>정점을 선택</u>하게 된다.</p>
+
+<p><strong>프림 알고리즘은 시작점을 정해놓고 시작점에서 가까운 정점들을 선택하면서 MST 를 만들어가기 때문에, 크루스칼 알고리즘과 다르게 사이클을 이루지 않는다.</strong> 정점을 선택하는 식이기 때문에 트리 하나를 처음부터 끝까지 유지하게 되므로 다시 거슬러 올라가 정점을 잇는 일은 있을 수 없다. 크루스칼 알고리즘은 최소 비용 간선을 선택하기 때문에 서브 트리가 여러개 생길 수 있고 어느 그룹(트리)에 속한 정점인지도 확인해야 하며 이 트리들을 합치는 과정도 필요하기에 사이클이 생길 수 있지만 프림 알고리즘은 <u>인접한 정점을 선택하기 때문에 트리가 여러개 생기지 않고 처음부터 단 하나의 트리를 유지하고 확장</u>하는 식이라서 <u>프림 알고리즘 과정에선 사이클이 생기지 않는다.</u> 👉 사이클 검사 및 합치는 과정인 Union-Find 과정이 필요 없음.</p>
+
+<ol>
+  <li>시작 정점 아무거나 선택하여 <code class="language-plaintext highlighter-rouge">MST</code>에 포함시킨다.</li>
+  <li>현재까지의 <code class="language-plaintext highlighter-rouge">MST</code> 집합에 포함되어 있는 이전에 선택 완료 되었던 정점들의 인접 정점(<code class="language-plaintext highlighter-rouge">MST</code>에 포함되어 있지 않은)들 中 최소 가중치 간선을 가진 정점을 선택하여 <code class="language-plaintext highlighter-rouge">MST</code>에 포함한다.
+    <ul>
+      <li>이 과정이 프림 알고리즘의 성능을 결정한다. 따라서 정점이 아주 많은 그래프라면 그냥 크루스칼 알고리즘을 선택하여 MST를 만드는게 더 나을 것이다.</li>
+      <li><code class="language-plaintext highlighter-rouge">visited</code> - <code class="language-plaintext highlighter-rouge">unvisitied</code> 사이의 인접 정점들의 가중치를 Min Heap 우선순위큐에 저장하여 빼올 수도 있다. 이러면 시간 복잡도는 \(O(n^2)\) 보단 작게 된다.</li>
+      <li>2 번의 과정을 <code class="language-plaintext highlighter-rouge">n-1</code>개 간선을 가질 때까지 반복. 혹은 2 번의 과정을 <code class="language-plaintext highlighter-rouge">MST</code>가 <code class="language-plaintext highlighter-rouge">n</code>개의 정점을 모두 포함할 때가지 반복.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="이해를-위한-그림-1">이해를 위한 그림</h3>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/96866354-28689000-14a6-11eb-8664-b27718c3494d.png" alt="image" /></p>
+
+<h3 id="코드-1">코드</h3>
+
+<blockquote>
+  <p>코드 참고 min:D’s님 블로그 <a href="https://mind-devlog.tistory.com/89">https://mind-devlog.tistory.com/89</a> <em>이 분의 풀이 코드 덕분에 프림 알고리즘을 이해할 수 있었다.</em></p>
+</blockquote>
+
+<blockquote>
+  <p>프로그래머스 <strong>섬 연결하기</strong> 풀이 코드.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;limits.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">costs</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">costs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">graph</span><span class="p">[</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+		<span class="n">graph</span><span class="p">[</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]][</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+	<span class="p">}</span>
+
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">visited</span><span class="p">;</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">unvisited</span><span class="p">;</span>
+
+	<span class="n">visited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">unvisited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">min_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">min</span> <span class="o">&gt;</span> <span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+				<span class="p">{</span>
+					<span class="n">min</span> <span class="o">=</span> <span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]];</span>
+					<span class="n">min_index</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">visited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">unvisited</span><span class="p">[</span><span class="n">min_index</span><span class="p">]);</span>
+		<span class="n">unvisited</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">unvisited</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">min_index</span><span class="p">);</span>
+		<span class="n">answer</span> <span class="o">+=</span> <span class="n">min</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>시작 정점을 미리 정하고 시작한다.</li>
+  <li>정점을 선택해가며 하나의 트리를 확장하는 방식이므로
+    <ul>
+      <li>방문한 정점들을 담는 <code class="language-plaintext highlighter-rouge">visited</code>, 아직 방문하지 않은 정점들을 담는 <code class="language-plaintext highlighter-rouge">unvisited</code> 벡터를 따로 둔다.
+        <ul>
+          <li>최종적으론 <code class="language-plaintext highlighter-rouge">unvisited</code>이 비워지고 모든 정점이 <code class="language-plaintext highlighter-rouge">visited</code>에 속하게 된다.</li>
+          <li>시작은 <code class="language-plaintext highlighter-rouge">visited</code>에 시작 정점만 속하고 <code class="language-plaintext highlighter-rouge">unvisited</code>엔 나머지 정점들</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">graph</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">costs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">graph</span><span class="p">[</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+		<span class="n">graph</span><span class="p">[</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]][</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">graph[i][j]</code> 값은 <code class="language-plaintext highlighter-rouge">i</code> 정점과 <code class="language-plaintext highlighter-rouge">j</code> 정점 사이의 가중치(비용) 값을 담는다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">visited</span><span class="p">;</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">unvisited</span><span class="p">;</span>
+
+	<span class="n">visited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">unvisited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">visited</code>의 초기 상태는 [0]. 시작 정점을 <code class="language-plaintext highlighter-rouge">0</code> 정점으로 정해놓고 시작했다.</li>
+  <li><code class="language-plaintext highlighter-rouge">unvisited</code>의 초기 상태는 [1, 2, 3]이 된다. <code class="language-plaintext highlighter-rouge">0</code>을 제외한 나머지 정점들.
+    <ul>
+      <li>따라서 <code class="language-plaintext highlighter-rouge">i = 1</code>부터 돌렸다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">min_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">min</span> <span class="o">&gt;</span> <span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]])</span>
+				<span class="p">{</span>
+					<span class="n">min</span> <span class="o">=</span> <span class="n">graph</span><span class="p">[</span><span class="n">visited</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">unvisited</span><span class="p">[</span><span class="n">k</span><span class="p">]];</span>
+					<span class="n">min_index</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">visited</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">unvisited</span><span class="p">[</span><span class="n">min_index</span><span class="p">]);</span>
+		<span class="n">unvisited</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">unvisited</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">min_index</span><span class="p">);</span>
+		<span class="n">answer</span> <span class="o">+=</span> <span class="n">min</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>첫 번째 for 문 👉 <code class="language-plaintext highlighter-rouge">n - 1</code> 번 돈다. 시작 정점 제외한 나머지 <code class="language-plaintext highlighter-rouge">n - 1</code> 개의 정점 선택 과정
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">i</code>는 곧 현재까지 방문한 정점의 개수가 되기도 한다.</li>
+    </ul>
+  </li>
+  <li>두 번째 for 문 👉 <code class="language-plaintext highlighter-rouge">visited</code> 순회
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">visited</code>엔 <code class="language-plaintext highlighter-rouge">i</code>개의 방문 정점이 들어있기 때문에 <code class="language-plaintext highlighter-rouge">i</code>까지만 검사하면 된다.</li>
+    </ul>
+  </li>
+  <li>세 번째 for 문 👉 <code class="language-plaintext highlighter-rouge">unvisited</code> 순회
+    <ul>
+      <li>아직 방문하지 않은 나머지 <code class="language-plaintext highlighter-rouge">n - i</code>개의 정점이 들어 있다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">visited</code>와 <code class="language-plaintext highlighter-rouge">unvisited</code> 사이에서 인접해 있는 정점들 중 가중치가 가장 작은 간선을 가진 정점을 선택해야 한다.
+    <ul>
+      <li>인접해 있는 정점 👉 <em>(graph[visited[j]][unvisited[k]] &gt; 0</em></li>
+      <li>더 작은걸 찾았다면 업데이트 👉 <em>min &gt; graph[visited[j]][unvisited[k]]</em>
+        <ul>
+          <li>최종적으로 결정된 <code class="language-plaintext highlighter-rouge">min</code>을 가진 <code class="language-plaintext highlighter-rouge">unvisited</code> 정점을 삭제하고 <code class="language-plaintext highlighter-rouge">visited</code>에 추가해야 하므로 <code class="language-plaintext highlighter-rouge">min</code> 업뎃할 때 <code class="language-plaintext highlighter-rouge">min_index</code>에 해당 <code class="language-plaintext highlighter-rouge">unvisited</code> 정점을 보관해두어 같이 업데이트</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>결정되면
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">visited</code>에 <code class="language-plaintext highlighter-rouge">unvisited[min_index]</code>을 추가한다.</li>
+      <li><code class="language-plaintext highlighter-rouge">unvisited[min_index]</code>는 삭제한다.</li>
+      <li>비용 합산</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

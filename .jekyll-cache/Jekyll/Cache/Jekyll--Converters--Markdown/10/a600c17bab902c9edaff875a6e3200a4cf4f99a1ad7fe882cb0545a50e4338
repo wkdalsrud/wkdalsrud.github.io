@@ -1,0 +1,61 @@
+I"Y<p class="notice--warning"><strong>C/C++</strong>로 풀이했습니다.<br />
+출처 : <strong>Code Up</strong> 문제 풀이. <a href="https://codeup.kr/">https://codeup.kr/</a></p>
+
+<p><br /></p>
+
+<p>문제 출처 <a href="https://codeup.kr/problem.php?id=1079">https://codeup.kr/problem.php?id=1079</a></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/101644965-2c159d80-3a79-11eb-8a3e-151c5a4889cf.png" alt="image" /></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">" %c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'q'</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">scanf("%c")</code> char 문자 1 개를 받을 경우, 이 <code class="language-plaintext highlighter-rouge">%c</code>는 특별하게 <u>공백 문자, 개행 문자도 저장할 수 있다.</u></p>
+</blockquote>
+
+<p>따라서 공백을 무시하기 위해서는 <code class="language-plaintext highlighter-rouge">scanf("%d %d")</code>처럼 <code class="language-plaintext highlighter-rouge">scanf(" %c")</code>라고 앞에 공백을 써주는 것이 좋다. 왜냐하면 scanf가 <code class="language-plaintext highlighter-rouge">%c</code>로 char 한 문자를 받을 때는 공백과 개행문자도 저장이 가능하여 읽어들이기 때문이다. 따라서 앞에 공백을 넣어 “<u>공백</u> + <u>문자</u>” 이런 입력 형식으로서, 공백은 <u>공백</u> 자리에 매치 되어 %c에 저장되지 않고 무시되도록 하고, 진짜 문자는 <u>문자</u> 자리에 매치될 수 있도록 해야 한다. 이렇게 scanf 가 <code class="language-plaintext highlighter-rouge">%c</code>로 읽어들이는 경우 입력 버퍼를 비우거나 공백이 필요하지 않다면 공백을 어떻게 무시할지에 관한 생각을 꼭 해두어야 한다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">"%c"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">' '</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'q'</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이건 내 풀이였는데, 이렇게 할 필요 없이 그냥 <code class="language-plaintext highlighter-rouge">" %c"</code>로 앞에 공백을 주면 됐었다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

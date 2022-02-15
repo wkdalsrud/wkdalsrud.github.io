@@ -1,0 +1,208 @@
+I"�`<h1 id="-뉴스-클러스터링">📌 뉴스 클러스터링</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107408040-c1064700-6b4d-11eb-9f3b-3161d56795a5.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107408064-c9f71880-6b4d-11eb-8be6-185d1bdaa9ff.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">string</span> <span class="nf">strLower</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span>
+            <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+    <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str_set</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">str_set</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">str_set</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">str1</span><span class="p">,</span> <span class="n">string</span> <span class="n">str2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">intersec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">// (교집합의 원소 수)</span>
+    <span class="kt">int</span> <span class="n">uni</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>        <span class="c1">// (합집합의 원소 수)</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str1_set</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str2_set</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">count</span><span class="p">;</span>
+
+    <span class="c1">// 소문자로 변환</span>
+    <span class="n">str1</span> <span class="o">=</span> <span class="n">strLower</span><span class="p">(</span><span class="n">str1</span><span class="p">);</span>
+    <span class="n">str2</span> <span class="o">=</span> <span class="n">strLower</span><span class="p">(</span><span class="n">str2</span><span class="p">);</span>
+
+    <span class="c1">// 다중 집합 만들기 (오직 영문자로 된 쌍만 반영)</span>
+    <span class="n">str1_set</span> <span class="o">=</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">str1</span><span class="p">);</span>
+    <span class="n">str2_set</span> <span class="o">=</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">str2</span><span class="p">);</span>
+    
+    <span class="c1">// 교집합 개수 구하는 과정</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str1_set</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">str1_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str2_set</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="n">count</span><span class="p">.</span><span class="n">end</span><span class="p">()){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">[</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="n">count</span><span class="p">[</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>
+            <span class="n">intersec</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 합집합 개수 구하기</span>
+    <span class="n">uni</span> <span class="o">=</span> <span class="n">str1_set</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="n">str2_set</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="n">intersec</span><span class="p">;</span>
+    
+    <span class="c1">// 자카드 유사도 구하기</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">uni</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">65536</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">answer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)((</span><span class="kt">float</span><span class="p">)</span><span class="n">intersec</span> <span class="o">/</span> <span class="n">uni</span> <span class="o">*</span> <span class="mi">65536</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-문자열의-대문자를-모두-소문자로-변환">✈ 문자열의 대문자를 모두 소문자로 변환</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">string</span> <span class="nf">strLower</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span>
+            <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+    <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="c1">//...</span>
+    <span class="c1">// 소문자로 변환</span>
+    <span class="n">str1</span> <span class="o">=</span> <span class="n">strLower</span><span class="p">(</span><span class="n">str1</span><span class="p">);</span> 
+    <span class="n">str2</span> <span class="o">=</span> <span class="n">strLower</span><span class="p">(</span><span class="n">str2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>대소문자를 구분하지 않으므로 대문자들은 소문자로 변경한다. “FRANCE”는 “france”로 변경.</p>
+
+<p><br /></p>
+
+<h3 id="-두-개의-문자로-이루어진-다중-집합-만들기">✈ 두 개의 문자로 이루어진 다중 집합 만들기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str_set</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// 2글자씩 차례로 </span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// ex) "aa"</span>
+                <span class="n">str_set</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// ex) "a1"</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="c1">// ex) "1a"</span>
+            <span class="k">else</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// ex) "11"</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">str_set</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//...</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str1_set</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">str2_set</span><span class="p">;</span>
+
+    <span class="c1">// 다중 집합 만들기 (오직 영문자로 된 쌍만 반영)</span>
+    <span class="n">str1_set</span> <span class="o">=</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">str1</span><span class="p">);</span>
+    <span class="n">str2_set</span> <span class="o">=</span> <span class="n">makeSet</span><span class="p">(</span><span class="n">str2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>“aa1+aa2”는 {“aa”, “aa”, “aa”} 로 만들 수 있다. “france”는 {“fr”, “ra”, “an”, “nc”, “ce”} 를 만들 수 있다.</p>
+
+<p><br /></p>
+
+<h3 id="-교집합의-개수-구하기">✈ 교집합의 개수 구하기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">count</span><span class="p">;</span>
+
+    <span class="c1">// 교집합 개수 구하는 과정</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str1_set</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">str1_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str2_set</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="n">count</span><span class="p">.</span><span class="n">end</span><span class="p">()){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">[</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="n">count</span><span class="p">[</span><span class="n">str2_set</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>
+            <span class="n">intersec</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>첫 번째 문자열 집합의 원소들을 모두 <code class="language-plaintext highlighter-rouge">count</code> 맵에 추가한다. 그리고 Value는 등장한 횟수로 카운팅.
+    <ul>
+      <li>{“aa”, “aa”, “aa”, “ab”} 의 경우 count[“aa”] = 3, count[“ab”] = 1 이 된다.</li>
+    </ul>
+  </li>
+  <li>두 번째 문자열 집합의 원소들은 첫 번째 문자열 집합의 원소들로 추가한 <code class="language-plaintext highlighter-rouge">count</code> 맵에 해당 원소들이 있는지를 확인한다. (값이 1 이상이어야 함)
+    <ul>
+      <li>있다면 교집합이므로 교집합 개수를 카운팅하고 <code class="language-plaintext highlighter-rouge">count</code> 맵의 value를 1 감소시킨다.
+        <ul>
+          <li>첫 번째 문자열 집합이 {“aa”, “aa”} 이고 (<code class="language-plaintext highlighter-rouge">count["aa"] = 2</code>) 두 번째 문자열 집합이 {“aa”, “aa”, “aa”, “an”} 이라면, 이 두번째 집합의 세 번째 “aa”를 검사할 땐 <code class="language-plaintext highlighter-rouge">count["aa"] = 0</code> 인 상태일 것이므로 세 번째 “aa” 는 교집합 대상이 아니다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="-합집합의-개수-구하기">✈ 합집합의 개수 구하기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">uni</span> <span class="o">=</span> <span class="n">str1_set</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="n">str2_set</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="n">intersec</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><em>n(A U B) = n(A) + n(B) - n(A 와 B의 교집합)</em> 공식에 의하여.</p>
+
+<p><br /></p>
+
+<h3 id="-자카드-유사도-구하기">✈ 자카드 유사도 구하기</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// 자카드 유사도 구하기</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">uni</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">65536</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">answer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)((</span><span class="kt">float</span><span class="p">)</span><span class="n">intersec</span> <span class="o">/</span> <span class="n">uni</span> <span class="o">*</span> <span class="mi">65536</span><span class="p">);</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

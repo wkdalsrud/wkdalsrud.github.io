@@ -1,0 +1,87 @@
+I"�)<h1 id="-신규-아이디-추천">📌 신규 아이디 추천</h1>
+
+<blockquote>
+  <p>난이도 ⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106476599-94698400-64ea-11eb-85d7-fda627e51169.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106476636-9b909200-64ea-11eb-89e0-0cee62477002.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">new_id</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// 1 단계</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'A'</span> <span class="o">&amp;&amp;</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'Z'</span><span class="p">)</span> 
+            <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    
+    <span class="c1">// 2 단계 </span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'a'</span> <span class="o">&amp;&amp;</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'z'</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="sc">'0'</span> <span class="o">&amp;&amp;</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">'9'</span><span class="p">)</span>
+              <span class="o">||</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'-'</span> <span class="o">||</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'_'</span> <span class="o">||</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 3 단계</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'.'</span> <span class="o">&amp;&amp;</span> <span class="n">new_id</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">){</span>
+            <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 4 단계</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">)</span> <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">)</span> <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    
+    <span class="c1">// 5 단계</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="n">new_id</span> <span class="o">=</span> <span class="s">"a"</span><span class="p">;</span>
+    
+    <span class="c1">// 6 단계</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">16</span><span class="p">){</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">15</span><span class="p">){</span>
+            <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="mi">15</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">==</span> <span class="sc">'.'</span><span class="p">)</span> <span class="n">new_id</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    
+    <span class="c1">// 7 단계</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">){</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">new_id</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">){</span>
+            <span class="n">new_id</span> <span class="o">+=</span> <span class="n">new_id</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">new_id</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>2, 3단계 for문의 <code class="language-plaintext highlighter-rouge">i++</code>가 중괄호 안에 있는 것 주의! (erase 하는 경우 <code class="language-plaintext highlighter-rouge">i++</code>되지 않게하기 위해서였다. 뒤에 있는게 한 칸 땡겨 올테니 <code class="language-plaintext highlighter-rouge">i++</code> 할 필요가 없다.)</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

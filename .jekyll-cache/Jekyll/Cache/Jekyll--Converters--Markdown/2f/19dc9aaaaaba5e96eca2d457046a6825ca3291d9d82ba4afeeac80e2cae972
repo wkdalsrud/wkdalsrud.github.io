@@ -1,0 +1,217 @@
+I"�n<h1 id="그리디-조이스틱">[그리디] 조이스틱</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/91175253-7d449000-e71b-11ea-8eb4-3e7fe91d77b8.png" alt="image" width="80%" height="80%" class="align-center" /></p>
+
+<p><br /></p>
+
+<h2 id="내-풀이-">내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">alphabet</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">13</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+        <span class="n">alphabet</span><span class="p">[</span><span class="sc">'A'</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>   
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">alphabet</span><span class="p">[</span><span class="sc">'A'</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">26</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
+    
+    
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">alphabet</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="n">index</span><span class="p">]];</span>
+        <span class="n">name</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'A'</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">--</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'A'</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">left</span><span class="p">;</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="n">left</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="n">right</span><span class="p">;</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">right</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+                <span class="n">index</span> <span class="o">-=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">right</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        
+        <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>초기값은 <code class="language-plaintext highlighter-rouge">AAAA...</code> 로 시작되므로 <code class="language-plaintext highlighter-rouge">A</code>를 기준으로 했을 때, 알파벳 26개 중 A ~ M 까지는 🔻방향으로 <code class="language-plaintext highlighter-rouge">A</code>부터 찾는게 더 빠르고 N ~ Z 까지는 🔺방향으로 <code class="language-plaintext highlighter-rouge">Z</code>부터 찾는게 더 빠르다. 따라서 <code class="language-plaintext highlighter-rouge">map</code>을 사용하여 <code class="language-plaintext highlighter-rouge">A ~ M</code> Key 값은 <code class="language-plaintext highlighter-rouge">0, 1, 2, ..., 13</code> 의 Value를 부여하고 <code class="language-plaintext highlighter-rouge">N ~ Z</code> Key 값은 <code class="language-plaintext highlighter-rouge">13, 12, 11, ..., 0</code> 의 Value를 부여하였다. 추후 이 <code class="language-plaintext highlighter-rouge">map</code>은 해당 알파벳으로 접근하면 <code class="language-plaintext highlighter-rouge">A</code>를 해당 알파벳으로 바꾸기 위해선 🔺혹은 🔻 방향으로 조이스틱을 얼마나  움직여야 하는지 알 수 있다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">alphabet</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">13</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>  
+    <span class="n">alphabet</span><span class="p">[</span><span class="sc">'A'</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>   
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">alphabet</span><span class="p">[</span><span class="sc">'A'</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">26</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>최소한의 조이스틱 조작으로 다음 알파벳으로 설정하기 위해 <code class="language-plaintext highlighter-rouge">left</code>와 <code class="language-plaintext highlighter-rouge">right</code>을 비교하여 더 작은 방향의 다음 알파벳으로 향할 것이다. 그리고 그에 따라 <code class="language-plaintext highlighter-rouge">index</code>를 업데이트 할 것이다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">// 현재 `name`을 가리키고 있는 위치</span>
+  <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// `index`로부터 왼쪽 방향으로 `A`가 아닌 알파벳까지의 거리</span>
+  <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// `index`로부터 오른쪽 방향으로 `A`가 아닌 알파벳까지의 거리</span>
+</code></pre></div>    </div>
+  </li>
+  <li>while 반복문 👉 <em>1️⃣ <code class="language-plaintext highlighter-rouge">name</code> 각각의 문자들을 <code class="language-plaintext highlighter-rouge">A</code>로부터 설정하는데 소요된 조작 횟수, 2️⃣ 문자간의 최소 이동 횟수</em> 를 연산하여 최종적인 <code class="language-plaintext highlighter-rouge">answer</code>를 도출한다. 1️⃣ 2️⃣ 연산 횟수 계산이 완료된 문자는 <code class="language-plaintext highlighter-rouge">A</code>로 바꾼다. <u>`name`의 모든 문자가 `A`가 되면 모든 문자의 연산횟수를 다 계산한 것이 되므로 종료한다.</u>
+    <ul>
+      <li>1️⃣ <code class="language-plaintext highlighter-rouge">name</code> 각각의 문자들을 <code class="language-plaintext highlighter-rouge">A</code>로부터 설정하는데(위아래 방향) 소요된 조작 횟수
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">answer</span> <span class="o">+=</span> <span class="n">alphabet</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="n">index</span><span class="p">]];</span>  <span class="c1">// answer에 필요한 조작 횟수를 더해준 후</span>
+<span class="n">name</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>  <span class="c1">// 'A'로 바꿔준다.</span>
+</code></pre></div>        </div>
+      </li>
+      <li>2️⃣ 문자간(오른쪽 왼쪽 방향)의 <u>최소 이동 횟수</u>
+        <ul>
+          <li>(1) <code class="language-plaintext highlighter-rouge">right</code> 구하기
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">index + 1</code>부터 오른쪽 방향으로 순회하여 <u>처음으로</u> <code class="language-plaintext highlighter-rouge">A</code>가 아닌 문자를 만나게 될 때까지의 거리. <code class="language-plaintext highlighter-rouge">count</code>로 이동 거리를 세는데 이때의 거리는 <code class="language-plaintext highlighter-rouge">count</code>이므로 <code class="language-plaintext highlighter-rouge">right = count</code>하고 그만 순회하고 빠져나오면 된다.</li>
+              <li>오른쪽으로 계속 가다가 인덱스가 <code class="language-plaintext highlighter-rouge">name.length()</code>를 넘어버리면 <code class="language-plaintext highlighter-rouge">i = 0</code>으로 바꿔준다.</li>
+              <li><code class="language-plaintext highlighter-rouge">A</code>가 아닌 문자를 한번도 만나지 못하면 <code class="language-plaintext highlighter-rouge">count</code>는 <code class="language-plaintext highlighter-rouge">name.length()</code>에 도달하여 for문이 종료되고 <code class="language-plaintext highlighter-rouge">right</code>은 <code class="language-plaintext highlighter-rouge">0</code>인 상태로 유지된다.
+                <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span> 
+      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">())</span>
+          <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'A'</span><span class="p">)</span>
+      <span class="p">{</span>
+          <span class="n">right</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+          <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>                </div>
+              </li>
+            </ul>
+          </li>
+          <li>(2) <code class="language-plaintext highlighter-rouge">left</code> 구하기
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">index - 1</code>부터 왼쪽 방향으로 순회하여 <u>처음으로</u> <code class="language-plaintext highlighter-rouge">A</code>가 아닌 문자를 만나게 될 때까지의 거리. <code class="language-plaintext highlighter-rouge">count</code>로 이동 거리를 세는데 이때의 거리는 <code class="language-plaintext highlighter-rouge">count</code>이므로 <code class="language-plaintext highlighter-rouge">left = count</code>하고 그만 순회하고 빠져나오면 된다.</li>
+              <li>왼쪽으로 계속 가다가 인덱스가 <code class="language-plaintext highlighter-rouge">0</code>를 넘어 음수가 되버리면 최대 인덱스인 <code class="language-plaintext highlighter-rouge">i = name.length() - 1</code>으로 바꿔준다.</li>
+              <li><code class="language-plaintext highlighter-rouge">A</code>가 아닌 문자를 한번도 만나지 못하면 <code class="language-plaintext highlighter-rouge">count</code>는 <code class="language-plaintext highlighter-rouge">name.length()</code>에 도달하여 for문이 종료되고 <code class="language-plaintext highlighter-rouge">left</code>은 <code class="language-plaintext highlighter-rouge">0</code>인 상태로 유지된다.
+                <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">--</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span> 
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'A'</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">count</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>                </div>
+              </li>
+            </ul>
+          </li>
+          <li>(3) <code class="language-plaintext highlighter-rouge">right</code>과 <code class="language-plaintext highlighter-rouge">left</code> 중 최소 거리인 방향으로 선택
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">left</code>가 더 작다면
+                <ul>
+                  <li><code class="language-plaintext highlighter-rouge">left</code>는 현재 위치에서 <code class="language-plaintext highlighter-rouge">A</code>가 아닌 설정이 필요한 다음 알파벳으로 가기 위한 최소 이동 거리가 되므로 <code class="language-plaintext highlighter-rouge">answer</code>에 더해준다.</li>
+                  <li><code class="language-plaintext highlighter-rouge">A</code>가 아닌 설정이 필요한 다음 알파벳은 현재 인덱스에서 <code class="language-plaintext highlighter-rouge">left</code>만큼 빼주면 되는 곳에 있다.
+                    <ul>
+                      <li>만약 인덱스가 <code class="language-plaintext highlighter-rouge">left</code>를 빼고 음수가 되어 버렸다면 <code class="language-plaintext highlighter-rouge">name.length()</code>를 더하여 보정</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><code class="language-plaintext highlighter-rouge">right</code>가 더 작다면
+                <ul>
+                  <li><code class="language-plaintext highlighter-rouge">right</code>는 현재 위치에서 <code class="language-plaintext highlighter-rouge">A</code>가 아닌 설정이 필요한 다음 알파벳으로 가기 위한 최소 이동 거리가 되므로 <code class="language-plaintext highlighter-rouge">answer</code>에 더해준다.</li>
+                  <li><code class="language-plaintext highlighter-rouge">A</code>가 아닌 설정이 필요한 다음 알파벳은 현재 인덱스에서 <code class="language-plaintext highlighter-rouge">rightt</code>만큼 더해주면 되는 곳에 있다.
+                    <ul>
+                      <li>만약 인덱스가 <code class="language-plaintext highlighter-rouge">right</code>를 더해주고 <code class="language-plaintext highlighter-rouge">name.length()</code>을 넘어 버렸다면 <code class="language-plaintext highlighter-rouge">name.length()</code>를 빼주어 보정</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>이제 <code class="language-plaintext highlighter-rouge">name</code>이 모두 <code class="language-plaintext highlighter-rouge">A</code>가 되버려서 더 이상 설정할 글자가 없다면 <code class="language-plaintext highlighter-rouge">right = 0</code> &amp; <code class="language-plaintext highlighter-rouge">left = 0</code> 상태가 된다. 이때 무한 루프문을 빠져나와 종료한다.</li>
+      <li>아직 설정할 글자가 남아있다면, 즉 <code class="language-plaintext highlighter-rouge">break</code>되지 않았다면 다시 <code class="language-plaintext highlighter-rouge">right</code>과 <code class="language-plaintext highlighter-rouge">left</code>를 0 으로 꼭 초기화 해준다.
+        <ul>
+          <li>이부분을 생략하면 무한루프에 빠져버린다..</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="이-문제로-알게된-소소한-사실">이 문제로 알게된 소소한 사실</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// ❌ 에러</span>
+<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>      <span class="c1">// ⭕</span>
+
+<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// ⭕</span>
+
+<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kt">float</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// ❌ 에러</span>
+</code></pre></div></div>
+
+<ul>
+  <li>선언할 땐 <code class="language-plaintext highlighter-rouge">;</code>로 구분해야 한다.</li>
+  <li>단, 같은 타입일 땐 <code class="language-plaintext highlighter-rouge">,</code>로 구분하여 같은 타입의 변수를 또 선언한다는 것을 나타낸다.</li>
+  <li>처음엔 아래와 같이 for문의 초기식을 설정했어서.. 왜 오류가 나는지 몰라 당황했었다. for문은 <code class="language-plaintext highlighter-rouge">;</code>로 초기식, 반복식, 증감식을 구분하기 때문에 <code class="language-plaintext highlighter-rouge">,</code>로 구분해 여러 초기식을 구분해주어야 했다. (그럴려면 또 같은 데이터 타입이어야겠죠!) <code class="language-plaintext highlighter-rouge">int = index + 1, int count = 1</code>가 아닌 <code class="language-plaintext highlighter-rouge">int = index + 1, count = 1</code>로 정정해주었다.
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">name</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">count</span><span class="o">++</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

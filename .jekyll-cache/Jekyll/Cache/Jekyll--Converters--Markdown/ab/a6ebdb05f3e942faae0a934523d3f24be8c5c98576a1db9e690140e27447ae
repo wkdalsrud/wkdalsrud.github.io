@@ -1,0 +1,14 @@
+I"�<ul class="toc__menu">
+  <li><a href="#-올바른-괄호의-갯수">📌 올바른 괄호의 갯수</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이">🚀 내 풀이</a>
+        <ul>
+          <li><a href="#-첫-번째-풀이--dfs">🔥 첫 번째 풀이 ⭕ (DFS)</a></li>
+          <li><a href="#-두-번째-풀이--next_permutation">🔥 두 번째 풀이 ⭕ (next_permutation)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,87 @@
+I"=,<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 4</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/9489">https://www.acmicpc.net/problem/9489</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/123412517-a0b2c280-d5ec-11eb-9024-4e64e137c011.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<p>사촌 사이는 조부모가 같고 부모는 다른 사이이다. (부모끼리는 형제) 나는 그냥.. 정말 직관적이고 단순하게 풀었다!</p>
+
+<p>1️⃣ 우선 <code class="language-plaintext highlighter-rouge">arr[i]</code> 모든 노드마다 자신의 부모와 자신의 자식들을 각각 2 가지 <code class="language-plaintext highlighter-rouge">map</code> 에 저장하였다.(<code class="language-plaintext highlighter-rouge">arr[i]</code> 의 부모를 알 수 있도록 반복자를 두었고 연속된 수가 끊기면 반복자를 다음 노드로 옮겨주는 식으로 현재 부모를 가리키도록 했다.)</p>
+
+<p>2️⃣ 위에서 구한 두 <code class="language-plaintext highlighter-rouge">map</code> 을 사용하여 <code class="language-plaintext highlighter-rouge">K</code> 노드의 사촌의 수를 누적합 한다. <code class="language-plaintext highlighter-rouge">K</code> 의 할아버지의 자식들 (<code class="language-plaintext highlighter-rouge">K</code>의 삼촌들 + 부모) 에서 부모는 제외하고 삼촌들의 자식 수를 세면 된다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">//freopen("input.txt", "r", stdin);</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 반복 1번 당 테스트케이스 1개 </span>
+		<span class="kt">int</span> <span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">;</span>
+		<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span> <span class="o">&gt;&gt;</span> <span class="n">K</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">K</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// 0 0 입력시 입력 종료</span>
+			<span class="k">break</span><span class="p">;</span>
+
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+		<span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">;</span> <span class="c1">// key : 노드 번호   value : key 노드의 부모 노드 번호</span>
+		<span class="n">parent</span><span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// arr[0] 는 루트 노드이다. 루트는 부모가 없기에 부모를 0 으로 지정</span>
+		<span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">children</span><span class="p">;</span> <span class="c1">// key : 노드 번호   value : key 노드의 자식 노드'들'</span>
+		<span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">parent_ptr</span><span class="p">;</span>  <span class="c1">// parent 맵 처음부터 순회할 반복자 (조상 노드부터 BFS 방식으로 순회하는 느낌일듯..!)</span>
+
+        <span class="c1">// 1️⃣ 노드마다 자신의 부모와 자식들 map 에 전부 저장! </span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 다음 노드로 포인터 옮기기 (연속된 집합에 속하는 노드들은 같은 부모의 자식이다. 이 집합이 끝났으니 이제 다음 노드들은 다음 노드의 자식들이라는 것이기 때문에 포인터 옮김)</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">parent_ptr</span> <span class="o">=</span> <span class="n">parent</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+				<span class="k">else</span> <span class="o">++</span><span class="n">parent_ptr</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">parent</span><span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">parent_ptr</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">;</span>
+			<span class="n">children</span><span class="p">[</span><span class="n">parent_ptr</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+		<span class="p">}</span>
+        
+		<span class="c1">// 2️⃣ 사촌 가려내기 작업</span>
+        <span class="c1">// 루트노드와 루트노드의 직속 자식들은 사촌이 없다.</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="o">==</span> <span class="n">K</span> <span class="o">||</span> <span class="n">parent</span><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="o">==</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+		<span class="c1">// 그외</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">grandParent</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">K</span><span class="p">]];</span> <span class="c1">// K 노드의 할아버지</span>
+			<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">uncles</span> <span class="o">=</span> <span class="n">children</span><span class="p">[</span><span class="n">grandParent</span><span class="p">];</span> <span class="c1">// K 노드의 할아버지의 자식들 (= K의 부모 + K의 삼촌들)</span>
+			<span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">uncles</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">uncles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">parent</span><span class="p">[</span><span class="n">K</span><span class="p">])</span> <span class="c1">// K 의 삼촌들의 자식들만 세면 된다.</span>
+					<span class="n">count</span> <span class="o">+=</span> <span class="n">children</span><span class="p">[</span><span class="n">uncles</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">size</span><span class="p">();</span>
+			<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">count</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

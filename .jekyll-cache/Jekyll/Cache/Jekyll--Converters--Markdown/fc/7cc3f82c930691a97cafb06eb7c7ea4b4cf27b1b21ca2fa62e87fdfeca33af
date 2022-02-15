@@ -1,0 +1,15 @@
+I"	<ul class="toc__menu">
+  <li><a href="#-캐시">📌 캐시</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이-">🚀 내 풀이 ⭕</a>
+        <ul>
+          <li><a href="#-lru-캐싱-알고리즘">✈ LRU 캐싱 알고리즘</a></li>
+          <li><a href="#-직접-구현한-연결리스트">✈ 직접 구현한 연결리스트</a></li>
+          <li><a href="#-stl의-stdlist-사용">✈ STL의 std::list 사용</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

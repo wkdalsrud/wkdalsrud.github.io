@@ -1,0 +1,153 @@
+I"�F<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 5</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/20164">https://www.acmicpc.net/problem/20164</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/125154337-881ddd00-e194-11eb-9ed4-0c73ec47fe74.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/125154340-8e13be00-e194-11eb-8611-0b8ee8c992f6.png" alt="image" /></p>
+
+<p><del>홀수에 미친 호석이</del></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<p>재귀적으로 다음 과정을 수행하면 된다.</p>
+
+<ul>
+  <li>현재의 문자열 길이가 3 이상이라면 👉 <em>문자열 길이를 세 부분으로 나누어 홀수 개수를 세고 합친다.(합친건 다음 재귀 문자열이 된다.)</em>
+    <ol>
+      <li>문자열 길이를 <code class="language-plaintext highlighter-rouge">S</code> 라고 한다면 <code class="language-plaintext highlighter-rouge">S-1 C 2</code> 개의 조합을 구한다.
+        <ul>
+          <li>예를 들어 “82019” 라면, 이 문자열을 3 개의 부분으로 나누기 위해선 “8💓2💓0💓1💓9” 이렇게 4 개의 💓 에서 2 개를 뽑는 것이라고 생각할 수 있다. 즉, 문자열을 나눌 수 있는 사이사이 부분은 항상 <code class="language-plaintext highlighter-rouge">S-1</code>개가 있는데 이 중에서 2 개를 뽑아 이 위치를 기준으로 <code class="language-plaintext highlighter-rouge">substr</code>를 통해 문자열을 3 개로 쪼갤 수 있는 것이다.</li>
+          <li>임의로 세 파트로 나눈다고 하였으니 현재의 문자열 길이를 기준으로 <code class="language-plaintext highlighter-rouge">S-1 C 2</code> 조합을 모두 구한 후 하나하나 재귀 돌리면 된다.</li>
+          <li><code class="language-plaintext highlighter-rouge">N</code>은 입력 크기가 아주 크나 이 <code class="language-plaintext highlighter-rouge">N</code> 의 길이 <code class="language-plaintext highlighter-rouge">S</code> 는 10 을 넘지 않으므로 시간 복잡도는 걱정하지 않아도 된다.</li>
+        </ul>
+      </li>
+      <li>세 파트로 나눈 문자열 각각에서 홀수 개수를 구한다.
+        <ul>
+          <li><em>check_odd</em> 함수를 만들어 이 함수에서 처리하도로 하였다.</li>
+        </ul>
+      </li>
+      <li>문자열을 정수로 변환하여 합한 후 이를 다시 문자열로 변환하여 다음 재귀에서의 현재 문자열이 되도록 한다.</li>
+    </ol>
+  </li>
+  <li>현재의 문자열 길이가 2 라면 👉 <em>문자열 길이를 두 부분으로 나누어 홀수 개수를 세고 합친다.(합친건 다음 재귀 문자열이 된다.)</em>
+    <ul>
+      <li>그냥 <code class="language-plaintext highlighter-rouge">s[0]</code> 과 <code class="language-plaintext highlighter-rouge">s[1]</code> 로 나누면 된다.
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 여기서 하나 배운게 있는데, char 문자 하나를 string 화 하려면 길이를 설정하는 생성자를 호출하여 1 로 설정해주면 된다.</span>
+<span class="n">string</span> <span class="nf">s1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">s2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>현재의 문자열 길이가 1 이라면 👉 <em>재귀 종료 조건!, 현재 단계까지 구해왔던 홀수 개수의 최소값과 최대값 업데이트</em></li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>조합에 대하여</p>
+</blockquote>
+
+<ul>
+  <li>나는 <code class="language-plaintext highlighter-rouge">prev_permutation</code> 을 사용하여 조합을 구했다.
+    <ul>
+      <li><a href="https://ansohxxn.github.io/algorithm/combination/">(C++) 조합(Combination) 구현하기</a></li>
+    </ul>
+  </li>
+  <li>근데 딱 2 개만 뽑는 조합을 구하는 것이기 때문에 굳이 나처럼 <code class="language-plaintext highlighter-rouge">prev_permutation</code> 쓸 필요 없이 <u>이중 for문</u>을 사용하여 조합을 구해도 된다.
+    <ul>
+      <li>2 개 뽑는 조합은 아래와 같은 이중 for문으로 구할 수 있다. <code class="language-plaintext highlighter-rouge">i</code>와 <code class="language-plaintext highlighter-rouge">j</code>가 뽑은 두 개의 수가 된다.
+        <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 이런식!</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">Min</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">Max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">check_odd</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="c1">// 문자열의 한 문자 한 문자 다 검사 </span>
+		<span class="k">if</span> <span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 해당 문자를 숫자로 변환했을 때 홀수라면</span>
+			<span class="o">++</span><span class="n">cnt</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">cnt</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">odd_holic</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">totalCount</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">totalCount</span> <span class="o">+=</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">Min</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">Min</span><span class="p">,</span> <span class="n">totalCount</span><span class="p">);</span>
+		<span class="n">Max</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">Max</span><span class="p">,</span> <span class="n">totalCount</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">string</span> <span class="n">s1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">s2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+		<span class="n">string</span> <span class="n">next</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">));</span>
+		<span class="kt">int</span> <span class="n">nowCount</span> <span class="o">=</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s2</span><span class="p">);</span>
+		<span class="n">odd_holic</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">totalCount</span> <span class="o">+</span> <span class="n">nowCount</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="n">comb</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">comb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+		<span class="k">do</span> <span class="p">{</span>
+			<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">boundary</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> 
+				<span class="k">if</span> <span class="p">(</span><span class="n">comb</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+					<span class="n">boundary</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+			<span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">boundary</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+			<span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">boundary</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">boundary</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">boundary</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+			<span class="n">string</span> <span class="n">s3</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">boundary</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">boundary</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+			<span class="n">string</span> <span class="n">next</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">stoi</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="n">stoi</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">+</span> <span class="n">stoi</span><span class="p">(</span><span class="n">s3</span><span class="p">));</span>
+			<span class="kt">int</span> <span class="n">nowCount</span> <span class="o">=</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">+</span> <span class="n">check_odd</span><span class="p">(</span><span class="n">s3</span><span class="p">);</span>
+			<span class="n">odd_holic</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">totalCount</span> <span class="o">+</span> <span class="n">nowCount</span><span class="p">);</span>
+
+		<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">prev_permutation</span><span class="p">(</span><span class="n">comb</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">comb</span><span class="p">.</span><span class="n">end</span><span class="p">()));</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">//freopen("input.txt", "r", stdin);</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">string</span> <span class="n">N</span><span class="p">;</span>
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span><span class="p">;</span>
+	
+	<span class="n">odd_holic</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">Min</span> <span class="o">&lt;&lt;</span> <span class="sc">' '</span> <span class="o">&lt;&lt;</span> <span class="n">Max</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

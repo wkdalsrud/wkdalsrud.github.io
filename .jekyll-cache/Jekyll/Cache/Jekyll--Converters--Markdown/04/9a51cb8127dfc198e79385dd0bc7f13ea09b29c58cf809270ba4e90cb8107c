@@ -1,0 +1,33 @@
+I"�<ul class="toc__menu">
+  <li><a href="#순열이란">순열이란</a></li>
+  <li><a href="#재귀로-구현한-코드-1">재귀로 구현한 코드 1</a>
+    <ul>
+      <li><a href="#설명">설명</a>
+        <ul>
+          <li><a href="#재귀-과정">재귀 과정</a>
+            <ul>
+              <li><a href="#재귀-함수-구현시-주의-사항">재귀 함수 구현시 주의 사항</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#재귀로-구현한-코드-2">재귀로 구현한 코드 2</a></li>
+  <li><a href="#재귀로-구현한-코드-3-배열로-방문-체크">재귀로 구현한 코드 3 (배열로 방문 체크)</a></li>
+  <li><a href="#재귀로-구현한-코드-4---비트-연산으로-방문-체크">재귀로 구현한 코드 4  (+ 비트 연산으로 방문 체크)</a></li>
+  <li><a href="#stl-함수로-순열-구하기">STL 함수로 순열 구하기</a>
+    <ul>
+      <li><a href="#next_permutation">next_permutation</a>
+        <ul>
+          <li><a href="#npr">nPr</a></li>
+          <li><a href="#특징--1-오름차순-정렬">특징 : 1. 오름차순 정렬</a></li>
+          <li><a href="#특징--2-중복-제외">특징 : 2. 중복 제외</a></li>
+        </ul>
+      </li>
+      <li><a href="#prev_permutation">prev_permutation</a></li>
+    </ul>
+  </li>
+  <li><a href="#참고-문제">참고 문제</a></li>
+</ul>
+:ET

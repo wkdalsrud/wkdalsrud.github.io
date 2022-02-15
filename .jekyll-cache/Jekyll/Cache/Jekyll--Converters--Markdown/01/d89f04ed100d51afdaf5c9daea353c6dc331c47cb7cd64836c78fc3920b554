@@ -1,0 +1,356 @@
+I"��<p class="notice--warning">권오흠 교수님의 유튜브 강의 <strong>영리한 프로그래밍을 위한 알고리즘 강좌</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<blockquote>
+  <p><em>주, 지명, 위도, 경도, 수도로부터의 거리</em> 데이터를 가진 <strong>지역</strong> 들을 <code class="language-plaintext highlighter-rouge">이진 검색 트리</code>에 저장할 것</p>
+</blockquote>
+
+<blockquote>
+  <p>서로 거리가 10km 이내의 지역들 사이엔 그래프 edge가 있다고 가정. <code class="language-plaintext highlighter-rouge">인접 리스트</code></p>
+</blockquote>
+
+<h2 id="placeh">📜place.h</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">place</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">index</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">state</span><span class="p">;</span>            <span class="c1">// 주</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>             <span class="c1">// 지명</span>
+    <span class="kt">double</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">;</span>        <span class="c1">// 위도, 경도</span>
+    <span class="kt">double</span> <span class="n">distFromCapital</span><span class="p">;</span> <span class="c1">// 수도로부터의 거리</span>
+<span class="p">}</span> <span class="n">Place</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">compareTo</span><span class="p">(</span><span class="n">Place</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">Place</span> <span class="o">*</span> <span class="n">q</span><span class="p">);</span>  <span class="c1">// 두 place의 크기 비교 함수</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="placecpp">📜place.cpp</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">compareTo</span><span class="p">(</span><span class="n">Place</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">Place</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span>  <span class="c1">// name 을 기준으로 크기를 비교할 것.</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="bsth">📜bst.h</h2>
+
+<blockquote>
+  <p>이진 검색 트리 <em>Binary Search Tree</em></p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">Place</span> <span class="o">*</span> <span class="n">Item</span><span class="p">;</span>  <span class="c1">// Place * 데이터 타입을 Item 으로 명명</span>
+<span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">CompareFtnType</span><span class="p">)</span> <span class="p">(</span><span class="n">Item</span><span class="p">,</span> <span class="n">Item</span><span class="p">);</span>  <span class="c1">// int (*f) (Item, Item) 형식의 함수 포인터 타입을 CompareFtnType 이라고 명명</span>
+
+<span class="k">struct</span> <span class="nc">tnode</span>  <span class="c1">// 트리 노드</span>
+<span class="p">{</span>
+    <span class="n">Item</span> <span class="n">data</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">tnode</span> <span class="o">*</span><span class="n">left</span><span class="p">,</span> <span class="o">*</span><span class="n">right</span><span class="p">;</span>  <span class="c1">// 왼쪽 자식, 오른쪽 자식</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">tnode</span> <span class="n">Node</span><span class="p">;</span> <span class="c1">// tnode를 Node로 명명</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">bst</span> <span class="c1">// BST. 이진 검색 트리</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span> <span class="n">root</span><span class="p">;</span>  <span class="c1">// 루트만 있으면 이진 검색 트리들을 구분할 수 있는 정보가 됨</span>
+    <span class="n">CompareFtnType</span> <span class="n">compareFtn</span><span class="p">;</span>  <span class="c1">// 비교 함수 포인터</span>
+<span class="p">}</span> <span class="n">BST</span><span class="p">;</span>
+
+<span class="n">BST</span> <span class="o">*</span> <span class="nf">create_bst</span><span class="p">(</span><span class="n">CompareFtnType</span> <span class="n">f</span><span class="p">);</span>  <span class="c1">// 트리 생성. 노드 크기 비교 기준이 되는 함수 포인터를 인수로 받음.</span>
+<span class="n">Item</span> <span class="nf">search</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">);</span>  <span class="c1">// 해당 트리에 이 아이템이 있는지 검색</span>
+<span class="kt">bool</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">);</span> <span class="c1">// 해당 트리에 아이템 삽입. bool인 이유는 이미 트리에 있는 데이터면 false 리턴하게끔.</span>
+<span class="n">Item</span> <span class="nf">remove</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">);</span>  <span class="c1">// 해당 트리에 아이템 삭제</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="bstcpp">📜bst.cpp</h2>
+
+<blockquote>
+  <p>이진 검색 트리에 필요한 함수들 구현</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BST</span> <span class="o">*</span> <span class="nf">create_bst</span><span class="p">(</span><span class="n">CompareFtnType</span> <span class="n">f</span><span class="p">)</span>  <span class="c1">// 트리 생성. 노드 크기 비교 기준이 되는 함수 포인터를 인수로 받음.</span>
+<span class="p">{</span>
+    <span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span> <span class="o">=</span> <span class="p">(</span><span class="n">BST</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">BST</span><span class="p">));</span>
+    <span class="n">tree</span><span class="o">-&gt;</span><span class="n">root</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">tree</span><span class="o">-&gt;</span><span class="n">compareFtn</span> <span class="o">=</span> <span class="n">f</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Item</span> <span class="nf">search</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">)</span>  <span class="c1">// 해당 트리에 이 아이템이 있는지 검색</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">root</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">compareFtn</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span> <span class="c1">// 트리가 가지고 있는 비교 함수 포인터를 사용하여 비교 </span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>   <span class="c1">// 일치. 즉 찾았다면</span>
+            <span class="k">return</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// 찾으려는 아이템보다 더 크다면 왼쪽 자식 노드로 내려감</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+        <span class="k">else</span>  <span class="c1">// 찾으려는 아이템보다 더 작다면 오른쪽 자식 노드로 내려감</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>  <span class="c1">// 끝까지 돌아도 못 찾았다면</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">insert</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">)</span> <span class="c1">// 해당 트리에 아이템 삽입. bool인 이유는 이미 트리에 있는 데이터면 false 리턴하게끔.</span>
+<span class="p">{</span>
+    <span class="n">Node</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">root</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>  <span class="c1">// 순회 포인터가 하나 더 필요함</span>
+
+    <span class="c1">// 중복 검사</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>  <span class="c1">// leaf 노드까지 내려 감</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">compareFtn</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span> <span class="c1">// 트리가 가지고 있는 비교 함수 포인터를 사용하여 비교 </span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>  <span class="c1">// 내려가기전에 q를 현재의 p로 업데이트. 항상 이전 노드를 가리키게</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>   <span class="c1">// 일치. 즉 트리에 중복되는 값이 있다면</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// 찾으려는 아이템보다 더 크다면 왼쪽 자식 노드로 내려감</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+        <span class="k">else</span>  <span class="c1">// 찾으려는 아이템보다 더 작다면 오른쪽 자식 노드로 내려감</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// while 을 빠져 나왔다는 것은 중복되는 것이 없으니까 삽입 해도 된단느 것</span>
+
+    <span class="n">Node</span> <span class="o">*</span> <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Node</span><span class="p">));</span>  <span class="c1">// 추가할 노드</span>
+    <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+    <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">tmp</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">q</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>  <span class="c1">// 트리가 빈 트리라는 것. 루트 노드로서 추가해주면 됨.</span>
+    <span class="p">{</span>
+        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">root</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span> 
+
+    <span class="c1">// 적절한 위치에 삽입. q 와 비교하여 q의 왼쪽 자식으로 넣을지 오른쪽 자식으로 넣을지.</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">compareFtn</span><span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="n">q</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">q</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Item</span> <span class="nf">remove</span><span class="p">(</span><span class="n">BST</span> <span class="o">*</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">item</span><span class="p">)</span>  <span class="c1">// 해당 트리에 아이템 삭제</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="graphh">📜graph.h</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">인접 리스트</code> 구현</p>
+</blockquote>
+
+<blockquote>
+  <p>서로 거리가 10km 이내의 지역들 사이엔 그래프 edge가 있다고 가정.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">node</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">end</span><span class="p">;</span>  <span class="c1">// edge의 끝</span>
+    <span class="k">struct</span> <span class="nc">node</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">node</span> <span class="n">Edge</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">graph</span>
+<span class="p">{</span>
+    <span class="n">Edge</span> <span class="o">**</span><span class="n">vertices</span><span class="p">;</span>  <span class="c1">// 정점</span>
+    <span class="kt">int</span> <span class="n">nbrNode</span><span class="p">;</span>    <span class="c1">// 노드 개수</span>
+<span class="p">}</span> <span class="n">Graph</span><span class="p">;</span>
+
+<span class="n">Graph</span> <span class="o">*</span><span class="nf">create_graph</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">);</span>  <span class="c1">// 노드 개수를 인수로 받음</span>
+<span class="kt">void</span> <span class="nf">addEdge</span><span class="p">(</span><span class="n">Graph</span> <span class="o">*</span><span class="n">graph</span><span class="p">,</span> <span class="n">ins</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">);</span>  <span class="c1">// 두 노트끼리 edge 연결. 인수론 시작점, 끝점 넘김</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="graphcpp">📜graph.cpp</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Graph</span> <span class="o">*</span><span class="nf">create_graph</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Graph</span> <span class="o">*</span><span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">Graph</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Graph</span><span class="p">));</span>
+    <span class="n">g</span><span class="o">-&gt;</span><span class="n">vertices</span> <span class="o">=</span> <span class="p">(</span><span class="n">Edge</span> <span class="o">**</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Edge</span> <span class="o">*</span><span class="p">));</span>
+    <span class="n">g</span><span class="o">-&gt;</span><span class="n">nbrNode</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">g</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">addEdge</span><span class="p">(</span><span class="n">Graph</span> <span class="o">*</span><span class="n">graph</span><span class="p">,</span> <span class="n">ins</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">)</span>  <span class="c1">// 엣지 추가. s는 시작점, t는 끝점.</span>
+<span class="p">{</span>
+    <span class="n">Edge</span> <span class="o">*</span> <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">Edge</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span> <span class="p">(</span><span class="n">Edge</span><span class="p">));</span>  <span class="c1">// edge 생성</span>
+    <span class="n">edge</span><span class="o">-&gt;</span><span class="n">end</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+    <span class="n">edge</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">graph</span><span class="o">-&gt;</span><span class="n">vertices</span><span class="p">[</span><span class="n">s</span><span class="p">];</span>  <span class="c1">// 시작점 노드</span>
+    <span class="n">graph</span><span class="o">-&gt;</span><span class="n">vertices</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="maincpp">📜main.cpp</h2>
+
+<ul>
+  <li>“Alabama AL Distances.TXT” 파일. ‘\t’ 을 기준으로 <em>주, 지명, 위도, 경도, 수도로부터의 거리</em> 분류가 되어있다.
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/42318591/89987086-63856080-dcb8-11ea-92c0-46c9fc2e9eb4.png" alt="image" width="50%" height="50%" class="align-center" /></li>
+    </ul>
+  </li>
+  <li><strong>최종 결과</strong>
+    <ul>
+      <li>지역 이름과 중복 갯수와 함께 그 지역의 10km내에 있는 타 지역들을 보여주게 된다.
+        <ul>
+          <li><img src="https://user-images.githubusercontent.com/42318591/90007805-58412d80-dcd6-11ea-8e56-afe66d8055df.png" alt="image" width="80%" height="80%" class="align-center" /></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstring&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+#include</span> <span class="cpf">"place.h"</span><span class="cp">
+#include</span> <span class="cpf">"bst.h"</span><span class="cp">
+#include</span> <span class="cpf">"graph.h"</span><span class="cp">
+#include</span> <span class="cpf">"geolocation.h"</span><span class="cp">
+</span>
+<span class="cp">#define MAX 40000
+#define BUFFER_SIZE 1000
+</span>
+<span class="n">Place</span> <span class="o">*</span> <span class="n">places</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>        <span class="c1">// 트리가 될 배열. 크기는 40000</span>
+<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="kt">char</span> <span class="o">*</span> <span class="n">fileName</span> <span class="o">=</span> <span class="s">"Alabama AL Distances.TXT"</span><span class="p">;</span>   <span class="c1">// 주, 지명, 위도, 경도, 수도로부터의 거리를 담은 각각의 지역 데이터들이 담긴 txt 파일. 위 사진과 같이 생김</span>
+<span class="n">BST</span> <span class="o">*</span> <span class="n">theTree</span><span class="p">;</span>
+<span class="n">Graph</span> <span class="o">*</span><span class="n">theGraph</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">readData</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">rename</span><span class="p">(</span><span class="n">Place</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">makeGraph</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">printGraph</span><span class="p">(</span><span class="n">Graph</span> <span class="o">*</span><span class="n">graph</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">theTree</span> <span class="o">=</span> <span class="n">create_bst</span><span class="p">(</span><span class="n">compareTo</span><span class="p">);</span>  <span class="c1">// compareTo 함수 포인터를 넘김</span>
+    <span class="n">readData</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+    <span class="n">makeGraph</span><span class="p">();</span>
+    <span class="n">printGraph</span><span class="p">(</span><span class="n">theGraph</span><span class="p">);</span>
+
+    <span class="cm">/*
+    inorder(theTree-&gt;root);  // 중위 표기 방식으로 순회하며 트리의 노드들 출력
+    */</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">makeGraph</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">theGraph</span> <span class="o">=</span> <span class="n">create_graph</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// caldDist 함수는 "geolocation.h"에 있는 두 지역의 위치(위도,경도)를 통해 거리를 리턴한느 함수다.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">caldDist</span><span class="p">(</span><span class="n">places</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">lat</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">lon</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">lat</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">lon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">10000.0</span><span class="p">)</span>  <span class="c1">// 10km 이내면</span>
+            <span class="p">{</span>
+                <span class="n">addEdge</span><span class="p">(</span><span class="n">theGraph</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>  <span class="c1">// 인접 리스트 에지를 이어 줌</span>
+                <span class="n">addEdge</span><span class="p">(</span><span class="n">theGraph</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>  <span class="c1">// 인접 리스트 에지를 이어 줌</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">printGraph</span><span class="p">(</span><span class="n">Graph</span> <span class="o">*</span><span class="n">graph</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">graph</span><span class="o">-&gt;</span><span class="n">nbrNode</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+        <span class="n">Edge</span> <span class="o">*</span><span class="n">edge</span> <span class="o">=</span> <span class="n">graph</span><span class="o">-&gt;</span><span class="n">verticles</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">edge</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"    --- %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">edge</span><span class="o">-&gt;</span><span class="n">end</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+            <span class="n">edge</span> <span class="o">=</span> <span class="n">edge</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="n">inorder</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>  
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+    <span class="n">inorder</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>  
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">readData</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">)</span>  <span class="c1">// Tab 으로 구분되어 있는 파일의 데이터들을 읽기</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">BUFFER_SIZE</span><span class="p">];</span>
+    <span class="kt">FILE</span> <span class="o">*</span> <span class="n">fp</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">BUFFER_SIZE</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Place</span> <span class="o">*</span><span class="n">place</span> <span class="o">=</span> <span class="p">(</span><span class="n">Place</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Place</span><span class="p">));</span>
+
+        <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">strtok</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span> <span class="c1">// tokenizing</span>
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="n">strdup</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">strtok</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="n">strdup</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">strtok</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">lon</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">atof</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">strtok</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">lat</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">atof</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">strtok</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">distFromCapital</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">atof</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+        <span class="n">place</span><span class="o">-&gt;</span><span class="n">index</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+
+        <span class="n">rename</span><span class="p">(</span><span class="n">place</span><span class="p">);</span>
+
+        <span class="n">places</span><span class="p">[</span><span class="n">n</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">place</span><span class="p">;</span>
+        <span class="n">insert</span><span class="p">(</span><span class="n">theTree</span><span class="p">,</span> <span class="n">place</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">fclose</span><span class="p">(</span><span class="n">fp</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">rename</span><span class="p">(</span><span class="n">Place</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>  <span class="c1">// 중복인 지명은 지명 뒤에 중복 갯수를 붙여준다.</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="n">places</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span> <span class="n">name</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">char</span> <span class="n">namebuffer</span><span class="p">[</span><span class="n">BUFFER_SIZE</span><span class="p">];</span>
+        <span class="n">sprintf</span><span class="p">(</span><span class="n">namebuffer</span><span class="p">,</span> <span class="s">"%s%d"</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="n">strdup</span><span class="p">(</span><span class="n">namebuffer</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

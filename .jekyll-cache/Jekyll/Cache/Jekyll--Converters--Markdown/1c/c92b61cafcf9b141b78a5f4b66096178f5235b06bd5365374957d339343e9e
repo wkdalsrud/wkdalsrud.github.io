@@ -1,0 +1,93 @@
+I"�<h1 id="-올바른-괄호">📌 올바른 괄호</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/106377760-bed01a00-63e2-11eb-95f7-b445301a3139.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">solution</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">st</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">openCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// '('의 개수</span>
+    <span class="kt">int</span> <span class="n">closeCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// ')'의 개수</span>
+    
+    <span class="c1">// s 문자열 순회</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">'('</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">st</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="n">openCount</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="sc">')'</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">closeCount</span><span class="o">++</span><span class="p">;</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+                <span class="n">st</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// s 문자열 순회 끝</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">st</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">openCount</span> <span class="o">==</span> <span class="n">closeCount</span> <span class="o">&amp;&amp;</span> <span class="n">openCount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">closeCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>올바른 괄호의 조건
+    <ul>
+      <li>1️⃣ 문자열 <code class="language-plaintext highlighter-rouge">s</code> 전부 검사 후 비어있는 스택이 되었을 때 👉 스택으로 짝 찾기
+        <ul>
+          <li>로직
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">(</code> 일때 스택에 넣는다. 스택엔 <code class="language-plaintext highlighter-rouge">(</code> 만 쌓이게 된다.</li>
+              <li><code class="language-plaintext highlighter-rouge">)</code> 가 나올 때 스택에서 Pop 하여 가장 위에 있는 <code class="language-plaintext highlighter-rouge">(</code>을 제거한다.
+                <ul>
+                  <li>제거되는 <code class="language-plaintext highlighter-rouge">(</code>와 짝인 셈이다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>스택이 비워지면 전부 다 짝을 지어주었다는 것이므로 올바른 괄호의 조건이 된다.</li>
+          <li>📢 주의사항! 스택이 비워져있을 때 Pop 하려 하면 런타임 에러가 발생한다. 처음부터 <code class="language-plaintext highlighter-rouge">)</code>가 나온 경우나 <code class="language-plaintext highlighter-rouge">())</code> 이런 경우의 세 번째 문자인 <code class="language-plaintext highlighter-rouge">)</code>가 그러할 것이다. 따라서 Pop은 스택이 비어있지 않을 때만 해야 한다.</li>
+        </ul>
+      </li>
+      <li>2️⃣ <code class="language-plaintext highlighter-rouge">(</code> <code class="language-plaintext highlighter-rouge">)</code> 각각 개수 카운팅 하기
+        <ul>
+          <li><strong>스택이 비었는지만으로 올바른 괄호 조건을 판단하기엔 부족하다. (와 )의 개수도 카운팅 해야 한다. 0이 아니면서 맞아 떨어져야 한다.</strong>
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">))()</code> 이런건 1️⃣만 따졌을 땐 올바른 괄호가 된다. <code class="language-plaintext highlighter-rouge">))</code>은 스택이 비어있는 상태일테니 Pop이 되지 않고 무시되기 떄문이디ㅏ. 결론적으로 스택이 비어질테니 올바른 괄호라고 잘못 판단될 수 있다. 따라서 개수도 카운팅 하고 이 둘의 개수가 같은지도 따져야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

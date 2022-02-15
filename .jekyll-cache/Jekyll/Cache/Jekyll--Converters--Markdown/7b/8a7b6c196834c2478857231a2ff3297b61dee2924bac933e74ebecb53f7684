@@ -1,0 +1,169 @@
+I"	Y<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 5</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/20437">https://www.acmicpc.net/problem/20437</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/121775299-b7572380-cbc1-11eb-90a4-a9619466c5ca.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이">🚀 내 풀이</h2>
+
+<p>푼 지가 꽤 오래되어 가물가물 하지만… 오랜 시간 고민하다가 포기하고 구글링했던 문제로 기억한다..⭐ 내가 크게 간과했던 것은 3 번과 4 번을 별개로 생각했던 것이다. 3 번은 어떤 문자를 정확히 K 개 포함하면서 <strong>가장 짧은 연속 문자열의 길이</strong> 를 구하는 것이기 때문에 4 번처럼 문자열의 첫 번째와 마지막 글자가 같아야할 수 밖에 없다 ! ! !</p>
+
+<p>그렇기 때문에 3, 4 번 이 둘을 별개로 생각하지 않고, <u>어떤 문자를 정확히 K 개 포함하고 문자열의 첫 번째와 마지막 글자가 해당 문자로 같은 문자열들</u>을 구하고 최소 길이와 최대 길이를 구하면 된다.</p>
+
+<h3 id="-첫-번째-풀이">🔥 첫 번째 풀이</h3>
+
+<blockquote>
+  <p>코드 출처 블로그 <a href="https://taxol1203.github.io/codingtest/bj-%EB%AC%B8%EC%9E%90%EC%97%B4-%EA%B2%8C%EC%9E%842/">https://taxol1203.github.io/codingtest/bj-%EB%AC%B8%EC%9E%90%EC%97%B4-%EA%B2%8C%EC%9E%842/</a></p>
+</blockquote>
+
+<p>위 링크의 풀이를 참고하였다.</p>
+
+<ul>
+  <li>1️⃣ str 의 알파벳 문자별로 등장 빈도수를 저장한다.</li>
+  <li>2️⃣ <code class="language-plaintext highlighter-rouge">K</code> 와 같거나 <code class="language-plaintext highlighter-rouge">K</code> 보다 큰 빈도수를 가진 문자들만을 대상으로(이때 이 문자가 부분 문자열의 시작 문자가 됨), 해당 문자를 만날 때마다, 즉 동일한 문자를 만날 때마다 카운트 하고(이 과정에서 자동으로 시작 문자와 끝 문자가 같게 됨) 그 카운트 수가 <code class="language-plaintext highlighter-rouge">K</code> 가 되었을 때 최소 길이, 최대 길이를 업데이트 하면 된다.
+    <ul>
+      <li>나는 처음에 <em>count[str[i] - ‘a’] == K</em> 에 해당하는 문자만 해야하지 않을까? 왜지? 하고 생각했었다. 근데 아니다 !!!!! <code class="language-plaintext highlighter-rouge">K</code> 개 미만으로 적은 문자들에 대해서는 조건에 만족하는 부분 문자열을 구할 수 조차 없기에 넘어가야 하는게 맞지만, <code class="language-plaintext highlighter-rouge">K</code> 개 이상인 문자들에 대해서는 충분히 그 안에서도 <code class="language-plaintext highlighter-rouge">K</code> 개의 부분 문자열을 만들 수 있기 때문이다. 예를 들어 abcafa 라는 문자열이 있고 <code class="language-plaintext highlighter-rouge">K</code> 가 2 라고 가정해보자면, a 는 3 번 등장하므로 <code class="language-plaintext highlighter-rouge">K</code> 와 일치하지는 않지만 abca 혹은 afa 혹은 abcafa 이런 <code class="language-plaintext highlighter-rouge">K = 2</code> 개가 속한 문자열을 만들 수 있는 것이다. 내가 착각했었던 부분이다. 따라서 <em>count[str[i] - ‘a’] &gt;= K</em> 조건에 만족하는 문자들에 대해서만 진행해야 하는 것이 맞다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//freopen("input.txt", "r", stdin);</span>
+    <span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">T</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">T</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">str</span><span class="p">;</span> 
+        <span class="kt">int</span> <span class="n">K</span><span class="p">;</span> 
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">str</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">K</span><span class="p">;</span>
+        
+        <span class="c1">// str 의 알파벳 문자별로 등장 빈도수 저장</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">count</span><span class="p">(</span><span class="mi">26</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="o">++</span><span class="n">count</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">];</span> <span class="c1">// ex) count[0] = 3 은 'a' 가 str 에 3 번 등장했다는 뜻</span>
+        
+        <span class="kt">int</span> <span class="n">answer3</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span> 
+        <span class="kt">int</span> <span class="n">answer4</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ⭐ 빈도수가 K 개 미만인 문자들은 문자열도 못 만들므로 패스</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">K</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+
+            <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 연속 문자열의 시작 문자 str[i]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>  <span class="c1">// str[j] 와 같다면 카운팅! (자동으로 시작문자 = 끝문자 인 연속 문자열이 되는 것이나 마찬가지)</span>
+                    <span class="o">++</span><span class="n">cnt</span><span class="p">;</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">==</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 카운트 수가 K 와 같을 때 길이 업데이트</span>
+                    <span class="n">answer3</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">answer3</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                    <span class="n">answer4</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer4</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">answer3</span> <span class="o">==</span> <span class="n">INT_MAX</span> <span class="o">||</span> <span class="n">answer4</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">else</span> 
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">answer3</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">answer4</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="-두-번째-풀이-투포인터">🔥 두 번째 풀이 (투포인터)</h3>
+
+<blockquote>
+  <p>코드 출처 블로그 <a href="https://blog.naver.com/PostView.nhn?blogId=gustn3964&amp;logNo=222291615095&amp;categoryNo=0&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=postView">https://blog.naver.com/PostView.nhn?blogId=gustn3964&amp;logNo=222291615095&amp;categoryNo=0&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=postView</a></p>
+</blockquote>
+
+<p>아이디어가 좋은 풀이라고 느꼈다!</p>
+
+<ul>
+  <li>1️⃣ 이차원 배열을 선언하여 문자(인덱스)별로 그 문자가 등장하는 위치 인덱스들을 저장한다.</li>
+  <li>2️⃣ 어차피 어떠한 문자로 시작하고 끝이나는 문자열을 구해야하는 것이기 때문에 문자 별 위치 인덱스들에서 두 포인터가 가리키는 인덱스의 사이에 <code class="language-plaintext highlighter-rouge">K</code> 개 만큼의 고정적인 문자 수를 유지한 채로 두 포인터를 한 칸씩 옮겨나가면 된다.
+    <ul>
+      <li>예를 들어 a 문자가 5, 8, 13, 15 위치에 있고 (즉, <code class="language-plaintext highlighter-rouge">alpha_pos[0]</code> 는 <code class="language-plaintext highlighter-rouge">{5, 8, 13, 15}</code>) <code class="language-plaintext highlighter-rouge">K</code> 가 3 이라면 투포인터는 차례로 (5, 13) -&gt; (8, 15) 이 순서로 각각 가리키게 된다. 5 와 13 위치엔 같은 문자가 있으며 5 와 13 사이엔 5, 8, 13 이렇게 <code class="language-plaintext highlighter-rouge">K = 3</code> 개의 동일한 문자가 있게 된다. 마찬가지로 8, 15 위치엔 같은 문자가 있으며 8 과 15 사이엔 8, 13, 15 이렇게 <code class="language-plaintext highlighter-rouge">K = 3</code> 개의 동일한 문자가 있게 된다.</li>
+      <li><code class="language-plaintext highlighter-rouge">alpha_pos[문자]</code> 해당 문자의 위치들이 기록된 배열(전부 동일한 문자를 가리키는 위치들)에서 사이에 <code class="language-plaintext highlighter-rouge">K</code> 개의 문자가 포함되도록 거리를 유치한 채 두 포인터를 모두 1 씩 증가하면 됨</li>
+      <li>따라서 왼쪽 포인터는 <code class="language-plaintext highlighter-rouge">alpha_pos[문자][0]</code> 을 가리키는 것 에서, 오른쪽 포인터는 <code class="language-plaintext highlighter-rouge">alpha_pos[문자][K - 1]</code> 을 가리키는 것에서 출발한다. (초기값)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//freopen("input.txt", "r", stdin);</span>
+    <span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">T</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">str</span><span class="p">;</span> 
+        <span class="kt">int</span> <span class="n">K</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">str</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">K</span><span class="p">;</span>
+
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">answer3</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span> <span class="kt">int</span> <span class="n">answer4</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+         
+         <span class="c1">// 문자(인덱스)별로 그 문자가 등장하는 위치 인덱스들을 저장</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> 
+            <span class="n">alpha_pos</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">K</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+                <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+                <span class="kt">int</span> <span class="n">temp3</span> <span class="o">=</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> 
+                <span class="kt">int</span> <span class="n">temp4</span> <span class="o">=</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">r</span><span class="o">++</span><span class="p">;</span> 
+                    <span class="n">l</span><span class="o">++</span><span class="p">;</span>
+                    <span class="n">temp3</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">temp3</span><span class="p">);</span>
+                    <span class="n">temp4</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha_pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">temp4</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">answer3</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">temp3</span><span class="p">,</span> <span class="n">answer3</span><span class="p">);</span>
+                <span class="n">answer4</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">temp4</span><span class="p">,</span> <span class="n">answer4</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">answer3</span> <span class="o">==</span> <span class="n">INT_MAX</span><span class="p">)</span> 
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">else</span> 
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">answer3</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">answer4</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

@@ -1,0 +1,21 @@
+I"M<ul class="toc__menu">
+  <li><a href="#-소수-만들기">📌 소수 만들기</a>
+    <ul>
+      <li><a href="#-문제">🚀 문제</a></li>
+      <li><a href="#-내-풀이-">🚀 내 풀이 ⭕</a>
+        <ul>
+          <li><a href="#-dfs-nc3-조합">✈ DFS (nC3 조합)</a></li>
+          <li><a href="#-에라토스테네스의-체로-효율적으로-소수-체크">✈ (에라토스테네스의 체)로 효율적으로 소수 체크</a></li>
+        </ul>
+      </li>
+      <li><a href="#-다른-풀이">🚀 다른 풀이</a>
+        <ul>
+          <li><a href="#-반복문-풀이">✈ 반복문 풀이</a></li>
+          <li><a href="#-next_permutation-사용">✈ next_permutation 사용</a></li>
+          <li><a href="#-prev_permutation-사용">✈ prev_permutation 사용</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

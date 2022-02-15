@@ -1,0 +1,19 @@
+I"V<ul class="toc__menu">
+  <li><a href="#chapter-6-binary-search">Chapter 6. Binary Search</a>
+    <ul>
+      <li><a href="#-이진-탐색-트리란">🚀 이진 탐색 트리란?</a>
+        <ul>
+          <li><a href="#-삭제">🔥 삭제</a></li>
+        </ul>
+      </li>
+      <li><a href="#-이진-탐색-트리-구현-코드">🚀 이진 탐색 트리 구현 코드</a>
+        <ul>
+          <li><a href="#-treeh">📜 tree.h</a></li>
+          <li><a href="#-treec">📜 tree.c</a></li>
+          <li><a href="#-mainc">📜 main.c</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

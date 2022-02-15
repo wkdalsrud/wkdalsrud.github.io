@@ -1,0 +1,215 @@
+I"01<p class="notice--warning">권오흠 교수님의 유튜브 강의 <strong>영리한 프로그래밍을 위한 알고리즘 강좌</strong> 를 듣고 정리한 필기입니다. 😀</p>
+
+<h1 id="chapter1-자료구조를-위한-c-언어-지식">Chapter1. 자료구조를 위한 C 언어 지식</h1>
+
+<h2 id="-포인터">🔔 포인터</h2>
+
+<h3 id="메모리">메모리</h3>
+<ul>
+  <li>데이터를 보관 하는 장소</li>
+  <li>메모리 1 칸당 <em>8bit = 1 byte</em>의 데이터를 담을 수 있다.</li>
+  <li><strong>32bit 컴퓨터 환경</strong>
+    <ul>
+      <li>주소 0 번지 ~ \(2^{32}-1\) 번지까지 있는, 즉 \(2^{32}\) 칸의 크기를 가진 메모리
+        <ul>
+          <li>👉 메모리의 총 크기 = \(2^{32}\) × 1 byte = 대략 42억 byte = 대략 4 GB</li>
+        </ul>
+      </li>
+      <li>메모리 주소값을 비트로 표현한다면 32bit 짜리여야 한다. 메모리는 총 \(2^{32}\) 칸을 가지니까!</li>
+      <li>32bit 컴퓨터는 메모리 1 칸을 처리하기 위해 <u>한번에 32 bit 를 읽어 들인다.</u>
+        <ul>
+          <li>메모리의 주소를 읽어야 하니까!</li>
+        </ul>
+      </li>
+      <li>포인터의 크기는 32 bit = 4 byte.</li>
+    </ul>
+  </li>
+  <li><strong>64bit 컴퓨터 환경</strong>
+    <ul>
+      <li>주소 0 번지 ~ \(2^{64}-1\) 번지까지 있는, 즉 \(2^{64}\) 칸의 크기를 가진 메모리
+        <ul>
+          <li>👉 메모리의 총 크기 = \(2^{64}\) × 1 byte =  대략 16 EB</li>
+        </ul>
+      </li>
+      <li>메모리 주소값을 비트로 표현한다면 64bit 짜리여야 한다. 메모리는 총 \(2^{64}\) 칸을 가지니까!</li>
+      <li>64bit 컴퓨터는 메모리 1 칸을 처리하기 위해 <u>한번에 64 bit 를 읽어 들인다.</u>
+        <ul>
+          <li>메모리의 주소를 읽어야 하니까!</li>
+        </ul>
+      </li>
+      <li>포인터의 크기는 64 bit = 8 byte.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="포인터-정의">포인터 정의</h3>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">포인터</code> : 메모리의 <u>주소</u>를 값으로 가지는 변수.</p>
+</blockquote>
+
+<ul>
+  <li><u>포인터의 크기</u>는 int* 이든 double* 이든 <u>언제나 4byte</u>다. (32bit 컴퓨터 기준) ⭐
+    <ul>
+      <li>메모리의 주소는 32bit = 4byte 이기 때문!</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&amp;</code> : 변수 앞에 붙이면 그 변수의 주소값을 리턴한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">*포인터변수</code> : 간접 참조. 그 포인터가 담고 있는 주소값에 있는 데이터.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span> <span class="n">p</span><span class="p">;</span>
+<span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</code></pre></div></div>
+<ul>
+  <li>포인터 p 는 int 데이터를 담는 공간의 주소값만 가질 수 있다.</li>
+  <li>a 의 주소값이 포인터 p 에 들어간다.</li>
+  <li><code class="language-plaintext highlighter-rouge">*p</code> : p가 담고 있는 주소값에서 담고 있는 실제 데이터. 즉 a 값</li>
+  <li>b 에 a 값을 대입한다. 12가 됨.</li>
+  <li>a 에 3 을 대입한다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="포인터와-배열">포인터와 배열</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</code></pre></div></div>
+
+<ul>
+  <li><u>배열의 이름</u>이 되는 <code class="language-plaintext highlighter-rouge">a</code>에는 <u>배열의 첫번째 원소의 주소가 저장되는</u> <strong>상수</strong> 포인터 변수다.
+    <ul>
+      <li>주소값을 변경할 수 없다.
+        <ul>
+          <li>마치 <code class="language-plaintext highlighter-rouge">int * ptr const</code> 타입.
+            <ul>
+              <li>간접참조로 값을 변경하는 것은 가능하나 (즉 배열의 원소를 변경하는 것은 가능하나)</li>
+              <li>주소값, 즉 포인터 값 자체를 바꿀 순 없다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">calculate_sum</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span> <span class="n">array</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span><span class="p">,</span> <span class="n">average</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">num</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="n">sum</span> <span class="o">=</span> <span class="n">calculate_sum</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+  <span class="n">average</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">average</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>배열의 이름 <code class="language-plaintext highlighter-rouge">num</code>의 값, 즉 배열 <code class="language-plaintext highlighter-rouge">num</code>의 첫번째 원소의 주소값을 인수로 넘긴다.</li>
+  <li><code class="language-plaintext highlighter-rouge">num</code>값이 복사되어 매개 변수 <code class="language-plaintext highlighter-rouge">array</code>에 복사된다.
+    <ul>
+      <li>배열 이름(<code class="language-plaintext highlighter-rouge">int * ptr_A const</code>)은 일반 포인터(<code class="language-plaintext highlighter-rouge">int * ptr_B</code>)에 복사될 수 있으며 그 일반 포인터로 <code class="language-plaintext highlighter-rouge">[]</code> 연산자를 통해 원소에 간접 참조할 수 있게 된다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">array</code> 포인터로 복사 받은 <code class="language-plaintext highlighter-rouge">num</code>의 주소값을 통해 <code class="language-plaintext highlighter-rouge">num</code>의 원소들에 접근하고 수정할 수 있게 된다.  <em>array[i]</em></li>
+        </ul>
+      </li>
+      <li>cf) 간접 참조로 값을 변경할 수는 없지만 포인터의 주소값 변경은 가능한 <code class="language-plaintext highlighter-rouge">const int * ptr_A</code> 같은 포인터는 일반 포인터(<code class="language-plaintext highlighter-rouge">int * ptr_B</code>)에 복사될 수 없다.
+        <ul>
+          <li><a href="https://ansohxxn.github.io/cpp/chapter6-12/#const-int--ptr--const%EA%B0%80-%EB%A7%A8-%EC%95%9E%EC%97%90-%EB%B6%99%EC%9D%80-%EA%B2%BD%EC%9A%B0">관련 C++ 포스트</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="포인터-연산">포인터 연산</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a 가 배열 이름이라고 할 때
+
+*a = a[0]
+a = &amp;a[0]
+
+*(a + 3) = a[3]
+a + 3 = &amp;a[3] 
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span> <span class="n">ptr1</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+
+<span class="kt">double</span> <span class="n">d</span> <span class="o">=</span> <span class="mf">3.14</span><span class="p">;</span>
+<span class="kt">double</span> <span class="o">*</span> <span class="n">ptr2</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>포인터 연산 규칙 : 포인터에 1 을 더한 다는 의미는 진짜 1 을 더한다는게 아니라 그 다음 주소를 가리키는 것이다. C/C++ 만의 규칙임!</p>
+</blockquote>
+
+<ul>
+  <li>만약 ptr1 값이 0x0A 라면 ptr1 + 1 은 0x0B 가 되는 것이 아닌 0x0E 가 된다.
+    <ul>
+      <li>int 는 4 byte 라서 int 데이터 하나가 메모리를 4 칸 차지하기 때문이다.</li>
+      <li>따라서 다음 int 데이터는 4 칸 뒤이므로
+        <ul>
+          <li><u>int 포인터 + 1 은 사실 주소값에 4 를 더해주는 것이나 마찬가지다</u></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>만약 ptr2 값이 0x00 라면 ptr2 + 1 은 0x01 가 되는 것이 아닌 0x08 가 된다.
+    <ul>
+      <li>double 는 8 byte 라서 double 데이터 하나가 메모리를 8 칸 차지하기 때문이다.</li>
+      <li>따라서 다음 double 데이터는 8 칸 뒤이므로
+        <ul>
+          <li><u>double 포인터 + 1 은 사실 주소값에 8 를 더해주는 것이나 마찬가지다</u></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>위의 규칙 때문에 <code class="language-plaintext highlighter-rouge">a[i] = *(a + i)</code> 가 성립하게 됨.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-동적-메모리-할당">🔔 동적 메모리 할당</h2>
+
+<p><br /></p>
+
+<h2 id="-문자열">🔔 문자열</h2>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

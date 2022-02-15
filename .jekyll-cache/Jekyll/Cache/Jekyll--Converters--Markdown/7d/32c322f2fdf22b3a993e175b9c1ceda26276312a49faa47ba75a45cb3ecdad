@@ -1,0 +1,553 @@
+I"<h2 id="-트라이-자료구조">🚀 트라이 자료구조</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/115192342-a3dd8e00-a125-11eb-84b0-425992455a86.png" alt="image" /></p>
+
+<blockquote>
+  <p>“접두사”를 검색하거나 “단어 자체”를 검색하는 데에 특화된 문자열 집합 자료구조</p>
+</blockquote>
+
+<p>여러 문자열들이 모인 집합 내에서 특정 문자열을 탐색(검색) 하고자 할 때 특화된 <strong>문자열 집합 자료구조</strong>이며 트리 형태이다. 위와 같이 문자열 집합 내에서 <u>중복되는 "접두사"들에 대응되는 노드들이 서로 연결된 트리</u>이다.</p>
+
+<p>같은 접두사는 같은 노드로 겹쳐서 저장된다(트리라서)는 특성 때문에 접두사나 완전한 문자열을 빠르게 찾기에도 좋으며 이 특성 때문에 어떤 문자열 원소의 끝을 알리는 표시를 해주기도 한다. 보통 노드에 <code class="language-plaintext highlighter-rouge">bool isEnd</code> 이런 변수를 두고 어떤 문자열의 끝이라면 True 로 변경하는 식으로 한다. 위 그림에서 노란색 노드들이 문자열 끝을 의미한다!</p>
+
+<p><em>이진 검색 트리(Binary Search Tree)</em>도 검색을 <code class="language-plaintext highlighter-rouge">O(logN)</code> 만에 이루어지게 하는 효율적인 자료구조이다. 그러나 검색하고자 하는 원소가 “문자열”일 땐 문자열들을 노드로 저장한 문자열 집합 이진 검색 트리에서 검색 하더라도, 문자열 하나를 비교하는데에 문자 하나 하나를 다 크기 비교해야 하는 과정이 필요하므로, 문자열의 길이가 <code class="language-plaintext highlighter-rouge">M</code> 이라고 하면 최악의 경우 <code class="language-plaintext highlighter-rouge">O(MlogN)</code> 만큼의 시간이 소요 된다.</p>
+
+<p>그러나 위 그림과 같은 <em>트라이(Trie)</em> 형식의 트리에 문자열 집합을 저장하면, 여기에서 원하는 문자열을 검색할 때 <code class="language-plaintext highlighter-rouge">O(M)</code> 딱 검색하고자 하는 문자열의 길이에 해당하는 시간만 소요 되기 때문에 매우 효율적이다.</p>
+
+<p>이와 같은 일이 가능한 이유는 위 그림과 같이 문자열 집합내에서 같은 접두사를 가진 문자열들은 같은 간선에서 뻗어나가기 때문이다. 즉, 같은 부모 노드를 가진다. 위 그림에서 <code class="language-plaintext highlighter-rouge">his</code> 를 검색한다면, <code class="language-plaintext highlighter-rouge">her</code>과 <code class="language-plaintext highlighter-rouge">his</code> 둘 다 각각 대조해 볼 필요 없이 자연스럽게 <code class="language-plaintext highlighter-rouge">h</code> 👉 <code class="language-plaintext highlighter-rouge">i</code> 👉 <code class="language-plaintext highlighter-rouge">s</code> 이렇게 노드를 타고 내려오면 된다.</p>
+
+<p>그렇기 때문에 자식 노드들은 곧 다음 글자와도 같다. 효율적인 시간을 위하여 <u>자식 노드 링크를 찾는 일은 O(1) 만에 이루어지는 것이 좋다.</u> 그래서 알파벳만을 사용하는 문자열 집합이라면 자식 노드 링크를 26 개 담을 수 있는 “배열”을 선언해 관리하기도 하고, 숫자만 사용되는 문자열 집합이라면 10 개의 배열을 만들 수도 있을 것이다. 이렇게 배열 뿐 만이 아닌, 다음 글자를 Key 로하고 그에 대응되는 노드의 주소로 연결되는 O(1) 검색 속도를 자랑하는 “해시맵”을 사용하여 자식 노드 링크들을 관리할 수도 있을 것이다. (개인적으로 디버깅시엔 해시맵이 유용한 듯 하다.)</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Trie</span><span class="o">*</span> <span class="n">children</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span> <span class="c1">// 배열</span>
+<span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">Trie</span><span class="o">*&gt;</span> <span class="n">children</span><span class="p">;</span> <span class="c1">// 해시맵</span>
+</code></pre></div></div>
+
+<ul>
+  <li>루트 노드는 항상 길이 0 인 문자열에 대응된다.
+    <ul>
+      <li>(루트 노드는 대응되는 문자가 없는 상태이다. 루트의 자식부터 첫 문자에 대응)</li>
+    </ul>
+  </li>
+  <li>깊이가 깊어질 때마다 대응되는 문자열의 길이는 1 씩 늘어난다.</li>
+</ul>
+
+<p>트라이의 중요한 속성은 <u>루트에서 한 노드가지 내려가는 경로에서 만나는 글자들을 모으면 해당 노드에 대응되는 "접두사"</u>를 얻을 수 있다는 것을 기억하자!</p>
+
+<p><u>자동 완성</u>(접두사와 관련)을 한다던가 하는 문자열 처리 프로그램을 구현할 때 유용하다. 검색 엔진에서도 많이 쓰인다.</p>
+
+<p><br /></p>
+
+<h3 id="-형태와-코드">🔥 형태와 코드</h3>
+
+<ul>
+  <li>노드 1 개가 가지고 있어야 하는 멤버 필드
+    <ul>
+      <li>필수
+        <ul>
+          <li>자식 노드들의 링크들
+            <ul>
+              <li>정적 배열 혹은 해시맵으로 관리 👉 <em>O(1) 으로 바로 탐색이 가능한</em></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>문제에 따라 선택
+        <ul>
+          <li>종료 노드인지를 나타내는 <code class="language-plaintext highlighter-rouge">bool</code> 변수</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>멤버 함수
+    <ul>
+      <li>삽입 👉 문자열 원소 하나 하나를 추가하며 트라이를 구성한다.</li>
+      <li>탐색 👉 트라이를 탐색하며 원하는 문자열 혹은 접두사 검색</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">NUM_ALPHABETS</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">toIndex</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">ch</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">struct</span> <span class="nc">TrieNode</span> <span class="p">{</span>
+	<span class="n">TrieNode</span><span class="o">*</span> <span class="n">children</span><span class="p">[</span><span class="n">NUM_ALPHABETS</span><span class="p">];</span>
+	<span class="c1">// unordered_map&lt;string, TrieNode*&gt; children;</span>
+	<span class="kt">bool</span> <span class="n">isEnd</span><span class="p">;</span>
+
+	<span class="n">TrieNode</span><span class="p">()</span> <span class="o">:</span> <span class="n">children</span><span class="p">(),</span> <span class="n">isEnd</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="p">{}</span>
+
+	<span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+			<span class="n">isEnd</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="k">else</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">next</span> <span class="o">=</span> <span class="n">toIndex</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="n">index</span><span class="p">]);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+				<span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrieNode</span><span class="p">;</span>
+			<span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="kt">bool</span> <span class="n">Find_1</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span>   <span class="c1">// 접두사로서 검색 되더라도 true 를 리턴하게끔 한 함수</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">next</span> <span class="o">=</span> <span class="n">toIndex</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="n">depth</span><span class="p">]);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Find_1</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">bool</span> <span class="n">Find_2</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 완전히 일치하는 단어 단위로만 찾고 true 를 리턴하게끔 한 함수</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">isEnd</span><span class="p">)</span> 
+			<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="n">key</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isEnd</span><span class="p">)</span> 
+			<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">next</span> <span class="o">=</span> <span class="n">toIndex</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="n">depth</span><span class="p">]);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">children</span><span class="p">[</span><span class="n">next</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Find_2</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">words</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"what"</span><span class="p">,</span> <span class="s">"when"</span><span class="p">,</span> <span class="s">"yours"</span><span class="p">,</span> <span class="s">"apple"</span><span class="p">,</span> <span class="s">"her"</span><span class="p">,</span> <span class="s">"his"</span><span class="p">,</span> <span class="s">"you"</span> <span class="p">};</span>
+
+	<span class="n">TrieNode</span> <span class="n">root</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">string</span> <span class="n">word</span> <span class="o">:</span> <span class="n">words</span><span class="p">)</span>
+		<span class="n">root</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">string</span> <span class="n">search</span> <span class="o">=</span> <span class="s">"wh"</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="p">.</span><span class="n">Find_1</span><span class="p">(</span><span class="n">search</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">search</span> <span class="o">&lt;&lt;</span> <span class="s">"가 검색 결과에 있습니다."</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+	<span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">search</span> <span class="o">&lt;&lt;</span> <span class="s">"가 검색 결과에 없습니다."</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">root</span><span class="p">.</span><span class="n">Find_2</span><span class="p">(</span><span class="n">search</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">search</span> <span class="o">&lt;&lt;</span> <span class="s">"가 검색 결과에 있습니다."</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+	<span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">search</span> <span class="o">&lt;&lt;</span> <span class="s">"가 검색 결과에 없습니다."</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>💎출력💎
+
+wh가 검색 결과에 있습니다.
+wh가 검색 결과에 없습니다.
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="-트라이를-사용한-예제-문제들">🚀 트라이를 사용한 예제 문제들</h2>
+
+<h3 id="1️⃣-전화번호-목록-백준-5052">1️⃣ 전화번호 목록 (백준 5052)</h3>
+
+<blockquote>
+  <p>문제와 더 자세한 설명은 링크 참고 <a href="https://ansohxxn.github.io/boj/5052/">[백준 5052][💛4] 전화번호 목록 (해시, 트라이)</a></p>
+</blockquote>
+
+<details>
+<summary>코드 펼쳐서 보기 (Click)</summary>
+<div>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="k">private</span> <span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">isEnd</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">// 이 Trie 노드 객체가 문자열(단어)의 끝인지를 알 수 있는</span>
+    <span class="n">Trie</span><span class="o">*</span> <span class="n">child</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span> <span class="c1">// Trie 객체들은 각각 서브 트리들의 루트 노드가 된다. 자식 10 개( 0 ~ 9 )를 담을 수 있는 배열을 가지고 있음 (배열말고 해시로 해도 된다.)</span>
+    
+<span class="k">public</span> <span class="o">:</span>
+    <span class="n">Trie</span><span class="p">()</span> <span class="o">:</span> <span class="n">child</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+    
+    <span class="cm">/* 트라이 트리 만들기 */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span> <span class="n">phone_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// 루트에서부터 시작 (루트 Trie 객체에서만 이 Insert 를 한번 실행하도록 함. 재귀 안 쓰고 반복문 써서..)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> 
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span> <span class="c1">// 해당 글자 자식이 없다면 Trie 객체 만들어주기. 이미 있다면 만들어줄 필요 없음. </span>
+            <span class="c1">// 다음 글자 노드로 이동 (트리 타고 내려감) </span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">];</span>
+            <span class="c1">// 문자열의 끝에 도달했다면 해당 글자 노드의 isEnd 를 True 로</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="cm">/* 트라이 트리에 phone_number 문자열을 타고 내려가되 중간에 isEnd 가 True 인 노드를 만나면 접두어가 있다고 판단함 */</span>
+    <span class="kt">bool</span> <span class="n">IsTherePrefix</span><span class="p">(</span><span class="n">string</span> <span class="n">phone_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// 루트에서부터 시작 (루트 Trie 객체에서만 이 IsTherePrefix 를 한번 실행하도록 함. 재귀 안 쓰고 반복문 써서..)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">phone_number</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">phone_number</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">];</span> <span class="c1">// 다음 글자 노드로 이동 (트리 타고 내려감) </span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span><span class="p">)</span> <span class="c1">// 다음 글자가 있는 상태인데(위 if) isEnd 가 True 인 경우를 만났다는 것은 이 글자가 끝인 다른 단어가 있다는 것. 접두어! </span>
+                    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="c1">// 다음 글자도 없다면(문자열 끝에 도달) 한번도 접두어가 없었던 것! (같은 문자열이 중복으로 주어지는 경우는 없다고 제한했으니 같은 문자열 접두사 있을 걱정은 안해도 되므로 그냥 더 이상 자식 없을 때까지 걸린적 없으면 접두사 없는 것임)</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">phone_number_list</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">phone_number_list</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">phone_number_list</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">phone_number_list</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 정렬</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">trie</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span> <span class="c1">// 트라이 트리의 루트 </span>
+        <span class="kt">bool</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">phone_number</span> <span class="o">:</span> <span class="n">phone_number_list</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">trie</span><span class="o">-&gt;</span><span class="n">IsTherePrefix</span><span class="p">(</span><span class="n">phone_number</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 접두사 있는지 검사</span>
+                <span class="n">ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">trie</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">phone_number</span><span class="p">);</span> <span class="c1">// 접두사 없으면 추가</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ok</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"YES"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"NO"</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+  </div>
+</details>
+
+<p>문자열을 트라이에서 순회하며 내려오면서 문자열의 끝에 도달하기 전에 또 다른 문자열의 끝을 만나게 된다면 트라이에 저장된 다른 문자열이 현재 검사하는 이 문자열의 접두사가 된다는 이야기이다. 이런식으로 트라이에서 자신의 접두사가 있는지 없는지를 검사하면 되는 문제였다.</p>
+
+<p><br /></p>
+
+<h3 id="2️⃣-개미굴-백준-14725">2️⃣ 개미굴 (백준 14725)</h3>
+
+<blockquote>
+  <p>문제와 더 자세한 설명은 링크 참고 <a href="https://ansohxxn.github.io/boj/14725/">[백준 14725][💛2] 개미굴 (트라이)</a></p>
+</blockquote>
+
+<details>
+<summary>코드 펼쳐서 보기 (Click)</summary>
+<div>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AntDen</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">AntDen</span><span class="o">*&gt;</span> <span class="n">child</span><span class="p">;</span> <span class="c1">// key : 자식 문자열(다음 문자열)  valuse : 자식 객체 주소 </span>
+
+<span class="nl">public:</span>
+    <span class="cm">/* 트라이 트리 만들기 (재귀로 구현) */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">foods</span><span class="p">,</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">foods</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> 
+            <span class="k">return</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">child</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">==</span> <span class="n">child</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+            <span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AntDen</span><span class="p">();</span>
+        <span class="n">child</span><span class="p">[</span><span class="n">foods</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">Output</span><span class="p">(</span><span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// DFS</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">child</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">depth</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="c1">// 깊이 당 -- 한 번 </span>
+                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"--"</span><span class="p">;</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">ch</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+            <span class="n">ch</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">Output</span><span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//freopen("input.txt", "r", stdin);</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">AntDen</span><span class="o">*</span> <span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AntDen</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">k</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">foods</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">foods</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+
+        <span class="n">root</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// 트라이 트리 만들고</span>
+    <span class="p">}</span>
+
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">Output</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// DFS 탐색</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+  </div>
+</details>
+
+<p>문자열들을 트라이 트리에 모두 저장한 후 DFS 로 탐색하며 출력하면 되는 문제였다. 단, 좀 특이하게 문자 하나 하나씩을 트리에 저장했던 방식이 아닌, 그냥 문자열 자체를 통째로 노드 하나 하나에 저장하는 방식이였다.</p>
+
+<p><br /></p>
+
+<h3 id="3️⃣-휴대폰-자판-백준-5670">3️⃣ 휴대폰 자판 (백준 5670)</h3>
+
+<blockquote>
+  <p>문제와 더 자세한 설명은 링크 참고 <a href="https://ansohxxn.github.io/boj/5670/">[백준 5670][💚4] 휴대폰 자판 (트라이, 원하는만큼 입력 받기)</a></p>
+</blockquote>
+
+<details>
+<summary>코드 펼쳐서 보기 (Click)</summary>
+<div>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="kt">bool</span> <span class="n">isEnd</span><span class="p">;</span>  <span class="c1">// 단어의 끝인지 여부</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Trie</span><span class="o">*&gt;</span> <span class="n">child</span><span class="p">;</span> <span class="c1">// 자식 링크들을 담은 해시 맵  Key : 자식 문자(다음 글자)  Value : 자식 객체 주소</span>
+<span class="nl">public:</span>
+    <span class="cm">/* 트라이 만들기 */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="cm">/* 버튼 직접 수동으로 눌러야 하는 개수 */</span>
+    <span class="kt">int</span> <span class="n">AutoComplete</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 모든 첫 문자들은 무조건 입력해야하니.. 1 에서 시작</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span> <span class="c1">// 루트 말고 첫 문자에서 시작하기</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">isEnd</span> <span class="o">||</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 현재 문자가 끝이거나 혹은 현재 문자의 자식 문자 개수가 2 이상이라면 수동으로 입력해야 한다. count += 1</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span> <span class="c1">// 다음 자식으로 타고 내려가기</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">count</span><span class="p">;</span> 
+    <span class="p">}</span>
+
+<span class="nl">public:</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//freopen("input.txt", "r", stdin);</span>
+    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 원하는 만큼 입력 받기!! </span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">words</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        
+        <span class="c1">// 트라이 만들기</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">root</span><span class="o">-&gt;</span><span class="n">Insert</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+        <span class="c1">// 모든 입력 횟수 합</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">AutoComplete</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        
+        <span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">sum</span> <span class="o">/</span> <span class="n">words</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">fixed</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span> <span class="c1">// 출력 정밀도 2 자리로 설정</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+  </div>
+</details>
+
+<p>현재 노드의 자식 노드가 오직 한 개라는 것은 다음 글자로 올 수 있는 글자가 유일하다는 것이므로 자동 입력 될 수 있다. 이렇게 트라이 트리에서 현재 노드의 자식 노드의 개수를 따져 풀이하는 문제였다.</p>
+
+<p><br /></p>
+
+<h3 id="4️⃣-가사-검색-카카오-블라인드-공채-2020">4️⃣ 가사 검색 (카카오 블라인드 공채 2020)</h3>
+
+<blockquote>
+  <p>문제와 더 자세한 설명은 링크 참고 <a href="https://ansohxxn.github.io/programmers/133/">[C++로 풀이] 가사 검색 (트라이 자료구조, 문자열 검색, 이분 탐색) ⭐⭐⭐⭐</a></p>
+</blockquote>
+
+<details>
+<summary>코드 펼쳐서 보기 (Click)</summary>
+<div>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">Trie</span><span class="o">*</span> <span class="n">child</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>  <span class="c1">// 자식 노드 주소 배열 (배열로 바로 접근 가능, 인덱스는 소문자 알파벳 순서에 대응)</span>
+    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>  <span class="c1">// 첫 문자부터 해당 노드의 문자까지를 접두사로 가지는 문자들의 개수 (= ) </span>
+<span class="nl">public:</span>
+    <span class="n">Trie</span><span class="p">()</span> <span class="o">:</span> <span class="n">child</span><span class="p">(),</span> <span class="n">count</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span> <span class="c1">// child 는 null 로, count 는 0 으로 초기화</span>
+    <span class="cm">/* 트라이 만들기 */</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">now</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">++</span><span class="p">;</span> <span class="c1">// 방문할 때마다 1 증가해주면 됨</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">ch</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">ch</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">();</span> <span class="c1">// 없다면 새로 생성</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">ch</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">];</span> <span class="c1">// 트리 타고 내려감</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">Search</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="n">ch</span> <span class="o">:</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">'?'</span><span class="p">)</span>  <span class="c1">// ? 면 검사하려는 접두사가 끝났다는 것</span>
+                <span class="k">return</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">;</span> <span class="c1">// 현재 방문중인 노드의 count 를 리턴하고 끝내면 된다.</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">ch</span> <span class="o">-</span> <span class="sc">'a'</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span> <span class="c1">// 트라이의 끝까지 도달 할 때까지도 해당 접두사와 일치하는 것을 만나지 못했다면 해당 접두사로 시작하는 단어는 없는 것</span>
+                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// 코드가 정상적이라면 여기에 걸릴 일은 없다.</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">Trie</span> <span class="n">TrieRoot</span><span class="p">[</span><span class="mi">10000</span><span class="p">];</span> <span class="c1">// 접두사 찾는 길이별 트리들 (문제에서 최대 길이 10000 이라고 제한함) </span>
+<span class="n">Trie</span> <span class="n">ReTrieRoot</span><span class="p">[</span><span class="mi">10000</span><span class="p">];</span> <span class="c1">// 접미사 찾는 길이별 트리들! 거꾸로 뒤집은 문자열들을 넣어 접두사 찾듯이 찾을 것</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">words</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">queries</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+    <span class="cm">/* 트라이 트리 만들기 (개수 구해놓기) */</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">string</span> <span class="n">str</span> <span class="o">:</span> <span class="n">words</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="n">TrieRoot</span><span class="p">[</span><span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">Insert</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="c1">// 길이에 맞는 트리에 원래 순서대로 추가</span>
+
+        <span class="n">reverse</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">str</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 문자열 뒤집기</span>
+        <span class="n">ReTrieRoot</span><span class="p">[</span><span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">Insert</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="c1">// 길이에 맞는 트리에 역순서으로 추가</span>
+    <span class="p">}</span>
+    <span class="cm">/* 트라이 트리 탐색 */</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">string</span> <span class="n">query</span> <span class="o">:</span> <span class="n">queries</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'?'</span><span class="p">)</span> <span class="c1">// 접두사 : TrieRoot[str.length() - 1] 트리 탐색</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">TrieRoot</span><span class="p">[</span><span class="n">query</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">Search</span><span class="p">(</span><span class="n">query</span><span class="p">));</span>
+        <span class="k">else</span> <span class="p">{</span>  <span class="c1">// 접미사 : ReTrieRoot[str.length() - 1] 트리 탐색</span>
+            <span class="n">reverse</span><span class="p">(</span><span class="n">query</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">query</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 뒤집기. ??and 가 dna?? 가 되도록</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">ReTrieRoot</span><span class="p">[</span><span class="n">query</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">Search</span><span class="p">(</span><span class="n">query</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+  </div>
+</details>
+
+<ul>
+  <li><u>트라이를 순회하면서 지나는 노드마다 1 씩 누적하여 더해주면 루트부터 그 노드까지를 접두사로 하는 단어의 총 개수가 된다.</u>
+    <ul>
+      <li>트라이 자료구조 상 중복되는 접두사는 같은 노드를 지나기 때문이다.</li>
+    </ul>
+  </li>
+  <li>또한 이 문제에서는 접미사도 요구하는데 <u>접미사는 그냥 거꾸로 reverse 시킨 문자열을 트라이에 넣어 접두사 찾듯이 찾으면 된다.</u></li>
+  <li>이 문제는 같은 문자열 길이에서의 접두사 개수를 구하는 문제이기 때문에 문자열 길이 별로 따로 따로 트라이 트리를 만든다.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="5️⃣-자동완성-카카오-블라인드-공채-2018">5️⃣ 자동완성 (카카오 블라인드 공채 2018)</h3>
+
+<blockquote>
+  <p>문제와 더 자세한 설명은 링크 참고 <a href="https://ansohxxn.github.io/programmers/137/">[C++로 풀이] 자동 완성 (트라이 자료구조) ⭐⭐⭐⭐</a></p>
+</blockquote>
+
+<details>
+<summary>코드 펼쳐서 보기 (Click)</summary>
+<div>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Trie</span><span class="o">*&gt;</span> <span class="n">child</span><span class="p">;</span>
+<span class="nl">public:</span>
+    <span class="kt">void</span> <span class="n">Insert</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="nb">nullptr</span><span class="p">)</span>
+                <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Trie</span><span class="p">;</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+            <span class="n">now</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">AutoComplete</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">numOfInput</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 모든 첫 문자들은 무조건 입력해야하니.. 1 에서 시작</span>
+        <span class="n">Trie</span><span class="o">*</span> <span class="n">now</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span> <span class="c1">// 루트 말고 첫 문자에서 시작하기</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span><span class="o">-&gt;</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">numOfInput</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">now</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">[</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">numOfInput</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">words</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">Trie</span> <span class="n">root</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">string</span> <span class="n">word</span> <span class="o">:</span> <span class="n">words</span><span class="p">)</span>
+        <span class="n">root</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">string</span> <span class="n">word</span> <span class="o">:</span> <span class="n">words</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">+=</span> <span class="n">root</span><span class="p">.</span><span class="n">AutoComplete</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+  </div>
+</details>
+
+<ul>
+  <li>이 문제는 <code class="language-plaintext highlighter-rouge">isEnd</code> 둘 필요가 없을 것 같아 안두었다. (문자열 검색해낼 필요는 없기 때문)</li>
+  <li>백준 휴대폰 자판 문제처럼 자동완성 입력 횟수를 구하는 문제인데 백준 문제와는 자동 완성 판별 기준이 좀 다르다.
+    <ul>
+      <li>백준 “휴대폰 자판” 👉 <strong>다음 글자</strong> 후보가 유일해야 <strong>다음 글자</strong>는 자동완성이 가능
+        <ul>
+          <li>자식이 딱 한개인지만 가리면 됐다. 중복 되는게 없거나 접두사가 싹 다 공통적이거나 둘 중 하나여야 가능하기 때문이다.</li>
+          <li><code class="language-plaintext highlighter-rouge">word</code>, <code class="language-plaintext highlighter-rouge">world</code> 가 있다면 <code class="language-plaintext highlighter-rouge">wo</code> 까지만 입력 되어도 다음 글자 후보는 <code class="language-plaintext highlighter-rouge">r</code> 뿐이므로 <code class="language-plaintext highlighter-rouge">r</code>은 자동입력이 됨.</li>
+        </ul>
+      </li>
+      <li>카카오 “자동완성” 👉 <strong>뒤의 문자열</strong> 후보가 유일해야 <strong>뒤의 문자열</strong>은 자동완성이 가능
+        <ul>
+          <li>자식이 한개이되 공통된 접두사이면 안됨. 유일한 문자열이어야 함. 자식이 한개라는 것은 그게 유일해서일 수도 있고 싹 다 공통적인 접두사라 그럴 수도 있어서 이 자식 한 개라는 정보만으로 판별할 수는 없음. 그러므로 노드마다 접두사 횟수 카운팅 미리 해놓아야 한다.</li>
+          <li><code class="language-plaintext highlighter-rouge">word</code>, <code class="language-plaintext highlighter-rouge">world</code> 가 있다면 <code class="language-plaintext highlighter-rouge">wo</code> 까지 입력 해도 그 뒤의 문자열이 <code class="language-plaintext highlighter-rouge">word</code>가 될지, <code class="language-plaintext highlighter-rouge">world</code>가 될지 모르기 때문에 자동 입력 되지 않음.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-출처-및-참고">🚀 출처 및 참고</h2>
+
+<ul>
+  <li><a href="http://www.yes24.com/Product/Goods/8006522?OzSrank=2">책 : 알고리즘 문제 해결 전략</a></li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

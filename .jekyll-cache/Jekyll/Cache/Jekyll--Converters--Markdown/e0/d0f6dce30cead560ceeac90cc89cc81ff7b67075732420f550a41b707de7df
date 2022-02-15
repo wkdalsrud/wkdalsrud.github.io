@@ -1,0 +1,189 @@
+I"�M<h1 id="-키패드-누르기">📌 키패드 누르기</h1>
+
+<blockquote>
+  <p>난이도 ⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105588260-d13fc780-5dd4-11eb-935f-eb527b516363.png" alt="image" /></p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105588523-e288d400-5dd4-11eb-92d2-4fe28dcc7a88.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">abs</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="n">n</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">int</span> <span class="n">pos</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dest</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">dist</span> <span class="o">+=</span> <span class="n">abs</span><span class="p">((</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// 행의 차이       </span>
+    <span class="n">dist</span> <span class="o">+=</span> <span class="n">abs</span><span class="p">((</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// 열의 차이</span>
+
+    <span class="k">return</span> <span class="n">dist</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">string</span> <span class="n">hand</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="mi">11</span><span class="p">);</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"L"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"R"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">left_dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+            <span class="kt">int</span> <span class="n">right_dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">left_dist</span> <span class="o">&lt;</span> <span class="n">right_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"L"</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">right_dist</span> <span class="o">&lt;</span> <span class="n">left_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"R"</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">right_dist</span> <span class="o">==</span> <span class="n">left_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"left"</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">left</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                    <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"L"</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"right"</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="n">right</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                    <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"R"</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>   
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">left</code>, <code class="language-plaintext highlighter-rouge">right</code>가 둘 중 하나라도 한번도 업데이트 되지 않는데 (2, 5, 8, 0)을 마주하여 가장 가까운 거리를 재야하는 상황이 올 수도 있으므로 <code class="language-plaintext highlighter-rouge">left</code>는 <code class="language-plaintext highlighter-rouge">*</code>인 <code class="language-plaintext highlighter-rouge">10</code>이라고 초기화 해놓고, <code class="language-plaintext highlighter-rouge">right</code>는 <code class="language-plaintext highlighter-rouge">#</code>을 고려하여 <code class="language-plaintext highlighter-rouge">12</code>이라고 초기화.</li>
+  <li>키패드 거리 차이를 3으로 나눈 몫(행)과 3으로 나눈 나머지(열)를 더해 구할 것이므로 <code class="language-plaintext highlighter-rouge">0</code> 인 경우 이에 맞워 <code class="language-plaintext highlighter-rouge">11</code>이라고 간주.</li>
+  <li>3으로 나눈 몫은 <code class="language-plaintext highlighter-rouge">a &gt; b</code>인 경우 <code class="language-plaintext highlighter-rouge">a</code>의 몫이 더 크지만, 3으로 나눈 나머지는 <code class="language-plaintext highlighter-rouge">a</code>와 <code class="language-plaintext highlighter-rouge">b</code>의 크기 차이와 상관이 없다.
+    <ul>
+      <li>100%3 은 1이지만 2%3 은 2이니 후자가 나머지는 더 큰 것 처럼.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 3      1 2 3       0 1 2
+4 5 6  -&gt;  4 5 6   -&gt;  3 4 5 
+7 8 9      7 8 9       6 7 8
+* 0 #     10 11 12     9 10 11
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">abs</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="n">n</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">int</span> <span class="n">pos</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dest</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">dist</span> <span class="o">+=</span> <span class="n">abs</span><span class="p">((</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="n">dist</span> <span class="o">+=</span> <span class="n">abs</span><span class="p">((</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">dist</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span> <span class="nf">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">string</span> <span class="n">hand</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">answer</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="mi">11</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">used</span><span class="p">;</span> <span class="c1">// 0 왼손, 1 오른손  </span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">used</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">left_dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+            <span class="kt">int</span> <span class="n">right_dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">left_dist</span> <span class="o">&lt;</span> <span class="n">right_dist</span><span class="p">)</span>
+                <span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">right_dist</span> <span class="o">&lt;</span> <span class="n">left_dist</span><span class="p">)</span>
+                <span class="n">used</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">right_dist</span> <span class="o">==</span> <span class="n">left_dist</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"left"</span><span class="p">)</span>
+                    <span class="n">used</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">hand</span> <span class="o">==</span> <span class="s">"right"</span><span class="p">)</span>
+                    <span class="n">used</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>   
+        <span class="p">}</span>
+        
+        <span class="k">switch</span><span class="p">(</span><span class="n">used</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="p">:</span> 
+                <span class="n">left</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"L"</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">right</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">"R"</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">switch</code>문 사용하여 공통된 부분 빼기</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

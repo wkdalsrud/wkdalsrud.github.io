@@ -1,0 +1,122 @@
+I"�9<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 2</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/1368">https://www.acmicpc.net/problem/1368</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/125742101-0f4fd81e-b554-4bc7-a9b8-f4399df23cec.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<blockquote>
+  <p>풀이 참고 : <a href="https://conkjh032.tistory.com/386">https://conkjh032.tistory.com/386</a></p>
+</blockquote>
+
+<p>우물을 직접 판 논에서 물을 끌어와 쓰는 논들은, 우물을 직접 판 해당 논을 루트로 하는 트리에서 연결된다고 생각할 수 있다. 그러면 트리가 여러개가 될 수 있는 셈인데 어떻게 해야하지..? 라는 고민을 했었다.</p>
+
+<p>고민을 하다가 구글링을 하여 다른 분의 풀이를 보았는데 생각보다 심플한 풀이였다. <u>가상의 노드를 하나 더 만든 후 이를 루트로 하고 우물을 직접 파는 비용도 추가하는 것이다. 이렇게 생각하면 우물을 직접 파는 비용도, 연결하는 비용도 하나의 그래프로 연결할 수 있다.</u> 위 링크 블로그에서 그림을 보면 쉽게 이해가 될 것이다.</p>
+
+<p>가상의 노드를 루트로 두고, 우물을 직접 파는 비용으로 논들과 이 루트를 연결하는 것으로 그래프를 시작한다면 하나의 그래프로 통합시킬 수 있는 셈이다.</p>
+
+<p>이렇게 하나의 그래프로 만든 후 평범하게! MST 최소신장트리 알고리즘 적용하여 풀이하면 된다. 나는 크루스칼 알고리즘을 사용했다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">Edge</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">cost</span><span class="p">;</span> <span class="p">};</span>
+<span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="k">const</span> <span class="n">Edge</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">Edge</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">cost</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span> <span class="p">}</span>
+<span class="kt">int</span> <span class="n">parent</span><span class="p">[</span><span class="mi">301</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">get_root</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+		<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_root</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">union_graph</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">par_a</span> <span class="o">=</span> <span class="n">get_root</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">par_b</span> <span class="o">=</span> <span class="n">get_root</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">par_a</span> <span class="o">&lt;</span> <span class="n">par_b</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">par_b</span><span class="p">]</span> <span class="o">=</span> <span class="n">par_a</span><span class="p">;</span>
+	<span class="k">else</span> <span class="n">parent</span><span class="p">[</span><span class="n">par_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">par_b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">is_same_graph</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">par_a</span> <span class="o">=</span> <span class="n">get_root</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">par_b</span> <span class="o">=</span> <span class="n">get_root</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">par_a</span> <span class="o">==</span> <span class="n">par_b</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="k">else</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">freopen</span><span class="p">(</span><span class="s">"input.txt"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">N</span><span class="p">;</span>
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span><span class="p">;</span>
+	
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;</span> <span class="n">edges</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+		<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cost</span><span class="p">;</span>
+		<span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cost</span> <span class="p">});</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cost</span><span class="p">;</span>
+
+			<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">)</span> 
+				<span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">cost</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">sort</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">edges</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+		<span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">edges</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">is_same_graph</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">a</span><span class="p">,</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">union_graph</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">a</span><span class="p">,</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">b</span><span class="p">);</span>
+			<span class="n">total_cost</span> <span class="o">+=</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">cost</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">total_cost</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>처음엔 아래와 같이 풀이를 해서 틀렸었다. 자기 자신과 연결되는 비용은 항상 0 이기 때문에 이를 피하기 위해서 저렇게 짰었던건데 이렇게 짜면 입력받는 처리가 되지 못해 뒤로 밀려서 틀린 풀이가 되버렸다. 0 도 cin 을 통해 입력 받은 후에 continue 시켰어야 했다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+			
+			<span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cost</span><span class="p">;</span>
+			<span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">cost</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

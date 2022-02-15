@@ -1,0 +1,77 @@
+I"v<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 4</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/3980">https://www.acmicpc.net/problem/3980</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/125154153-a33c1d00-e193-11eb-9a37-27cac9c500c6.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<p>N-Queen 문제와 매우 유사한 기본적인 백트래킹 문제였다! 행을 선수로, 열을 포지션으로 생각하고 열이 중복되지 않도록 선택해나가면 되는 문제였다.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">arr</span><span class="p">[</span><span class="mi">11</span><span class="p">][</span><span class="mi">11</span><span class="p">];</span>  <span class="c1">// row : 선수    col : 포지션</span>
+<span class="kt">bool</span> <span class="n">visited</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span> <span class="c1">// 11개의 포지션별로 방문 체크 (선수 배정이 되었는지 여부)</span>
+
+<span class="kt">void</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">player</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sum</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 11명의 선수들 각각 순서대로 포지션에 배정 (중복되지 않게!)</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">player</span> <span class="o">==</span> <span class="mi">11</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 여기까지 왔다면 11명의 모든 선수를 포지션 중복되지 않게 전부 배정했다는 것.</span>
+		<span class="n">answer</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+		<span class="k">return</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">position</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">;</span> <span class="o">++</span><span class="n">position</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">player</span><span class="p">][</span><span class="n">position</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="p">[</span><span class="n">position</span><span class="p">])</span> <span class="p">{</span> <span class="c1">// 현재 선수player를 현재 position 에 배정하고 다음 선수를 검사하러 가려면 능력치가 있고 현재 경로의 이전에서 배정된적 없는 포지션이어야 한다. </span>
+			<span class="n">visited</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// 해당 포지션에 선수 배정 체크</span>
+			<span class="n">dfs</span><span class="p">(</span><span class="n">player</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">player</span><span class="p">][</span><span class="n">position</span><span class="p">]);</span>  <span class="c1">// 다음 선수 배정하러 출발. </span>
+			<span class="n">visited</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// 더 이상 중복되지 않게 배정할 포지션이 없어서 Back 했거나 성공했거나 뭐든 간에 방문 체크는 해제해주어야 또 다른 미래의 케이스에서 선택될 수 있다.</span>
+		<span class="p">}</span>
+	<span class="p">}</span>  <span class="c1">// for 문의 if 에 걸리는게 없이 종료됐다면 자연스럽게 Back</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">//freopen("input.txt", "r", stdin);</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+	<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">C</span><span class="p">;</span>
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">C</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 입력</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> 
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> 
+				<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+		
+        <span class="c1">// 백트래킹 기법으로 '포지션 중복되지 않게 선수를 모두 배정'하는게 가능한 모든 경우를 구하여 max 업데이트 </span>
+		<span class="n">dfs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+		
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">answer</span> <span class="o">&lt;&lt;</span> <span class="sc">'\n'</span><span class="p">;</span>
+		<span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

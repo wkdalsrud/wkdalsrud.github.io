@@ -1,0 +1,59 @@
+I"�<p class="notice--warning"><strong>C/C++</strong>로 풀이했습니다.<br />
+출처 : <strong>Code Up</strong> 문제 풀이. <a href="https://codeup.kr/">https://codeup.kr/</a></p>
+
+<p><br /></p>
+
+<p>문제 출처 <a href="https://codeup.kr/problem.php?id=1008">https://codeup.kr/problem.php?id=1008</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌┬┐
+├┼┤
+└┴┘ 를 출력하시오
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/100963919-d322a280-356a-11eb-989f-6088a7375806.png" alt="image" /></p>
+
+<p>이런 유니코드 표를 사용해야 한다.</p>
+
+<ul>
+  <li>┌ ┬ ┐
+    <ul>
+      <li>250C</li>
+      <li>252C</li>
+      <li>2510</li>
+    </ul>
+  </li>
+  <li>├ ┼ ┤
+    <ul>
+      <li>251C</li>
+      <li>253C</li>
+      <li>2524</li>
+    </ul>
+  </li>
+  <li>└ ┴ ┘
+    <ul>
+      <li>2514</li>
+      <li>2534</li>
+      <li>2518</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"\u250C\u252C\u2510</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"\u251C\u253C\u2524</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"\u2514\u2534\u2518</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

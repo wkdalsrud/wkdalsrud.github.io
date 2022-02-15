@@ -1,0 +1,30 @@
+I"�<ul class="toc__menu">
+  <li><a href="#chapter-5-트리">Chapter 5. 트리</a>
+    <ul>
+      <li><a href="#-힙">🚖 힙</a>
+        <ul>
+          <li><a href="#이진-트리">이진 트리</a>
+            <ul>
+              <li><a href="#이진-검색-트리">이진 검색 트리</a></li>
+              <li><a href="#힙-트리-">힙 트리 ✨</a>
+                <ul>
+                  <li><a href="#추가하기">추가하기</a></li>
+                  <li><a href="#최대값-꺼내기루트-삭제하기">최대값 꺼내기(루트 삭제하기)</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#-우선순위-큐-구현">🚖 우선순위 큐 구현</a>
+        <ul>
+          <li><a href="#push--우선순위-큐에-노드-추가">Push : 우선순위 큐에 노드 추가</a></li>
+          <li><a href="#pop--우선순위-큐에서-최대값-뽑기--루트-노드-삭제">Pop : 우선순위 큐에서 최대값 뽑기 👉 루트 노드 삭제</a></li>
+          <li><a href="#count">Count</a></li>
+        </ul>
+      </li>
+      <li><a href="#-제네릭한-우선순위-큐-구현">🚖 제네릭한 우선순위 큐 구현</a></li>
+    </ul>
+  </li>
+</ul>
+:ET

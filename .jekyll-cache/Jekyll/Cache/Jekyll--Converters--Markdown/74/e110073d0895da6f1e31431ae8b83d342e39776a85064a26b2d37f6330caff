@@ -1,0 +1,128 @@
+I"�,<h1 id="-예상-대진표">📌 예상 대진표</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107538871-bf995500-6c07-11eb-8988-c46ffe943028.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">DFS</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">count</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">middle</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="n">start</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">middle</span><span class="p">){</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">){</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">DFS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">middle</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+        <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="n">DFS</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    
+    <span class="kt">int</span> <span class="n">exp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">){</span>
+        <span class="n">n</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="n">exp</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">exp</span> <span class="o">-</span> <span class="n">count</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>내가 생각했던 규칙
+    <ul>
+      <li>범위를 절반씩 나눴을 때
+        <ul>
+          <li>그 절반으로 나눈 같은 범위 안에 <code class="language-plaintext highlighter-rouge">a</code>와 <code class="language-plaintext highlighter-rouge">b</code>가 둘 다 들어 있어 있다면 👉 카운팅한다.</li>
+          <li><code class="language-plaintext highlighter-rouge">a</code>와 <code class="language-plaintext highlighter-rouge">b</code>가 같은 범위 안에 있지 않고 각각 다른 범위 안에 속해 있다면 👉 더 이상 카운팅 하지 않고 break</li>
+        </ul>
+      </li>
+      <li>최종적인 카운르를 트리의 높이(<code class="language-plaintext highlighter-rouge">n</code>이 16이라면 4가 된다. 즉 제곱근..!)에서 빼주면 정답.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>그래서 약간 이분 탐색과 비슷하게 절반으로 나눠서 왼쪽 범위 안에 둘 다 있다면 카운팅하고 또 절반으로 나누는 것을 진행해야 하기 때문에 왼쪽 범위를 전체 범위로 한 DFS를 호출 시켰다. 반대로 오른쪽 범위 안에 둘 다 있따면 카운팅하고 오른쪽 범위를 전체 범위로 한 DFS를 호출했다. 둘이 같은 범위 안에 속해있지 않다면 그건 DFS 종료 조건이 된다.</p>
+
+<ul>
+  <li>예를 들어 <code class="language-plaintext highlighter-rouge">n</code>이 16 이고 <code class="language-plaintext highlighter-rouge">a</code>가 12, <code class="language-plaintext highlighter-rouge">b</code>가 15라면!
+    <ul>
+      <li>[1,2,3,4,5,6,7,8] [9,10,11,12,13,14,15,16]
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">a</code>와 <code class="language-plaintext highlighter-rouge">b</code>는 둘 다 오른쪽 범위 안에 속한다. <em>count = 1</em> 오른쪽 범위로 DFS</li>
+        </ul>
+      </li>
+      <li>[9,10,11,12] [13,14,15,16]
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">a</code>dhk <code class="language-plaintext highlighter-rouge">b</code>는 각각 다른 범위 안에 속하므로 break</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>최종적인 답은 16의 제곱근인 4에서 1을 뺀 <code class="language-plaintext highlighter-rouge">3</code>이 된다.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="-다른-풀이">🚀 다른 풀이</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">){</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">a</span> <span class="o">%</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">b</span> <span class="o">%</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="n">answer</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이 문제를 DFS 로 푼 사람은 나 밖에 없을 것 같다.. 이렇게 간단한 풀이가 있는데 ㅠ ㅠ.. 현타..</p>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/107542333-6cc19c80-6c0b-11eb-980f-dd02b2db043b.png" alt="image" /></p>
+
+<ul>
+  <li>짝수번 참가자의 경우 👉 다음 라운드로 가면 <code class="language-plaintext highlighter-rouge">n = n / 2</code> 번이 된다.</li>
+  <li>홀수번 참가자의 경우 👉 다음 라운드로 가면 <code class="language-plaintext highlighter-rouge">n = n / 2 + 1</code> 번이 된다.</li>
+</ul>
+
+<p>짝수의 경우 <code class="language-plaintext highlighter-rouge">n % 2</code>가 0이기 때문에 위는 <code class="language-plaintext highlighter-rouge">n = n / 2 + n % 2</code> 로 일반화 할 수 있다. <strong>번호가 같아질 때까지 answer를 카운팅하면 그게 답이 된다.</strong> 번호가 같아진다는 것은 만났다는 것을 의미함.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

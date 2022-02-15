@@ -1,0 +1,19 @@
+I"D<ul class="toc__menu">
+  <li><a href="#chapter-5-큐">Chapter 5. 큐</a>
+    <ul>
+      <li><a href="#-queue-란">🚀 Queue 란?</a>
+        <ul>
+          <li><a href="#-큐의-구현">🔥 큐의 구현</a></li>
+        </ul>
+      </li>
+      <li><a href="#-배열로-원형-큐-구현하기">🚀 배열로 원형 큐 구현하기</a>
+        <ul>
+          <li><a href="#arrayqueueh">📜ArrayQueue.h</a></li>
+          <li><a href="#arrayqueuec">📜ArrayQueue.c</a></li>
+          <li><a href="#mainc">📜main.c</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,35 @@
+I"�<ul class="toc__menu">
+  <li><a href="#-서론">🚀 서론</a>
+    <ul>
+      <li><a href="#-쓰임새">🔥 쓰임새</a></li>
+      <li><a href="#-용어">🔥 용어</a></li>
+      <li><a href="#-문자열-알고리즘-종류">🔥 문자열 알고리즘 종류</a></li>
+    </ul>
+  </li>
+  <li><a href="#-단순하게-비교하는-방법들과의-비교">🚀 단순하게 비교하는 방법들과의 비교</a>
+    <ul>
+      <li><a href="#-브루트-포스">🔥 브루트 포스</a></li>
+      <li><a href="#-검색어-길이-단위로-비교">🔥 검색어 길이 단위로 비교</a></li>
+    </ul>
+  </li>
+  <li><a href="#-특징">💡 특징</a></li>
+  <li><a href="#-구현-코드-및-과정-설명">🚀 구현 코드 및 과정 설명</a>
+    <ul>
+      <li><a href="#-첫-번째-코드">🔥 첫 번째 코드</a>
+        <ul>
+          <li><a href="#1️⃣-검색-함수">1️⃣ 검색 함수</a></li>
+          <li><a href="#2️⃣-실패-함수-partial-match-table">2️⃣ 실패 함수 (partial match table)</a></li>
+        </ul>
+      </li>
+      <li><a href="#-두-번째-코드">🔥 두 번째 코드</a>
+        <ul>
+          <li><a href="#1️⃣-검색-함수-1">1️⃣ 검색 함수</a></li>
+          <li><a href="#2️⃣-실패-함수-partial-match-table-1">2️⃣ 실패 함수 (partial match table)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#-시간-복잡도">🚀 시간 복잡도</a></li>
+  <li><a href="#-reference">📌 Reference</a></li>
+</ul>
+:ET

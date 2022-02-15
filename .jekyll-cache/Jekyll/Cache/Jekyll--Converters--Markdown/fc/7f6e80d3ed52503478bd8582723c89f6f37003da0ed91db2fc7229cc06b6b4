@@ -1,0 +1,133 @@
+I"�$<h2 id="-난이도">🚀 난이도</h2>
+
+<blockquote>
+  <p>💛 골드 5</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<blockquote>
+  <p><a href="https://www.acmicpc.net/problem/2470">https://www.acmicpc.net/problem/2470</a></p>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/111066066-74bd7680-8500-11eb-83b4-ba82ce8c0fda.png" alt="image" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>예제 입력 1 
+5
+-2 4 -99 -1 98
+예제 출력 1 
+-99 98
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#define INF 2000000000
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">N</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">sort</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">arr</span><span class="p">.</span><span class="n">end</span><span class="p">());</span> <span class="c1">// 정렬 필수!</span>
+
+    <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// start 은 왼쪽 끝에서</span>
+    <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// end 은 오른쪽 끝에서 시작</span>
+    <span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span> <span class="c1">// 현재까지 0 에 가장 가까웠던 합</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">end</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">min</span> <span class="o">&gt;</span> <span class="n">abs</span><span class="p">(</span><span class="n">sum</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">min</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
+            <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">start</span><span class="p">];</span>
+            <span class="n">answer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">end</span><span class="p">];</span> 
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> 
+            <span class="n">start</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">else</span> 
+            <span class="n">end</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">answer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">answer</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>양쪽 끝에서 출발한 두 포인터가 <strong>서로 반대 방향</strong>으로 다가와서 좁혀지는 형태의 투포인터 알고리즘이다.  start -&gt; &lt;- end 요렇게!</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">start</code> -&gt; 방향</li>
+  <li><code class="language-plaintext highlighter-rouge">end</code> &lt;- 방향</li>
+</ul>
+
+<p class="notice--warning"><strong>서로의 합이 가장 0 에 가까운 두 수를 구해야하기 때문에 <u>먼저 오름차순 정렬을 한 후,</u>  <u>양쪽 끝에서부터 두 포인터를 이용하여 0 에 가까운 두 수를 구해나간다.</u></strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">min</code>은 현재까지 구한 두 수의 합 중 가장 0 에 가까웠던 합. (가장 “가까웠던” 이니까 절대값으로 넣어야 한다.)</p>
+
+<ul>
+  <li>1️⃣ 먼저 오름차순 정렬을 한다. (음수거나 작을 수록 왼쪽, 양수거나 클 수록 오른쪽에 위치하도록)</li>
+  <li>2️⃣ 양쪽 끝의 두 포인터가 가리키는 원소끼리 더하여 최대한 두 수의 합이 0 에 가깝도록 두 포인터를 업데이트 해나간다.
+    <ul>
+      <li><em>arr[start] + arr[end] &lt; 0</em>
+        <ul>
+          <li>0 보다 작으므로 두 수의 합이 더 커져야 0 에 가까워질 것이다. 그러므로 더 커져야하기 떄문에 <code class="language-plaintext highlighter-rouge">start</code>를 증가시킨다. (작은 값을 더 큰 값으로 대체)</li>
+        </ul>
+      </li>
+      <li><em>arr[start] + arr[end] &gt; 0</em>
+        <ul>
+          <li>0 보다 크므로 두 수의 합이 더 작아야 0 에 가까워질 것이다. 그러므로 더 작아져야하기 떄문에 <code class="language-plaintext highlighter-rouge">end</code>를 감소시킨다. (큰 값을 더 작은 값으로 대체)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>3️⃣ <code class="language-plaintext highlighter-rouge">min</code> 업데이트 하기
+    <ul>
+      <li><em>arr[start] + arr[end] &lt; min</em>
+        <ul>
+          <li>기존에 구했던 두 수의 합보다 더 작은 합이 나왔으니 정답 후보가 될 수 있다. <code class="language-plaintext highlighter-rouge">min</code>과 <code class="language-plaintext highlighter-rouge">answer</code>를 업뎃한다.</li>
+          <li>혹시 이미 0 이 나왔으면 더 찾을 필요 없으므로 종료.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>4 -99 -1 7 -2</p>
+</blockquote>
+
+<ul>
+  <li>우선 정렬하기 👉 -99 -2 -1 4 7</li>
+  <li><u>-99</u> -2 -1 4 <u>7</u> : -99 + 7 &lt; 0 이므로 더 커져야 함 (92)</li>
+  <li>-99 <u>-2</u> -1 4 <u>7</u> : -2 + 7 &gt; 0 이므로 더 작아져야 함 (5)</li>
+  <li>-99 <u>-2</u> -1 <u>4</u> 7 : -2 + 4 &gt; 0 이므로 더 작아져야 함 (2)</li>
+  <li>-99 <u>-2</u> <u>-1</u> 4 7 : -2 + -1 &lt; 0 이므로 더 커져야 함 (3)
+    <ul>
+      <li>start &gt;= end 이므로 종료</li>
+    </ul>
+  </li>
+</ul>
+
+<p>답은 가장 0 에 가까웠던 (2)  -2  4 가 된다.</p>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

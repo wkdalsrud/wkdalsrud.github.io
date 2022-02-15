@@ -1,0 +1,130 @@
+I"q'<h1 id="스택큐-기능개발">[스택/큐] 기능개발</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/88622830-93404000-d0de-11ea-839b-2051e6ec3ed7.png" alt="image" width="90%" height="90%" class="align-center" /></p>
+
+<p><br /></p>
+
+<h2 id="내-풀이">내 풀이</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">solution</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">progresses</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">speeds</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">;</span>
+    
+    <span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    
+    <span class="c1">// 각 작업마다 몇일간 작업 가능한지 계산한 후 큐에 삽입</span>
+    <span class="c1">// 큐에는 작업마다 소요되는 일 수가 원소로 들어간다.</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">speeds</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="mi">100</span> <span class="o">-</span> <span class="n">progresses</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="n">speeds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  
+            <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">((</span><span class="mi">100</span> <span class="o">-</span> <span class="n">progresses</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">speeds</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">else</span>  <span class="c1">// 나머지가 0 이 아닐 땐, 즉 딱 떨어지는게 아닐 땐 1 을 더해주어야 한다.</span>
+            <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">((</span><span class="mi">100</span> <span class="o">-</span> <span class="n">progresses</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">speeds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  
+    <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>  <span class="c1">// 이름을 temp로 잘못 지은 것 같다. 현재까지의 max day 라고 생각하면 됨.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&gt;=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+            <span class="p">{</span>
+                <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">answer</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>맨 앞에부터 검사를 해나가며 검사를 끝낸 원소는 삭제할 것이기 때문에 <code class="language-plaintext highlighter-rouge">큐</code>가 자료 구조 선택으로 적합하다고 생각 했다.</p>
+</blockquote>
+
+<ul>
+  <li>작업마다 소요되는 일 수들이 저장될 큐가 예를 들어 [7 4 3 5 2 8 8 5 6 9]일 때의 <code class="language-plaintext highlighter-rouge">answer</code>는 [5, 4, 1]이 된다.
+    <ul>
+      <li><img src="https://user-images.githubusercontent.com/42318591/88623496-0a2a0880-d0e0-11ea-8394-c7f857364532.png" alt="image" width="70%" height="70%" class="align-center" /></li>
+    </ul>
+  </li>
+  <li>문제에서 주어진 예시
+    <ul>
+      <li>시작
+        <ul>
+          <li>각 작업마다 소요되는 일 수 <code class="language-plaintext highlighter-rouge">큐</code> 👉 [7, 3, 9]</li>
+          <li>temp = 7</li>
+          <li>count = 0</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">7 &gt;= 7</code>
+        <ul>
+          <li>첫번째 작업은 7일차에 배포할 수 있다.</li>
+          <li>count = 1;</li>
+          <li>q.pop() 이후 <code class="language-plaintext highlighter-rouge">큐</code> 👉 [3, 9]</li>
+          <li>큐가 비워진건 아니므로 아직 최종 count 가 결정된 것은 아니다. 아직 <code class="language-plaintext highlighter-rouge">answer</code>에 삽입 X</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">7 &gt;= 3</code>
+        <ul>
+          <li>두번째 작업은 3일차에 배포가 가능하나 첫번째 작업이 7일차에 배포할 수 있으므로 7일차에 첫번째 작업과 같이 배포해야 한다.</li>
+          <li>count = 2;</li>
+          <li>q.pop() 이후 <code class="language-plaintext highlighter-rouge">큐</code> 👉 [9]</li>
+          <li>큐가 비워진건 아니므로 아직 최종 count 가 결정된 것은 아니다. 아직 <code class="language-plaintext highlighter-rouge">answer</code>에 삽입 X</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">7 &lt; 9</code>
+        <ul>
+          <li>7 일보다 더 큰 9 일이 걸리는 작업 등장.</li>
+          <li>7 일차에 배포하는 작업은 첫번째 작업, 두번째 작업 이렇게로 최종 정리한다.
+            <ul>
+              <li>최종적으로 7 일차에 2 개 배포한다는 의미에서 <code class="language-plaintext highlighter-rouge">answer</code>에 <code class="language-plaintext highlighter-rouge">2</code>를 삽입.</li>
+              <li>count는 0으로 초기화 해주고</li>
+              <li>9 를 새로운 temp 로 갱신한다.</li>
+            </ul>
+          </li>
+          <li>이 과정에선 <code class="language-plaintext highlighter-rouge">pop</code>연산이 이루어지지 않는다.</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">9 &gt;= 9</code>
+        <ul>
+          <li>세번째 작업은 9일차에 배포할 수 있다.</li>
+          <li>count = 1;</li>
+          <li>q.pop() 이후 <code class="language-plaintext highlighter-rouge">큐</code> 👉 []</li>
+          <li>큐가 비워졌으므로 <code class="language-plaintext highlighter-rouge">answer</code>에 여태까지의 count인 <code class="language-plaintext highlighter-rouge">1</code> 삽입 후 while 반복을 끝내야 ㅎ나다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET

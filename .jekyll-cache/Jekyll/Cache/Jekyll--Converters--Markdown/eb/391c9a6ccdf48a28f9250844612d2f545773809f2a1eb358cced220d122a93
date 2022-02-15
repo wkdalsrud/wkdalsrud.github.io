@@ -1,0 +1,58 @@
+I"<h1 id="-멀쩡한-사각형">📌 멀쩡한 사각형</h1>
+
+<blockquote>
+  <p>난이도 ⭐⭐</p>
+</blockquote>
+
+<h2 id="-문제">🚀 문제</h2>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105696901-387d8900-5f47-11eb-8b1f-1ed6a4428335.png" alt="image" /></p>
+
+<p><br /></p>
+
+<h2 id="-내-풀이-">🚀 내 풀이 ⭕</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">long</span> <span class="kt">long</span> <span class="nf">solution</span><span class="p">(</span><span class="kt">int</span> <span class="n">w</span><span class="p">,</span> <span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">cantuse</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">w</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">cantuse</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">ceil</span><span class="p">((</span><span class="kt">long</span> <span class="kt">double</span><span class="p">)</span><span class="n">h</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">floor</span><span class="p">((</span><span class="kt">long</span> <span class="kt">double</span><span class="p">)</span><span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">);</span>
+
+    <span class="n">answer</span> <span class="o">=</span> <span class="p">(</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">w</span> <span class="o">*</span> <span class="n">h</span> <span class="o">-</span> <span class="n">cantuse</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">answer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://user-images.githubusercontent.com/42318591/105710622-b1d2a700-5f5a-11eb-8b2e-964ed845eb71.png" alt="image" /></p>
+
+<h3 id="-자료형의-중요성--아주-큰-수의-곱셈과-나눗셈">✈ 자료형의 중요성 : 아주 큰 수의 곱셈과 나눗셈</h3>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">h</code>, <code class="language-plaintext highlighter-rouge">w</code>는 1 억 같은 큰 수일 수도 있다.</p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">h / w</code> 나누기를 먼저하면 오차가 더 크다. (h / w * i 로 진행할 경우 오차 大)
+    <ul>
+      <li>실수(long double)끼리 나누면 소숫점이 어마어마하게 길어져서 그런지.. long double로도 감당 안될 수 있다.</li>
+      <li>이런 상태에서 <code class="language-plaintext highlighter-rouge">i</code>까지 곱해버리면 오차 또한 <code class="language-plaintext highlighter-rouge">i</code>만큼 곱해져 더 거대해진다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">h * i</code> 곱하기를 먼저한 후 나누면 오차가 위보다 덜 할 것. (h * i / w 로 진행할 경우)</li>
+  <li>사칙연산 순서를 <em>h / w * i</em> 에서 <em>h * i / w</em> 로 변경하니 해결 되었다.</li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>🌜 개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우 
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다! 😄
+</code></pre></div></div>
+
+<p><a href="#" class="btn btn--primary align-right">맨 위로 이동하기</a></p>
+:ET
