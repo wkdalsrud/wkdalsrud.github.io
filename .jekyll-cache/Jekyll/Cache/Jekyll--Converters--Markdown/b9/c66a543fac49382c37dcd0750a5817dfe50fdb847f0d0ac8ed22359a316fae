@@ -1,17 +1,22 @@
-I"E
+I"w<hr />
+
 <div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/frontend/firstPost/">첫번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
-              <!--Archive page 용-: (post -> page)-->
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.02.15</p>
+      
+      
+        <a href="/java/dmdkd/" rel="permalink">세번째 게시물
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
 <!--page__taxonomy.html에서 가져 옴-->
         
         <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#frontend" class="page__taxonomy-item-category" rel="tag">Frontend</a>
+            <span itemprop="keywords"><a href="/categories/#java" class="page__taxonomy-item-category" rel="tag">JAVA</a>
                     
                     
                     <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
@@ -30,8 +35,6 @@
                 
             </span>
         </span>
-            </small>
-        </div>
-      </article>
+  </article>
 </div>
 :ET

@@ -337,42 +337,82 @@
   
 
   
-    
+    <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
 
 <nav class="nav__list">
-    <input id="ac-toc" name="accordion-toc" type="checkbox" />
-    <label for="ac-toc">카테고리 Click</label>
-    <ul class="nav__items" id="category_tag_menu">
-        <li style="margin-top:  20px;">
-            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span
-                    style="font-family:'Coming Soon';">4</style> <span
-                        style="font-family:'Cafe24Oneprettynight';">개</style>
-        </li>
-        <li>
-            <span class="nav__sub-title" style="margin-top: 20px;">Coding</span>
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">카테고리 Click</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li style="margin: 1.5rem 1rem 1rem 0rem"> 
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">4</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
+        <span class="nav__sub-title">프로그래밍</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
             <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/java" class="">JAVA(1)</a></li>
+                    
+                
+                    
                 
             </ul>
             <ul>
                 
+                    
+                        <li><a href="/categories/frontend" class="">Frontend (1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
             </ul>
             <ul>
                 
-            </ul>
-            <br>
-
-            <span class="nav__sub-title" style="margin-top: 20px;">TIL</span>
-            <ul>
+                    
+                
+                    
+                        <li><a href="/categories/git" class="">Git & Github (1)</a></li>
+                    
+                
+                    
+                
+                    
                 
             </ul>
-
-            <!-- 방문자 조회 -->
-            <!-- <li>	
-            <br>      
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fansohxxn.github.io&count_bg=%23FFCC35&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false">
-      </li> -->
-    </ul>
+        <span class="nav__sub-title">TIL</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/til" class="">Today I Learn (1)</a></li>
+                    
+                
+            </ul>
+           
+      </li>
+  </ul>
 </nav>
+
   
 
   </div>
