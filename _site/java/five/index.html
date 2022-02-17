@@ -166,7 +166,7 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         
-          <a class="site-logo" href="/"><img src="/assets/images/logoImages.jpeg" alt=""></a>
+          <a class="site-logo" href="/"><img src="/assets/images/logoImage_book.png" alt=""></a>
         
         <a class="site-title" href="/">
           기억저장소
@@ -306,75 +306,263 @@
 
 
 <nav class="nav__list">
-  <input id="ac-toc" name="accordion-toc" type="checkbox" />
-  <label for="ac-toc">카테고리 Click</label>
-  <ul class="nav__items" id="category_tag_menu">
-      <!--전체 글 수-->
-      <li style="margin: 1.5rem 1rem 1rem 0rem"> 
-            📂 <span style="font-family:'GmarketSansMidium';">전체 글 수</style> <span style="font-family:'GmarketSansMidium';">5</style><span style="font-family:'GmarketSansMidium';">개</style> 
-      </li>
-      <li>
-        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
-        <span class="nav__sub-title">프로그래밍</span>
-            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
-            <ul>
-                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
-                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
-                
-                    
-                
-                    
-                
-                    
-                        <li><a href="/categories/java" class="">JAVA(2)</a></li>
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                        <li><a href="/categories/frontend" class="">Frontend (1)</a></li>
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </ul>
-        <span class="nav__sub-title">TIL</span>
-            <ul>
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                        <li><a href="/categories/til" class="">Today I Learn (1)</a></li>
-                    
-                
-            </ul>
-           
-      </li>
-  </ul>
-</nav>
+    <input id="ac-toc" name="accordion-toc" type="checkbox" />
+    <label for="ac-toc">카테고리 Click</label>
+    <ul class="nav__items" id="category_tag_menu">
+        <!--전체 글 수-->
+        <li style="margin: 1.5rem 1rem 1rem 0rem">
+            📂 <span style="font-family:'GmarketSansMidium';">전체 글 수</style> <span
+                    style="font-family:'GmarketSansMidium';">9</style><span
+                        style="font-family:'GmarketSansMidium';">개</style>
+        </li>
+        <li>
 
+            <!-- -------------------------------------Back-end--------------------------------------------- -->
+
+            <span class="nav__sub-title">Back-end</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/java" class="">JAVA (2)</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- --------------------------------------Front-end-------------------------------------------- -->
+
+            <span class="nav__sub-title">Front-end</span>
+            <ul>
+                
+                
+                
+                
+                <li><a href="/categories/html" class="">HTML (1)</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/css" class="">CSS (1)</a></li>
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- ----------------------------------------university------------------------------------------ -->
+
+            <span class="nav__sub-title">University</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/his" class="">한국사의 이해(교양) (1)</a></li>
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/dis" class="">이산수학 (1)</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/system" class="">운영체제 (1)</a></li>
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- --------------------------------------ETC-------------------------------------------- -->
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                
+                <li><a href="/categories/git-github" class="">Git & Github (1)</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- ---------------------------------------------------------------------------------- -->
+            
+        </li>
+    </ul>
+</nav>
   
 
   </div>
@@ -438,6 +626,36 @@
 
       <section class="page__content" itemprop="text">
         
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#헤딩1">헤딩1</a>
+    <ul>
+      <li><a href="#헤딩2">헤딩2</a>
+        <ul>
+          <li><a href="#헤딩3">헤딩3</a>
+            <ul>
+              <li><a href="#헤딩4">헤딩4</a>
+                <ul>
+                  <li><a href="#헤딩5">헤딩5</a>
+                    <ul>
+                      <li><a href="#헤딩6">헤딩6</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
         <h1 id="헤딩1">헤딩1</h1>
 <h2 id="헤딩2">헤딩2</h2>
 <h3 id="헤딩3">헤딩3</h3>
@@ -458,11 +676,12 @@
 
   <nav class="pagination">
     
-      <a href="/til/djkfls/" class="pagination--pager" title="네번째 게시물
+      <a href="/operating%20system/system/" class="pagination--pager" title="운영체제 게시물
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/css/css/" class="pagination--pager" title="CSS 게시물
+">다음</a>
     
   </nav>
 
@@ -481,7 +700,7 @@
 
   <nav class="pagination_prev_next">
     
-      <a href="/java/dmdkd/" class="pagination_prev_next--pager"><span class="prev_next">이전 글  &nbsp</span>세번째 게시물</a>
+      <a href="/java/dmdkd/" class="pagination_prev_next--pager"><span class="prev_next">이전 글 &nbsp</span>세번째 게시물</a>
     
     
       <a href="#" class="pagination_prev_next--pager disabled-last-child ">가장 최근 글입니다</a>
@@ -512,7 +731,7 @@
       </section>
       <footer class="page__meta">
         
-        <section class="page__share">
+        <!-- <section class="page__share">
   
     <h4 class="page__share-title">공유하기</h4>
   
@@ -522,7 +741,7 @@
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Ffive%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
   <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Ffive%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
-</section>
+</section> -->
 
       </footer>
     </div>
@@ -531,154 +750,7 @@
 
   </article>
 
-  
-  
-    <div class="page__related"> <!--site.data.ui-text[site.locale].related_label-->
-      <h4 class="page__related-title">최근 글 10 개 :)</h4>
-        
-          <div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/til/djkfls/">네번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
-              <!--Archive page 용-: (post -> page)-->
-<!--page__taxonomy.html에서 가져 옴-->
-        
-        <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#til" class="page__taxonomy-item-category" rel="tag">TIL</a>
-                    
-                    
-                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">java</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
-                
-            </span>
-        </span>
-            </small>
-        </div>
-      </article>
-</div>
-        
-          <div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/java/dmdkd/">세번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
-              <!--Archive page 용-: (post -> page)-->
-<!--page__taxonomy.html에서 가져 옴-->
-        
-        <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#java" class="page__taxonomy-item-category" rel="tag">JAVA</a>
-                    
-                    
-                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">java</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
-                
-            </span>
-        </span>
-            </small>
-        </div>
-      </article>
-</div>
-        
-          <div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/git%20&%20github/second/">두번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
-              <!--Archive page 용-: (post -> page)-->
-<!--page__taxonomy.html에서 가져 옴-->
-        
-        <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#git-github" class="page__taxonomy-item-category" rel="tag">Git & Github</a>
-                    
-                    
-                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
-                
-            </span>
-        </span>
-            </small>
-        </div>
-      </article>
-</div>
-        
-          <div class="list__item">
-    <article class="archive-item">
-        <div>
-            <span>
-              <a href="/frontend/firstPost/">첫번째 게시물</a>
-            </span>
-            <small> 
-              <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.15
-              <!--Archive page 용-: (post -> page)-->
-<!--page__taxonomy.html에서 가져 옴-->
-        
-        <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#frontend" class="page__taxonomy-item-category" rel="tag">Frontend</a>
-                    
-                    
-                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">java</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
-                
-            </span>
-        </span>
-            </small>
-        </div>
-      </article>
-</div>
-        
-    </div>
-  
-  
+ 
 </div>
 
     </div>

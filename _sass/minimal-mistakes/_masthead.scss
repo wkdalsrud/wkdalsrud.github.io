@@ -50,7 +50,7 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-item-align: center;
-  font-family: $sans-serif;
+  font-family: $serif;
   align-self: center;
   font-weight: bold;
   // z-index: 20;
@@ -63,7 +63,7 @@
 
 .masthead__menu {
   float: left;
-  margin-left: 1rem 1rem 1rem 1rem;
+  margin: 0.5rem 1rem 0.5rem 1rem;
   width: 100%;
   clear: both;
 

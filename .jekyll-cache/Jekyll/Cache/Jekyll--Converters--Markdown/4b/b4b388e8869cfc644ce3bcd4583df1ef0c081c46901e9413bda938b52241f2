@@ -1,0 +1,36 @@
+I"�<hr />
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.02.15</p>
+      
+      
+        <a href="/git%20&amp;%20github/second/" rel="permalink">두번째 게시물
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#git-github" class="page__taxonomy-item-category" rel="tag">Git &amp; Github</a>
+                    
+                    
+                    <a href="/tags/#github" class="page__taxonomy-item-tag" rel="tag">github</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#git" class="page__taxonomy-item-tag" rel="tag">git</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#til" class="page__taxonomy-item-tag" rel="tag">til</a>
+                
+            </span>
+        </span>
+  </article>
+</div>
+:ET

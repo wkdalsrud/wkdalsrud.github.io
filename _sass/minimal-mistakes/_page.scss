@@ -69,10 +69,12 @@ body {
 }
 
 .page__title {
+  font-size: $type-size-4;
+  color: #6E6E6E;
   font-family: $serif;
   margin-top: 0;
   line-height: 1.2;
-  color: mix(#000000, $primary-color, 40%);
+  // color: mix(#000000, $primary-color, 40%);
 
   & + .page__meta {
     margin-top: -0.5em;
@@ -85,7 +87,6 @@ body {
 }
 
 .page__content {
-  padding-top: 20px;
   margin-top: 30px;
 
   h2 {
@@ -348,7 +349,7 @@ body {
   text-decoration: none;
   border: 1px solid #FBEFF2;
   border-radius: $border-radius;
-  background-color: #424242;
+  background-color: #585858;
   font-family: $cute;
   color: #FBEFF2;
 
@@ -396,7 +397,7 @@ body {
   grid-template-columns: repeat(2, 1fr);
   margin: 1.414em 0;
   padding: 0;
-  font-size: 1.3em;
+  font-size: 1.2em;
   list-style: none;
 
   @include breakpoint($large) {
@@ -414,7 +415,7 @@ body {
     color: mix(#000, $primary-color, 60%);
     text-decoration: none;
     border-bottom: 1px solid $border-color;
-    font-family: $serif;
+    font-family: $cute;
   }
 }
 
@@ -537,7 +538,7 @@ body {
 .page__related {
   @include clearfix();
   float: left;
-  margin-top: 2em;
+  margin-top: 1em;
   padding-top: 1em;
   border-top: 1px solid $border-color;
 
@@ -562,7 +563,7 @@ body {
 
 .page__related-title {
   margin-bottom: 20px;
-  font-size: $type-size-6;
+  font-size: 1rem;
   //color: #fcd14f;
 }
 

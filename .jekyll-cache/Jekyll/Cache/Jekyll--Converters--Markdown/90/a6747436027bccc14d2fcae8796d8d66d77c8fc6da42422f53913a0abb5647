@@ -1,0 +1,31 @@
+I"}
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.02.15</p>
+      
+      
+        <a href="/history/history/" rel="permalink">한국사의 이해 게시물
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#history" class="page__taxonomy-item-category" rel="tag">History</a>
+                    
+                    
+                    <a href="/tags/#%EB%8C%80%ED%95%99%EA%B5%90" class="page__taxonomy-item-tag" rel="tag">대학교</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#%ED%95%9C%EA%B5%AD%EC%82%AC%EC%9D%98%EC%9D%B4%ED%95%B4" class="page__taxonomy-item-tag" rel="tag">한국사의이해</a>
+                
+            </span>
+        </span>
+  </article>
+</div>
+:ET

@@ -3,49 +3,114 @@
 {% assign sum = site.posts | size %}
 
 <nav class="nav__list">
-  <input id="ac-toc" name="accordion-toc" type="checkbox" />
-  <label for="ac-toc">{{ site.data.ui-text[site.locale].menu_label }}</label>
-  <ul class="nav__items" id="category_tag_menu">
-      <!--전체 글 수-->
-      <li style="margin: 1.5rem 1rem 1rem 0rem"> 
-            📂 <span style="font-family:'GmarketSansMidium';">전체 글 수</style> <span style="font-family:'GmarketSansMidium';">{{sum}}</style><span style="font-family:'GmarketSansMidium';">개</style> 
-      </li>
-      <li>
-        <!--span 태그로 카테고리들을 크게 분류 ex) C/C++/C#-->
-        <span class="nav__sub-title">프로그래밍</span>
-            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+    <input id="ac-toc" name="accordion-toc" type="checkbox" />
+    <label for="ac-toc">{{ site.data.ui-text[site.locale].menu_label }}</label>
+    <ul class="nav__items" id="category_tag_menu">
+        <!--전체 글 수-->
+        <li style="margin: 1.5rem 1rem 1rem 0rem">
+            📂 <span style="font-family:'GmarketSansMidium';">전체 글 수</style> <span
+                    style="font-family:'GmarketSansMidium';">{{sum}}</style><span
+                        style="font-family:'GmarketSansMidium';">개</style>
+        </li>
+        <li>
+
+            <!-- -------------------------------------Back-end--------------------------------------------- -->
+
+            <span class="nav__sub-title">Back-end</span>
             <ul>
-                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
-                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
                 {% for category in site.categories %}
-                    {% if category[0] == "JAVA" %}
-                        <li><a href="/categories/java" class="">JAVA({{category[1].size}})</a></li>
-                    {% endif %}
+                {% if category[0] == "JAVA" %}
+                <li><a href="/categories/java" class="">JAVA ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <!-- --------------------------------------Front-end-------------------------------------------- -->
+
+            <span class="nav__sub-title">Front-end</span>
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "HTML" %}
+                <li><a href="/categories/html" class="">HTML ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "CSS" %}
+                <li><a href="/categories/css" class="">CSS ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "JS" %}
+                <li><a href="/categories/js" class="">Java Script ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <!-- ----------------------------------------university------------------------------------------ -->
+
+            <span class="nav__sub-title">University</span>
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "History" %}
+                <li><a href="/categories/his" class="">한국사의 이해(교양) ({{category[1].size}})</a></li>
+                {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Frontend" %}
-                        <li><a href="/categories/frontend" class="">Frontend ({{category[1].size}})</a></li>
-                    {% endif %}
+                {% if category[0] == "Discrete mathematics" %}
+                <li><a href="/categories/dis" class="">이산수학 ({{category[1].size}})</a></li>
+                {% endif %}
                 {% endfor %}
             </ul>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "git" %}
-                        <li><a href="/categories/git" class="">Git & Github ({{category[1].size}})</a></li>
-                    {% endif %}
+                {% if category[0] == "JAVA2" %}
+                <li><a href="/categories/java2" class="">Java프로그래밍 ({{category[1].size}})</a></li>
+                {% endif %}
                 {% endfor %}
             </ul>
-        <span class="nav__sub-title">TIL</span>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "TIL" %}
-                        <li><a href="/categories/til" class="">Today I Learn ({{category[1].size}})</a></li>
-                    {% endif %}
+                {% if category[0] == "HTML2" %}
+                <li><a href="/categories/html2" class="">HTML 웹프로그래밍 ({{category[1].size}})</a></li>
+                {% endif %}
                 {% endfor %}
             </ul>
-           
-      </li>
-  </ul>
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "Operating system" %}
+                <li><a href="/categories/system" class="">운영체제 ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "Algorism" %}
+                <li><a href="/categories/algo" class="">알고리즘 ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <!-- --------------------------------------ETC-------------------------------------------- -->
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                {% for category in site.categories %}
+                {% if category[0] == "Git & Github" %}
+                <li><a href="/categories/git-github" class="">Git & Github ({{category[1].size}})</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <!-- ---------------------------------------------------------------------------------- -->
+            
+        </li>
+    </ul>
 </nav>

@@ -1,0 +1,31 @@
+I"�
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.02.15</p>
+      
+      
+        <a href="/discrete%20mathematics/dis/" rel="permalink">네번째 게시물
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#discrete-mathematics" class="page__taxonomy-item-category" rel="tag">Discrete mathematics</a>
+                    
+                    
+                    <a href="/tags/#%EB%8C%80%ED%95%99%EA%B5%90" class="page__taxonomy-item-tag" rel="tag">대학교</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#%EC%9D%B4%EC%82%B0%EC%88%98%ED%95%99" class="page__taxonomy-item-tag" rel="tag">이산수학</a>
+                
+            </span>
+        </span>
+  </article>
+</div>
+:ET
