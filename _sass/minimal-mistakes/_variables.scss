@@ -16,8 +16,10 @@ $indent-var: 1.3em !default;
 $serif: "GmarketSansMedium", Georgia, Times, serif !default;
 $sans-serif: "Arita-dotum-Medium", -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
   "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
-$monospace: "GmarketSansLight", Monaco, Consolas, "Lucida Console", monospace !default;
+$monospace: "Iropke Batang", Monaco, Consolas, "Lucida Console", monospace !default;
 $cute: "ACCchildrenheartOTF-Regular" !default;
+$lightver: "GmarketSansLight" !default;
+$coding: "Monaco" !default;
 
 /* sans serif typefaces */
 $sans-serif-narrow: $sans-serif !default;
@@ -64,7 +66,7 @@ $light-gray: mix(#FAFAFA, $gray, 50%) !default;
 $lighter-gray: mix(#FAFAFA, $gray, 90%) !default;
 
 $background-color: #FAFAFA !default;
-$code-background-color: #fafafa !default;
+$code-background-color: #FFEEAD !default;
 $code-background-color-dark: $light-gray !default;
 $text-color: $dark-gray !default;
 $muted-text-color: mix(#000, $text-color, 20%) !default;

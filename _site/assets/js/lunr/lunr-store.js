@@ -12,7 +12,7 @@ var store = [{
         "teaser": null
       },{
         "title": "세번째 게시물",
-        "excerpt":"세번째  ","categories": ["JAVA"],
+        "excerpt":"heding  세번째  ","categories": ["JAVA"],
         "tags": ["java","git","github","til"],
         "url": "http://localhost:4000/java/dmdkd/",
         "teaser": null
@@ -45,6 +45,12 @@ var store = [{
         "excerpt":"헤딩1  헤딩2  헤딩3  헤딩4  헤딩5  헤딩6   마크다운   너무 어렵다;;;;  ","categories": ["JAVA"],
         "tags": ["java"],
         "url": "http://localhost:4000/java/five/",
+        "teaser": null
+      },{
+        "title": "마크다운 문법",
+        "excerpt":"제목 1단계 제목 2단계 제목 3단계 제목 4단계 제목 5단계 제목 6단계 . 첫번째 두번째 세번째 순서없음 이렇게 가능합니다 신기하죠? 볼드(진하게) 이탤릭체(기울여서) 취소선 밑줄 볼드로 진하게 만들다가이탤릭으로 기울이고다시 볼드로(중복 활용도 가능하다.) 위키백과 코딩 “완전 재미있다” 1. ‘설명어’를 클릭하면 URL로 이동 기억보단기록을 2. URL을 보여주고 바로 연결 https://wkdalsrud.github.io/ 항목 가격 개수...","categories": ["Markdown"],
+        "tags": ["markdown","마크다운"],
+        "url": "http://localhost:4000/markdown/markdown/",
         "teaser": null
       },{
         "title": "CSS 게시물",

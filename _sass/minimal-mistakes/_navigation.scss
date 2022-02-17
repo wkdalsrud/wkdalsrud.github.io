@@ -73,7 +73,7 @@
       display: block;
       margin-bottom: 0.25em;
       padding: 0.5em 1em;
-      font-family: $serif;
+      font-family: $cute;
       font-size: 14px;
       font-weight: bold;
       line-height: 1.5;
@@ -83,14 +83,16 @@
       border: 1px solid mix(#000, $border-color, 25%);
       border-radius: 0;
 
+
+
       &:hover {
         color: $link-color-hover;
       }
 
       &.current,
       &.current.disabled {
-        color: #fff;
-        background: $primary-color;
+        color: #424242;
+        background: #E6E6E6;
       }
 
       &.disabled {

@@ -69,10 +69,11 @@ body {
 }
 
 .page__title {
-  font-size: $type-size-3;
-  color: #424242;
+  font-size: 1.7em;
+  color: #2E2E2E;
   font-family: $serif;
-  margin-top: 0;
+  font-weight: lighter;
+  margin: 0.5rem 0 0.2rem 0;
   line-height: 1.2;
   // color: mix(#000000, $primary-color, 40%);
 
@@ -87,7 +88,8 @@ body {
 }
 
 .page__content {
-  margin-top: 30px;
+  margin-top: 1rem;
+
 
   h2 {
     padding-bottom: 0.5em;
@@ -311,7 +313,7 @@ body {
    ========================================================================== */
 
 .page__taxonomy {
-  margin-top: -10px;
+  margin-top: -19px;
   .sep {
     display: inline;
   }

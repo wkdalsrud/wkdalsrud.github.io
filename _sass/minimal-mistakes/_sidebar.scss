@@ -198,6 +198,11 @@
     font-size: 0.7em;
   }
 }
+.nav__total-page {
+  font-family: $cute;
+  font-weight: bold;
+  font-size: $type-size-4-5;
+}
 
 .author__urls-wrapper {
   position: relative;
@@ -347,7 +352,7 @@
    ========================================================================== */
 
 .wide .sidebar__right {
-  margin-bottom: 3em;
+  margin-bottom: 4em;
 
   @include breakpoint($large) {
     position: initial;
