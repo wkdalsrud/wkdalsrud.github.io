@@ -1,0 +1,195 @@
+I"'<h1 id="제목-1단계">제목 1단계</h1>
+<h2 id="이것은-heading-2단계-입니다">이것은 heading 2단계 입니다</h2>
+<h3 id="제목-3단계">제목 3단계</h3>
+<h4 id="제목-4단계">제목 4단계</h4>
+<h5 id="제목-5단계">제목 5단계</h5>
+<h6 id="제목-6단계">제목 6단계</h6>
+
+<p>. 첫번째</p>
+<ol>
+  <li>두번째</li>
+  <li>세번째</li>
+</ol>
+
+<ul>
+  <li>순서없음
+    <ul>
+      <li>이렇게
+        <ul>
+          <li>가능합니다
+            <ul>
+              <li>신기하죠?</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>볼드(진하게)</strong><br />
+<em>이탤릭체(기울여서)</em>  <br />
+<del>취소선</del><br />
+<u>밑줄</u><br />
+<strong>볼드로 진하게 만들다가<em>이탤릭으로 기울이고</em>다시 볼드로</strong>(중복 활용도 가능하다.)</p>
+
+<blockquote>
+  <p>위키백과</p>
+  <blockquote>
+    <p>코딩</p>
+    <blockquote>
+      <p>“완전 재미있다”</p>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<h3 id="1-설명어를-클릭하면-url로-이동">1. ‘설명어’를 클릭하면 URL로 이동</h3>
+<p><a href="https://wkdalsrud.github.io" title="마우스를 올려놓으면 말풍선이 나옵니다.">기억보단기록을</a></p>
+<h3 id="2-url을-보여주고-바로-연결">2. URL을 보여주고 바로 연결</h3>
+<p><a href="https://wkdalsrud.github.io/">https://wkdalsrud.github.io/</a></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">항목</th>
+      <th style="text-align: center">가격</th>
+      <th style="text-align: left">개수</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">라면</td>
+      <td style="text-align: center">800원</td>
+      <td style="text-align: left">10개</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">과자</td>
+      <td style="text-align: center">900원</td>
+      <td style="text-align: left">20개</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>안녕하세요. <br /> 저는 민경입니다.</p>
+
+<ul>
+  <li>hi
+    <ul>
+      <li>hello
+        <ul>
+          <li>안녕</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>&lt;u&gt;안녕&lt;/u&gt;</p>
+
+<h1 id="h1">h1</h1>
+
+<h2 id="h2">h2</h2>
+
+<p><strong>강조된 텍스트입니다</strong></p>
+
+<p><em>기울여진 텍스트입니다</em>
+<strong><em>굵고 기울여진 텍스트입니다</em></strong></p>
+
+<p><del>취소된 텍스트입니다</del></p>
+
+<p><u>밑줄 있는 텍스트입니다</u></p>
+
+<p><span style="color:blue">노란 글씨입니다.</span></p>
+
+<p><del><strong><em><u>텍스트</u></em></strong></del></p>
+
+<p>이런게 바로 <code class="language-plaintext highlighter-rouge">인라인 코드</code>입니다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">Stringp</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="kt">double</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>순서가
+    <ul>
+      <li>없는
+        <ul>
+          <li>목록</li>
+        </ul>
+      </li>
+      <li>순서가</li>
+    </ul>
+  </li>
+  <li>없어용</li>
+</ul>
+
+<ol>
+  <li>순서가</li>
+  <li>있는
+    <ol>
+      <li>목록
+        <ul>
+          <li>하나</li>
+          <li>둘</li>
+        </ul>
+      </li>
+      <li>목록
+        <ul>
+          <li>하나</li>
+          <li>둘</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>목록</li>
+</ol>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />체크 안됨</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />체크 됨</li>
+</ul>
+
+<hr />
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>제목</strong></th>
+      <th style="text-align: right">레이팅</th>
+      <th>감상평</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">복수는 나의 것</td>
+      <td style="text-align: right">⭐⭐⭐⭐⭐</td>
+      <td>내가</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">올드 보이</td>
+      <td style="text-align: right">⭐⭐⭐⭐⭐</td>
+      <td>좋아하는</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">친절한 금자씨</td>
+      <td style="text-align: right">⭐⭐⭐⭐⭐</td>
+      <td>박찬욱 영화!</td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+<summary>여기를 눌러주세요</summary>
+<div>
+
+    <p>😎숨겨진 내용😎</p>
+
+  </div>
+</details>
+
+<p><a href="#" class="btn--success">Success Button</a></p>
+
+:ET
