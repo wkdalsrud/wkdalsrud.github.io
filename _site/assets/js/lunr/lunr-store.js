@@ -47,9 +47,9 @@ var store = [{
         "url": "http://localhost:4000/java/five/",
         "teaser": null
       },{
-        "title": "마크다운 문법",
-        "excerpt":"제목 1단계 이것은 heading 2단계 입니다 제목 3단계 제목 4단계 제목 5단계 제목 6단계 . 첫번째 두번째 세번째 순서없음 이렇게 가능합니다 신기하죠? 볼드(진하게) 이탤릭체(기울여서) 취소선 밑줄 볼드로 진하게 만들다가이탤릭으로 기울이고다시 볼드로(중복 활용도 가능하다.) 위키백과 코딩 “완전 재미있다” 1. ‘설명어’를 클릭하면 URL로 이동 기억보단기록을 2. URL을 보여주고 바로 연결 https://wkdalsrud.github.io/ 항목...","categories": ["Markdown"],
-        "tags": ["markdown","마크다운"],
+        "title": "Markdown 문법 정리",
+        "excerpt":"[제목 (h1~h6)] # h1 ## h2 ### h3 #### h4 ##### h5 ###### h6 h1 h2는 구분선이 생긴다 h3 h4 h5 h6 [순서 있는 리스트] 첫번째 두번째 세번째 첫번째 두번째 세번째 1. 첫번째 1. 두번째 1. 세번째 1. 첫번째 2. 두번째 3. 세번째 숫자에 상관없이 이어지는 거 같다. [순서 없는...","categories": ["Markdown"],
+        "tags": ["마크다운"],
         "url": "http://localhost:4000/markdown/markdown/",
         "teaser": null
       },{
