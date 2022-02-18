@@ -96,7 +96,7 @@ author:
   name             : "민경"
   avatar           : "/assets/images/author_profile_photo.jpg"
   bio              : "개발공부를 기록하는 공간입니다."
-  location         : "Incheon, South Korea"
+  location         : #"Incheon, South Korea"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
