@@ -22,27 +22,29 @@
 
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Cascading Style Sheets | 기억저장소</title>
-<meta name="description" content="개발공부를 기록하는 공간입니다. ">
+<!-- begin _includes/seo.html --><title>Git 기초 1-1 | 기억저장소</title>
+<meta name="description" content="Git 파일 관리    Committed            데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미           Modified            수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태           Staged            현재 수정한 파일을 곧 commit할 것이라고 표시한 상태           ">
 
 
   <meta name="author" content="민경">
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="기억저장소">
-<meta property="og:title" content="Cascading Style Sheets">
-<meta property="og:url" content="http://localhost:4000/categories/css">
+<meta property="og:title" content="Git 기초 1-1">
+<meta property="og:url" content="http://localhost:4000/git%20&%20github/git1/">
 
 
-  <meta property="og:description" content="개발공부를 기록하는 공간입니다. ">
-
-
-
+  <meta property="og:description" content="Git 파일 관리    Committed            데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미           Modified            수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태           Staged            현재 수정한 파일을 곧 commit할 것이라고 표시한 상태           ">
 
 
 
+
+
+
+
+  <meta property="article:published_time" content="2022-02-18T00:00:00+09:00">
 
 
 
@@ -53,7 +55,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/categories/css">
+<link rel="canonical" href="http://localhost:4000/git%20&%20github/git1/">
 
 
 
@@ -143,7 +145,7 @@
     </style> -->
   </head>
 
-  <body class="layout--archive wide">
+  <body class="layout--single wide">
     <nav class="skip-links">
   <h2 class="screen-reader-text">Skip links</h2>
   <ul>
@@ -471,14 +473,195 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title">Cascading Style Sheets</h1>
-    
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Git 기초 1-1">
+    <meta itemprop="description" content="Git 파일 관리  Committed          데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미        Modified          수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태        Staged          현재 수정한 파일을 곧 commit할 것이라고 표시한 상태      ">
+    <meta itemprop="datePublished" content="2022-02-18T00:00:00+09:00">
     
 
-  </div>
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Git 기초 1-1
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 작성일:</strong> <time datetime="2022-02-18T00:00:00+09:00">2022.02.18</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#git-github" class="page__taxonomy-item-category" rel="tag">Git & Github</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#git%EA%B8%B0%EC%B4%88" class="page__taxonomy-item-tag" rel="tag">Git기초</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="git-파일-관리">Git 파일 관리</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Committed</code>
+    <ul>
+      <li>데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Modified</code>
+    <ul>
+      <li>수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Staged</code>
+    <ul>
+      <li>현재 수정한 파일을 곧 commit할 것이라고 표시한 상태
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-directory">Git Directory</h2>
+<ul>
+  <li>git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳</li>
+  <li>다른 컴퓨터에 있는 저장소를 clone 할 때 git directory가 만들어 진다.<br />
+<br /></li>
+</ul>
+
+<h2 id="git으로-하는-일">Git으로 하는 일</h2>
+<ul>
+  <li>working directory에서 파일을 수정한다.</li>
+  <li>Staging Area에 있는 파일을 stage해서 commit할 스냅샷을 만든다.</li>
+  <li>Staging Area에 있는 파일들을 commit해서 git directory에 영구적인 스냅샷으로 저장한다. <br />
+<br /></li>
+</ul>
+
+<h2 id="git-저장소-만들기">Git 저장소 만들기</h2>
+<ul>
+  <li>기존 프로젝트나 directory를 git 저장소로 만드는 방법</li>
+  <li>다른 서버에 있는 저장소를 clone하는 방법</li>
+</ul>
+
+<blockquote>
+  <p>add의 의미는 프로젝트에 파일을 추가한다기보다는 다음 commit에 추가한다고 생각하는게 좋다.<br />
+commit 명령을 실행하는 시점의 버전이 commit 되는 게 아니라 마지막으로 <code class="language-plaintext highlighter-rouge">git add</code> 명령을 실행하는 시점의 버전이 commit된다.</p>
+</blockquote>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'ACCchildrenheartOTF-Regular'; color:#F78181; " >Git & Github</span> <span style="font-family:'ACCchildrenheartOTF-Regular';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">이전</a>
+    
+    
+      <a href="/git%20&%20github/git2/" class="pagination--pager" title="Git 기초 1-2
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="#" class="pagination_prev_next--pager disabled-first-child">첫 번째 글입니다</a>
+    
+    
+      <a href="/git%20&%20github/git2/" class="pagination_prev_next--pager"><span class="prev_next">다음 글 &nbsp</span>Git 기초 1-2</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <!-- <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+      </section>
+      <footer class="page__meta">
+        
+        <!-- <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Git+%EA%B8%B0%EC%B4%88+1-1%20http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section> -->
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+ 
 </div>
+
     </div>
 
     
@@ -535,8 +718,32 @@
 
 
 
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/git%20&%20github/git1/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/git%20&%20github/git1"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
 
   </body>

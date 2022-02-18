@@ -1,4 +1,184 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-18T21:32:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">기억저장소</title><subtitle>개발공부를 기록하는 공간입니다.</subtitle><author><name>민경</name></author><entry><title type="html">Git blog 초기 설정</title><link href="http://localhost:4000/git%20blog/gitblog/" rel="alternate" type="text/html" title="Git blog 초기 설정" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20blog/gitblog</id><content type="html" xml:base="http://localhost:4000/git%20blog/gitblog/"><![CDATA[<h1 id="git-blog-설정하는-방법">git blog 설정하는 방법</h1>]]></content><author><name>민경</name></author><category term="Git Blog" /><category term="Git" /><category term="Git Blog" /><summary type="html"><![CDATA[git blog 설정하는 방법]]></summary></entry><entry><title type="html">Markdown 문법 정리</title><link href="http://localhost:4000/markdown/markdown/" rel="alternate" type="text/html" title="Markdown 문법 정리" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/markdown/markdown</id><content type="html" xml:base="http://localhost:4000/markdown/markdown/"><![CDATA[<h1 id="제목-h1h6">제목 (h1~h6)</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-18T23:01:55+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">기억저장소</title><subtitle>개발공부를 기록하는 공간입니다.</subtitle><author><name>민경</name></author><entry><title type="html">Git 기초 1-1</title><link href="http://localhost:4000/git%20&%20github/git1/" rel="alternate" type="text/html" title="Git 기초 1-1" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/git1</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/git1/"><![CDATA[<h2 id="git-파일-관리">Git 파일 관리</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Committed</code>
+    <ul>
+      <li>데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Modified</code>
+    <ul>
+      <li>수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Staged</code>
+    <ul>
+      <li>현재 수정한 파일을 곧 commit할 것이라고 표시한 상태
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-directory">Git Directory</h2>
+<ul>
+  <li>git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳</li>
+  <li>다른 컴퓨터에 있는 저장소를 clone 할 때 git directory가 만들어 진다.<br />
+<br /></li>
+</ul>
+
+<h2 id="git으로-하는-일">Git으로 하는 일</h2>
+<ul>
+  <li>working directory에서 파일을 수정한다.</li>
+  <li>Staging Area에 있는 파일을 stage해서 commit할 스냅샷을 만든다.</li>
+  <li>Staging Area에 있는 파일들을 commit해서 git directory에 영구적인 스냅샷으로 저장한다. <br />
+<br /></li>
+</ul>
+
+<h2 id="git-저장소-만들기">Git 저장소 만들기</h2>
+<ul>
+  <li>기존 프로젝트나 directory를 git 저장소로 만드는 방법</li>
+  <li>다른 서버에 있는 저장소를 clone하는 방법</li>
+</ul>
+
+<blockquote>
+  <p>add의 의미는 프로젝트에 파일을 추가한다기보다는 다음 commit에 추가한다고 생각하는게 좋다.<br />
+commit 명령을 실행하는 시점의 버전이 commit 되는 게 아니라 마지막으로 <code class="language-plaintext highlighter-rouge">git add</code> 명령을 실행하는 시점의 버전이 commit된다.</p>
+</blockquote>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git기초" /><summary type="html"><![CDATA[Git 파일 관리 Committed 데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미 Modified 수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태 Staged 현재 수정한 파일을 곧 commit할 것이라고 표시한 상태]]></summary></entry><entry><title type="html">Git 기초 1-2</title><link href="http://localhost:4000/git%20&%20github/git2/" rel="alternate" type="text/html" title="Git 기초 1-2" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/git2</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/git2/"><![CDATA[<h1 id="vsc-version-control-system--버전-관리-시스템">VSC (Version Control System) : 버전 관리 시스템</h1>
+
+<h2 id="git-설치하고-나서-가장-먼저-해야-하는-것">Git 설치하고 나서 가장 먼저 해야 하는 것</h2>
+<p><code class="language-plaintext highlighter-rouge">git config -global user.name "user name"</code><br />
+<code class="language-plaintext highlighter-rouge">git config -globla user.email "user email"</code></p>
+
+<h2 id="git-config--list">git config -list</h2>
+<ul>
+  <li>설정 확인
+    <ul>
+      <li>설정한 모든 것을 보여준다</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-config-username">git config user.name</h2>
+<ul>
+  <li>사용자 이름 확인</li>
+</ul>
+
+<h2 id="git-config-useremail">git config user.email</h2>
+<ul>
+  <li>사용자 이메일 확인</li>
+</ul>
+
+<h2 id="mkdir">mkdir</h2>
+<ul>
+  <li>새 폴더 만들기</li>
+</ul>
+
+<h2 id="echo">echo</h2>
+<ul>
+  <li>새 파일 생성</li>
+</ul>
+
+<h2 id="git-init">git init</h2>
+<ul>
+  <li>기존 directory를 Git 저장소로 만들기
+    <ul>
+      <li>이 명령어는 .git이라는 하위 directory를 만든다</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-clone-url">git clone [url]</h2>
+<ul>
+  <li>기존 저장소를 clone 하기</li>
+</ul>
+
+<h2 id="ls--al">ls -al</h2>
+<ul>
+  <li>현재 directory에 있는 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="ls">ls</h2>
+<ul>
+  <li>현재 directory에 있는 숨김파일을 제외한 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="git-status">git status</h2>
+<ul>
+  <li>파일의 상태 확인하기</li>
+</ul>
+
+<h2 id="git-add">git add</h2>
+<ul>
+  <li>파일을 새로 추척하기
+    <ul>
+      <li>Staging Area 상태에 올려놓기</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-add-">git add .</h2>
+<ul>
+  <li>추가하려는 파일이 많을 경우 <code class="language-plaintext highlighter-rouge">git add .</code> 명령을 이용하면 해당 폴더의 Untracked Files 모두를 한번에 stage 하는 것이 가능하다</li>
+  <li>인덱스에 추가된 파일을 제외하려면 <code class="language-plaintext highlighter-rouge">git rm --cached</code> 명령을 사용한다</li>
+</ul>
+
+<h2 id="git-add--vs-git-add-">git add . VS git add *</h2>
+<ul>
+  <li>파일이 여러개일 경우 <code class="language-plaintext highlighter-rouge">$ git add *</code>로 모든 파일을 staged 상태로 만든다.  그런데 가끔 <code class="language-plaintext highlighter-rouge">$ git add *</code>를 하면 다음과 같은 상황이 나올 때가 있다
+    <blockquote>
+      <p>git add * The following paths are ignored by one of your .gitignore files: git-add/ignore.txt<br />
+Use -f if you really want to add them.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>이 말을 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 현재 staged로 변경할 파일의 이름이 있다는 것이다.<br />
+<code class="language-plaintext highlighter-rouge">.gitignore</code>로 git에 안 올린다고 했는데 <code class="language-plaintext highlighter-rouge">git add *</code>로 다 올린다고 하니 다시 확인하라는 말이다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>는 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 있는 파일은 제외하고 staged에 올린다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>를 사용해서 staged에 올리면 된다!</p>
+
+<h2 id="commit">commit</h2>
+<ul>
+  <li>저장(?)</li>
+  <li>똑같은 파일을 <code class="language-plaintext highlighter-rouge">modified</code>하게 되면 add로 git에게 알려주고 commit을 해야 한다.</li>
+</ul>
+
+<h2 id="git-commit--a">git commit -a</h2>
+<ul>
+  <li>텍스트를 수정하고 <code class="language-plaintext highlighter-rouge">add</code> → <code class="language-plaintext highlighter-rouge">commit</code> 단계가 번거롭다면 이 명령어를 통해 add와 commit을 한 번에 할 수 있다.</li>
+</ul>
+
+<h2 id="git-commit--am-설명">git commit -am “설명”</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">add</code> + <code class="language-plaintext highlighter-rouge">commit</code> + 버전에 맞는 설명을 한 번에 할 수 있는 명령어다
+    <blockquote>
+      <p>-a는 자동으로 add를 해주는데 한 번도 버전관리를 해주지 않은 파일은 add를 해주지 않는다. (add를 한 번도 안 한 파일)</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h2 id="cp-file1_name-file2_name">cp file1_name file2_name</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">copy/f1.txt</code>와 독같은 파일인 <code class="language-plaintext highlighter-rouge">f2.txt</code>를 만든다.</li>
+</ul>
+
+<blockquote>
+  <p>warning: LF will be replaced by CRLF in f2.txt.<br />
+The file will have its original line endings in your working directory
+이 경고는 윈도우와 리눅스간에 협업을 할 때 나타나는 메세지로 윈도우 사용자의 경우 이러한 변환이 항상 실행되도록 다음과 같은 명령어를 입력한다.<br />
+<code class="language-plaintext highlighter-rouge">git config --global core.autocrlf true</code><br />
+물론 시스템 전체가 아닌 해당 프로젝트에만 적용하고 싶다면 —global 을 빼주면 된다.<br />
+<code class="language-plaintext highlighter-rouge">git config core.autocrlf true</code></p>
+</blockquote>
+
+<h2 id="cat-file_name">cat file_name</h2>
+<ul>
+  <li>파일 내용을 확인할 때 사용</li>
+</ul>
+
+<h2 id="git-log">git log</h2>
+<ul>
+  <li>commit 히스토리 보기</li>
+</ul>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git 기초" /><category term="Git 명령어" /><summary type="html"><![CDATA[VSC (Version Control System) : 버전 관리 시스템]]></summary></entry><entry><title type="html">Git blog 초기 설정</title><link href="http://localhost:4000/git%20blog/gitblog/" rel="alternate" type="text/html" title="Git blog 초기 설정" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20blog/gitblog</id><content type="html" xml:base="http://localhost:4000/git%20blog/gitblog/"><![CDATA[<h1 id="git-blog-설정하는-방법">git blog 설정하는 방법</h1>]]></content><author><name>민경</name></author><category term="Git Blog" /><category term="Git" /><category term="Git Blog" /><summary type="html"><![CDATA[git blog 설정하는 방법]]></summary></entry><entry><title type="html">Markdown 문법 정리</title><link href="http://localhost:4000/markdown/markdown/" rel="alternate" type="text/html" title="Markdown 문법 정리" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/markdown/markdown</id><content type="html" xml:base="http://localhost:4000/markdown/markdown/"><![CDATA[<h1 id="제목-h1h6">제목 (h1~h6)</h1>
 <hr />
 
 <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># h1</span>
@@ -37,8 +217,6 @@
 <span class="p">3.</span> 세번째
 </code></pre></div></div>
 <p>숫자에 상관없이 이어지는 거 같다.</p>
-
-<p><br /></p>
 
 <h1 id="순서-없는-리스트">순서 없는 리스트</h1>
 <hr />

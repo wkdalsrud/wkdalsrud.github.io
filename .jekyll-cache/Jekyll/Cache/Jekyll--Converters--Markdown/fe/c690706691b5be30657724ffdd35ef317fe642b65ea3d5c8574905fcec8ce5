@@ -1,4 +1,4 @@
-I"�-<h1 id="제목-h1h6">제목 (h1~h6)</h1>
+I"�-<h1 id="제목-h1h6">제목 (h1~h6)</h1>
 <hr />
 
 <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># h1</span>
@@ -37,8 +37,6 @@
 <span class="p">3.</span> 세번째
 </code></pre></div></div>
 <p>숫자에 상관없이 이어지는 거 같다.</p>
-
-<p><br /></p>
 
 <h1 id="순서-없는-리스트">순서 없는 리스트</h1>
 <hr />

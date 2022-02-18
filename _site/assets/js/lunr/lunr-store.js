@@ -1,4 +1,16 @@
 var store = [{
+        "title": "Git 기초 1-1",
+        "excerpt":"Git 파일 관리 Committed 데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미 Modified 수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태 Staged 현재 수정한 파일을 곧 commit할 것이라고 표시한 상태 Git Directory git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳 다른 컴퓨터에 있는 저장소를 clone 할 때 git directory가 만들어 진다. Git으로...","categories": ["Git & Github"],
+        "tags": ["Git기초"],
+        "url": "http://localhost:4000/git%20&%20github/git1/",
+        "teaser": null
+      },{
+        "title": "Git 기초 1-2",
+        "excerpt":"VSC (Version Control System) : 버전 관리 시스템 Git 설치하고 나서 가장 먼저 해야 하는 것 git config -global user.name \"user name\" git config -globla user.email \"user email\" git config -list 설정 확인 설정한 모든 것을 보여준다 git config user.name 사용자 이름 확인 git config user.email 사용자 이메일 확인 mkdir...","categories": ["Git & Github"],
+        "tags": ["Git 기초","Git 명령어"],
+        "url": "http://localhost:4000/git%20&%20github/git2/",
+        "teaser": null
+      },{
         "title": "Git blog 초기 설정",
         "excerpt":"git blog 설정하는 방법  ","categories": ["Git Blog"],
         "tags": ["Git","Git Blog"],

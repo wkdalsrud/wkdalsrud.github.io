@@ -22,27 +22,29 @@
 
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Cascading Style Sheets | 기억저장소</title>
-<meta name="description" content="개발공부를 기록하는 공간입니다. ">
+<!-- begin _includes/seo.html --><title>Git 기초 1-2 | 기억저장소</title>
+<meta name="description" content="VSC (Version Control System) : 버전 관리 시스템 ">
 
 
   <meta name="author" content="민경">
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="기억저장소">
-<meta property="og:title" content="Cascading Style Sheets">
-<meta property="og:url" content="http://localhost:4000/categories/css">
+<meta property="og:title" content="Git 기초 1-2">
+<meta property="og:url" content="http://localhost:4000/git%20&%20github/git2/">
 
 
-  <meta property="og:description" content="개발공부를 기록하는 공간입니다. ">
-
-
-
+  <meta property="og:description" content="VSC (Version Control System) : 버전 관리 시스템 ">
 
 
 
+
+
+
+
+  <meta property="article:published_time" content="2022-02-18T00:00:00+09:00">
 
 
 
@@ -53,7 +55,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/categories/css">
+<link rel="canonical" href="http://localhost:4000/git%20&%20github/git2/">
 
 
 
@@ -143,7 +145,7 @@
     </style> -->
   </head>
 
-  <body class="layout--archive wide">
+  <body class="layout--single wide">
     <nav class="skip-links">
   <h2 class="screen-reader-text">Skip links</h2>
   <ul>
@@ -471,14 +473,291 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title">Cascading Style Sheets</h1>
-    
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Git 기초 1-2">
+    <meta itemprop="description" content="VSC (Version Control System) : 버전 관리 시스템">
+    <meta itemprop="datePublished" content="2022-02-18T00:00:00+09:00">
     
 
-  </div>
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Git 기초 1-2
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 작성일:</strong> <time datetime="2022-02-18T00:00:00+09:00">2022.02.18</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#git-github" class="page__taxonomy-item-category" rel="tag">Git & Github</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#git-%EB%AA%85%EB%A0%B9%EC%96%B4" class="page__taxonomy-item-tag" rel="tag">Git 명령어</a><span class="sep"> </span>
+    
+      
+      
+      <a href="/tags/#git-%EA%B8%B0%EC%B4%88" class="page__taxonomy-item-tag" rel="tag">Git 기초</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h1 id="vsc-version-control-system--버전-관리-시스템">VSC (Version Control System) : 버전 관리 시스템</h1>
+
+<h2 id="git-설치하고-나서-가장-먼저-해야-하는-것">Git 설치하고 나서 가장 먼저 해야 하는 것</h2>
+<p><code class="language-plaintext highlighter-rouge">git config -global user.name "user name"</code><br />
+<code class="language-plaintext highlighter-rouge">git config -globla user.email "user email"</code></p>
+
+<h2 id="git-config--list">git config -list</h2>
+<ul>
+  <li>설정 확인
+    <ul>
+      <li>설정한 모든 것을 보여준다</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-config-username">git config user.name</h2>
+<ul>
+  <li>사용자 이름 확인</li>
+</ul>
+
+<h2 id="git-config-useremail">git config user.email</h2>
+<ul>
+  <li>사용자 이메일 확인</li>
+</ul>
+
+<h2 id="mkdir">mkdir</h2>
+<ul>
+  <li>새 폴더 만들기</li>
+</ul>
+
+<h2 id="echo">echo</h2>
+<ul>
+  <li>새 파일 생성</li>
+</ul>
+
+<h2 id="git-init">git init</h2>
+<ul>
+  <li>기존 directory를 Git 저장소로 만들기
+    <ul>
+      <li>이 명령어는 .git이라는 하위 directory를 만든다</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-clone-url">git clone [url]</h2>
+<ul>
+  <li>기존 저장소를 clone 하기</li>
+</ul>
+
+<h2 id="ls--al">ls -al</h2>
+<ul>
+  <li>현재 directory에 있는 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="ls">ls</h2>
+<ul>
+  <li>현재 directory에 있는 숨김파일을 제외한 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="git-status">git status</h2>
+<ul>
+  <li>파일의 상태 확인하기</li>
+</ul>
+
+<h2 id="git-add">git add</h2>
+<ul>
+  <li>파일을 새로 추척하기
+    <ul>
+      <li>Staging Area 상태에 올려놓기</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-add-">git add .</h2>
+<ul>
+  <li>추가하려는 파일이 많을 경우 <code class="language-plaintext highlighter-rouge">git add .</code> 명령을 이용하면 해당 폴더의 Untracked Files 모두를 한번에 stage 하는 것이 가능하다</li>
+  <li>인덱스에 추가된 파일을 제외하려면 <code class="language-plaintext highlighter-rouge">git rm --cached</code> 명령을 사용한다</li>
+</ul>
+
+<h2 id="git-add--vs-git-add-">git add . VS git add *</h2>
+<ul>
+  <li>파일이 여러개일 경우 <code class="language-plaintext highlighter-rouge">$ git add *</code>로 모든 파일을 staged 상태로 만든다.  그런데 가끔 <code class="language-plaintext highlighter-rouge">$ git add *</code>를 하면 다음과 같은 상황이 나올 때가 있다
+    <blockquote>
+      <p>git add * The following paths are ignored by one of your .gitignore files: git-add/ignore.txt<br />
+Use -f if you really want to add them.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>이 말을 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 현재 staged로 변경할 파일의 이름이 있다는 것이다.<br />
+<code class="language-plaintext highlighter-rouge">.gitignore</code>로 git에 안 올린다고 했는데 <code class="language-plaintext highlighter-rouge">git add *</code>로 다 올린다고 하니 다시 확인하라는 말이다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>는 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 있는 파일은 제외하고 staged에 올린다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>를 사용해서 staged에 올리면 된다!</p>
+
+<h2 id="commit">commit</h2>
+<ul>
+  <li>저장(?)</li>
+  <li>똑같은 파일을 <code class="language-plaintext highlighter-rouge">modified</code>하게 되면 add로 git에게 알려주고 commit을 해야 한다.</li>
+</ul>
+
+<h2 id="git-commit--a">git commit -a</h2>
+<ul>
+  <li>텍스트를 수정하고 <code class="language-plaintext highlighter-rouge">add</code> → <code class="language-plaintext highlighter-rouge">commit</code> 단계가 번거롭다면 이 명령어를 통해 add와 commit을 한 번에 할 수 있다.</li>
+</ul>
+
+<h2 id="git-commit--am-설명">git commit -am “설명”</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">add</code> + <code class="language-plaintext highlighter-rouge">commit</code> + 버전에 맞는 설명을 한 번에 할 수 있는 명령어다
+    <blockquote>
+      <p>-a는 자동으로 add를 해주는데 한 번도 버전관리를 해주지 않은 파일은 add를 해주지 않는다. (add를 한 번도 안 한 파일)</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h2 id="cp-file1_name-file2_name">cp file1_name file2_name</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">copy/f1.txt</code>와 독같은 파일인 <code class="language-plaintext highlighter-rouge">f2.txt</code>를 만든다.</li>
+</ul>
+
+<blockquote>
+  <p>warning: LF will be replaced by CRLF in f2.txt.<br />
+The file will have its original line endings in your working directory
+이 경고는 윈도우와 리눅스간에 협업을 할 때 나타나는 메세지로 윈도우 사용자의 경우 이러한 변환이 항상 실행되도록 다음과 같은 명령어를 입력한다.<br />
+<code class="language-plaintext highlighter-rouge">git config --global core.autocrlf true</code><br />
+물론 시스템 전체가 아닌 해당 프로젝트에만 적용하고 싶다면 —global 을 빼주면 된다.<br />
+<code class="language-plaintext highlighter-rouge">git config core.autocrlf true</code></p>
+</blockquote>
+
+<h2 id="cat-file_name">cat file_name</h2>
+<ul>
+  <li>파일 내용을 확인할 때 사용</li>
+</ul>
+
+<h2 id="git-log">git log</h2>
+<ul>
+  <li>commit 히스토리 보기</li>
+</ul>
+
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'ACCchildrenheartOTF-Regular'; color:#F78181; " >Git & Github</span> <span style="font-family:'ACCchildrenheartOTF-Regular';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/git%20&%20github/git1/" class="pagination--pager" title="Git 기초 1-1
+">이전</a>
+    
+    
+      <a href="/git%20blog/gitblog/" class="pagination--pager" title="Git blog 초기 설정
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/git%20&%20github/git1/" class="pagination_prev_next--pager"><span class="prev_next">이전 글 &nbsp</span>Git 기초 1-1</a>
+    
+    
+      <a href="#" class="pagination_prev_next--pager disabled-last-child ">가장 최근 글입니다</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <!-- <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+      </section>
+      <footer class="page__meta">
+        
+        <!-- <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Git+%EA%B8%B0%EC%B4%88+1-2%20http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fgit%2520%26%2520github%2Fgit2%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section> -->
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+ 
 </div>
+
     </div>
 
     
@@ -535,8 +814,32 @@
 
 
 
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/git%20&%20github/git2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/git%20&%20github/git2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
 
   </body>

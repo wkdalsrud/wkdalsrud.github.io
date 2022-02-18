@@ -1,0 +1,46 @@
+I"S<h2 id="git-파일-관리">Git 파일 관리</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Committed</code>
+    <ul>
+      <li>데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Modified</code>
+    <ul>
+      <li>수정한 파일을 아직 로컬 데이터베이스에 commit하지 않은 상태</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Staged</code>
+    <ul>
+      <li>현재 수정한 파일을 곧 commit할 것이라고 표시한 상태
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-directory">Git Directory</h2>
+<ul>
+  <li>git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳</li>
+  <li>다른 컴퓨터에 있는 저장소를 clone 할 때 git directory가 만들어 진다.<br />
+<br /></li>
+</ul>
+
+<h2 id="git으로-하는-일">Git으로 하는 일</h2>
+<ul>
+  <li>working directory에서 파일을 수정한다.</li>
+  <li>Staging Area에 있는 파일을 stage해서 commit할 스냅샷을 만든다.</li>
+  <li>Staging Area에 있는 파일들을 commit해서 git directory에 영구적인 스냅샷으로 저장한다. <br />
+<br /></li>
+</ul>
+
+<h2 id="git-저장소-만들기">Git 저장소 만들기</h2>
+<ul>
+  <li>기존 프로젝트나 directory를 git 저장소로 만드는 방법</li>
+  <li>다른 서버에 있는 저장소를 clone하는 방법</li>
+</ul>
+
+<blockquote>
+  <p>add의 의미는 프로젝트에 파일을 추가한다기보다는 다음 commit에 추가한다고 생각하는게 좋다.<br />
+commit 명령을 실행하는 시점의 버전이 commit 되는 게 아니라 마지막으로 <code class="language-plaintext highlighter-rouge">git add</code> 명령을 실행하는 시점의 버전이 commit된다.</p>
+</blockquote>
+:ET
