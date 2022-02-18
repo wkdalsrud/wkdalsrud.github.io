@@ -135,8 +135,8 @@
   }
 
   img {
-    max-width: 240px;
-    border-radius: 10%;
+    max-width: 200px;
+    border-radius: 15%;
 
     @include breakpoint($large) {
       padding: 5px;
@@ -176,7 +176,7 @@
 }
 .sidebar .author__name {
   font-family: $serif;
-  font-size: $type-size-4;
+  font-size: $type-size-4-5;
   color: #424242;
   margin-bottom: 15px;
 }
@@ -199,9 +199,8 @@
   }
 }
 .nav__total-page {
-  font-family: $cute;
-  font-weight: bold;
-  font-size: $type-size-4-5;
+  font-family: $serif;
+  font-size: $type-size-6;
 }
 
 .author__urls-wrapper {
