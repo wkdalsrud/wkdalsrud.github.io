@@ -63,7 +63,7 @@
 
 .masthead__menu {
   float: left;
-  margin: 0.5rem 1rem 0.5rem 1rem;
+  margin: 0.5rem 0 0.5rem 0;
   width: 100%;
   clear: both;
 
@@ -87,7 +87,8 @@
   display: block;
   list-style-type: none;
   white-space: nowrap;
-  font-family: $cute;
+  font-family: $serif;
+  font-size: $type-size-6;
 
   &--lg {
     padding-right: 2em;
