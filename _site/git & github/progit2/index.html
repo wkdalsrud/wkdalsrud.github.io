@@ -311,9 +311,9 @@
     <ul class="nav__items" id="category_tag_menu">
         <!--전체 글 수-->
         <li style="margin: 1.5rem 1rem 1rem 0rem">
-            📂 <span class="nav__total-page">전체 글 수 6 개</span>
+            📂 <span class="nav__total-page">전체 글 수 4 개</span>
             <!--  <span style="font-family: 'ACCchildrenheartOTF-Regular';">전체 글 수</style> <span
-                    style="font-family:'ACCchildrenheartOTF-Regular';">6</style><span
+                    style="font-family:'ACCchildrenheartOTF-Regular';">4</style><span
                         style="font-family:'ACCchildrenheartOTF-Regular';">개</style> -->
         </li>
         <li>
@@ -327,12 +327,6 @@
                 
                 
                 
-                
-                
-                
-                <li><a href="/categories/java" class="">JAVA (1)</a></li>
-                
-                
             </ul>
 
             <!-- --------------------------------------Front-end-------------------------------------------- -->
@@ -344,10 +338,6 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
@@ -356,17 +346,9 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -383,16 +365,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -405,16 +379,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -427,16 +393,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -455,19 +413,9 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
-                
-                
-                
-                
-                <li><a href="/categories/gitblog" class="">Git 블로그 (1)</a></li>
-                
                 
                 
                 
@@ -476,15 +424,11 @@
             </ul>
 
             <ul>
-                
-                
                 
                 
                 
                 
                 <li><a href="/categories/markdown" class="">Markdown (1)</a></li>
-                
-                
                 
                 
             </ul>
@@ -569,15 +513,17 @@
 
 <h3 id="기존-디렉터리를-git-저장소로-만들기">기존 디렉터리를 Git 저장소로 만들기</h3>
 <p>기존 프로젝트를 Git으로 관리하고 싶을 때 프로젝트의 디렉터리로 이동해서 <code class="language-plaintext highlighter-rouge">git init</code> 명령을 실행한다.<br />
-이 명령은 <code class="language-plaintext highlighter-rouge">.git</code> 이라는 하위 디렉터리를 만든다. (숨김 파일로 있음)<br />
+이 명령은 <code class="language-plaintext highlighter-rouge">.git</code> 이라는 하위 디렉터리를 만든다.<br />
 .git 디렉터리에는 저장소에 필요한 뼈대 파일이 들어 있고, 이 명령만으로는 아직 프로젝트의 어떤 파일도 관리하지 않는다.</p>
 <blockquote>
-  <p>.git 파일을 지우게 되면 내가 git으로 관리하던 내역들이 다 날아간다!!</p>
+  <p>.git 파일을 지우게 되면 내가 git으로 관리하던 내역들이 다 날아간다!!<br />
+.git 파일은 숨김 파일 보기를 설정해야 보인다.<br />
+mac에서 숨김 파일을 보려면 <code class="language-plaintext highlighter-rouge">command</code> + <code class="language-plaintext highlighter-rouge">shift</code> + <code class="language-plaintext highlighter-rouge">.</code> 을 누르면 보임</p>
 </blockquote>
 
 <p>Git이 파일을 관리하게 하려면 저장소에 파일을 추가하고 커밋해야 한다.</p>
 <ul>
-  <li>git add *,c</li>
+  <li>git add *</li>
   <li>git add LICENSE</li>
   <li>git commit -m ‘initial project version’</li>
 </ul>
@@ -700,8 +646,7 @@ git이 좀 더 익숙해지면 다시 정리하는 걸로ㅠㅠ</p>
 ">이전</a>
     
     
-      <a href="/java/javasetting/" class="pagination--pager" title="MAC에서 자바 초기설정
-">다음</a>
+      <a href="#" class="pagination--pager disabled">다음</a>
     
   </nav>
 

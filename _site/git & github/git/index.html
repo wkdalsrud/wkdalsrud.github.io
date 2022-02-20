@@ -311,9 +311,9 @@
     <ul class="nav__items" id="category_tag_menu">
         <!--전체 글 수-->
         <li style="margin: 1.5rem 1rem 1rem 0rem">
-            📂 <span class="nav__total-page">전체 글 수 6 개</span>
+            📂 <span class="nav__total-page">전체 글 수 4 개</span>
             <!--  <span style="font-family: 'ACCchildrenheartOTF-Regular';">전체 글 수</style> <span
-                    style="font-family:'ACCchildrenheartOTF-Regular';">6</style><span
+                    style="font-family:'ACCchildrenheartOTF-Regular';">4</style><span
                         style="font-family:'ACCchildrenheartOTF-Regular';">개</style> -->
         </li>
         <li>
@@ -327,12 +327,6 @@
                 
                 
                 
-                
-                
-                
-                <li><a href="/categories/java" class="">JAVA (1)</a></li>
-                
-                
             </ul>
 
             <!-- --------------------------------------Front-end-------------------------------------------- -->
@@ -344,10 +338,6 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
@@ -356,17 +346,9 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -383,16 +365,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -405,16 +379,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -427,16 +393,8 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
             <ul>
-                
-                
-                
-                
                 
                 
                 
@@ -455,19 +413,9 @@
                 
                 
                 
-                
-                
-                
-                
             </ul>
 
             <ul>
-                
-                
-                
-                
-                <li><a href="/categories/gitblog" class="">Git 블로그 (1)</a></li>
-                
                 
                 
                 
@@ -476,15 +424,11 @@
             </ul>
 
             <ul>
-                
-                
                 
                 
                 
                 
                 <li><a href="/categories/markdown" class="">Markdown (1)</a></li>
-                
-                
                 
                 
             </ul>
@@ -550,6 +494,10 @@
     
       
       
+      <a href="/tags/#pro-git" class="page__taxonomy-item-tag" rel="tag">Pro Git</a><span class="sep"> </span>
+    
+      
+      
       <a href="/tags/#git-%EA%B8%B0%EC%B4%88" class="page__taxonomy-item-tag" rel="tag">Git 기초</a>
     
     </span>
@@ -603,11 +551,7 @@
 
 <h2 id="git-init">git init</h2>
 <ul>
-  <li>기존 directory를 Git 저장소로 만들기
-    <ul>
-      <li>이 명령어는 .git이라는 하위 directory를 만든다</li>
-    </ul>
-  </li>
+  <li>기존 directory를 Git 저장소로 만들기</li>
   <li>프로젝트 디렉터리로 가서 git init 이라고 실행한다.</li>
   <li>디렉터리에 Git 저장소가 새로 만들어지고 프로젝트를 버전 관리할 수 있다.</li>
 </ul>
@@ -711,9 +655,14 @@ Use -f if you really want to add them.</p>
 
 <h2 id="git-reset">git reset</h2>
 <ul>
-  <li>되돌리는 명령어</li>
+  <li>되돌리는 명령어이다.</li>
+  <li>HEAD 포인터를 옮기는 것과 관련돼 있고</li>
+  <li>Staging Area(index)를 되돌릴 수 있고</li>
+  <li>–hard 옵션을 주면 Working Directory도 되돌린다.</li>
   <li>–hard 옵션을 잘못 사용하면 작업물을 잃어버릴 수도 있으므로 명령을 잘 이해하고 사용해야 한다.</li>
 </ul>
+
+<p><img width="863" alt="image" src="https://user-images.githubusercontent.com/73566453/154850902-6e6b6dcc-beed-4df7-9bd6-605e6fa9d12f.png" /></p>
 
 <h2 id="git-rm">git rm</h2>
 <ul>
@@ -731,9 +680,23 @@ Use -f if you really want to add them.</p>
   <li>Working Directory에서 필요 없는 파일을 삭제하는 명령이다.</li>
 </ul>
 
+<h1 id="branch와-merge">Branch와 Merge</h1>
+
 <h2 id="git-log">git log</h2>
 <ul>
   <li>commit 히스토리 보기</li>
+  <li>프로젝트 히스토리를 시간의 역순으로 보여준다.</li>
+  <li>넘겨준 Ref를 따라 히스토리를 보여주는데 Ref를 한 개가 아니라 여러 개 넘길 수도 있다.</li>
+</ul>
+
+<p><img width="1187" alt="스크린샷 2022-02-21 오전 12 26 29" src="https://user-images.githubusercontent.com/73566453/154850152-d9d380dd-b049-420c-a429-aec5706cf1ca.png" /></p>
+
+<h1 id="patch-하기">Patch 하기</h1>
+
+<h2 id="git-revert">git revert</h2>
+<ul>
+  <li>git cherry-pick 명령의 반대로 볼 수 있다.</li>
+  <li>해당 커밋을 되돌리는 커밋을 새로 생성한다.</li>
 </ul>
 
 <p><br /></p>
@@ -754,7 +717,7 @@ Use -f if you really want to add them.</p>
       <a href="#" class="pagination--pager disabled">이전</a>
     
     
-      <a href="/git%20blog/gitblog/" class="pagination--pager" title="Git blog 초기 설정
+      <a href="/markdown/markdown/" class="pagination--pager" title="Markdown 문법 정리
 ">다음</a>
     
   </nav>

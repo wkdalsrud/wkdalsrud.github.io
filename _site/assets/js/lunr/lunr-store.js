@@ -1,14 +1,8 @@
 var store = [{
         "title": "Git 명령어",
         "excerpt":"설치와 설정 git config 이 명령으로 사용자 이름이나 터미널 색, 편집기 등을 설정한다. 저장소마다 다르게 혹은 글로벌하게 설정할 수 있는데 각각 설정파일이 다르다. git config –global user.name “본인 이름 입력” 사용자 이름 설정 git config –global user.email “본인 이메일 입력” 사용자 이메일 설정 git config user.name 사용자 이름 확인 git...","categories": ["Git & Github"],
-        "tags": ["Git 기초","Git 명령어"],
+        "tags": ["Git 기초","Git 명령어","Pro Git"],
         "url": "http://localhost:4000/git%20&%20github/git/",
-        "teaser": null
-      },{
-        "title": "Git blog 초기 설정",
-        "excerpt":"git blog 설정하는 방법  ","categories": ["Git Blog"],
-        "tags": ["Git","Git Blog","초기설정"],
-        "url": "http://localhost:4000/git%20blog/gitblog/",
         "teaser": null
       },{
         "title": "Markdown 문법 정리",
@@ -24,14 +18,8 @@ var store = [{
         "teaser": null
       },{
         "title": "[Pro Git] 2장",
-        "excerpt":"Git 저장소 만들기 기존 프로젝트나 디렉터리를 Git 저장소로 만드는 방법 다른 서버에 있는 저장소를 Clone 하는 방법 기존 디렉터리를 Git 저장소로 만들기 기존 프로젝트를 Git으로 관리하고 싶을 때 프로젝트의 디렉터리로 이동해서 git init 명령을 실행한다. 이 명령은 .git 이라는 하위 디렉터리를 만든다. (숨김 파일로 있음) .git 디렉터리에는 저장소에 필요한 뼈대...","categories": ["Git & Github"],
+        "excerpt":"Git 저장소 만들기 기존 프로젝트나 디렉터리를 Git 저장소로 만드는 방법 다른 서버에 있는 저장소를 Clone 하는 방법 기존 디렉터리를 Git 저장소로 만들기 기존 프로젝트를 Git으로 관리하고 싶을 때 프로젝트의 디렉터리로 이동해서 git init 명령을 실행한다. 이 명령은 .git 이라는 하위 디렉터리를 만든다. .git 디렉터리에는 저장소에 필요한 뼈대 파일이 들어 있고,...","categories": ["Git & Github"],
         "tags": ["Git","Pro Git"],
         "url": "http://localhost:4000/git%20&%20github/progit2/",
-        "teaser": null
-      },{
-        "title": "MAC에서 자바 초기설정",
-        "excerpt":" ","categories": ["JAVA"],
-        "tags": ["JAVA","초기설정"],
-        "url": "http://localhost:4000/java/javasetting/",
         "teaser": null
       }]

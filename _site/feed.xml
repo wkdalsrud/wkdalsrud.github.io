@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-21T00:15:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">기억저장소</title><subtitle>개발공부를 기록하는 공간입니다.</subtitle><author><name>민경</name></author><entry><title type="html">[Pro Git] 1장</title><link href="http://localhost:4000/git%20&%20github/progit1/" rel="alternate" type="text/html" title="[Pro Git] 1장" /><published>2022-02-20T00:00:00+09:00</published><updated>2022-02-20T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/progit1</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/progit1/"><![CDATA[<h2 id="버전-관리-시스템-vsc--version-control-system">버전 관리 시스템 (VSC : Version Control System)</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-21T00:47:18+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">기억저장소</title><subtitle>개발공부를 기록하는 공간입니다.</subtitle><author><name>민경</name></author><entry><title type="html">[Pro Git] 1장</title><link href="http://localhost:4000/git%20&%20github/progit1/" rel="alternate" type="text/html" title="[Pro Git] 1장" /><published>2022-02-20T00:00:00+09:00</published><updated>2022-02-20T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/progit1</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/progit1/"><![CDATA[<h2 id="버전-관리-시스템-vsc--version-control-system">버전 관리 시스템 (VSC : Version Control System)</h2>
 <p>파일 변화를 시간에 따라 기록했다가 나중에 특정 시점의 버전을 다시 꺼내올 수 있는 시스템</p>
 
 <h2 id="장점">장점</h2>
@@ -137,15 +137,17 @@ Git은 커밋할 때마다 이 정보를 사용하고 한번 커밋한 후에는
 
 <h3 id="기존-디렉터리를-git-저장소로-만들기">기존 디렉터리를 Git 저장소로 만들기</h3>
 <p>기존 프로젝트를 Git으로 관리하고 싶을 때 프로젝트의 디렉터리로 이동해서 <code class="language-plaintext highlighter-rouge">git init</code> 명령을 실행한다.<br />
-이 명령은 <code class="language-plaintext highlighter-rouge">.git</code> 이라는 하위 디렉터리를 만든다. (숨김 파일로 있음)<br />
+이 명령은 <code class="language-plaintext highlighter-rouge">.git</code> 이라는 하위 디렉터리를 만든다.<br />
 .git 디렉터리에는 저장소에 필요한 뼈대 파일이 들어 있고, 이 명령만으로는 아직 프로젝트의 어떤 파일도 관리하지 않는다.</p>
 <blockquote>
-  <p>.git 파일을 지우게 되면 내가 git으로 관리하던 내역들이 다 날아간다!!</p>
+  <p>.git 파일을 지우게 되면 내가 git으로 관리하던 내역들이 다 날아간다!!<br />
+.git 파일은 숨김 파일 보기를 설정해야 보인다.<br />
+mac에서 숨김 파일을 보려면 <code class="language-plaintext highlighter-rouge">command</code> + <code class="language-plaintext highlighter-rouge">shift</code> + <code class="language-plaintext highlighter-rouge">.</code> 을 누르면 보임</p>
 </blockquote>
 
 <p>Git이 파일을 관리하게 하려면 저장소에 파일을 추가하고 커밋해야 한다.</p>
 <ul>
-  <li>git add *,c</li>
+  <li>git add *</li>
   <li>git add LICENSE</li>
   <li>git commit -m ‘initial project version’</li>
 </ul>
@@ -253,7 +255,7 @@ git.yaml 파일 안에 아이디와 비밀번호 같은 노출이 되면 안 되
 
 <p>후,,,ㅎ<br />
 <span style="color:blue">책을 보면서 정리를 하는데도 무슨 말인지 잘 모르겠당;;;</span><br />
-git이 좀 더 익숙해지면 다시 정리하는 걸로ㅠㅠ</p>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git" /><category term="Pro Git" /><summary type="html"><![CDATA[Git 저장소 만들기 기존 프로젝트나 디렉터리를 Git 저장소로 만드는 방법 다른 서버에 있는 저장소를 Clone 하는 방법]]></summary></entry><entry><title type="html">MAC에서 자바 초기설정</title><link href="http://localhost:4000/java/javasetting/" rel="alternate" type="text/html" title="MAC에서 자바 초기설정" /><published>2022-02-20T00:00:00+09:00</published><updated>2022-02-20T00:00:00+09:00</updated><id>http://localhost:4000/java/javasetting</id><content type="html" xml:base="http://localhost:4000/java/javasetting/"><![CDATA[]]></content><author><name>민경</name></author><category term="JAVA" /><category term="JAVA" /><category term="초기설정" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Git 명령어</title><link href="http://localhost:4000/git%20&%20github/git/" rel="alternate" type="text/html" title="Git 명령어" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/git</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/git/"><![CDATA[<h1 id="설치와-설정">설치와 설정</h1>
+git이 좀 더 익숙해지면 다시 정리하는 걸로ㅠㅠ</p>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git" /><category term="Pro Git" /><summary type="html"><![CDATA[Git 저장소 만들기 기존 프로젝트나 디렉터리를 Git 저장소로 만드는 방법 다른 서버에 있는 저장소를 Clone 하는 방법]]></summary></entry><entry><title type="html">Git 명령어</title><link href="http://localhost:4000/git%20&%20github/git/" rel="alternate" type="text/html" title="Git 명령어" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20&amp;%20github/git</id><content type="html" xml:base="http://localhost:4000/git%20&amp;%20github/git/"><![CDATA[<h1 id="설치와-설정">설치와 설정</h1>
 
 <h2 id="git-config">git config</h2>
 <ul>
@@ -295,11 +297,7 @@ git이 좀 더 익숙해지면 다시 정리하는 걸로ㅠㅠ</p>]]></content>
 
 <h2 id="git-init">git init</h2>
 <ul>
-  <li>기존 directory를 Git 저장소로 만들기
-    <ul>
-      <li>이 명령어는 .git이라는 하위 directory를 만든다</li>
-    </ul>
-  </li>
+  <li>기존 directory를 Git 저장소로 만들기</li>
   <li>프로젝트 디렉터리로 가서 git init 이라고 실행한다.</li>
   <li>디렉터리에 Git 저장소가 새로 만들어지고 프로젝트를 버전 관리할 수 있다.</li>
 </ul>
@@ -403,9 +401,14 @@ Use -f if you really want to add them.</p>
 
 <h2 id="git-reset">git reset</h2>
 <ul>
-  <li>되돌리는 명령어</li>
+  <li>되돌리는 명령어이다.</li>
+  <li>HEAD 포인터를 옮기는 것과 관련돼 있고</li>
+  <li>Staging Area(index)를 되돌릴 수 있고</li>
+  <li>–hard 옵션을 주면 Working Directory도 되돌린다.</li>
   <li>–hard 옵션을 잘못 사용하면 작업물을 잃어버릴 수도 있으므로 명령을 잘 이해하고 사용해야 한다.</li>
 </ul>
+
+<p><img width="863" alt="image" src="https://user-images.githubusercontent.com/73566453/154850902-6e6b6dcc-beed-4df7-9bd6-605e6fa9d12f.png" /></p>
 
 <h2 id="git-rm">git rm</h2>
 <ul>
@@ -423,16 +426,30 @@ Use -f if you really want to add them.</p>
   <li>Working Directory에서 필요 없는 파일을 삭제하는 명령이다.</li>
 </ul>
 
+<h1 id="branch와-merge">Branch와 Merge</h1>
+
 <h2 id="git-log">git log</h2>
 <ul>
   <li>commit 히스토리 보기</li>
+  <li>프로젝트 히스토리를 시간의 역순으로 보여준다.</li>
+  <li>넘겨준 Ref를 따라 히스토리를 보여주는데 Ref를 한 개가 아니라 여러 개 넘길 수도 있다.</li>
+</ul>
+
+<p><img width="1187" alt="스크린샷 2022-02-21 오전 12 26 29" src="https://user-images.githubusercontent.com/73566453/154850152-d9d380dd-b049-420c-a429-aec5706cf1ca.png" /></p>
+
+<h1 id="patch-하기">Patch 하기</h1>
+
+<h2 id="git-revert">git revert</h2>
+<ul>
+  <li>git cherry-pick 명령의 반대로 볼 수 있다.</li>
+  <li>해당 커밋을 되돌리는 커밋을 새로 생성한다.</li>
 </ul>
 
 <p><br /></p>
 
 <blockquote>
   <p>이 외의 명령어는 조금 더 공부하고 차차 추가하는 걸로!</p>
-</blockquote>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git 기초" /><category term="Git 명령어" /><summary type="html"><![CDATA[설치와 설정]]></summary></entry><entry><title type="html">Git blog 초기 설정</title><link href="http://localhost:4000/git%20blog/gitblog/" rel="alternate" type="text/html" title="Git blog 초기 설정" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/git%20blog/gitblog</id><content type="html" xml:base="http://localhost:4000/git%20blog/gitblog/"><![CDATA[<h1 id="git-blog-설정하는-방법">git blog 설정하는 방법</h1>]]></content><author><name>민경</name></author><category term="Git Blog" /><category term="Git" /><category term="Git Blog" /><category term="초기설정" /><summary type="html"><![CDATA[git blog 설정하는 방법]]></summary></entry><entry><title type="html">Markdown 문법 정리</title><link href="http://localhost:4000/markdown/markdown/" rel="alternate" type="text/html" title="Markdown 문법 정리" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/markdown/markdown</id><content type="html" xml:base="http://localhost:4000/markdown/markdown/"><![CDATA[<h2 id="제목-h1h6">제목 (h1~h6)</h2>
+</blockquote>]]></content><author><name>민경</name></author><category term="Git &amp; Github" /><category term="Git 기초" /><category term="Git 명령어" /><category term="Pro Git" /><summary type="html"><![CDATA[설치와 설정]]></summary></entry><entry><title type="html">Markdown 문법 정리</title><link href="http://localhost:4000/markdown/markdown/" rel="alternate" type="text/html" title="Markdown 문법 정리" /><published>2022-02-18T00:00:00+09:00</published><updated>2022-02-18T00:00:00+09:00</updated><id>http://localhost:4000/markdown/markdown</id><content type="html" xml:base="http://localhost:4000/markdown/markdown/"><![CDATA[<h2 id="제목-h1h6">제목 (h1~h6)</h2>
 
 <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># h1</span>
 <span class="gu">## h2</span>
