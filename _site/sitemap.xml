@@ -17,6 +17,14 @@
 <lastmod>2022-02-18T00:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/git%20&amp;%20github/progit1/</loc>
+<lastmod>2022-02-20T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/git%20&amp;%20github/progit2/</loc>
+<lastmod>2022-02-20T00:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/categories/</loc>
 </url>
 <url>
@@ -69,6 +77,9 @@
 </url>
 <url>
 <loc>http://localhost:4000/year-archive/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page2/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/google8a97825fdbe4bbc7.html</loc>

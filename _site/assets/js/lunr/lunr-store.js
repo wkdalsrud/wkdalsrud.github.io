@@ -22,4 +22,16 @@ var store = [{
         "tags": ["markdown","문법"],
         "url": "http://localhost:4000/markdown/markdown/",
         "teaser": null
+      },{
+        "title": "[Pro Git] 1장",
+        "excerpt":"버전 관리 시스템 (VSC : Version Control System) 파일 변화를 시간에 따라 기록했다가 나중에 특정 시점의 버전을 다시 꺼내올 수 있는 시스템 장점 각 파일을 이전 상태로 되돌릴 수 있다. 프로젝트를 통째로 이전 상태로 되돌릴 수 있다. 시간에 따라 수정 내용을 비교해 볼 수 있다. 누가 문제를 일으켰는지 추적할 수...","categories": ["Git & Github"],
+        "tags": ["Git","Pro Git"],
+        "url": "http://localhost:4000/git%20&%20github/progit1/",
+        "teaser": null
+      },{
+        "title": "[Pro Git] 2장",
+        "excerpt":" ","categories": ["Git & Github"],
+        "tags": ["Git","Pro Git"],
+        "url": "http://localhost:4000/git%20&%20github/progit2/",
+        "teaser": null
       }]
