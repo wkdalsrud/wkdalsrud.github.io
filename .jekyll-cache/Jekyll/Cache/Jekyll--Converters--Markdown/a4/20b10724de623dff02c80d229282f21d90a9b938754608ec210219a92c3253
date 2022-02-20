@@ -1,0 +1,134 @@
+I"n<h2 id="1-버전-관리-시스템-vsc--version-control-system">1 버전 관리 시스템 (VSC : Version Control System)</h2>
+<p>파일 변화를 시간에 따라 기록했다가 나중에 특정 시점의 버전을 다시 꺼내올 수 있는 시스템</p>
+
+<h2 id="1-1-장점">1-1 장점</h2>
+<ol>
+  <li>각 파일을 이전 상태로 되돌릴 수 있다.</li>
+  <li>프로젝트를 통째로 이전 상태로 되돌릴 수 있다.</li>
+  <li>시간에 따라 수정 내용을 비교해 볼 수 있다.</li>
+  <li>누가 문제를 일으켰는지 추적할 수 있다.</li>
+  <li>누가 언제 만들어낸 이슈인지도 알 수 있다.</li>
+  <li>파일을 잃어버리거나 잘못 고쳤을 때 쉽게 복구할 수 있다.</li>
+</ol>
+
+<h2 id="2-git의-세-가지-상태로-파일-관리">2 Git의 세 가지 상태로 파일 관리</h2>
+
+<h3 id="2-1-committed">2-1 Committed</h3>
+<ul>
+  <li>데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미한다</li>
+</ul>
+
+<h3 id="2-2-modified">2-2 Modified</h3>
+<ul>
+  <li>수정한 파일을 아직 로컬 데이터베이스에 커밋하지 않은 것을 의미한다</li>
+</ul>
+
+<h3 id="2-3-staged">2-3 Staged</h3>
+<ul>
+  <li>현재 수정한 파일을 곧 커밋할 것이라고 표시한 상태를 의미한다</li>
+</ul>
+
+<h2 id="3-git-프로젝트의-3가지-단계">3 Git 프로젝트의 3가지 단계</h2>
+
+<h3 id="3-1-working-directory">3-1 Working Directory</h3>
+<ul>
+  <li>프로젝트의 특정 버전을 Checkout 한 것이다.</li>
+</ul>
+
+<h3 id="3-2-staging-area">3-2 Staging Area</h3>
+<ul>
+  <li>Git 디렉터리에 있다.</li>
+  <li>단순한 파일이고 곧 커밋할 파일에 대한 정보를 저장한다.</li>
+</ul>
+
+<h3 id="3-3-git-directory-repository">3-3 .git Directory (Repository)</h3>
+<ul>
+  <li>Git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳을 말한다.</li>
+  <li>다른 컴퓨터에 있는 저장소를 Clone 할 때 Git 디렉터리가 만들어 진다.</li>
+</ul>
+
+<h2 id="4-git으로-하는-일">4 Git으로 하는 일</h2>
+<ol>
+  <li>Working Directory에서 파일을 수정한다.</li>
+  <li>Staging Area에 파일을 Stage해서 커밋할 스냅샷을 만든다.</li>
+  <li>Staging Area에 있는 파일들을 커밋해서 Git 디렉터리에 영구적인 스냅샷으로 저장한다.</li>
+</ol>
+
+<blockquote>
+  <p>Git 디렉터리에 있는 파일들은 <code class="language-plaintext highlighter-rouge">Committed</code> 상태이다.<br />
+파일을 수정하고 Staging Area에 추가했다면 <code class="language-plaintext highlighter-rouge">Staged</code>이다.<br />
+그리고 Checkout하고 나서 수정했지만, 아직 Staging Area에 올리지 않았으면 <code class="language-plaintext highlighter-rouge">Modified</code>이다.</p>
+</blockquote>
+
+<h2 id="5-git을-사용하는-방법">5 Git을 사용하는 방법</h2>
+<ul>
+  <li>CLI
+    <ul>
+      <li>Command line interface</li>
+    </ul>
+  </li>
+  <li>GUI
+    <ul>
+      <li>Graphical User Interface</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>Git의 모든 기능을 지원하는 것은 CLI 뿐이다.</p>
+</blockquote>
+
+<h2 id="6-git을-설치하기-위해-필요한-라이브러리">6 Git을 설치하기 위해 필요한 라이브러리</h2>
+<ul>
+  <li>curl</li>
+  <li>zlib</li>
+  <li>openssl</li>
+  <li>scpat</li>
+  <li>libiconv</li>
+</ul>
+
+<h2 id="7-git-최초-설정">7 Git 최초 설정</h2>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">/etc/gitconfig</code> 파일
+    <ul>
+      <li>시스템의 모든 사용자와 모든 저장소에 적용되는 설정이다.</li>
+      <li>git <code class="language-plaintext highlighter-rouge">config --system</code> 옵션으로 이 파일을 읽고 쓸 수 있다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">~/.gitconfig</code>, <code class="language-plaintext highlighter-rouge">~/.config/git/config</code> 파일
+    <ul>
+      <li>특정 사용자에게만 적용되는 설정이다</li>
+      <li><code class="language-plaintext highlighter-rouge">git config --global</code> 옵션으로 이 파일을 읽고 쓸 수 있다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">.git/config</code> 파일
+    <ul>
+      <li>Git 디렉터리에 있고 특정 저장소 혹은 현재 작업 중인 프로젝트에만 적용된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="8-사용자-정보-설정">8 사용자 정보 설정</h2>
+<p>Git을 설치하고 나서 가장 먼저 해야 하는 설정은 사용자 이름과 이메일 주소를 설정해야 한다.<br />
+Git은 커밋할 때마다 이 정보를 사용하고 한번 커밋한 후에는 정보를 변경할 수 없다.<br />
+<code class="language-plaintext highlighter-rouge">--global</code> 옵션으로 설정하는 것은 딱 한 번만 하면 된다.<br />
+만약 프로젝트마다 다른 이름과 이메일 주소를 사용하고 싶으면 <code class="language-plaintext highlighter-rouge">--global</code> 옵션을 빼고 명령을 실행한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git config --global user.name "user.name"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git config --global user.email "user.email"</code></li>
+</ul>
+
+<h2 id="9-설정-확인">9 설정 확인</h2>
+<p><code class="language-plaintext highlighter-rouge">git config --list</code> 명령으로 설정한 모든 것을 확인할 수 있다.</p>
+
+<h2 id="10-도움말-보기">10 도움말 보기</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git help &lt;verb&gt;</code></li>
+  <li><code class="language-plaintext highlighter-rouge">git &lt;verb&gt; --help</code></li>
+  <li><code class="language-plaintext highlighter-rouge">man git-&lt;verb&gt;</code></li>
+</ul>
+
+<p>예를 들면 <code class="language-plaintext highlighter-rouge">git help config</code> 도움말은 언제 어디서나 볼 수 있다.</p>
+
+:ET

@@ -1,0 +1,172 @@
+I"�<h1 id="설치와-설정">설치와 설정</h1>
+
+<h2 id="git-config">git config</h2>
+<ul>
+  <li>이 명령으로 사용자 이름이나 터미널 색, 편집기 등을 설정한다.</li>
+  <li>저장소마다 다르게 혹은 글로벌하게 설정할 수 있는데 각각 설정파일이 다르다.</li>
+</ul>
+
+<h2 id="git-config-global-username-본인-이름-입력">git config –global user.name “본인 이름 입력”</h2>
+<ul>
+  <li>사용자 이름 설정</li>
+</ul>
+
+<h2 id="git-config-global-useremail-본인-이메일-입력">git config –global user.email “본인 이메일 입력”</h2>
+<ul>
+  <li>사용자 이메일 설정</li>
+</ul>
+
+<h2 id="git-config-username">git config user.name</h2>
+<ul>
+  <li>사용자 이름 확인</li>
+</ul>
+
+<h2 id="git-config-useremail">git config user.email</h2>
+<ul>
+  <li>사용자 이메일 확인</li>
+</ul>
+
+<h2 id="git-config--list">git config -list</h2>
+<ul>
+  <li>설정한 모든 것을 보여준다.</li>
+</ul>
+
+<h2 id="git-help">git help</h2>
+<ul>
+  <li>Git에 포함된 문서를 보여준다.</li>
+</ul>
+
+<h1 id="프로젝트-가져오기--실행하기">프로젝트 가져오기 / 실행하기</h1>
+
+<h2 id="git-init">git init</h2>
+<ul>
+  <li>프로젝트 디렉터리로 가서 git init 이라고 실행한다.</li>
+  <li>디렉터리에 Git 저장소가 새로 만들어지고 프로젝트를 버전 관리할 수 있다.</li>
+</ul>
+
+<h2 id="git-clone-url">git clone [URL]</h2>
+<ul>
+  <li>저장소 복사</li>
+  <li>git clone은 다른 명령어를 몇 개 실행한다.
+    <ul>
+      <li>디렉터리를 만들고 디렉터리로 들어가고 나서 git init 명령으로 빈 Git 저장소를 만든다.</li>
+      <li>그다음 입력한 URL을 origin이라는 기본값 이름의 리모트를 추가하고 git fetch 명령으로 리모트 저장소에서 데이터를 가져온다.</li>
+      <li>마지막으로 최종 커밋을 워킹 디렉터리에 Checkout한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mkdir">mkdir</h2>
+<ul>
+  <li>새 폴더 만들기</li>
+</ul>
+
+<h2 id="echo">echo</h2>
+<ul>
+  <li>새 파일 생성</li>
+</ul>
+
+<h2 id="git-init-1">git init</h2>
+<ul>
+  <li>기존 directory를 Git 저장소로 만들기
+    <ul>
+      <li>이 명령어는 .git이라는 하위 directory를 만든다</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-clone-url-1">git clone [url]</h2>
+<ul>
+  <li>기존 저장소를 clone 하기</li>
+</ul>
+
+<h2 id="ls--al">ls -al</h2>
+<ul>
+  <li>현재 directory에 있는 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="ls">ls</h2>
+<ul>
+  <li>현재 directory에 있는 숨김파일을 제외한 파일 목록을 보여주는 명령어</li>
+</ul>
+
+<h2 id="git-status">git status</h2>
+<ul>
+  <li>파일의 상태 확인하기</li>
+</ul>
+
+<h2 id="git-add">git add</h2>
+<ul>
+  <li>파일을 새로 추척하기
+    <ul>
+      <li>Staging Area 상태에 올려놓기</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="git-add-">git add .</h2>
+<ul>
+  <li>추가하려는 파일이 많을 경우 <code class="language-plaintext highlighter-rouge">git add .</code> 명령을 이용하면 해당 폴더의 Untracked Files 모두를 한번에 stage 하는 것이 가능하다</li>
+  <li>인덱스에 추가된 파일을 제외하려면 <code class="language-plaintext highlighter-rouge">git rm --cached</code> 명령을 사용한다</li>
+</ul>
+
+<h2 id="git-add--vs-git-add-">git add . VS git add *</h2>
+<ul>
+  <li>파일이 여러개일 경우 <code class="language-plaintext highlighter-rouge">$ git add *</code>로 모든 파일을 staged 상태로 만든다.  그런데 가끔 <code class="language-plaintext highlighter-rouge">$ git add *</code>를 하면 다음과 같은 상황이 나올 때가 있다
+    <blockquote>
+      <p>git add * The following paths are ignored by one of your .gitignore files: git-add/ignore.txt<br />
+Use -f if you really want to add them.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>이 말을 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 현재 staged로 변경할 파일의 이름이 있다는 것이다.<br />
+<code class="language-plaintext highlighter-rouge">.gitignore</code>로 git에 안 올린다고 했는데 <code class="language-plaintext highlighter-rouge">git add *</code>로 다 올린다고 하니 다시 확인하라는 말이다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>는 <code class="language-plaintext highlighter-rouge">.gitignore</code>에 있는 파일은 제외하고 staged에 올린다.<br />
+<code class="language-plaintext highlighter-rouge">$ git add .</code>를 사용해서 staged에 올리면 된다!</p>
+
+<h2 id="commit">commit</h2>
+<ul>
+  <li>저장(?)</li>
+  <li>똑같은 파일을 <code class="language-plaintext highlighter-rouge">modified</code>하게 되면 add로 git에게 알려주고 commit을 해야 한다.</li>
+</ul>
+
+<h2 id="git-commit--a">git commit -a</h2>
+<ul>
+  <li>텍스트를 수정하고 <code class="language-plaintext highlighter-rouge">add</code> → <code class="language-plaintext highlighter-rouge">commit</code> 단계가 번거롭다면 이 명령어를 통해 add와 commit을 한 번에 할 수 있다.</li>
+</ul>
+
+<h2 id="git-commit--am-설명">git commit -am “설명”</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">add</code> + <code class="language-plaintext highlighter-rouge">commit</code> + 버전에 맞는 설명을 한 번에 할 수 있는 명령어다
+    <blockquote>
+      <p>-a는 자동으로 add를 해주는데 한 번도 버전관리를 해주지 않은 파일은 add를 해주지 않는다. (add를 한 번도 안 한 파일)</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h2 id="cp-file1_name-file2_name">cp file1_name file2_name</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">copy/f1.txt</code>와 독같은 파일인 <code class="language-plaintext highlighter-rouge">f2.txt</code>를 만든다.</li>
+</ul>
+
+<blockquote>
+  <p>warning: LF will be replaced by CRLF in f2.txt.<br />
+The file will have its original line endings in your working directory
+이 경고는 윈도우와 리눅스간에 협업을 할 때 나타나는 메세지로 윈도우 사용자의 경우 이러한 변환이 항상 실행되도록 다음과 같은 명령어를 입력한다.<br />
+<code class="language-plaintext highlighter-rouge">git config --global core.autocrlf true</code><br />
+물론 시스템 전체가 아닌 해당 프로젝트에만 적용하고 싶다면 —global 을 빼주면 된다.<br />
+<code class="language-plaintext highlighter-rouge">git config core.autocrlf true</code></p>
+</blockquote>
+
+<h2 id="cat-file_name">cat file_name</h2>
+<ul>
+  <li>파일 내용을 확인할 때 사용</li>
+</ul>
+
+<h2 id="git-log">git log</h2>
+<ul>
+  <li>commit 히스토리 보기</li>
+</ul>
+
+:ET
