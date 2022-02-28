@@ -1,0 +1,40 @@
+I"�<hr />
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.02.28</p>
+      
+      
+        <a href="/java/javasetting/" rel="permalink">맥북[m1]에서 java 초기설정
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#java" class="page__taxonomy-item-category" rel="tag">JAVA</a>
+                    
+                    
+                    <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">JAVA</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#m1" class="page__taxonomy-item-tag" rel="tag">m1</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#macbook" class="page__taxonomy-item-tag" rel="tag">macbook</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#%EC%B4%88%EA%B8%B0%EC%84%A4%EC%A0%95" class="page__taxonomy-item-tag" rel="tag">초기설정</a>
+                
+            </span>
+        </span>
+  </article>
+</div>
+:ET

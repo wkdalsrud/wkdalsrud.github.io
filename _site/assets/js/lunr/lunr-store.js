@@ -22,4 +22,16 @@ var store = [{
         "tags": ["Git","Pro Git"],
         "url": "http://localhost:4000/git%20&%20github/progit2/",
         "teaser": null
+      },{
+        "title": "JAVA 기초",
+        "excerpt":"JAVA란? JAVA는 자바 컴파일러가 제공하는 언어이다. C언어나 C++언어같은 다른 언어들의 컴파일러는 기계어로 번역할 때 프로그램이 실행될 대상 컴퓨터의 운영체제에 종속적인 코드로 변환을 한다. 이 코드로 다른 운영체제나 하드웨어에서 실행을 하려면 코드를 재작성하거나 컴파일러를 다시 실행시켜야 한다는 단점이 있다. 자바로 작성된 프로그램은 운영체제의 종류에 관계없이 실행이 가능하기 때문에 운영체제에 따라 프로그램을...","categories": ["JAVA"],
+        "tags": ["JAVA"],
+        "url": "http://localhost:4000/java/javabase/",
+        "teaser": null
+      },{
+        "title": "맥북[m1]에서 java 초기설정",
+        "excerpt":" ","categories": ["JAVA"],
+        "tags": ["JAVA","초기설정","macbook","m1"],
+        "url": "http://localhost:4000/java/javasetting/",
+        "teaser": null
       }]

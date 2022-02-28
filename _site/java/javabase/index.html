@@ -1,0 +1,740 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>JAVA 기초 | 기억저장소</title>
+<meta name="description" content="JAVA란?    JAVA는 자바 컴파일러가 제공하는 언어이다.   C언어나 C++언어같은 다른 언어들의 컴파일러는 기계어로 번역할 때 프로그램이 실행될 대상 컴퓨터의 운영체제에 종속적인 코드로 변환을 한다. 이 코드로 다른 운영체제나 하드웨어에서 실행을 하려면 코드를 재작성하거나 컴파일러를 다시 실행시켜야 한다는 단점이 있다.            자바로 작성된 프로그램은 운영체제의 종류에 관계없이 실행이 가능하기 때문에 운영체제에 따라 프로그램을 변경하지 않고도 실행이 가능하다.       이것은 JVM(자바가상머신)을 통해서 가능한데 자바 응용프로그램은 전달받은 운영체제나 하드웨어가 아닌 JVM하고만 통신하고 JVM이 자바 응용프로그램으로부터 전달받은 명령을 해당 운영체제가 이해할 수 있도록 변환하여 전달한다.          ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="JAVA 기초">
+<meta property="og:url" content="http://localhost:4000/java/javabase/">
+
+
+  <meta property="og:description" content="JAVA란?    JAVA는 자바 컴파일러가 제공하는 언어이다.   C언어나 C++언어같은 다른 언어들의 컴파일러는 기계어로 번역할 때 프로그램이 실행될 대상 컴퓨터의 운영체제에 종속적인 코드로 변환을 한다. 이 코드로 다른 운영체제나 하드웨어에서 실행을 하려면 코드를 재작성하거나 컴파일러를 다시 실행시켜야 한다는 단점이 있다.            자바로 작성된 프로그램은 운영체제의 종류에 관계없이 실행이 가능하기 때문에 운영체제에 따라 프로그램을 변경하지 않고도 실행이 가능하다.       이것은 JVM(자바가상머신)을 통해서 가능한데 자바 응용프로그램은 전달받은 운영체제나 하드웨어가 아닌 JVM하고만 통신하고 JVM이 자바 응용프로그램으로부터 전달받은 명령을 해당 운영체제가 이해할 수 있도록 변환하여 전달한다.          ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-28T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/java/javabase/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/assets/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 10px;}
+      ::-webkit-scrollbar-track {background-color:#D8D8D8; border-radius: 13px;}
+      ::-webkit-scrollbar-thumb {background-color:#BDBDBD; border-radius: 13px;}
+      ::-webkit-scrollbar-thumb:hover {background: #848484;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {width:12px;height:12px;background:transparent;}
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tag</a>
+            </li><li class="masthead__menu-item">
+              <a href="/search/">Search</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/author_profile_photo.jpg" alt="민경" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
+
+<nav class="nav__list">
+    <input id="ac-toc" name="accordion-toc" type="checkbox" />
+    <label for="ac-toc">카테고리 Click</label>
+    <ul class="nav__items" id="category_tag_menu">
+        <!--전체 글 수-->
+        <li style="margin: 1.5rem 1rem 1rem 0rem">
+            📂 <span class="nav__total-page">전체 글 수 6 개</span>
+            <!--  <span style="font-family: 'ACCchildrenheartOTF-Regular';">전체 글 수</style> <span
+                    style="font-family:'ACCchildrenheartOTF-Regular';">6</style><span
+                        style="font-family:'ACCchildrenheartOTF-Regular';">개</style> -->
+        </li>
+        <li>
+
+            <!-- -------------------------------------Back-end--------------------------------------------- -->
+
+            <span class="nav__sub-title">Back-end</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/java" class="">JAVA (2)</a></li>
+                
+                
+            </ul>
+
+            <!-- --------------------------------------Front-end-------------------------------------------- -->
+
+            <span class="nav__sub-title">Front-end</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- ----------------------------------------university------------------------------------------ -->
+
+            <span class="nav__sub-title">University</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- --------------------------------------ETC-------------------------------------------- -->
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                
+                <li><a href="/categories/git-github" class="">Git & Github (3)</a></li>
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                <li><a href="/categories/markdown" class="">Markdown (1)</a></li>
+                
+                
+                
+                
+            </ul>
+
+            <!-- ---------------------------------------------------------------------------------- -->
+            
+        </li>
+    </ul>
+</nav>
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="JAVA 기초">
+    <meta itemprop="description" content="JAVA란?  JAVA는 자바 컴파일러가 제공하는 언어이다.  C언어나 C++언어같은 다른 언어들의 컴파일러는 기계어로 번역할 때 프로그램이 실행될 대상 컴퓨터의 운영체제에 종속적인 코드로 변환을 한다. 이 코드로 다른 운영체제나 하드웨어에서 실행을 하려면 코드를 재작성하거나 컴파일러를 다시 실행시켜야 한다는 단점이 있다.          자바로 작성된 프로그램은 운영체제의 종류에 관계없이 실행이 가능하기 때문에 운영체제에 따라 프로그램을 변경하지 않고도 실행이 가능하다.      이것은 JVM(자바가상머신)을 통해서 가능한데 자바 응용프로그램은 전달받은 운영체제나 하드웨어가 아닌 JVM하고만 통신하고 JVM이 자바 응용프로그램으로부터 전달받은 명령을 해당 운영체제가 이해할 수 있도록 변환하여 전달한다.      ">
+    <meta itemprop="datePublished" content="2022-02-28T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">JAVA 기초
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 작성일:</strong> <time datetime="2022-02-28T00:00:00+09:00">2022.02.28</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#java" class="page__taxonomy-item-category" rel="tag">JAVA</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#java" class="page__taxonomy-item-tag" rel="tag">JAVA</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="java란">JAVA란?</h2>
+<ul>
+  <li>JAVA는 자바 컴파일러가 제공하는 언어이다.</li>
+  <li>C언어나 C++언어같은 다른 언어들의 컴파일러는 기계어로 번역할 때 프로그램이 실행될 대상 컴퓨터의 운영체제에 종속적인 코드로 변환을 한다. 이 코드로 다른 운영체제나 하드웨어에서 실행을 하려면 코드를 재작성하거나 컴파일러를 다시 실행시켜야 한다는 단점이 있다.
+    <ul>
+      <li>자바로 작성된 프로그램은 운영체제의 종류에 관계없이 실행이 가능하기 때문에 운영체제에 따라 프로그램을 변경하지 않고도 실행이 가능하다.</li>
+      <li>이것은 JVM(자바가상머신)을 통해서 가능한데 자바 응용프로그램은 전달받은 운영체제나 하드웨어가 아닌 JVM하고만 통신하고 JVM이 자바 응용프로그램으로부터 전달받은 명령을 해당 운영체제가 이해할 수 있도록 변환하여 전달한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="jvm-java-virtual-machine">JVM (Java Virtual Machine)</h2>
+<ul>
+  <li>자바를 실행하기 위한 가상 컴퓨터</li>
+  <li>JVM은 서로 다른 플랫폼에서 자바 프로그램이 실행되는 동일한 환경을 제공한다.</li>
+  <li>자바로 작성된 코드는 모두 이 JVM 위에서만 실행되기 때문에 반드시 JVM이 필요하다.</li>
+</ul>
+
+<h2 id="jre-java-runtime-environment">JRE (Java Runtime Environment)</h2>
+<h4 id="자바-응용프로그램이-실행될-때-필요한-소프트웨어">자바 응용프로그램이 실행될 때 필요한 소프트웨어</h4>
+<h3 id="구성">구성</h3>
+<ul>
+  <li>개발자가 활용할 수 있는 자바 API</li>
+  <li>자바 가상 머신을 포함</li>
+</ul>
+
+<h2 id="jdk-java-development-kit">JDK (Java Development Kit)</h2>
+<h4 id="개발자들에게-무료로-배포하는-소프트웨어">개발자들에게 무료로 배포하는 소프트웨어</h4>
+<h3 id="구성-1">구성</h3>
+<ul>
+  <li>자바 컴파일러 등의 개발 도구</li>
+  <li>JRE (Java Runtime Environment)</li>
+</ul>
+
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'ACCchildrenheartOTF-Regular'; color:#F78181; " >JAVA</span> <span style="font-family:'ACCchildrenheartOTF-Regular';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/git%20&%20github/progit2/" class="pagination--pager" title="[Pro Git] 2장
+">이전</a>
+    
+    
+      <a href="/java/javasetting/" class="pagination--pager" title="맥북[m1]에서 java 초기설정
+">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="#" class="pagination_prev_next--pager disabled-first-child">첫 번째 글입니다</a>
+    
+    
+      <a href="/java/javasetting/" class="pagination_prev_next--pager"><span class="prev_next">다음 글 &nbsp</span>맥북[m1]에서 java 초기설정</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <!-- <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+      </section>
+      <footer class="page__meta">
+        
+        <!-- <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=JAVA+%EA%B8%B0%EC%B4%88%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2Fjavabase%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Fjavabase%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Fjavabase%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section> -->
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+ 
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/java/javabase/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/java/javabase"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>
