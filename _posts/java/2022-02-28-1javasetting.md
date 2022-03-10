@@ -4,7 +4,7 @@ title: "M1 mac os 자바 초기 설정하기"
 categories:
   -   JAVA
 tags:
-  - [JAVA, 초기설정, macbook, m1]
+  - [초기설정, macos, m1]
 
 date: 2022-02-28
 

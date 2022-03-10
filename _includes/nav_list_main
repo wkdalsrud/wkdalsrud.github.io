@@ -53,52 +53,6 @@
                 {% endfor %}
             </ul>
 
-            <!-- ----------------------------------------university------------------------------------------ -->
-
-            <span class="nav__sub-title">University</span>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_HIS" %}
-                <li><a href="/categories/uni_his" class="">한국사의 이해(교양) ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_DIS" %}
-                <li><a href="/categories/uni_dis" class="">이산수학 ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_JAVA" %}
-                <li><a href="/categories/uni_java" class="">Java프로그래밍 ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_HTML" %}
-                <li><a href="/categories/uni_html" class="">HTML 웹프로그래밍 ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_SYSTEM" %}
-                <li><a href="/categories/uni_system" class="">운영체제 ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            <ul>
-                {% for category in site.categories %}
-                {% if category[0] == "UNI_ALGO" %}
-                <li><a href="/categories/uni_algo" class="">알고리즘 ({{category[1].size}})</a></li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-
             <!-- --------------------------------------ETC-------------------------------------------- -->
 
             <span class="nav__sub-title">ETC</span>
