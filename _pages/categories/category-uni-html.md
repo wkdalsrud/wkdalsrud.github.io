@@ -1,7 +1,7 @@
 ---
 title: "HTML 웹프로그래밍"
 layout: archive
-permalink: categories/html2
+permalink: categories/uni_html
 author_profile: true
 sidebar_main: true
 ---

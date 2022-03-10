@@ -1,0 +1,5 @@
+I"4<h2 id="javac">javac</h2>
+<p><code class="language-plaintext highlighter-rouge">.java</code> 파일을 <code class="language-plaintext highlighter-rouge">.class</code> 파일로 변환시켜 주는 컴파일러를 의미한다.<br />
+그래서 <code class="language-plaintext highlighter-rouge">hello.java</code> 파일이 있다는 가정하에 터미널에 <code class="language-plaintext highlighter-rouge">javac hello.java</code> 명령어를 입력하면
+<code class="language-plaintext highlighter-rouge">hello.java</code> 라는 파일이 생성된다.</p>
+:ET

@@ -1,7 +1,7 @@
 ---
 title: "한국사의 이해"
 layout: archive
-permalink: categories/his
+permalink: categories/uni_his
 author_profile: true
 sidebar_main: true
 ---

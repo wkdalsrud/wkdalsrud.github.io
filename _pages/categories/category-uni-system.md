@@ -1,7 +1,7 @@
 ---
 title: "운영체제"
 layout: archive
-permalink: categories/system
+permalink: categories/uni_system
 author_profile: true
 sidebar_main: true
 ---

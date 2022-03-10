@@ -1,7 +1,7 @@
 ---
 title: "Java프로그래밍"
 layout: archive
-permalink: categories/java2
+permalink: categories/uni_java
 author_profile: true
 sidebar_main: true
 ---

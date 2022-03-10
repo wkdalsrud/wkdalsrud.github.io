@@ -1,0 +1,71 @@
+I"<h2 id="포맷-문자열과-형식-지정자">포맷 문자열과 형식 지정자</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">코드</th>
+      <th style="text-align: center">데이터 형식</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">d</td>
+      <td style="text-align: center">정수 (10진수)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center">정수 (16진수)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">o</td>
+      <td style="text-align: center">정수 (8진수)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">f</td>
+      <td style="text-align: center">실수</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c</td>
+      <td style="text-align: center">문자</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">s</td>
+      <td style="text-align: center">문자열</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="값의-종류와-표현방법">값의 종류와 표현방법</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">진법</th>
+      <th style="text-align: center">표현 예</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">2진법</td>
+      <td style="text-align: center">0b32</td>
+      <td style="text-align: center">숫자 앞에 0과 b를 사용</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">8진법</td>
+      <td style="text-align: center">032</td>
+      <td style="text-align: center">숫자 앞에 0을 사용</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">10진법</td>
+      <td style="text-align: center">32</td>
+      <td style="text-align: center">숫자 앞에 아무것도 사용하지 않음</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">16진법</td>
+      <td style="text-align: center">0x1A</td>
+      <td style="text-align: center">숫자 앞에 0과 x를 사용</td>
+    </tr>
+  </tbody>
+</table>
+:ET

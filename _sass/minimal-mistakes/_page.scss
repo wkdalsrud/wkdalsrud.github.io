@@ -71,7 +71,7 @@ body {
 .page__title {
   font-size: 1.7em;
   color: #2E2E2E;
-  font-family: $serif;
+  font-family: $monospace;
   font-weight: lighter;
   margin: 0.5rem 0 0.2rem 0;
   line-height: 1.2;
@@ -290,7 +290,7 @@ body {
   margin-top: 2em;
   color: #3d4144;
   font-family: $serif;
-  font-size: $type-size-5;
+  font-size: $type-size-5-5;
 
   p {
     margin: 0;
@@ -322,7 +322,7 @@ body {
   strong {
     // margin-right: 5px;
     font-family: $serif;
-    font-size: $type-size-5;
+    font-size: $type-size-5-5;
   }
 }
 

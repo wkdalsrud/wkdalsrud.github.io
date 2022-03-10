@@ -1,0 +1,14 @@
+I"�<h2 id="️-문자열-비교">✔️ 문자열 비교</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">==</code>
+    <ul>
+      <li>객체의 <span style="color:blue">주소</span>를 비교한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">equals()</code>
+    <ul>
+      <li>객체의 <span style="color:blue">내용</span>을 비교한다.</li>
+    </ul>
+  </li>
+</ul>
+:ET

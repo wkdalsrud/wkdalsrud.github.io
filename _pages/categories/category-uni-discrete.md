@@ -1,7 +1,7 @@
 ---
 title: "이산수학"
 layout: archive
-permalink: categories/dis
+permalink: categories/uni_dis
 author_profile: true
 sidebar_main: true
 ---

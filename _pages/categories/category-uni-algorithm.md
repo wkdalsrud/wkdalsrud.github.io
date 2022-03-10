@@ -1,7 +1,7 @@
 ---
 title: "알고리즘"
 layout: archive
-permalink: categories/algo
+permalink: categories/uni_algo
 author_profile: true
 sidebar_main: true
 ---
