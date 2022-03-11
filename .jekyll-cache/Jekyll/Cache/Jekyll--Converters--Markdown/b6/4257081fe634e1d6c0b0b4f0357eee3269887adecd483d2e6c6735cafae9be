@@ -1,0 +1,27 @@
+I"y
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> 2022.03.11</p>
+      
+      
+        <a href="/etc/intelliJ/" rel="permalink">IntelliJ에서 Java 프로젝트 만들기
+</a>
+      
+    </h2>
+    <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#etc" class="page__taxonomy-item-category" rel="tag">ETC</a>
+                    
+                    
+                    <a href="/tags/#intellij" class="page__taxonomy-item-tag" rel="tag">IntelliJ</a>
+                
+            </span>
+        </span>
+  </article>
+</div>
+:ET

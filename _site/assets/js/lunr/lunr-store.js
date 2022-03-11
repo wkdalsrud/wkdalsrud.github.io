@@ -72,8 +72,14 @@ var store = [{
         "teaser": null
       },{
         "title": "Java프로그래밍 [1]",
-        "excerpt":"자바 언어의 역사 Sun Microsystems의 제임스 고슬링 1990년 그린 프로젝트(소형 전자제품에 들어가는 소프트웨어)와 Oak 언어에서 시작이 됐다. C++를 확장해서 사용하려 했지만 부족하다고 생각해서 C++를 토대로 새로운 언어를 개발함 1995년 Java와 HotJava(자바 언어로 구현한 웹 브라우저) 발표함 1996년 1월 공식적으로 JDK1.0을 발표했다. Java 언어의 특징 C와 C++ 언어에서 발전된 언어 플랫폼에...","categories": ["JAVA"],
+        "excerpt":"자바 언어의 역사 Sun Microsystems의 제임스 고슬링 1990년 그린 프로젝트(소형 전자제품에 들어가는 소프트웨어)와 Oak 언어에서 시작 1995년 Java와 HotJava(자바 언어로 구현한 웹 브라우저) 발표함 1996년 1월 공식적으로 JDK1.0을 발표 Java 언어의 특징 C와 C++ 언어에서 발전된 언어 플랫폼에 독립적 객체지향언어 웹이나 네트워크 프로그래밍에 용이하다. 예외 처리 기능을 제공한다. 멀티 스레딩을...","categories": ["JAVA"],
         "tags": ["Java프로그래밍"],
         "url": "http://localhost:4000/java/uni_java1/",
+        "teaser": null
+      },{
+        "title": "IntelliJ에서 Java 프로젝트 만들기",
+        "excerpt":"새 프로젝트 생성 기존에 생성되어 있는 프로젝트를 불러오려면 Open 선택 후 파일 선택! JAVA 선택 → JDK 버전 확인! Next 선택 경로 선택! 폴더를 새로 만들 거면 폴더를 새로 만들고 새로 만든 폴더를 지정해 주면 된다. 경로선택 후 Finish 선택 완성! 패키지 만들기 src → New → Package 클래스 만들기...","categories": ["ETC"],
+        "tags": ["IntelliJ"],
+        "url": "http://localhost:4000/etc/intelliJ/",
         "teaser": null
       }]

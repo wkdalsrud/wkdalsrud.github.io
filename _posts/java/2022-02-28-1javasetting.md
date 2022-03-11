@@ -37,7 +37,7 @@ published : true
 터미널에서 다음 명령어를 입력하고 설치한 Open JDK가 잘 설치됐는지 확인한다.
 - ```java -version```
 - ```javac -version```
-![image](https://user-images.githubusercontent.com/73566453/157282869-69b4d52c-a209-4fd2-87bd-5a358a1cb7d2.png)
+![image](https://user-images.githubusercontent.com/73566453/157907951-27e57774-f906-4abd-ab26-3e1310f2c0e3.png)
 
 
 ## 혹시 모르니.. 삭제하는 방법도 가져왔다

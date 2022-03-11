@@ -1,0 +1,283 @@
+I"�.<h2 id="제목-h1h6">제목 (h1~h6)</h2>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># h1</span>
+<span class="gu">## h2</span>
+<span class="gu">### h3</span>
+<span class="gu">#### h4</span>
+<span class="gu">##### h5</span>
+<span class="gu">###### h6</span>
+</code></pre></div></div>
+
+<h1 id="h1">h1</h1>
+<h2 id="h2는-구분선이-생긴다">h2는 구분선이 생긴다</h2>
+<h3 id="h3">h3</h3>
+<h4 id="h4">h4</h4>
+<h5 id="h5">h5</h5>
+<h6 id="h6">h6</h6>
+
+<h2 id="순서-있는-리스트">순서 있는 리스트</h2>
+<ol>
+  <li>첫번째</li>
+  <li>두번째</li>
+  <li>세번째</li>
+  <li>첫번째</li>
+  <li>두번째</li>
+  <li>세번째</li>
+</ol>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">1.</span> 첫번째
+<span class="p">1.</span> 두번째
+<span class="p">1.</span> 세번째
+<span class="p">1.</span> 첫번째
+<span class="p">2.</span> 두번째
+<span class="p">3.</span> 세번째
+</code></pre></div></div>
+<p>숫자에 상관없이 이어지는 거 같다.</p>
+
+<h2 id="순서-없는-리스트">순서 없는 리스트</h2>
+<ul>
+  <li>순서 없는
+    <ul>
+      <li>리스트
+        <ul>
+          <li>이 밑으로는
+            <ul>
+              <li>어떤 기호를 써도
+                <ul>
+                  <li>네모로 나온다
+                    <ul>
+                      <li>순서 없는
+                        <ul>
+                          <li>리스트</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">+</span> 순서 없는
+<span class="p">    -</span> 리스트
+<span class="p">      *</span> 이 밑으로는
+<span class="p">        +</span> 어떤 기호를 써도
+<span class="p">          -</span> 네모로 나온다
+<span class="p">            *</span> 순서 없는
+<span class="p">              +</span> 리스트
+</code></pre></div></div>
+
+<h2 id="텍스트">텍스트</h2>
+
+<h3 id="볼드체">볼드체</h3>
+<p><strong>볼드(진하게)</strong><br />
+<strong>강조된 텍스트입니다</strong></p>
+
+<h3 id="취소선">취소선</h3>
+<p><del>취소선 텍스트</del></p>
+
+<h3 id="이탤릭체">이탤릭체</h3>
+<p><em>이탤릭체(기울여서)</em><br />
+<em>기울여진 텍스트입니다</em></p>
+
+<h3 id="밑줄">밑줄</h3>
+<p><u>밑줄 텍스트</u></p>
+
+<h3 id="여러가지-섞어서">여러가지 섞어서</h3>
+<p><strong><em>굵고 기울여진 텍스트</em></strong><br />
+<del><strong><em><u>취소선 + 굵고 + 기울여진 텍스트</u></em></strong></del></p>
+
+<h3 id="텍스트-색상-변경-인라인-태그-사용">텍스트 색상 변경 (인라인 태그 사용)</h3>
+<p><span style="color:blue">파란 글씨입니다.</span><br />
+<span style="color:red">빨간 글씨입니다.</span><br />
+<span style="color:yellow">노란 글씨입니다.</span><br />
+<span style="color:green">초록 글씨입니다.</span></p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">### 볼드체</span>
+<span class="gs">__볼드(진하게)__</span>  
+<span class="gs">**강조된 텍스트입니다**</span>
+
+<span class="gu">### 취소선</span>
+~~취소선 텍스트~~  
+
+<span class="gu">### 이탤릭체</span>
+<span class="ge">_이탤릭체(기울여서)_</span>  
+<span class="ge">*기울여진 텍스트입니다*</span>
+
+<span class="gu">### 밑줄</span>
+<span class="nt">&lt;u&gt;</span>밑줄 텍스트<span class="nt">&lt;/u&gt;</span>  
+
+<span class="gu">### 여러가지 섞어서</span>
+<span class="gs">***굵고 기울여진 텍스트**</span><span class="err">*</span>  
+~~<span class="gs">***&lt;u&gt;취소선 + 굵고 + 기울여진 텍스트&lt;/u&gt;**</span><span class="err">*</span>~~
+
+<span class="gu">### 텍스트 색상 변경 (인라인 태그 사용)</span>
+<span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">"color:blue"</span><span class="nt">&gt;</span>파란 글씨입니다.<span class="nt">&lt;/span&gt;</span>  
+<span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">"color:red"</span><span class="nt">&gt;</span>빨간 글씨입니다.<span class="nt">&lt;/span&gt;</span>  
+<span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">"color:yellow"</span><span class="nt">&gt;</span>노란 글씨입니다.<span class="nt">&lt;/span&gt;</span>  
+<span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">"color:green"</span><span class="nt">&gt;</span>초록 글씨입니다.<span class="nt">&lt;/span&gt;</span>  
+</code></pre></div></div>
+
+<h2 id="인용문">인용문</h2>
+
+<blockquote>
+  <p>여기는</p>
+  <blockquote>
+    <p>기억저장소</p>
+    <blockquote>
+      <p>입니다</p>
+      <blockquote>
+        <p>어디까지 들여쓰기가 될까</p>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <p>여기는 기억저장소 입니다.<br />
+여기는 기억저장소</p>
+</blockquote>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; 여기는</span>
+<span class="gt">&gt;&gt; 기억저장소</span>
+<span class="gt">&gt;&gt;&gt; 입니다</span>
+<span class="gt">&gt;&gt;&gt;&gt; 어디까지 들여쓰기가 될까</span>
+<span class="gt">
+&gt; 여기는 기억저장소 입니다.  </span>
+<span class="gt">&gt; 여기는 기억저장소</span>
+</code></pre></div></div>
+
+<h2 id="링크">링크</h2>
+
+<h3 id="1-설명어를-클릭하면-url로-이동">1. ‘설명어’를 클릭하면 URL로 이동</h3>
+<p><a href="https://wkdalsrud.github.io" title="마우스를 올려놓으면 말풍선이 나옵니다.">기억저장소</a></p>
+<h3 id="2-url을-보여주고-바로-연결">2. URL을 보여주고 바로 연결</h3>
+<p><a href="https://wkdalsrud.github.io/">https://wkdalsrud.github.io/</a></p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">### 1. '설명어'를 클릭하면 URL로 이동  </span>
+<span class="p">[</span><span class="nv">기억저장소</span><span class="p">](</span><span class="sx">https://wkdalsrud.github.io</span> <span class="nn">"마우스를 올려놓으면 말풍선이 나옵니다."</span><span class="p">)</span>  
+<span class="gu">### 2. URL을 보여주고 바로 연결  </span>
+<span class="nv">&lt;https://wkdalsrud.github.io/&gt;</span>
+</code></pre></div></div>
+
+<h2 id="표">표</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">항목입니다</th>
+      <th style="text-align: center">가격입니다</th>
+      <th style="text-align: right">개수입니다</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">왼쪽정렬</td>
+      <td style="text-align: center">가운데정렬</td>
+      <td style="text-align: right">오른쪽정렬</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">과자</td>
+      <td style="text-align: center">900원</td>
+      <td style="text-align: right">20개</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">항목입니다</th>
+      <th style="text-align: center">가격입니다</th>
+      <th style="text-align: left">개수입니다</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">오른쪽정렬</td>
+      <td style="text-align: center">가운데정렬</td>
+      <td style="text-align: left">왼쪽정렬</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">과자</td>
+      <td style="text-align: center">900원</td>
+      <td style="text-align: left">20개</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| 항목입니다 | 가격입니다 | 개수입니다 | → 제목
+|:---|:----:|----:| → 제목과 내용을 분리해 줌
+| 왼쪽정렬 | 가운데정렬 | 오른쪽정렬 | → 내용
+| 과자 | 900원 | 20개 |
+
+| 항목입니다 | 가격입니다 | 개수입니다 |
+|---:|:----:|:----|
+| 오른쪽정렬 | 가운데정렬 | 왼쪽정렬 |
+| 과자 | 900원 | 20개 |
+</code></pre></div></div>
+
+<h2 id="코드">코드</h2>
+
+<p>``` 코드 앞 뒤로 이 기호를 적고 사용할 언어를 앞쪽에 적으면 언어에 맞게 하이라이팅이 된다
+<img src="/assets/images/Image_screenshot.png" alt="Image_screenshot" /></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="kt">double</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이거는 <code class="language-plaintext highlighter-rouge">인라인</code> 코드</p>
+
+<h2 id="할일-목록">할일 목록</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />체크 안됨</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />체크 됨</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> [ ] 체크 안됨
+<span class="p">-</span> [X] 체크 됨
+</code></pre></div></div>
+
+<h2 id="토글-목록">토글 목록</h2>
+
+<details>
+<summary>여기를 눌러주세요</summary>
+<div>
+    <p>div 태그 안에 내용을 입력하면 토글목록 안에 들어온다.</p>
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />체크 안됨</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />체크 됨</li>
+    </ul>
+  </div>
+</details>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> [ ] 체크 안됨
+<span class="p">-</span> [X] 체크 됨
+</code></pre></div></div>
+
+<h2 id="이미지-삽입">이미지 삽입</h2>
+
+<blockquote>
+  <p>예시</p>
+</blockquote>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">![</span><span class="nv">이미지 이름</span><span class="p">](</span><span class="sx">로컬경로</span> 또는 URL)
+
+<span class="p">![</span><span class="nv">Image_screenshot</span><span class="p">](</span><span class="sx">/assets/images/Image_screenshot.png</span><span class="p">)</span>
+
+<span class="nt">&lt;p</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;&lt;img</span> <span class="na">width=</span><span class="s">"800"</span> <span class="na">height=</span><span class="s">"500"</span> <span class="na">alt=</span><span class="s">"image"</span> <span class="na">src=</span><span class="s">"https://"</span><span class="nt">&gt;&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<h2 id="버튼">버튼</h2>
+
+<p><a href="#" class="btn--success">맨 위로 가는 버튼!</a></p>
+
+:ET
