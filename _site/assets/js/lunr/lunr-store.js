@@ -37,7 +37,7 @@ var store = [{
       },{
         "title": "javac와 java의 차이",
         "excerpt":"javac  .java 파일을 .class 파일로 변환시켜 주는 컴파일러를 의미한다.  그래서 hello.java 파일이 있다는 가정하에 터미널에 javac hello.java 명령어를 입력하면 hello.java 라는 파일이 생성된다.   java  javac로 컴파일된 .class 파일을 실행하는 명령어다.  java hello.java 명령어를 입력하면 hello.java 파일 안에 내용이 실행된다.  ","categories": ["JAVA"],
-        "tags": ["java","javac"],
+        "tags": ["JAVA"],
         "url": "http://localhost:4000/java/1javac/",
         "teaser": null
       },{
@@ -60,7 +60,7 @@ var store = [{
         "teaser": null
       },{
         "title": "연산자",
-        "excerpt":"연산자 기호 연산자 = 대입 연산자 + 덧셈 연산자 - 뺄셈 연산자 * 곱셈 연산자 / 나눗셈 연산자 % 나머지 연산자 == 같다 != 같지 않다 &amp;&amp; 교집합 연산자 || 합집합 연산자 ++ 증가 연산자 – 감소 연산자 &amp; 비트 교집합 연산자 | 비트 합집합 연산자 ^ 비트 차집합 연산자...","categories": ["JAVA"],
+        "excerpt":"연산자 기호 연산자 = 대입 연산자 + 덧셈 연산자 - 뺄셈 연산자 * 곱셈 연산자 / 나눗셈 연산자 % 나머지 연산자 ! 부정 연산자 == 같다 != 같지 않다 &amp;&amp; 교집합 연산자 || 합집합 연산자 ++ 증가 연산자 – 감소 연산자 &amp; 비트 교집합 연산자 | 비트 합집합 연산자 ^...","categories": ["JAVA"],
         "tags": ["연산자"],
         "url": "http://localhost:4000/java/2operator/",
         "teaser": null
@@ -81,5 +81,17 @@ var store = [{
         "excerpt":"새 프로젝트 생성 기존에 생성되어 있는 프로젝트를 불러오려면 Open 선택 후 파일 선택! JAVA 선택 → JDK 버전 확인! Next 선택 경로 선택! 폴더를 새로 만들 거면 폴더를 새로 만들고 새로 만든 폴더를 지정해 주면 된다. 경로선택 후 Finish 선택 완성! 패키지 만들기 src → New → Package 클래스 만들기...","categories": ["ETC"],
         "tags": ["IntelliJ"],
         "url": "http://localhost:4000/etc/intelliJ/",
+        "teaser": null
+      },{
+        "title": "Java프로그래밍 [2]",
+        "excerpt":"식별자 작명 규칙 대소문자 구분 길이에 제한 없음 영 대소문자, 한글, 숫자, ‘_’, ‘$’를 사용 숫자로 시작할 수 없음 키워드, 예약어 사용 불가 관례 클래스 낙타 메소드, 변수(필드) 첫 글자가 소문자 상수 모든 문자를 대문자로 표기하고 단어 사이에 ‘_‘를 넣어서 구분한다. 변수의 종류 인스턴스 변수 객체가 소유하는 변수 클래스 정의에서...","categories": ["JAVA"],
+        "tags": ["Java프로그래밍"],
+        "url": "http://localhost:4000/java/uni_java2/",
+        "teaser": null
+      },{
+        "title": "Java프로그래밍 [3]",
+        "excerpt":"배열 (Array) 같은 타입의 데이터들이 순차적으로 저장된다. 배열의 크기는 배열이 초기화 또는 생성할 때 정해지고 한번 생성하면 길이를 변경할 수 없기 때문에 이미 생성된 배열의 길이는 변하지 않는다. 왜? : 배열은 연속적인 자료이다. 배열의 길이에 맞춰서(byte) 메모리의 공간을 찾아서 만드는데 배열의 길이를 변경하게 되면 그 공간에 변경된 배열의 길이만큼의 메모리...","categories": ["JAVA"],
+        "tags": ["Java프로그래밍"],
+        "url": "http://localhost:4000/java/uni_java3/",
         "teaser": null
       }]
