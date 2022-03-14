@@ -94,4 +94,10 @@ var store = [{
         "tags": ["Java프로그래밍"],
         "url": "http://localhost:4000/java/uni_java3/",
         "teaser": null
+      },{
+        "title": "Java프로그래밍 [4]",
+        "excerpt":"메서드 정의 클래스 정의 내부에 존재 헤더 + 메인으로 구성 [접근제어자] 반환형 메서드이름([자료형 인자],[자료형 인자],,,) [throws 예외이름]{ 문장 } 생성자 (Constructor) 객체가 생성될 때 자동으로 실행되는 메서드 객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다. Circle c = new Circle(5); new 연산자를 이용하여 Circle 객체를 생성하고 생성자가 호출되면서 (데이터 필드...","categories": ["JAVA"],
+        "tags": ["Java프로그래밍"],
+        "url": "http://localhost:4000/java/uni_java4/",
+        "teaser": null
       }]
