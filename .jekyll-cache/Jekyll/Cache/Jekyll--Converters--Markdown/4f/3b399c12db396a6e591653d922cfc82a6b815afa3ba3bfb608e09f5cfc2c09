@@ -1,0 +1,8 @@
+I"@<h2 id="추상메서드">추상메서드</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">abstract</code> 사용</li>
+  <li>몸체 구현 X</li>
+  <li><span style="color:red">자식 클래스에 상속될 때, 몸체의 구현이 필요하다</span></li>
+  <li>final과 함께 사용 불가</li>
+</ul>
+:ET

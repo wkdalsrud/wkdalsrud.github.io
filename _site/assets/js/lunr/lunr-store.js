@@ -66,7 +66,7 @@ var store = [{
         "teaser": null
       },{
         "title": "String",
-        "excerpt":"✔️ 문자열 비교 == 객체의 주소를 비교한다. equals() 객체의 내용을 비교한다. String str1 = new String(\"JAVA\"); String str2 = new String(\"JAVA\"); String str3 = \"JAVA\"; String str4 = \"JAVA\"; 이렇게 4개의 문자열이 있다고 했을 때 str1 == str2 str1과 str2의 객체 주소를 비교하게 된다. str1과 str2는 서로 다른 객체이므로 결과는...","categories": ["JAVA"],
+        "excerpt":"✔️ 문자열 비교 == 객체의 주소를 비교한다. equals() 객체의 내용을 비교한다. String str1 = new String(\"JAVA\"); // 생성자 사용 String str2 = new String(\"JAVA\"); String str3 = \"JAVA\"; String str4 = \"JAVA\"; 이렇게 4개의 문자열이 있다고 했을 때 str1 == str2 str1과 str2의 객체 주소를 비교하게 된다. str1과 str2는 서로...","categories": ["JAVA"],
         "tags": ["string"],
         "url": "http://localhost:4000/java/3string/",
         "teaser": null
@@ -84,7 +84,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Java프로그래밍 [2]",
-        "excerpt":"식별자 작명 규칙 대소문자 구분 길이에 제한 없음 영 대소문자, 한글, 숫자, ‘_’, ‘$’를 사용 숫자로 시작할 수 없음 키워드, 예약어 사용 불가 관례 클래스 낙타 메소드, 변수(필드) 첫 글자가 소문자 상수 모든 문자를 대문자로 표기하고 단어 사이에 ‘_‘를 넣어서 구분한다. 변수의 종류 인스턴스 변수 객체가 소유하는 변수 클래스 정의에서...","categories": ["JAVA"],
+        "excerpt":"식별자 클래스 낙타표기법 메소드, 변수(필드) 첫 글자가 소문자 상수 모든 문자를 대문자로 표기하고 단어 사이에 ‘_‘를 넣어서 구분한다. 변수의 종류 인스턴스 변수 객체가 소유하는 변수 클래스 정의에서 static이 아닌 필드 클래스 변수 객체가 공유하는 변수 클래스 정의에서 static 필드 지역변수 메서드 내부 또는 지역 블럭 내부에서 선언된 변수 변수의 사용...","categories": ["JAVA"],
         "tags": ["Java프로그래밍"],
         "url": "http://localhost:4000/java/uni_java2/",
         "teaser": null
@@ -96,8 +96,14 @@ var store = [{
         "teaser": null
       },{
         "title": "Java프로그래밍 [4]",
-        "excerpt":"메서드 정의 클래스 정의 내부에 존재 헤더 + 메인으로 구성 [접근제어자] 반환형 메서드이름([자료형 인자],[자료형 인자],,,) [throws 예외이름]{ 문장 } 생성자 (Constructor) 객체가 생성될 때 자동으로 실행되는 메서드 객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다. Circle c = new Circle(5); new 연산자를 이용하여 Circle 객체를 생성하고 생성자가 호출되면서 (데이터 필드...","categories": ["JAVA"],
+        "excerpt":"생성자 (Constructor) 객체가 생성될 때 자동으로 실행되는 메서드 객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다. Circle c = new Circle(5); new 연산자를 이용하여 Circle 객체를 생성하고 생성자가 호출되면서 (데이터 필드 초기화) 객체의 참조값을 변수에 대입 정의 방법 생성자 이름은 클래스 이름과 같다. 생성자 오버로딩 여러 생성자를 정의할 수 있다....","categories": ["JAVA"],
         "tags": ["Java프로그래밍"],
         "url": "http://localhost:4000/java/uni_java4/",
+        "teaser": null
+      },{
+        "title": "Java프로그래밍 [5]",
+        "excerpt":"추상메서드 abstract 사용 몸체 구현 X 자식 클래스에 상속될 때, 몸체의 구현이 필요하다 final과 함께 사용 불가 추상클래스 객체 생성 불가 추상메서드를 가지고 있는 클래스는 추상클래스여야 함 자식 클래스로 상속이 되어야 자식 클래스에서 객체를 생성할 수 있다. 추상메서드 + 일반메서드가 같이 있음 인터페이스란? 객체를 분리하고 결합하기 위해 만든 약속이다. 추상메소드의...","categories": ["JAVA"],
+        "tags": ["Java프로그래밍"],
+        "url": "http://localhost:4000/java/uni_java5/",
         "teaser": null
       }]

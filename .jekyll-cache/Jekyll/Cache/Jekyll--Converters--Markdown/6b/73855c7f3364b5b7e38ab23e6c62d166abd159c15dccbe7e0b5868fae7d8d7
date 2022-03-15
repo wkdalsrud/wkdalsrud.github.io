@@ -1,0 +1,338 @@
+I"�6<h2 id="메서드-정의">메서드 정의</h2>
+<ul>
+  <li>클래스 정의 내부에 존재</li>
+  <li>헤더 + 메인으로 구성</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="n">접근제어자</span><span class="o">]</span> <span class="n">반환형</span> <span class="n">메서드이름</span><span class="o">([</span><span class="n">자료형</span> <span class="n">인자</span><span class="o">],[</span><span class="n">자료형</span> <span class="n">인자</span><span class="o">],,,)</span> <span class="o">[</span><span class="kd">throws</span> <span class="n">예외이름</span><span class="o">]{</span>
+    <span class="n">문장</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="생성자-constructor">생성자 (Constructor)</h2>
+<ul>
+  <li>객체가 생성될 때 자동으로 실행되는 메서드
+    <ul>
+      <li>객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Circle c = new Circle(5);</code>
+    <ol>
+      <li>new 연산자를 이용하여 Circle 객체를 생성하고</li>
+      <li>생성자가 호출되면서 (데이터 필드 초기화)</li>
+      <li>객체의 참조값을 변수에 대입</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="정의-방법">정의 방법</h3>
+<ul>
+  <li><span style="color:blue">생성자 이름은 클래스 이름과 같다.</span></li>
+  <li><strong>생성자 오버로딩</strong>
+    <ul>
+      <li>여러 생성자를 정의할 수 있다.
+        <ul>
+          <li><span style="color:red">매개변수의 개수와 자료형</span>으로 구분한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>생성자는 new를 통해 객체를 생성할 때 한 번만 호출된다.</strong></li>
+  <li><span style="color:blue">생성자에 반환형을 선언하지 않는다.</span>
+    <ul>
+      <li><strong>리턴 값이 없다고 해서 void를 리턴 타입으로 지정하면 안 된다.</strong></li>
+      <li>return문은 메소드의 실행을 끝내고 호출한 곳으로 돌아가라는 명령이므로 생성자의 실행을 끝내고자 하면 생성자 코드 내 어디서든 return문을 사용할 수 있다.</li>
+    </ul>
+  </li>
+  <li><strong>생성자의 목적은 객체가 생성될 때 필요한 초기 작업을 위함이다.</strong>
+    <ul>
+      <li>객체가 생성될 때 필드 초기화, 필요한 메모리 확보, 파일 열기, 네트워크 연결 등 객체가 활동하기 전에 필요한 초기 준비를 하는데 이용된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="기본-생성자">기본 생성자</h2>
+<ul>
+  <li>매개변수와 실행 코드가 없어 아무 일도 하지 않고 단순 리턴하는 생성자</li>
+</ul>
+<details>
+<summary>기본 생성자가 자동으로 생성되는 경우</summary>
+<div>
+    <ul>
+      <li>모든 객체는 생성될 때 반드시 생성자가 실행되기 때문에 생성자가 하나도 없는 경우, 컴파일러는 기본 생성자를 자동으로 생성한다.</li>
+    </ul>
+  </div>
+</details>
+<details>
+<summary>기본 생성자가 자동으로 생성되지 않는 경우</summary>
+<div>
+    <ul>
+      <li>생성자가 하나라도 존재하는 클래스에는 컴파일러가 기본 생성자를 삽입해 주지 않는다.</li>
+    </ul>
+  </div>
+</details>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Circle</span> <span class="o">{</span>
+  <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+  <span class="kt">int</span> <span class="n">width</span><span class="o">;</span>
+  <span class="kt">int</span> <span class="n">radi</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">Circle</span><span class="o">()</span> <span class="o">{</span> <span class="c1">// 기본 생성자</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="n">radi</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="매개변수가-있는-생성자">매개변수가 있는 생성자</h2>
+<ul>
+  <li>인스턴스를 생성하는 동시에 원하는 값으로 초기화할 수 있다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Circle</span> <span class="o">{</span>
+  <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+  <span class="kt">int</span> <span class="n">width</span><span class="o">;</span>
+  <span class="kt">int</span> <span class="n">radi</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">Circle</span><span class="o">()</span> <span class="o">{</span> <span class="c1">// 기본 생성자</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+    <span class="n">radi</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="nf">Circle</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 생성자 오버로딩</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">width</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">radi</span> <span class="o">=</span> <span class="n">c</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="클래스의-사용">클래스의 사용</h2>
+<ul>
+  <li>상속</li>
+  <li>객체 생성</li>
+</ul>
+
+<h2 id="객체의-사용">객체의 사용</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">객체.변수</code> 를 사용하여 인스턴스 변수를 읽거나 쓰기</li>
+  <li><code class="language-plaintext highlighter-rouge">객체.메서드</code> 를 이용하여 호출</li>
+</ul>
+
+<h2 id="static">static</h2>
+<ul>
+  <li>클래스를 설계할 때,  멤버변수 중 모든 인스턴스에 공통으로 사용하는 것에 static을 붙인다.</li>
+  <li>클래스 변수(static변수)는 인스턴스를 생성하지 않아도 사용할 수 있다.
+    <ul>
+      <li>staic이 붙은 변수는 클래스가 메모리에 올라갈 때 이미 자동적으로 생성된다.</li>
+    </ul>
+  </li>
+  <li>클래스 메서드(static메서드)는 인스턴스 변수를 사용할 수 없다.
+    <ul>
+      <li>인스턴스 변수는 인스턴스가 반드시 존재해야만 사용할 수 있는데, 클래스메서드는 인스턴스 생성 없이 호출 가능하므로 클래스 메서드가 호출되었을 때 인스턴스가 존재하지 않을 수도 있다. 반면에 인스턴스 변수나 인스턴스메서드에서는 static이 붙은 멤버들을 사용하는 것이 언제나 가능하다.</li>
+    </ul>
+  </li>
+  <li>메서드 내에서 인스턴스 변수를 사용하지 않는다면 static을 붙이는 것을 고려한다.</li>
+</ul>
+
+<h2 id="인스턴스-변수와-static-변수의-차이">인스턴스 변수와 static 변수의 차이</h2>
+<h3 id="인스턴스-변수">인스턴스 변수</h3>
+<ul>
+  <li>멤버는 객체마다 별도로 존재한다.</li>
+  <li>객체가 생성 시에 멤버도 생성된다.</li>
+  <li>멤버는 객체가 생성된 이후에 사용이 가능하다.</li>
+  <li>객체가 사라지면 멤버도 사라진다.</li>
+  <li>멤버는 객체 내에 각각 공간 유지를 하며 공유되지 않는다.</li>
+</ul>
+
+<h3 id="static-변수">static 변수</h3>
+<ul>
+  <li>멤버는 클래스당 하나만 생성이 되고 객체 내부가 아닌 별도의 공간에 생성된다.</li>
+  <li>클래스 로딩 시에 멤버가 생성되고 객체가 생성되기 전에 이미 생성된다.</li>
+  <li>객체가 생기기 전에 사용 가능하다. (<strong><span style="color:red">클래스이름.필드</span></strong> or <span style="color:red">객체변수.필드</span>)</li>
+  <li>객체가 사라져도 멤버는 사라지지 않고 프로그램이 종료될 때 사라진다.</li>
+  <li>동일한 클래스의 모든 객체들에 의해 공유된다.</li>
+</ul>
+
+<h2 id="final-필드">final 필드</h2>
+<ul>
+  <li>상수 데이터를 선언한다.</li>
+  <li>선언할 때 초기값을 지정해야 한다.</li>
+</ul>
+
+<h2 id="final-메서드">final 메서드</h2>
+<ul>
+  <li>자식 클래스로 상속은 가능하지만 재정의는 할 수 없다.</li>
+</ul>
+
+<h2 id="오버로드">오버로드</h2>
+<ul>
+  <li>선언
+    <ul>
+      <li>매개변수가 다른 생성자를 추가</li>
+    </ul>
+  </li>
+  <li>관계
+    <ul>
+      <li>동일한 클래스 내 또는 상속 관계</li>
+    </ul>
+  </li>
+  <li>목적
+    <ul>
+      <li>이름이 같은 여러 개의 메서드를 중복 작성하여 사용의 편리성 향상</li>
+      <li>다형성 실현</li>
+    </ul>
+  </li>
+  <li>조건
+    <ol>
+      <li>메서드 이름 동일해야 함</li>
+      <li>매개변수 타입이나 개수가 달라야 함</li>
+      <li>반환 타입이나 접근 지정자는 관계 없음</li>
+    </ol>
+  </li>
+  <li>바인딩
+    <ul>
+      <li>정적 바인딩
+        <ul>
+          <li>호출될 메소드는 컴파일 시에 결정</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="오버라이딩">오버라이딩</h2>
+<ul>
+  <li>선언
+    <ul>
+      <li>상속받는 메서드의 내용을 변경</li>
+    </ul>
+  </li>
+  <li>관계
+    <ul>
+      <li>상속 관계</li>
+    </ul>
+  </li>
+  <li>목적
+    <ul>
+      <li>부모 클래스에 구현된 메서드를 무시하고 자식 클래스에서 새로운 기능의 메서드를 재정의하고자 함</li>
+      <li>다형성 실현</li>
+    </ul>
+  </li>
+  <li>조건
+    <ol>
+      <li>메서드 이름 동일해야 함</li>
+      <li>매개변수의 타입과 개수는 달라야 함</li>
+      <li>리턴 타입이 모두 동일해야 함</li>
+      <li>접근 제어자는 부모 클래스의 메서드보다 좁은 범위로 변경 불가</li>
+      <li>부모 클래스의 메서드보다 많은 수의 예외 선언 불가</li>
+    </ol>
+  </li>
+  <li>바인딩
+    <ul>
+      <li>동적 바인딩
+        <ul>
+          <li>실행 시간에 오버라이딩된 메서드를 찾아 호출</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: left">메소드 오버로딩</th>
+      <th style="text-align: left">메소드 오버라이딩</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">선언</td>
+      <td style="text-align: left">매개변수가 다른 생성자를 추가</td>
+      <td style="text-align: left">상속받은 메서드의 내용 변경</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">관계</td>
+      <td style="text-align: left">동일한 클래스 내 또는 상속관계</td>
+      <td style="text-align: left">상속관계</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">목적</td>
+      <td style="text-align: left">이름이 같은 여러개의 메서드를 중복 작성하여 사용의 편리성 향상<br />다형성 실현</td>
+      <td style="text-align: left">부모 클래스에 구현된 메서드를 무시하고 자식 클래스에서 새로운 기능의 메서드를 재정의<br />다형성 실현</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+<tr>
+  <th></th>
+  <th>메소드 오버로딩</th>
+  <th>메소드 오버라이딩</th>
+</tr>
+<tr>
+  <td>선언</td>
+   <td>
+    <ul>
+      <li>매개변수가 다른 생성자를 추가한다.</li>
+    </ul>
+  </td>
+   <td>
+    <ul>
+      <li>상속받은 메서드의 내용을 변경한다.</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td>관계</td>
+   <td>
+    <ul>
+      <li>동일한 클래스 내 또는 상속 관계</li>
+    </ul>
+  </td>
+   <td>
+    <ul>
+      <li>상속 관계</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td>목적</td>
+  <td>
+    <ul>
+      <li>이름이 같은 여러 개의 메서드를 중복 작성하여 사용의 편리성 향상</li>
+      <li>다형성 실현</li>
+    </ul>
+  </td>
+  <td>
+    <ul>
+      <li>부모 클래스에 구현된 메서드를 무시하고 자식 클래스에서 새로운 기능의 메서드를 재정의하고자 함</li>
+      <li>다형성 실현</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td>조건</td>
+  <td>
+    <ol>
+      <li>메서드 이름 동일</li>
+      <li>매개변수 타입이나 개수가 달라야 함</li>
+      <li>반환 타입이나 접근 지정자는 관계가 없다</li>
+    </ol>
+  </td>
+   <td>
+    <ol>
+      <li>메서드 이름 동일</li>
+      <li>매개변수 타입이나 개수가 달라야 함</li>
+      <li>리턴 타입이 모두 동일해야 함</li>
+      <li>접근 제어자는 부모 클래스의 메서드보다 좁은 범위로 변경 불가</li>
+      <li>부모 클래스의 메서드보다 많은 수의 예외 선언 불가</li>
+    </ol>
+  </td>
+</tr>
+</table>
+:ET

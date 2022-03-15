@@ -1,0 +1,93 @@
+I"9<h2 id="추상메서드">추상메서드</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">abstract</code> 사용</li>
+  <li>몸체 구현 X</li>
+  <li><span style="color:red">자식 클래스에 상속될 때, 몸체의 구현이 필요하다</span></li>
+  <li>final과 함께 사용 불가</li>
+</ul>
+
+<h2 id="추상클래스">추상클래스</h2>
+<ul>
+  <li>객체 생성 불가</li>
+  <li>추상메서드를 가지고 있는 클래스는 추상클래스여야 함</li>
+  <li>자식 클래스로 상속이 되어야 자식 클래스에서 객체를 생성할 수 있다.</li>
+  <li>추상메서드 + 일반메서드가 같이 있음</li>
+</ul>
+
+<h2 id="인터페이스란-객체를-분리하고-결합하기-위해-만든-약속이다">인터페이스란? 객체를 분리하고 결합하기 위해 만든 약속이다.</h2>
+
+<ul>
+  <li>★추상메소드의 집합★</li>
+  <li>객체 생성 불가</li>
+  <li>public 또는 default만 사용할 수 있다.</li>
+  <li>추상메서드와 상수만을 멤버로 가질 수 있으며, 그 외의 다른 요소는 안됨</li>
+  <li>다형성
+    <ul>
+      <li>인터페이스 타입의 레퍼런스 변수는 선언 가능하다
+        <ul>
+          <li>해당 인터페이스 타입의 참조변수로 이를 구현한 클래스의 인스턴스를 참조할 수 있으며, 인터페이스 타입으로의 형변환도 가능하다.</li>
+          <li>메서드의 매개변수의 타입으로도 사용될 수 있다.</li>
+        </ul>
+      </li>
+      <li>메서드의 리턴타입으로 인터페이스를 지정하는 것도 가능하다.
+        <ul>
+          <li>리턴타입이 인터페이스라는 것은 메서드가 해당 인터페이스를 구현한 클래스의 인스턴스를 반환한다는 것을 의미한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="인터페이스-구현">인터페이스 구현</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">implements</code> 키워드를 사용
+    <ul>
+      <li>추상클래스 ⇒ <code class="language-plaintext highlighter-rouge">extends</code>사용</li>
+      <li>인터페이스 ⇒ <code class="language-plaintext highlighter-rouge">implements</code>사용</li>
+    </ul>
+  </li>
+  <li>인터페이스의 추상메소드 몸통{} 만들기</li>
+</ul>
+
+<h2 id="인터페이스-상속">인터페이스 상속</h2>
+
+<ul>
+  <li>인터페이스끼리만 상속 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">extends</code> 키워드 사용</li>
+  <li>다중 상속 가능</li>
+</ul>
+
+<h2 id="인터페이스-제약사항">인터페이스 제약사항</h2>
+
+<ul>
+  <li>모든 멤버변수는 <code class="language-plaintext highlighter-rouge">public static final</code> 이어야 하며, 생략 가능</li>
+  <li>모든 메서드는 <code class="language-plaintext highlighter-rouge">public abstract</code> 이어야 하며, 생략 가능</li>
+</ul>
+
+<h3 id="인터페이스-장점"><strong>인터페이스 장점</strong></h3>
+
+<ul>
+  <li>개발시간을 단축시킬 수 있다.</li>
+  <li>표준화가 가능하다.
+    <ul>
+      <li>프로젝트에 사용되는 기본 틀을 인터페이스로 작성하면 보다 일관되고 정형화된 프로그램의 개발이 가능하다.</li>
+    </ul>
+  </li>
+  <li>서로 관계없는 클래스들에게 관계를 맺어 줄 수 있다.
+    <ul>
+      <li>서로 아무런 관계도 없는 클래스들에게 하나의 인터페이스를 공통적으로 구현하도록 함으로써 관계를 맺어 줄 수 있다.</li>
+    </ul>
+  </li>
+  <li>독립적인 프로그래밍이 가능하다.</li>
+</ul>
+
+<h3 id="다형성">다형성</h3>
+
+<ul>
+  <li>인터페이스도 구현 클래스의 부모처럼 사용할 수 있다.</li>
+  <li>★인터페이스 타입 매개변수는 인터페이스를 구현한 클래스의 객체만 가능★</li>
+  <li>인터페이스를 메소드의 리턴타입으로 지정할 수 있다.</li>
+  <li>★리턴타입이 인터페이스라는 것은 메소드가 해당 인터페이스를 구현한 클래스의 인스턴스를 반환한다는 것을 의미★</li>
+</ul>
+:ET

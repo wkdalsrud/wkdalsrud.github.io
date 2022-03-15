@@ -1,0 +1,765 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <!--폰트 : "Nanum Gothic Coding", "Coming Soon"-->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Nanum+Gothic+Coding&display=swap">
+    
+    <!--폰트 : "Iropke Batang"-->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css">
+
+    <!--폰트 : "Cafe24Oneprettynight"-->
+    
+    <!--main.scss 조금이라도 빨리 로드 되길.. preload-->
+    <link rel="preload" as="style" href="/assets/css/main.css">
+
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Java프로그래밍 [5] | 기억저장소</title>
+<meta name="description" content="추상메서드    abstract 사용   몸체 구현 X   자식 클래스에 상속될 때, 몸체의 구현이 필요하다   final과 함께 사용 불가  ">
+
+
+  <meta name="author" content="민경">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="기억저장소">
+<meta property="og:title" content="Java프로그래밍 [5]">
+<meta property="og:url" content="http://localhost:4000/java/uni_java5/">
+
+
+  <meta property="og:description" content="추상메서드    abstract 사용   몸체 구현 X   자식 클래스에 상속될 때, 몸체의 구현이 필요하다   final과 함께 사용 불가  ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-03-15T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/java/uni_java5/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "민경",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+  <meta name="naver-site-verification" content="d935b83ed0c9e1792c19ef2115749434adc6144c">
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="기억저장소 Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/assets/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/assets/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    <!-- 스크롤바 커스터마이징 -->
+    <style> 
+      ::-webkit-scrollbar{width: 10px;}
+      ::-webkit-scrollbar-track {background-color:#FAFAFA; border-radius: 13px;}
+      ::-webkit-scrollbar-thumb {background-color:#F2F2F2; border-radius: 13px;}
+      ::-webkit-scrollbar-thumb:hover {background: #D8D8D8;}
+      ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment 
+      {width:12px;height:12px;background:transparent;}
+    </style>
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          기억저장소
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tag</a>
+            </li><li class="masthead__menu-item">
+              <a href="/search/">Search</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">카테고리 Click</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/author_profile_photo.jpg" alt="민경" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">민경</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>개발공부를 기록하는 공간입니다.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:wkdalsrud43@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+
+  
+    <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
+
+<nav class="nav__list">
+    <input id="ac-toc" name="accordion-toc" type="checkbox" />
+    <label for="ac-toc">카테고리 Click</label>
+    <ul class="nav__items" id="category_tag_menu">
+        <!--전체 글 수-->
+        <li style="margin: 1.5rem 1rem 1rem 0rem">
+            📂 <span class="nav__total-page">전체 글 수 18 개</span>
+            <!--  <span style="font-family: 'ACCchildrenheartOTF-Regular';">전체 글 수</style> <span
+                    style="font-family:'ACCchildrenheartOTF-Regular';">18</style><span
+                        style="font-family:'ACCchildrenheartOTF-Regular';">개</style> -->
+        </li>
+        <li>
+
+            <!-- -------------------------------------Back-end--------------------------------------------- -->
+
+            <span class="nav__sub-title">Back-end</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/java" class="">JAVA (13)</a></li>
+                
+                
+                
+                
+            </ul>
+
+            <!-- --------------------------------------Front-end-------------------------------------------- -->
+
+            <span class="nav__sub-title">Front-end</span>
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <!-- --------------------------------------ETC-------------------------------------------- -->
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                
+                <li><a href="/categories/git-github" class="">Git & Github (3)</a></li>
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                <li><a href="/categories/markdown" class="">Markdown (1)</a></li>
+                
+                
+                
+                
+                
+                
+            </ul>
+
+            <ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/categories/etc" class="">ETC (1)</a></li>
+                
+                
+            </ul>
+
+            <!-- ---------------------------------------------------------------------------------- -->
+            
+        </li>
+    </ul>
+</nav>
+  
+
+  </div>
+
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Java프로그래밍 [5]">
+    <meta itemprop="description" content="추상메서드  abstract 사용  몸체 구현 X  자식 클래스에 상속될 때, 몸체의 구현이 필요하다  final과 함께 사용 불가">
+    <meta itemprop="datePublished" content="2022-03-15T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Java프로그래밍 [5]
+</h1>
+          
+            <p class="page__meta"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 작성일:</strong> <time datetime="2022-03-15T00:00:00+09:00">2022.03.15</time></p>
+          
+          
+            
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#java" class="page__taxonomy-item-category" rel="tag">JAVA</a>
+    
+    </span>
+  </p>
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#java%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" class="page__taxonomy-item-tag" rel="tag">Java프로그래밍</a>
+    
+    </span>
+  </p>
+
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#추상메서드">추상메서드</a></li>
+  <li><a href="#추상클래스">추상클래스</a></li>
+  <li><a href="#인터페이스란-객체를-분리하고-결합하기-위해-만든-약속이다">인터페이스란? 객체를 분리하고 결합하기 위해 만든 약속이다.</a></li>
+  <li><a href="#인터페이스-구현-부모-인터페이스--자식-클래스">인터페이스 구현 (부모 인터페이스 → 자식 클래스)</a></li>
+  <li><a href="#인터페이스-상속-부모-인터페이스--자식-인터페이스">인터페이스 상속 (부모 인터페이스 → 자식 인터페이스)</a></li>
+  <li><a href="#인터페이스-제약사항">인터페이스 제약사항</a></li>
+  <li><a href="#다형성">다형성</a></li>
+  <li><a href="#형변환">형변환</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="추상메서드">추상메서드</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">abstract</code> 사용</li>
+  <li>몸체 구현 X</li>
+  <li><span style="color:red">자식 클래스에 상속될 때, 몸체의 구현이 필요하다</span></li>
+  <li>final과 함께 사용 불가</li>
+</ul>
+
+<h2 id="추상클래스">추상클래스</h2>
+<ul>
+  <li>객체 생성 불가</li>
+  <li>추상메서드를 가지고 있는 클래스는 추상클래스여야 함</li>
+  <li>자식 클래스로 상속이 되어야 자식 클래스에서 객체를 생성할 수 있다.</li>
+  <li>추상메서드 + 일반메서드가 같이 있음</li>
+</ul>
+
+<h2 id="인터페이스란-객체를-분리하고-결합하기-위해-만든-약속이다">인터페이스란? 객체를 분리하고 결합하기 위해 만든 약속이다.</h2>
+<ul>
+  <li><span style="color:green">추상메소드의 집합</span></li>
+  <li>객체 생성 불가</li>
+  <li>public 또는 default만 사용할 수 있다.</li>
+  <li>추상메서드와 상수만을 멤버로 가질 수 있으며, 그 외의 다른 요소는 안됨</li>
+  <li>다형성
+    <ul>
+      <li>인터페이스 타입의 레퍼런스 변수는 선언 가능하다
+        <ul>
+          <li>해당 인터페이스 타입의 참조변수로 이를 구현한 클래스의 인스턴스를 참조할 수 있으며, 인터페이스 타입으로의 형변환도 가능하다.</li>
+          <li>메서드의 매개변수의 타입으로도 사용될 수 있다.</li>
+        </ul>
+      </li>
+      <li>메서드의 리턴타입으로 인터페이스를 지정하는 것도 가능하다.
+        <ul>
+          <li>리턴타입이 인터페이스라는 것은 메서드가 해당 인터페이스를 구현한 클래스의 인스턴스를 반환한다는 것을 의미한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="인터페이스-구현-부모-인터페이스--자식-클래스">인터페이스 구현 (부모 인터페이스 → 자식 클래스)</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">implements</code> 키워드를 사용
+    <ul>
+      <li>추상클래스 ⇒ <code class="language-plaintext highlighter-rouge">extends</code>사용</li>
+      <li>인터페이스 ⇒ <code class="language-plaintext highlighter-rouge">implements</code>사용</li>
+    </ul>
+  </li>
+  <li>인터페이스의 추상메소드 몸통{} 만들기</li>
+</ul>
+
+<h2 id="인터페이스-상속-부모-인터페이스--자식-인터페이스">인터페이스 상속 (부모 인터페이스 → 자식 인터페이스)</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">extends</code> 키워드 사용</li>
+  <li>다중 상속 가능</li>
+</ul>
+
+<h2 id="인터페이스-제약사항">인터페이스 제약사항</h2>
+<ul>
+  <li>모든 멤버변수는 <code class="language-plaintext highlighter-rouge">public static final</code> 이어야 하며, 생략 가능</li>
+  <li>모든 메서드는 <code class="language-plaintext highlighter-rouge">public abstract</code> 이어야 하며, 생략 가능</li>
+</ul>
+
+<h2 id="다형성">다형성</h2>
+<ul>
+  <li>인터페이스도 구현 클래스의 부모처럼 사용할 수 있다.</li>
+  <li>★인터페이스 타입 매개변수는 인터페이스를 구현한 클래스의 객체만 가능★</li>
+  <li>인터페이스를 메소드의 리턴타입으로 지정할 수 있다.</li>
+  <li>★리턴타입이 인터페이스라는 것은 메소드가 해당 인터페이스를 구현한 클래스의 인스턴스를 반환한다는 것을 의미★</li>
+</ul>
+
+<h2 id="형변환">형변환</h2>
+<ul>
+  <li>상속 관계에 있는 클래스 간에는 타입 변환이 가능함</li>
+  <li>업캐스팅 : 자동 형변환 가능</li>
+</ul>
+
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        
+        <p></p>
+        <h4 class="page__meta-title"><span style="font-family:'LeeSeoyun'; color:#F78181; " >JAVA</span> <span style="font-family:'LeeSeoyun';">카테고리 내 다른 글 보러가기</span></h4>
+        <!--
+
+  <nav class="pagination">
+    
+      <a href="/java/uni_java4/" class="pagination--pager" title="Java프로그래밍 [4]
+">이전</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">다음</a>
+    
+  </nav>
+
+-->
+
+
+
+
+  
+  	
+  	
+  	
+  	
+  	
+
+
+  <nav class="pagination_prev_next">
+    
+      <a href="/java/uni_java4/" class="pagination_prev_next--pager"><span class="prev_next">이전 글 &nbsp</span>Java프로그래밍 [4]</a>
+    
+    
+      <a href="#" class="pagination_prev_next--pager disabled-last-child ">가장 최근 글입니다</a>
+    
+  </nav>
+
+
+<!--
+
+
+
+-->
+
+
+
+        <p></p>
+
+        <!-- archive 중간 광고 -->
+        <!-- <ins class="adsbygoogle"
+             style="display:block"
+            data-ad-client="ca-pub-6111782407607310"
+            data-ad-slot="5458515780"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+      </section>
+      <footer class="page__meta">
+        
+        <!-- <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Java%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D+%5B5%5D%20http%3A%2F%2Flocalhost%3A4000%2Fjava%2Funi_java5%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Funi_java5%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fjava%2Funi_java5%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section> -->
+
+      </footer>
+    </div>
+
+    
+
+  </article>
+
+ 
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ansohxxn.github.io -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6111782407607310"
+     data-ad-slot="5978510098"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/wkdalsrud" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 민경</div>
+
+      </footer>
+    </div>
+
+    <aside class="sidebar__top">
+      <a href="#site-nav"> <i class="fas fa-angle-double-up fa-2x"></i></a>
+    </aside>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/java/uni_java5/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/java/uni_java5"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://gieogjeojangso.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+  </body>
+</html>

@@ -23,7 +23,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Java프로그래밍 [4] | 기억저장소</title>
-<meta name="description" content="메서드 정의    클래스 정의 내부에 존재   헤더 + 메인으로 구성  ">
+<meta name="description" content="생성자 (Constructor)    객체가 생성될 때 자동으로 실행되는 메서드            객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다.           Circle c = new Circle(5);            new 연산자를 이용하여 Circle 객체를 생성하고       생성자가 호출되면서 (데이터 필드 초기화)       객체의 참조값을 변수에 대입          ">
 
 
   <meta name="author" content="민경">
@@ -36,7 +36,7 @@
 <meta property="og:url" content="http://localhost:4000/java/uni_java4/">
 
 
-  <meta property="og:description" content="메서드 정의    클래스 정의 내부에 존재   헤더 + 메인으로 구성  ">
+  <meta property="og:description" content="생성자 (Constructor)    객체가 생성될 때 자동으로 실행되는 메서드            객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다.           Circle c = new Circle(5);            new 연산자를 이용하여 Circle 객체를 생성하고       생성자가 호출되면서 (데이터 필드 초기화)       객체의 참조값을 변수에 대입          ">
 
 
 
@@ -311,9 +311,9 @@
     <ul class="nav__items" id="category_tag_menu">
         <!--전체 글 수-->
         <li style="margin: 1.5rem 1rem 1rem 0rem">
-            📂 <span class="nav__total-page">전체 글 수 17 개</span>
+            📂 <span class="nav__total-page">전체 글 수 18 개</span>
             <!--  <span style="font-family: 'ACCchildrenheartOTF-Regular';">전체 글 수</style> <span
-                    style="font-family:'ACCchildrenheartOTF-Regular';">17</style><span
+                    style="font-family:'ACCchildrenheartOTF-Regular';">18</style><span
                         style="font-family:'ACCchildrenheartOTF-Regular';">개</style> -->
         </li>
         <li>
@@ -328,7 +328,7 @@
                 
                 
                 
-                <li><a href="/categories/java" class="">JAVA (12)</a></li>
+                <li><a href="/categories/java" class="">JAVA (13)</a></li>
                 
                 
                 
@@ -445,7 +445,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Java프로그래밍 [4]">
-    <meta itemprop="description" content="메서드 정의  클래스 정의 내부에 존재  헤더 + 메인으로 구성">
+    <meta itemprop="description" content="생성자 (Constructor)  객체가 생성될 때 자동으로 실행되는 메서드          객체의 필드 값을 초기화하거나 메모리 할당 등의 작업이다.        Circle c = new Circle(5);          new 연산자를 이용하여 Circle 객체를 생성하고      생성자가 호출되면서 (데이터 필드 초기화)      객체의 참조값을 변수에 대입      ">
     <meta itemprop="datePublished" content="2022-03-14T00:00:00+09:00">
     
 
@@ -503,7 +503,6 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-align-left"></i> 목차</h4></header>
               <ul class="toc__menu">
-  <li><a href="#메서드-정의">메서드 정의</a></li>
   <li><a href="#생성자-constructor">생성자 (Constructor)</a>
     <ul>
       <li><a href="#정의-방법">정의 방법</a></li>
@@ -511,23 +510,31 @@
   </li>
   <li><a href="#기본-생성자">기본 생성자</a></li>
   <li><a href="#매개변수가-있는-생성자">매개변수가 있는 생성자</a></li>
+  <li><a href="#클래스의-사용">클래스의 사용</a></li>
+  <li><a href="#객체의-사용">객체의 사용</a></li>
+  <li><a href="#static">static</a></li>
+  <li><a href="#인스턴스-변수와-static-변수의-차이">인스턴스 변수와 static 변수의 차이</a>
+    <ul>
+      <li><a href="#인스턴스-변수">인스턴스 변수</a></li>
+      <li><a href="#static-변수">static 변수</a></li>
+    </ul>
+  </li>
+  <li><a href="#final-필드">final 필드</a></li>
+  <li><a href="#final-메서드">final 메서드</a></li>
+  <li><a href="#오버로드과-오버라이딩-차이">오버로드과 오버라이딩 차이</a></li>
+  <li><a href="#상속">상속</a>
+    <ul>
+      <li><a href="#has-a-합성">has a 합성</a></li>
+      <li><a href="#is-a-상속">is a 상속</a></li>
+    </ul>
+  </li>
+  <li><a href="#this와-super">this와 super</a></li>
 </ul>
 
             </nav>
           </aside>
         
-        <h2 id="메서드-정의">메서드 정의</h2>
-<ul>
-  <li>클래스 정의 내부에 존재</li>
-  <li>헤더 + 메인으로 구성</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="n">접근제어자</span><span class="o">]</span> <span class="n">반환형</span> <span class="n">메서드이름</span><span class="o">([</span><span class="n">자료형</span> <span class="n">인자</span><span class="o">],[</span><span class="n">자료형</span> <span class="n">인자</span><span class="o">],,,)</span> <span class="o">[</span><span class="kd">throws</span> <span class="n">예외이름</span><span class="o">]{</span>
-    <span class="n">문장</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h2 id="생성자-constructor">생성자 (Constructor)</h2>
+        <h2 id="생성자-constructor">생성자 (Constructor)</h2>
 <ul>
   <li>객체가 생성될 때 자동으로 실행되는 메서드
     <ul>
@@ -590,19 +597,6 @@
   </div>
 </details>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Circle</span> <span class="o">{</span>
-  <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
-  <span class="kt">int</span> <span class="n">width</span><span class="o">;</span>
-  <span class="kt">int</span> <span class="n">radi</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">Circle</span><span class="o">()</span> <span class="o">{</span> <span class="c1">// 기본 생성자</span>
-    <span class="n">height</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
-    <span class="n">width</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
-    <span class="n">radi</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
 <h2 id="매개변수가-있는-생성자">매개변수가 있는 생성자</h2>
 <ul>
   <li>인스턴스를 생성하는 동시에 원하는 값으로 초기화할 수 있다.</li>
@@ -627,6 +621,140 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
+<h2 id="클래스의-사용">클래스의 사용</h2>
+<ul>
+  <li>상속</li>
+  <li>객체 생성</li>
+</ul>
+
+<h2 id="객체의-사용">객체의 사용</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">객체.변수</code> 를 사용하여 인스턴스 변수를 읽거나 쓰기</li>
+  <li><code class="language-plaintext highlighter-rouge">객체.메서드</code> 를 이용하여 호출</li>
+</ul>
+
+<h2 id="static">static</h2>
+<ul>
+  <li>클래스를 설계할 때,  멤버변수 중 모든 인스턴스에 공통으로 사용하는 것에 static을 붙인다.</li>
+  <li>클래스 변수(static변수)는 인스턴스를 생성하지 않아도 사용할 수 있다.
+    <ul>
+      <li>staic이 붙은 변수는 클래스가 메모리에 올라갈 때 이미 자동적으로 생성된다.</li>
+    </ul>
+  </li>
+  <li>클래스 메서드(static메서드)는 인스턴스 변수를 사용할 수 없다.
+    <ul>
+      <li>인스턴스 변수는 인스턴스가 반드시 존재해야만 사용할 수 있는데, 클래스메서드는 인스턴스 생성 없이 호출 가능하므로 클래스 메서드가 호출되었을 때 인스턴스가 존재하지 않을 수도 있다. 반면에 인스턴스 변수나 인스턴스메서드에서는 static이 붙은 멤버들을 사용하는 것이 언제나 가능하다.</li>
+    </ul>
+  </li>
+  <li>메서드 내에서 인스턴스 변수를 사용하지 않는다면 static을 붙이는 것을 고려한다.</li>
+</ul>
+
+<h2 id="인스턴스-변수와-static-변수의-차이">인스턴스 변수와 static 변수의 차이</h2>
+<h3 id="인스턴스-변수">인스턴스 변수</h3>
+<ul>
+  <li>멤버는 객체마다 별도로 존재한다.</li>
+  <li>객체가 생성 시에 멤버도 생성된다.</li>
+  <li>멤버는 객체가 생성된 이후에 사용이 가능하다.</li>
+  <li>객체가 사라지면 멤버도 사라진다.</li>
+  <li>멤버는 객체 내에 각각 공간 유지를 하며 공유되지 않는다.</li>
+</ul>
+
+<h3 id="static-변수">static 변수</h3>
+<ul>
+  <li>멤버는 클래스당 하나만 생성이 되고 객체 내부가 아닌 별도의 공간에 생성된다.</li>
+  <li>클래스 로딩 시에 멤버가 생성되고 객체가 생성되기 전에 이미 생성된다.</li>
+  <li>객체가 생기기 전에 사용 가능하다. (<strong><span style="color:red">클래스이름.필드</span></strong> or <span style="color:red">객체변수.필드</span>)</li>
+  <li>객체가 사라져도 멤버는 사라지지 않고 프로그램이 종료될 때 사라진다.</li>
+  <li>동일한 클래스의 모든 객체들에 의해 공유된다.</li>
+</ul>
+
+<h2 id="final-필드">final 필드</h2>
+<ul>
+  <li>상수 데이터를 선언한다.</li>
+  <li>선언할 때 초기값을 지정해야 한다.</li>
+</ul>
+
+<h2 id="final-메서드">final 메서드</h2>
+<ul>
+  <li>자식 클래스로 상속은 가능하지만 재정의는 할 수 없다.</li>
+</ul>
+
+<h2 id="오버로드과-오버라이딩-차이">오버로드과 오버라이딩 차이</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: left">메소드 오버로딩</th>
+      <th style="text-align: left">메소드 오버라이딩</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">선언</td>
+      <td style="text-align: left">매개변수가 다른 생성자를 추가</td>
+      <td style="text-align: left">상속받은 메서드의 내용 변경</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">관계</td>
+      <td style="text-align: left">동일한 클래스 내 또는 상속관계</td>
+      <td style="text-align: left">상속관계</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">목적</td>
+      <td style="text-align: left">✔️ 이름이 같은 여러개의 메서드를 중복 작성하여 사용의 편리성 향상<br />✔️ 다형성 실현</td>
+      <td style="text-align: left">✔️ 부모 클래스에 구현된 메서드를 무시하고 자식 클래스에서 새로운 기능의 메서드를 재정의<br />✔️ 다형성 실현</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">조건</td>
+      <td style="text-align: left">1. 메서드 이름 동일<br />2. 매개변수 타입이나 개수 달라야 함<br />3. 반환 타입이나 접근 지정자는 관계 없음</td>
+      <td style="text-align: left">1. 메서드 이름, 매개변수 타입, 개수, 리턴 타입이 모두 동일해야 함<br />2. 접근 제어자는 부모 클래스의 메서드보다 좁은 범위로 변경 불가<br />3. 부모 클래스의 메서드보다 많은 수의 예외 선언 불가</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">바인딩</td>
+      <td style="text-align: left">정적 바인딩<br />호출될 메소드는 컴파일 시에 결정</td>
+      <td style="text-align: left">동적 바인딩<br />실행 시간에 오버라이딩된 메서드를 찾아 호출</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="상속">상속</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">extends</code> 사용</li>
+  <li>단일 상속</li>
+  <li>메서드 재정의 (오버라이딩) 가능</li>
+</ul>
+
+<h3 id="has-a-합성">has a 합성</h3>
+<ul>
+  <li>기존 클래스를 새로운 클래스에서 필드의 자료형으로 사용</li>
+  <li><code class="language-plaintext highlighter-rouge">Composition has a</code> 관계
+    <ul>
+      <li>객체 생성을 생성자 내부에서 만듦</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Association has a</code> 관계
+    <ul>
+      <li>생성된 객체를 넘겨받음
+        <ul>
+          <li>오버로드 생성자로 객체를 넘겨받기</li>
+          <li>Setter로 객체 넘겨받기</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="is-a-상속">is a 상속</h3>
+<ul>
+  <li>기존 클래스를 사용하여 새로운 클래스 정의</li>
+  <li>장점 : 코드의 중복 작성을 줄임</li>
+</ul>
+
+<h2 id="this와-super">this와 super</h2>
+
+<p><img width="1178" alt="image" src="https://user-images.githubusercontent.com/73566453/158345682-5eaec350-399a-49ca-b91e-2df7a7aed7e6.png" /></p>
+
         
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         
@@ -640,7 +768,8 @@
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/java/uni_java5/" class="pagination--pager" title="Java프로그래밍 [5]
+">다음</a>
     
   </nav>
 
@@ -648,6 +777,8 @@
 
 
 
+
+  
 
   
   	
@@ -662,7 +793,7 @@
       <a href="/java/uni_java3/" class="pagination_prev_next--pager"><span class="prev_next">이전 글 &nbsp</span>Java프로그래밍 [3]</a>
     
     
-      <a href="#" class="pagination_prev_next--pager disabled-last-child ">가장 최근 글입니다</a>
+      <a href="/java/uni_java5/" class="pagination_prev_next--pager"><span class="prev_next">다음 글 &nbsp</span>Java프로그래밍 [5]</a>
     
   </nav>
 
