@@ -106,4 +106,10 @@ var store = [{
         "tags": ["Java프로그래밍"],
         "url": "http://localhost:4000/java/uni_java5/",
         "teaser": null
+      },{
+        "title": "HTML이란",
+        "excerpt":"HTML이란? HyperText Markup Language 웹(World Wide Web)에서 사용하는 마크업 언어 하이퍼텍스트 다른 텍스트에 참조(링크)를 가진 텍스트 마크업 mark + up 합성어 문서의 구성 및 마크업의 분류 내용 구조 스타일 문서의 실제 본문 내용 문서의 구성 정보 문서의 표현 의미적 마크업 구조적 마크업 양식적 마크업 &lt;title&gt; &lt;address&gt; 등 &lt;p&gt; &lt;div&gt; 등...","categories": ["HTML"],
+        "tags": ["Frontend","HTML"],
+        "url": "http://localhost:4000/html/uni_html/",
+        "teaser": null
       }]
